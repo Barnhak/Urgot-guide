@@ -56,7 +56,7 @@
     .nav-dropdown-item { display: flex; align-items: center; gap: 8px; padding: 7px 12px; text-decoration: none; color: var(--text); font-size: 13px; font-weight: 500; border-bottom: 1px solid rgba(26,61,30,0.3); transition: background 0.15s, color 0.15s; }
     .nav-dropdown-item:last-child { border-bottom: none; }
     .nav-dropdown-item:hover { background: var(--bg-surface); color: var(--green); }
-    .nav-dropdown-item img { width: 24px; height: 24px; border-radius: 3px; border: 1px solid var(--border); object-fit: cover; }
+    .nav-dropdown-item img { width: 40px; height: 40px; border-radius: 3px; border: 1px solid var(--border); object-fit: cover; flex-shrink:0; }
     .hero { position: relative; height: 50vh; min-height: 320px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
     .hero-bg { position: absolute; inset: 0; background: url("https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Urgot_3.jpg") center 30% / cover no-repeat; filter: brightness(0.3) saturate(0.6); animation: heroZoom 20s ease-in-out infinite alternate; }
     @keyframes heroZoom { from{transform:scale(1.03)} to{transform:scale(1.08)} }
@@ -99,10 +99,10 @@
   <a class="nav-logo" href="index.html">Urgot Guide</a>
   <ul class="nav-links">
     <li><a href="mechanics.html">Mechanics</a></li>
-    <li><a href="build#runes" class="active">Runes</a></li>
-    <li><a href="matchup">MatchUp</a></li>
-    <li><a href="build#calculator.html">Build Calculator</a></li>
-    <li><a href="build#build">Build Guide</a></li>
+    <li><a href="runes.html">Runes</a></li>
+    <li><a href="matchup.html" class="active">MatchUp</a></li>
+    <li><a href="calculator.html">Build Calculator</a></li>
+    <li><a href="build.html">Build Guide</a></li>
   </ul>
   <div class="nav-search">
     <input type="text" id="nav-search-input" placeholder="Search champion..." oninput="navFilter()"/>
@@ -129,36 +129,34 @@
     <div class="champ-grid" id="champ-grid"></div>
   </main>
   <footer>
-  Not affiliated with Riot Games &nbsp;·&nbsp;
-  <a href="https://www.twitch.tv/quante" target="_blank" rel="noopener">Quante — Twitch ↗</a>
-  &nbsp;·&nbsp;
-  <a href="https://x.com/quantelol" target="_blank" rel="noopener">Quante — Twitter ↗</a>
-  &nbsp;·&nbsp;
-  <a href="../feedback.html" style="color:var(--green-dark);text-decoration:none;transition:color 0.2s">Send Feedback ↗</a>
-</footer>
+    Not affiliated with Riot Games &nbsp;&middot;&nbsp;
+    <a href="https://www.twitch.tv/quante" target="_blank" rel="noopener">Quante &#8212; Twitch &#8599;</a>
+    &nbsp;&middot;&nbsp;
+    <a href="https://x.com/quantelol" target="_blank" rel="noopener">Quante &#8212; Twitter &#8599;</a>
+  </footer>
 <script>
 const champions = [
-  { name:"Aatrox",       img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Aatrox_0.jpg",       pos:"45% 45%" },
+  { name:"Aatrox",       img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Aatrox_0.jpg",       pos:"45% top" },
   { name:"Akali",        img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Akali_0.jpg",        pos:"60% top" },
   { name:"Ambessa",      img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Ambessa_0.jpg",      pos:"60% top" },
-  { name:"Anivia",       img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Anivia_0.jpg",       pos:"center 60%" },
+  { name:"Anivia",       img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Anivia_0.jpg",       pos:"center center" },
   { name:"Aurora",       img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Aurora_0.jpg",       pos:"60% top" },
-  { name:"Camille",      img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Camille_0.jpg",      pos:"20% top" },
-  { name:"Cassiopeia",   img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Cassiopeia_0.jpg",   pos:"60% 45%" },
-  { name:"Cho'Gath",     img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Chogath_0.jpg",      pos:"65% 55%" },
+  { name:"Camille",      img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Camille_0.jpg",      pos:"60% top" },
+  { name:"Cassiopeia",   img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Cassiopeia_0.jpg",   pos:"60% top" },
+  { name:"Cho'Gath",     img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Chogath_0.jpg",      pos:"65% center" },
   { name:"Darius",       img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Darius_0.jpg",       pos:"60% top" },
   { name:"Dr. Mundo",    img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/DrMundo_0.jpg",      pos:"55% top" },
   { name:"Fiora",        img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Fiora_0.jpg",        pos:"60% top" },
-  { name:"Gangplank",    img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Gangplank_0.jpg",    pos:"60% 47%" },
-  { name:"Garen",        img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Garen_0.jpg",        pos:"60% 47%" },
+  { name:"Gangplank",    img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Gangplank_0.jpg",    pos:"60% top" },
+  { name:"Garen",        img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Garen_0.jpg",        pos:"60% top" },
   { name:"Gnar",         img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Gnar_0.jpg",         pos:"65% center" },
   { name:"Gragas",       img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Gragas_0.jpg",       pos:"60% top" },
   { name:"Gwen",         img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Gwen_0.jpg",         pos:"60% top" },
   { name:"Heimerdinger", img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Heimerdinger_0.jpg", pos:"60% center" },
   { name:"Illaoi",       img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Illaoi_0.jpg",       pos:"57% top" },
   { name:"Irelia",       img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Irelia_0.jpg",       pos:"60% top" },
-  { name:"Jax",          img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Jax_0.jpg",          pos:"52% top" },
-  { name:"Jayce",        img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Jayce_0.jpg",        pos:"60% 47%" },
+  { name:"Jax",          img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Jax_0.jpg",          pos:"57% top" },
+  { name:"Jayce",        img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Jayce_0.jpg",        pos:"60% top" },
   { name:"Kayle",        img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Kayle_0.jpg",        pos:"60% top" },
   { name:"Kennen",       img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Kennen_0.jpg",       pos:"57% center" },
   { name:"Kled",         img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Kled_0.jpg",         pos:"52% top" },
@@ -197,7 +195,7 @@ const champions = [
   { name:"Yasuo",        img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Yasuo_0.jpg",        pos:"80% top" },
   { name:"Yone",         img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Yone_0.jpg",         pos:"60% top" },
   { name:"Yorick",       img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Yorick_0.jpg",       pos:"55% top" },
-  { name:"Zaahen",       img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Zaahen_0.jpg",       pos:"center top" },
+  { name:"Zaahen",       img:"https://barnhak.github.io/Urgot-build-calculator/Zaahen_0.png",                  pos:"center top" },
   { name:"Zac",          img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Zac_0.jpg",          pos:"55% center" },
 ].sort(function(a,b){ return a.name.localeCompare(b.name); });
 
@@ -257,8 +255,9 @@ function navFilter() {
     var url = "matchup/" + slugify(champ.name) + ".html";
     var a = document.createElement("a");
     a.className = "nav-dropdown-item"; a.href = url; var img = document.createElement("img");
-    img.src = "https://ddragon.leagueoflegends.com/cdn/14.24.1/img/champion/" + champ.name.replace(/[^a-zA-Z]/g,"") + ".png";
+    img.src = champ.img;
     img.alt = champ.name;
+    img.style.objectPosition = champ.pos;
     img.onerror = function(){ this.style.display="none"; };
     a.appendChild(img);
     var span = document.createElement("span");
