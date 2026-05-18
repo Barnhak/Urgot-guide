@@ -100,14 +100,15 @@
   </style>
 </head>
 <body>
+  <!-- NAV -->
   <nav>
   <a class="nav-logo" href="index.html">Urgot Guide</a>
   <ul class="nav-links">
     <li><a href="mechanics.html">Mechanics</a></li>
-    <li><a href="runes.html">Runes</a></li>
-    <li><a href="matchup.html" class="active">MatchUp</a></li>
-    <li><a href="calculator.html">Build Calculator</a></li>
-    <li><a href="build.html">Build Guide</a></li>
+    <li><a href="build#runes" class="active">Runes</a></li>
+    <li><a href="matchup">MatchUp</a></li>
+    <li><a href="build#calculator">Build Calculator</a></li>
+    <li><a href="build#build">Build Guide</a></li>
   </ul>
   <div class="nav-search">
     <input type="text" id="nav-search-input" placeholder="Search champion..." oninput="navFilter()"/>
@@ -133,12 +134,15 @@
     </div>
     <div class="champ-grid" id="champ-grid"></div>
   </main>
+  <!-- FOOTER -->
   <footer>
-    Not affiliated with Riot Games &nbsp;&middot;&nbsp;
-    <a href="https://www.twitch.tv/quante" target="_blank" rel="noopener">Quante &#8212; Twitch &#8599;</a>
-    &nbsp;&middot;&nbsp;
-    <a href="https://x.com/quantelol" target="_blank" rel="noopener">Quante &#8212; Twitter &#8599;</a>
-  </footer>
+  Not affiliated with Riot Games &nbsp;·&nbsp;
+  <a href="https://www.twitch.tv/quante" target="_blank" rel="noopener">Quante — Twitch ↗</a>
+  &nbsp;·&nbsp;
+  <a href="https://x.com/quantelol" target="_blank" rel="noopener">Quante — Twitter ↗</a>
+  &nbsp;·&nbsp;
+  <a href="../feedback.html" style="color:var(--green-dark);text-decoration:none;transition:color 0.2s">Send Feedback ↗</a>
+</footer>
 <script>
 const champions = [
   { name:"Aatrox",       img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Aatrox_0.jpg",       pos:"45% top" },
@@ -233,7 +237,7 @@ function renderGrid(filter) {
     img.alt = champ.name;
     img.loading = "lazy";
     img.style.objectPosition = champ.pos;
-    img.onerror = function() { this.src = "https://ddragon.leagueoflegends.com/cdn/14.24.1/img/champion/" + champ.name.replace(/[^a-zA-Z]/g,"") + ".png"; };
+    img.onerror = function() { this.src = "https://ddragon.leagueoflegends.com/cdn/16.9.1/img/champion/" + champ.name.replace(/[^a-zA-Z]/g,"") + ".png"; };
     var wrap = document.createElement("div");
     wrap.className = "champ-img-wrap";
     wrap.appendChild(img);
