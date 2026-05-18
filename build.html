@@ -22,10 +22,15 @@
     .nav-search-icon{position:absolute;right:8px;top:50%;transform:translateY(-50%);font-size:11px;color:var(--green-mid);pointer-events:none}
     .nav-dropdown{position:absolute;top:calc(100% + 6px);right:0;width:220px;background:var(--bg-card);border:1px solid var(--border-bright);border-radius:4px;max-height:280px;overflow-y:auto;display:none;box-shadow:0 8px 32px rgba(0,0,0,0.7);z-index:200}
     .nav-dropdown h4{padding:7px 12px;font-family:'Cinzel',serif;font-size:8px;letter-spacing:0.25em;color:var(--text-dim);text-transform:uppercase;border-bottom:1px solid var(--border)}
-    .nav-dropdown-item{display:flex;align-items:center;gap:8px;padding:7px 12px;text-decoration:none;color:var(--text);font-size:13px;font-weight:500;border-bottom:1px solid rgba(26,61,30,0.3);transition:background 0.15s,color 0.15s}
+    
     .nav-dropdown-item:last-child{border-bottom:none}
     .nav-dropdown-item:hover{background:var(--bg-surface);color:var(--green)}
-    .nav-dropdown-item img{width:24px;height:24px;border-radius:3px;border:1px solid var(--border);object-fit:cover}
+    .nav-dropdown-item{position:relative;display:block;padding:0;height:52px;overflow:hidden;border-bottom:1px solid rgba(26,61,30,0.3);text-decoration:none}
+    .nav-dropdown-item:last-child{border-bottom:none}
+    .nav-dropdown-item img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;display:block;filter:brightness(0.55) saturate(0.7);transition:filter 0.2s}
+    .nav-dropdown-item:hover img{filter:brightness(0.75) saturate(1)}
+    .nav-dropdown-item span{position:relative;z-index:1;display:flex;align-items:center;height:52px;padding:0 12px;font-size:13px;font-weight:600;color:var(--text-bright);text-shadow:0 1px 6px rgba(0,0,0,0.9);letter-spacing:0.05em;transition:color 0.2s}
+    .nav-dropdown-item:hover span{color:var(--green)}
 
     /* PANEL SYSTEM */
     .panel-viewport{overflow:hidden;width:100%;padding-top:0}
@@ -49,10 +54,10 @@
   <a class="nav-logo" href="index.html">Urgot Guide</a>
   <ul class="nav-links">
     <li><a href="mechanics.html">Mechanics</a></li>
-    <li><a href="runes.html" class="active">Runes</a></li>
-    <li><a href="matchup.html">MatchUp</a></li>
-    <li><a href="calculator.html">Build Calculator</a></li>
-    <li><a href="build.html">Build Guide</a></li>
+    <li><a href="build#runes" class="active">Runes</a></li>
+    <li><a href="matchup">MatchUp</a></li>
+    <li><a href="build#calculator">Build Calculator</a></li>
+    <li><a href="build#build">Build Guide</a></li>
   </ul>
   <div class="nav-search">
     <input type="text" id="nav-search-input" placeholder="Search champion..." oninput="navFilter()"/>
@@ -130,7 +135,18 @@ function showPanel(panel) {
 var champNames=['Aatrox','Akali','Ambessa','Anivia','Aurora','Camille','Cassiopeia',"Cho'Gath",'Darius','Dr. Mundo','Fiora','Gangplank','Garen','Gnar','Gragas','Gwen','Heimerdinger','Illaoi','Irelia','Jax','Jayce','Kayle','Kennen','Kled',"K'Sante",'Lee Sin','Malphite','Maokai','Master Yi','Mordekaiser','Nasus','Olaf','Ornn','Pantheon','Poppy','Quinn','Renekton','Riven','Rumble','Ryze','Sett','Shen','Singed','Sion','Swain','Sylas','Tahm Kench','Teemo','Trundle','Tryndamere','Udyr','Varus','Vayne','Vladimir','Volibear','Warwick','Yasuo','Yone','Yorick','Zaahen','Zac'];
 var BASE_DDR='https://ddragon.leagueoflegends.com/cdn/14.24.1/img/champion/';
 function slugify(n){return n.toLowerCase().replace(/ & /g,'-').replace(/[^\w\s-]/g,'').replace(/\s+/g,'-').normalize('NFD').replace(/[\u0300-\u036f]/g,'');}
-function navFilter(){var val=document.getElementById('nav-search-input').value;var nl=document.getElementById('nav-list');var nd=document.getElementById('nav-dropdown');nl.innerHTML='';if(val.length<1){nd.style.display='none';return;}var f=champNames.filter(function(n){return n.toLowerCase().includes(val.toLowerCase());});nd.style.display=f.length?'block':'none';f.forEach(function(name){var a=document.createElement('a');a.className='nav-dropdown-item';a.href='matchup/'+slugify(name)+'.html';var img=document.createElement('img');img.src=BASE_DDR+name.replace(/[^a-zA-Z]/g,'')+'.png';img.alt=name;img.onerror=function(){this.style.display='none';};var span=document.createElement('span');span.textContent=name;a.appendChild(img);a.appendChild(span);nl.appendChild(a);});}
+var SPLASH_MAP = {
+  "Aatrox":"Aatrox_0",  "Akali":"Akali_0",  "Ambessa":"Ambessa_0",  "Anivia":"Anivia_0",  "Aurora":"Aurora_0",  "Camille":"Camille_0",  "Cassiopeia":"Cassiopeia_0",  "Cho'Gath":"Chogath_0",  "Darius":"Darius_0",  "Dr. Mundo":"DrMundo_0",  "Fiora":"Fiora_0",  "Gangplank":"Gangplank_0",  "Garen":"Garen_0",  "Gnar":"Gnar_0",  "Gragas":"Gragas_0",  "Gwen":"Gwen_0",  "Heimerdinger":"Heimerdinger_0",  "Illaoi":"Illaoi_0",  "Irelia":"Irelia_0",  "Jax":"Jax_0",  "Jayce":"Jayce_0",  "Kayle":"Kayle_0",  "Kennen":"Kennen_0",  "Kled":"Kled_0",  "K'Sante":"KSante_0",  "Lee Sin":"LeeSin_0",  "Malphite":"Malphite_0",  "Maokai":"Maokai_0",  "Master Yi":"MasterYi_0",  "Mordekaiser":"Mordekaiser_0",  "Nasus":"Nasus_0",  "Olaf":"Olaf_0",  "Ornn":"Ornn_0",  "Pantheon":"Pantheon_0",  "Poppy":"Poppy_0",  "Quinn":"Quinn_0",  "Renekton":"Renekton_0",  "Riven":"Riven_0",  "Rumble":"Rumble_0",  "Ryze":"Ryze_0",  "Sett":"Sett_0",  "Shen":"Shen_0",  "Singed":"Singed_0",  "Sion":"Sion_0",  "Swain":"Swain_0",  "Sylas":"Sylas_0",  "Tahm Kench":"TahmKench_0",  "Teemo":"Teemo_0",  "Trundle":"Trundle_0",  "Tryndamere":"Tryndamere_0",  "Udyr":"Udyr_0",  "Varus":"Varus_0",  "Vayne":"Vayne_0",  "Vladimir":"Vladimir_0",  "Volibear":"Volibear_0",  "Warwick":"Warwick_0",  "Yasuo":"Yasuo_0",  "Yone":"Yone_0",  "Yorick":"Yorick_0",  "Zaahen":"Zaahen_0",  "Zac":"Zac_0",  "Ahri":"Ahri_0",
+};
+function getSplash(name) {
+  var key = SPLASH_MAP[name];
+  return key
+    ? 'https://ddragon.leagueoflegends.com/cdn/img/champion/splash/' + key + '.jpg'
+    : 'https://ddragon.leagueoflegends.com/cdn/img/champion/splash/' + name.replace(/[^a-zA-Z]/g,'') + '_0.jpg';
+}
+var SPLASH_KEYS={'Aatrox':'Aatrox_0','Akali':'Akali_0','Ambessa':'Ambessa_0','Anivia':'Anivia_0','Aurora':'Aurora_0','Camille':'Camille_0','Cassiopeia':'Cassiopeia_0',"Cho'Gath":'Chogath_0','Darius':'Darius_0','Dr. Mundo':'DrMundo_0','Fiora':'Fiora_0','Gangplank':'Gangplank_0','Garen':'Garen_0','Gnar':'Gnar_0','Gragas':'Gragas_0','Gwen':'Gwen_0','Heimerdinger':'Heimerdinger_0','Illaoi':'Illaoi_0','Irelia':'Irelia_0','Jax':'Jax_0','Jayce':'Jayce_0','Kayle':'Kayle_0','Kennen':'Kennen_0','Kled':'Kled_0',"K'Sante":'KSante_0','Lee Sin':'LeeSin_0','Malphite':'Malphite_0','Maokai':'Maokai_0','Master Yi':'MasterYi_0','Mordekaiser':'Mordekaiser_0','Nasus':'Nasus_0','Olaf':'Olaf_0','Ornn':'Ornn_0','Pantheon':'Pantheon_0','Poppy':'Poppy_0','Quinn':'Quinn_0','Renekton':'Renekton_0','Riven':'Riven_0','Rumble':'Rumble_0','Ryze':'Ryze_0','Sett':'Sett_0','Shen':'Shen_0','Singed':'Singed_0','Sion':'Sion_0','Swain':'Swain_0','Sylas':'Sylas_0','Tahm Kench':'TahmKench_0','Teemo':'Teemo_0','Trundle':'Trundle_0','Tryndamere':'Tryndamere_0','Udyr':'Udyr_0','Varus':'Varus_0','Vayne':'Vayne_0','Vladimir':'Vladimir_0','Volibear':'Volibear_0','Warwick':'Warwick_0','Yasuo':'Yasuo_0','Yone':'Yone_0','Yorick':'Yorick_0','Zaahen':'Zaahen_0','Zac':'Zac_0'};
+function getSplash(n){var k=SPLASH_KEYS[n];return 'https://ddragon.leagueoflegends.com/cdn/img/champion/splash/'+(k?k:n.replace(/[^a-zA-Z]/g,'')+'_0')+'.jpg';}
+function navFilter(){var val=document.getElementById('nav-search-input').value;var nl=document.getElementById('nav-list');var nd=document.getElementById('nav-dropdown');nl.innerHTML='';if(val.length<1){nd.style.display='none';return;}var f=champNames.filter(function(n){return n.toLowerCase().includes(val.toLowerCase());});nd.style.display=f.length?'block':'none';f.forEach(function(name){var a=document.createElement('a');a.className='nav-dropdown-item';a.href='matchup/'+slugify(name)+'.html';var img=document.createElement('img');img.src=getSplash(name);img.alt=name;img.onerror=function(){this.style.display='none';};var span=document.createElement('span');span.textContent=name;a.appendChild(img);a.appendChild(span);nl.appendChild(a);});}
 document.addEventListener('click',function(e){if(!e.target.closest('.nav-search'))document.getElementById('nav-dropdown').style.display='none';});
 </script>
 </body>
