@@ -4,7 +4,7 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Mechanics &amp; Tech — Urgot Guide</title>
-  <link rel="icon" type="image/png" href="https://ddragon.leagueoflegends.com/cdn/14.24.1/img/champion/Urgot.png"/>
+  <link rel="icon" type="image/png" href="https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Urgot_2.jpg"/>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Rajdhani:wght@300;400;500;600&display=swap" rel="stylesheet"/>
   <style>
 
@@ -34,13 +34,18 @@
     .nav-search-icon{position:absolute;right:8px;top:50%;transform:translateY(-50%);font-size:11px;color:var(--green-mid);pointer-events:none}
     .nav-dropdown{position:absolute;top:calc(100% + 6px);right:0;width:220px;background:var(--bg-card);border:1px solid var(--border-bright);border-radius:4px;max-height:280px;overflow-y:auto;display:none;box-shadow:0 8px 32px rgba(0,0,0,0.7);z-index:200}
     .nav-dropdown h4{padding:7px 12px;font-family:'Cinzel',serif;font-size:8px;letter-spacing:0.25em;color:var(--text-dim);text-transform:uppercase;border-bottom:1px solid var(--border)}
-    .nav-dropdown-item{display:flex;align-items:center;gap:8px;padding:7px 12px;text-decoration:none;color:var(--text);font-size:13px;font-weight:500;border-bottom:1px solid rgba(26,61,30,0.3);transition:background 0.15s,color 0.15s}
+    
     .nav-dropdown-item:last-child{border-bottom:none}
     .nav-dropdown-item:hover{background:var(--bg-surface);color:var(--green)}
-    .nav-dropdown-item img{width:24px;height:24px;border-radius:3px;border:1px solid var(--border);object-fit:cover}
+    .nav-dropdown-item{position:relative;display:block;padding:0;height:52px;overflow:hidden;border-bottom:1px solid rgba(26,61,30,0.3);text-decoration:none}
+    .nav-dropdown-item:last-child{border-bottom:none}
+    .nav-dropdown-item img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;display:block;filter:brightness(0.55) saturate(0.7);transition:filter 0.2s}
+    .nav-dropdown-item:hover img{filter:brightness(0.75) saturate(1)}
+    .nav-dropdown-item span{position:relative;z-index:1;display:flex;align-items:center;height:52px;padding:0 12px;font-size:13px;font-weight:600;color:var(--text-bright);text-shadow:0 1px 6px rgba(0,0,0,0.9);letter-spacing:0.05em;transition:color 0.2s}
+    .nav-dropdown-item:hover span{color:var(--green)}
 
     .hero{position:relative;height:38vh;min-height:240px;display:flex;align-items:center;justify-content:center;overflow:hidden}
-    .hero-bg{position:absolute;inset:0;background:url('https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Urgot_3.jpg') center 20%/cover no-repeat;filter:brightness(0.22) saturate(0.5);animation:heroZoom 20s ease-in-out infinite alternate}
+    .hero-bg{position:absolute;inset:0;background:url('https://barnhak.github.io/Urgot-guide/Urgot_0.png') center 20%/cover no-repeat;filter:brightness(0.22) saturate(0.5);animation:heroZoom 20s ease-in-out infinite alternate}
     @keyframes heroZoom{from{transform:scale(1.03)}to{transform:scale(1.08)}}
     .hero-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(6,13,7,0.4) 0%,rgba(6,13,7,0) 40%,rgba(6,13,7,0.85) 85%,var(--bg) 100%)}
     .hero-content{position:relative;text-align:center;animation:fadeDown 0.7s ease both}
@@ -186,11 +191,11 @@
 <nav>
   <a class="nav-logo" href="index.html">Urgot Guide</a>
   <ul class="nav-links">
-    <li><a href="mechanics.html">Mechanics</a></li>
-    <li><a href="build#runes.html" class="active">Runes</a></li>
+    <li><a href="mechanics.html" class="active">Mechanics</a></li>
+    <li><a href="runes.html">Runes</a></li>
     <li><a href="matchup.html">MatchUp</a></li>
-    <li><a href="build#calculator.html">Build Calculator</a></li>
-    <li><a href="build#build.html">Build Guide</a></li>
+    <li><a href="calculator.html">Build Calculator</a></li>
+    <li><a href="build.html">Build Guide</a></li>
   </ul>
   <div class="nav-search">
     <input type="text" id="nav-search-input" placeholder="Search champion..." oninput="navFilter()"/>
@@ -228,7 +233,7 @@
   <div class="section-divider"><span>✦ The Kit</span></div>
   <div class="ability-block" style="animation-delay:0.05s">
     <div class="ability-inner">
-      <div class="ability-img"><img src="https://raw.githubusercontent.com/Barnhak/Urgot-guide/main/gif/p.gif" alt="Urgot Passive"/></div>
+      <div class="ability-img"><img src="https://raw.githubusercontent.com/Barnhak/Urgot-guide/main/p.gif" alt="Urgot Passive"/></div>
       <div class="ability-desc">
         <div class="ability-label"><span class="ability-key">Passive</span><span class="ability-name">Echoing Flame</span></div>
         <p>Each Urgot leg has a shotgun which covers a 60° angle. Urgot basic auto attack will cause the shotgun to shoot in a cone dealing AD damage scaling with Urgot's base level AD and enemy max HP. It has a cooldown from 30s in early to 2.5s in late, per leg.</p>
@@ -241,7 +246,7 @@
   </div>
   <div class="ability-block" style="animation-delay:0.08s">
     <div class="ability-inner">
-      <div class="ability-img"><img src="https://raw.githubusercontent.com/Barnhak/Urgot-guide/main/gif/q.gif" alt="Urgot Q"/></div>
+      <div class="ability-img"><img src="https://raw.githubusercontent.com/Barnhak/Urgot-guide/main/q.gif" alt="Urgot Q"/></div>
       <div class="ability-desc">
         <div class="ability-label"><span class="ability-key">Q</span><span class="ability-name">Corrosive Charge</span></div>
         <p>Urgot launches a missile which explodes after 0.3s and slows the target for 1.5s.</p>
@@ -259,7 +264,7 @@
   </div>
   <div class="ability-block" style="animation-delay:0.11s">
     <div class="ability-inner">
-      <div class="ability-img"><img src="https://raw.githubusercontent.com/Barnhak/Urgot-guide/main/gif/w.gif" alt="Urgot W"/></div>
+      <div class="ability-img"><img src="https://raw.githubusercontent.com/Barnhak/Urgot-guide/main/w.gif" alt="Urgot W"/></div>
       <div class="ability-desc">
         <div class="ability-label"><span class="ability-key">W</span><span class="ability-name">Purge</span></div>
         <p>Purge puts Urgot in a state where he can't auto but will fire at the nearest target at 3 attacks per second. His other spells will mark any champion if hit — in which case Purge will focus them instead of the nearest enemy. While in Purge, Urgot ignores minion collision and firing will cause him to be slowed by 125 points. At max rank this spell costs 0 mana and has no CD so you can switch at will.</p>
@@ -272,7 +277,7 @@
   </div>
   <div class="ability-block" style="animation-delay:0.14s">
     <div class="ability-inner">
-      <div class="ability-img"><img src="https://raw.githubusercontent.com/Barnhak/Urgot-guide/main/gif/e.gif" alt="Urgot E"/></div>
+      <div class="ability-img"><img src="https://raw.githubusercontent.com/Barnhak/Urgot-guide/main/e.gif" alt="Urgot E"/></div>
       <div class="ability-desc">
         <div class="ability-label"><span class="ability-key">E</span><span class="ability-name">Disdain</span></div>
         <p>Urgot shields himself and dashes forward. The first target he hits is bumped and thrown behind Urgot then CC'd for 1s. For the 1.75 next seconds (1.5 total CC he applies + 0.25s) Urgot can do nothing.</p>
@@ -286,7 +291,7 @@
   </div>
   <div class="ability-block" style="animation-delay:0.17s">
     <div class="ability-inner">
-      <div class="ability-img"><img src="https://raw.githubusercontent.com/Barnhak/Urgot-guide/main/gif/r.gif" alt="Urgot R"/></div>
+      <div class="ability-img"><img src="https://raw.githubusercontent.com/Barnhak/Urgot-guide/main/r.gif" alt="Urgot R"/></div>
       <div class="ability-desc">
         <div class="ability-label"><span class="ability-key">R</span><span class="ability-name">Fear Beyond Death</span></div>
         <p>Urgot fires a drill (skillshot) which deals Physical damage to the first target it hits. This target is marked for 4 seconds — during this time the target is also revealed (giving true vision) and slowed by 0–75% based on target's missing health. If the target gets under 25% max HP, Urgot will cast chain and drag them for 1.5s and execute them, fearing nearby enemies and slowing them by 75% for 1.5s.</p>
@@ -676,7 +681,18 @@ function showPanel(panel) {
 var BASE_DDR='https://ddragon.leagueoflegends.com/cdn/14.24.1/img/champion/';
 var champNames=['Aatrox','Akali','Ambessa','Anivia','Aurora','Camille','Cassiopeia',"Cho'Gath",'Darius','Dr. Mundo','Fiora','Gangplank','Garen','Gnar','Gragas','Gwen','Heimerdinger','Illaoi','Irelia','Jax','Jayce','Kayle','Kennen','Kled',"K'Sante",'Lee Sin','Malphite','Maokai','Master Yi','Mordekaiser','Nasus','Olaf','Ornn','Pantheon','Poppy','Quinn','Renekton','Riven','Rumble','Ryze','Sett','Shen','Singed','Sion','Swain','Sylas','Tahm Kench','Teemo','Trundle','Tryndamere','Udyr','Varus','Vayne','Vladimir','Volibear','Warwick','Yasuo','Yone','Yorick','Zaahen','Zac'];
 function slugify(n){return n.toLowerCase().replace(/ & /g,'-').replace(/[^\w\s-]/g,'').replace(/\s+/g,'-').normalize('NFD').replace(/[\u0300-\u036f]/g,'');}
-function navFilter(){var val=document.getElementById('nav-search-input').value;var nl=document.getElementById('nav-list');var nd=document.getElementById('nav-dropdown');nl.innerHTML='';if(val.length<1){nd.style.display='none';return;}var f=champNames.filter(function(n){return n.toLowerCase().includes(val.toLowerCase());});nd.style.display=f.length?'block':'none';f.forEach(function(name){var a=document.createElement('a');a.className='nav-dropdown-item';a.href='matchup/'+slugify(name)+'.html';var img=document.createElement('img');img.src=BASE_DDR+name.replace(/[^a-zA-Z]/g,'')+'.png';img.alt=name;img.onerror=function(){this.style.display='none';};var span=document.createElement('span');span.textContent=name;a.appendChild(img);a.appendChild(span);nl.appendChild(a);});}
+var SPLASH_MAP = {
+  "Aatrox":"Aatrox_0",  "Akali":"Akali_0",  "Ambessa":"Ambessa_0",  "Anivia":"Anivia_0",  "Aurora":"Aurora_0",  "Camille":"Camille_0",  "Cassiopeia":"Cassiopeia_0",  "Cho'Gath":"Chogath_0",  "Darius":"Darius_0",  "Dr. Mundo":"DrMundo_0",  "Fiora":"Fiora_0",  "Gangplank":"Gangplank_0",  "Garen":"Garen_0",  "Gnar":"Gnar_0",  "Gragas":"Gragas_0",  "Gwen":"Gwen_0",  "Heimerdinger":"Heimerdinger_0",  "Illaoi":"Illaoi_0",  "Irelia":"Irelia_0",  "Jax":"Jax_0",  "Jayce":"Jayce_0",  "Kayle":"Kayle_0",  "Kennen":"Kennen_0",  "Kled":"Kled_0",  "K'Sante":"KSante_0",  "Lee Sin":"LeeSin_0",  "Malphite":"Malphite_0",  "Maokai":"Maokai_0",  "Master Yi":"MasterYi_0",  "Mordekaiser":"Mordekaiser_0",  "Nasus":"Nasus_0",  "Olaf":"Olaf_0",  "Ornn":"Ornn_0",  "Pantheon":"Pantheon_0",  "Poppy":"Poppy_0",  "Quinn":"Quinn_0",  "Renekton":"Renekton_0",  "Riven":"Riven_0",  "Rumble":"Rumble_0",  "Ryze":"Ryze_0",  "Sett":"Sett_0",  "Shen":"Shen_0",  "Singed":"Singed_0",  "Sion":"Sion_0",  "Swain":"Swain_0",  "Sylas":"Sylas_0",  "Tahm Kench":"TahmKench_0",  "Teemo":"Teemo_0",  "Trundle":"Trundle_0",  "Tryndamere":"Tryndamere_0",  "Udyr":"Udyr_0",  "Varus":"Varus_0",  "Vayne":"Vayne_0",  "Vladimir":"Vladimir_0",  "Volibear":"Volibear_0",  "Warwick":"Warwick_0",  "Yasuo":"Yasuo_0",  "Yone":"Yone_0",  "Yorick":"Yorick_0",  "Zaahen":"Zaahen_0",  "Zac":"Zac_0",  "Ahri":"Ahri_0",
+};
+function getSplash(name) {
+  var key = SPLASH_MAP[name];
+  return key
+    ? 'https://ddragon.leagueoflegends.com/cdn/img/champion/splash/' + key + '.jpg'
+    : 'https://ddragon.leagueoflegends.com/cdn/img/champion/splash/' + name.replace(/[^a-zA-Z]/g,'') + '_0.jpg';
+}
+var SPLASH_KEYS={'Aatrox':'Aatrox_0','Akali':'Akali_0','Ambessa':'Ambessa_0','Anivia':'Anivia_0','Aurora':'Aurora_0','Camille':'Camille_0','Cassiopeia':'Cassiopeia_0',"Cho'Gath":'Chogath_0','Darius':'Darius_0','Dr. Mundo':'DrMundo_0','Fiora':'Fiora_0','Gangplank':'Gangplank_0','Garen':'Garen_0','Gnar':'Gnar_0','Gragas':'Gragas_0','Gwen':'Gwen_0','Heimerdinger':'Heimerdinger_0','Illaoi':'Illaoi_0','Irelia':'Irelia_0','Jax':'Jax_0','Jayce':'Jayce_0','Kayle':'Kayle_0','Kennen':'Kennen_0','Kled':'Kled_0',"K'Sante":'KSante_0','Lee Sin':'LeeSin_0','Malphite':'Malphite_0','Maokai':'Maokai_0','Master Yi':'MasterYi_0','Mordekaiser':'Mordekaiser_0','Nasus':'Nasus_0','Olaf':'Olaf_0','Ornn':'Ornn_0','Pantheon':'Pantheon_0','Poppy':'Poppy_0','Quinn':'Quinn_0','Renekton':'Renekton_0','Riven':'Riven_0','Rumble':'Rumble_0','Ryze':'Ryze_0','Sett':'Sett_0','Shen':'Shen_0','Singed':'Singed_0','Sion':'Sion_0','Swain':'Swain_0','Sylas':'Sylas_0','Tahm Kench':'TahmKench_0','Teemo':'Teemo_0','Trundle':'Trundle_0','Tryndamere':'Tryndamere_0','Udyr':'Udyr_0','Varus':'Varus_0','Vayne':'Vayne_0','Vladimir':'Vladimir_0','Volibear':'Volibear_0','Warwick':'Warwick_0','Yasuo':'Yasuo_0','Yone':'Yone_0','Yorick':'Yorick_0','Zaahen':'Zaahen_0','Zac':'Zac_0'};
+function getSplash(n){var k=SPLASH_KEYS[n];return 'https://ddragon.leagueoflegends.com/cdn/img/champion/splash/'+(k?k:n.replace(/[^a-zA-Z]/g,'')+'_0')+'.jpg';}
+function navFilter(){var val=document.getElementById('nav-search-input').value;var nl=document.getElementById('nav-list');var nd=document.getElementById('nav-dropdown');nl.innerHTML='';if(val.length<1){nd.style.display='none';return;}var f=champNames.filter(function(n){return n.toLowerCase().includes(val.toLowerCase());});nd.style.display=f.length?'block':'none';f.forEach(function(name){var a=document.createElement('a');a.className='nav-dropdown-item';a.href='matchup/'+slugify(name)+'.html';var img=document.createElement('img');img.src=getSplash(name);img.alt=name;img.onerror=function(){this.style.display='none';};var span=document.createElement('span');span.textContent=name;a.appendChild(img);a.appendChild(span);nl.appendChild(a);});}
 document.addEventListener('click',function(e){if(!e.target.closest('.nav-search'))document.getElementById('nav-dropdown').style.display='none';});
 </script>
 </body>
