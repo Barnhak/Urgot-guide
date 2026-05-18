@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Runes — Urgot Guide</title>
+  <link rel="icon" type="image/png" href="https://ddragon.leagueoflegends.com/cdn/14.24.1/img/champion/Urgot.png"/>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Rajdhani:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--green:#4ADE80;--green-mid:#22C55E;--green-dark:#15803D;--bg:#060D07;--bg-surface:#0B1A0D;--bg-card:#0F2211;--border:#1A3D1E;--border-bright:#2D6A33;--text:#A8D4A0;--text-dim:#4A7550;--text-bright:#E8F5E2}
+    body{background:var(--bg);color:var(--text);font-family:'Rajdhani',sans-serif;font-size:16px;overflow-x:hidden;background-image:radial-gradient(ellipse 80% 40% at 50% -5%,rgba(74,222,128,0.04) 0%,transparent 60%),repeating-linear-gradient(0deg,transparent,transparent 49px,rgba(26,61,30,0.08) 50px),repeating-linear-gradient(90deg,transparent,transparent 49px,rgba(26,61,30,0.08) 50px);}
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:1rem 2.5rem;background:rgba(6,13,7,0.95);backdrop-filter:blur(8px);border-bottom:1px solid var(--border)}
+    .nav-logo{font-family:'Cinzel',serif;font-size:14px;letter-spacing:0.2em;color:var(--green);text-decoration:none}
+    .nav-links{display:flex;gap:2rem;list-style:none;align-items:center}
+    .nav-links a{font-size:12px;letter-spacing:0.15em;text-transform:uppercase;color:var(--text-dim);text-decoration:none;transition:color 0.2s}
+    .nav-links a:hover,.nav-links a.active{color:var(--green)}
+    .nav-search{position:relative}
+    .nav-search input{background:rgba(15,34,17,0.8);border:1px solid var(--border-bright);border-radius:3px;color:var(--text-bright);font-family:'Rajdhani',sans-serif;font-size:12px;padding:5px 30px 5px 10px;width:180px;outline:none;transition:border-color 0.2s,width 0.3s}
+    .nav-search input:focus{border-color:var(--green-mid);width:220px}
+    .nav-search input::placeholder{color:var(--text-dim)}
+    .nav-search-icon{position:absolute;right:8px;top:50%;transform:translateY(-50%);font-size:11px;color:var(--green-mid);pointer-events:none}
+    .nav-dropdown{position:absolute;top:calc(100% + 6px);right:0;width:220px;background:var(--bg-card);border:1px solid var(--border-bright);border-radius:4px;max-height:280px;overflow-y:auto;display:none;box-shadow:0 8px 32px rgba(0,0,0,0.7);z-index:200}
+    .nav-dropdown h4{padding:7px 12px;font-family:'Cinzel',serif;font-size:8px;letter-spacing:0.25em;color:var(--text-dim);text-transform:uppercase;border-bottom:1px solid var(--border)}
+    
+    .nav-dropdown-item:last-child{border-bottom:none}
+    .nav-dropdown-item:hover{background:var(--bg-surface);color:var(--green)}
+    .nav-dropdown-item{position:relative;display:block;padding:0;height:52px;overflow:hidden;border-bottom:1px solid rgba(26,61,30,0.3);text-decoration:none}
+    .nav-dropdown-item:last-child{border-bottom:none}
+    .nav-dropdown-item img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;display:block;filter:brightness(0.55) saturate(0.7);transition:filter 0.2s}
+    .nav-dropdown-item:hover img{filter:brightness(0.75) saturate(1)}
+    .nav-dropdown-item span{position:relative;z-index:1;display:flex;align-items:center;height:52px;padding:0 12px;font-size:13px;font-weight:600;color:var(--text-bright);text-shadow:0 1px 6px rgba(0,0,0,0.9);letter-spacing:0.05em;transition:color 0.2s}
+    .nav-dropdown-item:hover span{color:var(--green)}
+
+    /* PANEL SYSTEM */
+    .panel-viewport{overflow:hidden;width:100%;padding-top:0}
+    .panel-track{display:flex;width:300%;transition:transform 0.55s cubic-bezier(0.77,0,0.175,1)}
+    .panel-track.show-mid{transform:translateX(-33.333%)}
+    .panel-track.show-right{transform:translateX(-66.666%)}
+    .panel-page{width:33.333%;flex-shrink:0;min-width:0}
+    .panel-page iframe{width:100%;border:none;display:block}
+
+    /* TOGGLE */
+    .page-toggle{position:fixed;bottom:2rem;right:2rem;z-index:200;display:flex;align-items:center;background:var(--bg-card);border:1px solid var(--border-bright);border-radius:50px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,0.6)}
+    .toggle-btn{font-family:'Cinzel',serif;font-size:11px;letter-spacing:0.15em;text-transform:uppercase;padding:10px 20px;border:none;background:transparent;color:var(--text-dim);cursor:pointer;transition:background 0.2s,color 0.2s;white-space:nowrap}
+    .toggle-btn.active{background:var(--green-dark);color:var(--text-bright)}
+    .toggle-btn:hover:not(.active){color:var(--green-mid)}
+    .toggle-sep{width:1px;background:var(--border-bright);height:20px;flex-shrink:0}
+  </style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="index.html">Urgot Guide</a>
+  <ul class="nav-links">
+    <li><a href="mechanics.html">Mechanics</a></li>
+    <li><a href="runes.html" class="active">Runes</a></li>
+    <li><a href="matchup.html">MatchUp</a></li>
+    <li><a href="calculator.html">Build Calculator</a></li>
+    <li><a href="build.html">Build Guide</a></li>
+  </ul>
+  <div class="nav-search">
+    <input type="text" id="nav-search-input" placeholder="Search champion..." oninput="navFilter()"/>
+    <span class="nav-search-icon">&#128269;</span>
+    <div class="nav-dropdown" id="nav-dropdown"><h4>Champions</h4><div id="nav-list"></div></div>
+  </div>
+</nav>
+
+<div class="page-toggle">
+  <button class="toggle-btn active" id="btn-build" onclick="showPanel('build')">Build Guide</button>
+  <div class="toggle-sep"></div>
+  <button class="toggle-btn" id="btn-runes" onclick="showPanel('runes')">Runes</button>
+  <div class="toggle-sep"></div>
+  <button class="toggle-btn" id="btn-calc" onclick="showPanel('calc')">Build Calculator</button>
+</div>
+
+<div class="panel-viewport">
+  <div class="panel-track" id="panel-track">
+    <div class="panel-page"><iframe id="frame-build" src="build_only.html" scrolling="no" onload="resizeFrame(this)"></iframe></div>
+    <div class="panel-page"><iframe id="frame-runes" src="runes_only.html" scrolling="no" onload="resizeFrame(this)"></iframe></div>
+    <div class="panel-page"><iframe id="frame-calc"  src="calculator_only.html" scrolling="no" onload="resizeFrame(this)"></iframe></div>
+  </div>
+</div>
+
+<script>
+function resizeFrame(frame) {
+  try {
+    var body = frame.contentDocument.body;
+    var html = frame.contentDocument.documentElement;
+    function doResize() {
+      try {
+        var h = Math.max(body.scrollHeight, body.offsetHeight, html.scrollHeight, html.offsetHeight, 800);
+        frame.style.height = h + 'px';
+        frame.parentElement.style.minHeight = h + 'px';
+      } catch(e) {}
+    }
+    doResize();
+    setTimeout(doResize, 300);
+    setTimeout(doResize, 800);
+    setTimeout(doResize, 2000);
+    // Observe DOM changes (e.g. collapsible sections expanding)
+    try {
+      var obs = new MutationObserver(doResize);
+      obs.observe(body, {childList:true, subtree:true, attributes:true});
+    } catch(e) {}
+  } catch(e) {}
+}
+
+function showPanel(panel) {
+  var track = document.getElementById('panel-track');
+  var btnB = document.getElementById('btn-build');
+  var btnR = document.getElementById('btn-runes');
+  var btnC = document.getElementById('btn-calc');
+  [btnB,btnR,btnC].forEach(function(b){b.classList.remove('active');});
+  track.classList.remove('show-mid','show-right');
+  if (panel === 'runes') {
+    track.classList.add('show-mid'); btnR.classList.add('active');
+    history.replaceState(null,'','#runes');
+  } else if (panel === 'calc') {
+    track.classList.add('show-right'); btnC.classList.add('active');
+    history.replaceState(null,'','#calculator');
+  } else {
+    btnB.classList.add('active');
+    history.replaceState(null,'','#build');
+  }
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+(function(){
+  var h = window.location.hash;
+  if (h==='#runes') showPanel('runes');
+  else if (h==='#calculator') showPanel('calc');
+})();
+
+var champNames=['Aatrox','Akali','Ambessa','Anivia','Aurora','Camille','Cassiopeia',"Cho'Gath",'Darius','Dr. Mundo','Fiora','Gangplank','Garen','Gnar','Gragas','Gwen','Heimerdinger','Illaoi','Irelia','Jax','Jayce','Kayle','Kennen','Kled',"K'Sante",'Lee Sin','Malphite','Maokai','Master Yi','Mordekaiser','Nasus','Olaf','Ornn','Pantheon','Poppy','Quinn','Renekton','Riven','Rumble','Ryze','Sett','Shen','Singed','Sion','Swain','Sylas','Tahm Kench','Teemo','Trundle','Tryndamere','Udyr','Varus','Vayne','Vladimir','Volibear','Warwick','Yasuo','Yone','Yorick','Zaahen','Zac'];
+var BASE_DDR='https://ddragon.leagueoflegends.com/cdn/14.24.1/img/champion/';
+function slugify(n){return n.toLowerCase().replace(/ & /g,'-').replace(/[^\w\s-]/g,'').replace(/\s+/g,'-').normalize('NFD').replace(/[\u0300-\u036f]/g,'');}
+var SPLASH_MAP = {
+  "Aatrox":"Aatrox_0",  "Akali":"Akali_0",  "Ambessa":"Ambessa_0",  "Anivia":"Anivia_0",  "Aurora":"Aurora_0",  "Camille":"Camille_0",  "Cassiopeia":"Cassiopeia_0",  "Cho'Gath":"Chogath_0",  "Darius":"Darius_0",  "Dr. Mundo":"DrMundo_0",  "Fiora":"Fiora_0",  "Gangplank":"Gangplank_0",  "Garen":"Garen_0",  "Gnar":"Gnar_0",  "Gragas":"Gragas_0",  "Gwen":"Gwen_0",  "Heimerdinger":"Heimerdinger_0",  "Illaoi":"Illaoi_0",  "Irelia":"Irelia_0",  "Jax":"Jax_0",  "Jayce":"Jayce_0",  "Kayle":"Kayle_0",  "Kennen":"Kennen_0",  "Kled":"Kled_0",  "K'Sante":"KSante_0",  "Lee Sin":"LeeSin_0",  "Malphite":"Malphite_0",  "Maokai":"Maokai_0",  "Master Yi":"MasterYi_0",  "Mordekaiser":"Mordekaiser_0",  "Nasus":"Nasus_0",  "Olaf":"Olaf_0",  "Ornn":"Ornn_0",  "Pantheon":"Pantheon_0",  "Poppy":"Poppy_0",  "Quinn":"Quinn_0",  "Renekton":"Renekton_0",  "Riven":"Riven_0",  "Rumble":"Rumble_0",  "Ryze":"Ryze_0",  "Sett":"Sett_0",  "Shen":"Shen_0",  "Singed":"Singed_0",  "Sion":"Sion_0",  "Swain":"Swain_0",  "Sylas":"Sylas_0",  "Tahm Kench":"TahmKench_0",  "Teemo":"Teemo_0",  "Trundle":"Trundle_0",  "Tryndamere":"Tryndamere_0",  "Udyr":"Udyr_0",  "Varus":"Varus_0",  "Vayne":"Vayne_0",  "Vladimir":"Vladimir_0",  "Volibear":"Volibear_0",  "Warwick":"Warwick_0",  "Yasuo":"Yasuo_0",  "Yone":"Yone_0",  "Yorick":"Yorick_0",  "Zaahen":"Zaahen_0",  "Zac":"Zac_0",  "Ahri":"Ahri_0",
+};
+function getSplash(name) {
+  var key = SPLASH_MAP[name];
+  return key
+    ? 'https://ddragon.leagueoflegends.com/cdn/img/champion/splash/' + key + '.jpg'
+    : 'https://ddragon.leagueoflegends.com/cdn/img/champion/splash/' + name.replace(/[^a-zA-Z]/g,'') + '_0.jpg';
+}
+var SPLASH_KEYS={'Aatrox':'Aatrox_0','Akali':'Akali_0','Ambessa':'Ambessa_0','Anivia':'Anivia_0','Aurora':'Aurora_0','Camille':'Camille_0','Cassiopeia':'Cassiopeia_0',"Cho'Gath":'Chogath_0','Darius':'Darius_0','Dr. Mundo':'DrMundo_0','Fiora':'Fiora_0','Gangplank':'Gangplank_0','Garen':'Garen_0','Gnar':'Gnar_0','Gragas':'Gragas_0','Gwen':'Gwen_0','Heimerdinger':'Heimerdinger_0','Illaoi':'Illaoi_0','Irelia':'Irelia_0','Jax':'Jax_0','Jayce':'Jayce_0','Kayle':'Kayle_0','Kennen':'Kennen_0','Kled':'Kled_0',"K'Sante":'KSante_0','Lee Sin':'LeeSin_0','Malphite':'Malphite_0','Maokai':'Maokai_0','Master Yi':'MasterYi_0','Mordekaiser':'Mordekaiser_0','Nasus':'Nasus_0','Olaf':'Olaf_0','Ornn':'Ornn_0','Pantheon':'Pantheon_0','Poppy':'Poppy_0','Quinn':'Quinn_0','Renekton':'Renekton_0','Riven':'Riven_0','Rumble':'Rumble_0','Ryze':'Ryze_0','Sett':'Sett_0','Shen':'Shen_0','Singed':'Singed_0','Sion':'Sion_0','Swain':'Swain_0','Sylas':'Sylas_0','Tahm Kench':'TahmKench_0','Teemo':'Teemo_0','Trundle':'Trundle_0','Tryndamere':'Tryndamere_0','Udyr':'Udyr_0','Varus':'Varus_0','Vayne':'Vayne_0','Vladimir':'Vladimir_0','Volibear':'Volibear_0','Warwick':'Warwick_0','Yasuo':'Yasuo_0','Yone':'Yone_0','Yorick':'Yorick_0','Zaahen':'Zaahen_0','Zac':'Zac_0'};
+function getSplash(n){var k=SPLASH_KEYS[n];return 'https://ddragon.leagueoflegends.com/cdn/img/champion/splash/'+(k?k:n.replace(/[^a-zA-Z]/g,'')+'_0')+'.jpg';}
+function navFilter(){var val=document.getElementById('nav-search-input').value;var nl=document.getElementById('nav-list');var nd=document.getElementById('nav-dropdown');nl.innerHTML='';if(val.length<1){nd.style.display='none';return;}var f=champNames.filter(function(n){return n.toLowerCase().includes(val.toLowerCase());});nd.style.display=f.length?'block':'none';f.forEach(function(name){var a=document.createElement('a');a.className='nav-dropdown-item';a.href='matchup/'+slugify(name)+'.html';var img=document.createElement('img');img.src=getSplash(name);img.alt=name;img.onerror=function(){this.style.display='none';};var span=document.createElement('span');span.textContent=name;a.appendChild(img);a.appendChild(span);nl.appendChild(a);});}
+document.addEventListener('click',function(e){if(!e.target.closest('.nav-search'))document.getElementById('nav-dropdown').style.display='none';});
+</script>
+</body>
+</html>
