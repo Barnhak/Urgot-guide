@@ -1,1442 +1,755 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8" />
+<meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-
 <title>Urgot Calculator — Season 2026</title>
-
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
-
 <style>
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-}
-
-:root{
---bg:#071009;
---bg2:#0F1D12;
---card:#132417;
---border:#24422B;
---green:#4ADE80;
---green2:#22C55E;
---text:#D6F5D3;
---text2:#6B8F71;
---gold:#D7B56D;
---red:#C84B4B;
-}
-
-body{
-background:var(--bg);
-color:var(--text);
-font-family:'Rajdhani',sans-serif;
-padding:24px;
-}
-
-h1{
-font-family:'Cinzel',serif;
-font-size:42px;
-margin-bottom:24px;
-}
-
-.card{
-background:var(--bg2);
-border:1px solid var(--border);
-padding:20px;
-border-radius:10px;
-margin-bottom:20px;
-}
-
-.title{
-font-family:'Cinzel',serif;
-font-size:12px;
-letter-spacing:.18em;
-text-transform:uppercase;
-color:var(--green2);
-margin-bottom:18px;
-}
-
-.slider-wrap{
-display:flex;
-gap:16px;
-align-items:center;
-}
-
-#levelText{
-font-size:30px;
-font-weight:700;
-min-width:120px;
-}
-
-input[type=range]{
-width:100%;
-}
-
-.grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-gap:12px;
-}
-
-.stat{
-background:var(--card);
-border:1px solid #1F3624;
-padding:14px;
-border-radius:8px;
-}
-
-.stat-name{
-font-size:11px;
-letter-spacing:.12em;
-text-transform:uppercase;
-color:var(--text2);
-margin-bottom:6px;
-}
-
-.stat-value{
-font-size:26px;
-font-weight:700;
-}
-
-.slots{
-display:grid;
-grid-template-columns:repeat(6,70px);
-gap:10px;
-}
-
-.slot{
-width:70px;
-height:70px;
-background:#111;
-border:2px dashed var(--border);
-border-radius:8px;
-overflow:hidden;
-display:flex;
-align-items:center;
-justify-content:center;
-cursor:pointer;
-position:relative;
-}
-
-.slot img{
-width:100%;
-height:100%;
-object-fit:cover;
-}
-
-.remove{
-position:absolute;
-top:2px;
-right:2px;
-width:16px;
-height:16px;
-border-radius:3px;
-background:var(--red);
-display:flex;
-align-items:center;
-justify-content:center;
-font-size:11px;
-color:white;
-cursor:pointer;
-}
-
-.modal{
-position:fixed;
-inset:0;
-background:rgba(0,0,0,.85);
-display:none;
-align-items:center;
-justify-content:center;
-z-index:100;
-}
-
-.modal.open{
-display:flex;
-}
-
-.modal-box{
-width:min(1300px,95vw);
-height:90vh;
-background:var(--bg2);
-border:1px solid var(--border);
-border-radius:10px;
-overflow:hidden;
-display:flex;
-flex-direction:column;
-}
-
-.modal-top{
-padding:16px;
-border-bottom:1px solid var(--border);
-display:flex;
-gap:12px;
-}
-
-.search{
-flex:1;
-padding:10px;
-background:#111;
-border:1px solid var(--border);
-color:var(--text);
-border-radius:6px;
-}
-
-.close{
-padding:10px 16px;
-background:#111;
-border:1px solid var(--border);
-color:var(--text);
-cursor:pointer;
-border-radius:6px;
-}
-
-.items{
-padding:18px;
-overflow:auto;
-display:grid;
-grid-template-columns:repeat(auto-fill,minmax(90px,1fr));
-gap:10px;
-}
-
-.item{
-background:var(--card);
-border:1px solid #203626;
-padding:8px;
-border-radius:6px;
-cursor:pointer;
-text-align:center;
-transition:.2s;
-}
-
-.item:hover{
-border-color:var(--green);
-transform:translateY(-2px);
-}
-
-.item img{
-width:52px;
-height:52px;
-margin-bottom:6px;
-}
-
-.item span{
-font-size:11px;
-display:block;
-}
-
-.tree-selects{
-display:flex;
-gap:20px;
-margin-bottom:24px;
-flex-wrap:wrap;
-}
-
-select{
-padding:10px;
-background:#111;
-border:1px solid var(--border);
-color:var(--text);
-border-radius:6px;
-}
-
-.runes-layout{
-display:flex;
-gap:24px;
-flex-wrap:wrap;
-}
-
-.rune-tree-column{
-width:340px;
-background:var(--card);
-border:1px solid #203626;
-border-radius:10px;
-padding:18px;
-}
-
-.rune-tree-header{
-font-family:'Cinzel',serif;
-font-size:15px;
-text-align:center;
-margin-bottom:20px;
-color:var(--gold);
-}
-
-.keystone-grid{
-display:grid;
-grid-template-columns:repeat(2,1fr);
-gap:10px;
-margin-bottom:20px;
-}
-
-.rune-row{
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:10px;
-margin-bottom:16px;
-padding-top:16px;
-border-top:1px solid #1d3222;
-}
-
-.rune{
-position:relative;
-overflow:hidden;
-background-size:cover;
-background-position:center;
-background-repeat:no-repeat;
-border:1px solid #27422D;
-padding:10px;
-border-radius:8px;
-cursor:pointer;
-font-size:11px;
-text-align:center;
-transition:.15s;
-min-height:72px;
-display:flex;
-align-items:flex-end;
-justify-content:center;
-line-height:1.15;
-font-weight:700;
-}
-
-.rune::before{
-content:"";
-position:absolute;
-inset:0;
-background:linear-gradient(
-to top,
-rgba(0,0,0,.92),
-rgba(0,0,0,.25)
-);
-}
-
-.rune span{
-position:relative;
-z-index:2;
-}
-
-.rune:hover{
-border-color:var(--green);
-transform:translateY(-1px);
-}
-
-.rune.active{
-border-color:var(--green);
-box-shadow:
-0 0 16px rgba(74,222,128,.35),
-inset 0 0 12px rgba(74,222,128,.15);
-}
-
-.keystone-grid .rune{
-min-height:100px;
-font-size:12px;
-}
-
-.passive{
-margin-top:20px;
-padding:16px;
-background:var(--card);
-border:1px solid #203626;
-border-radius:8px;
-}
-
-.passive-title{
-font-family:'Cinzel',serif;
-font-size:14px;
-margin-bottom:14px;
-color:var(--green);
-}
-
-.spell-grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-gap:12px;
-}
-
-.spell-card{
-background:#101913;
-border:1px solid #27422D;
-padding:14px;
-border-radius:8px;
-}
-
-.spell-name{
-font-family:'Cinzel',serif;
-font-size:13px;
-margin-bottom:8px;
-color:var(--gold);
-}
-
-.spell-cd{
-font-size:28px;
-font-weight:700;
-color:var(--green);
-margin-bottom:6px;
-}
-
-.spell-scaling{
-font-size:12px;
-color:var(--text2);
-}
-
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{--bg:#071009;--bg2:#0F1D12;--card:#132417;--border:#24422B;--green:#4ADE80;--green2:#22C55E;--text:#D6F5D3;--text2:#6B8F71;--gold:#D7B56D;--red:#C84B4B;}
+body{background:var(--bg);color:var(--text);font-family:'Rajdhani',sans-serif;padding:24px;}
+h1{font-family:'Cinzel',serif;font-size:36px;margin-bottom:24px;}
+.card{background:var(--bg2);border:1px solid var(--border);padding:20px;border-radius:10px;margin-bottom:20px;}
+.title{font-family:'Cinzel',serif;font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--green2);margin-bottom:18px;}
+.slider-wrap{display:flex;gap:16px;align-items:center;}
+#levelText{font-size:30px;font-weight:700;min-width:130px;}
+input[type=range]{width:100%;}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;}
+.stat{background:var(--card);border:1px solid #1F3624;padding:14px;border-radius:8px;}
+.stat-name{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--text2);margin-bottom:6px;}
+.stat-value{font-size:26px;font-weight:700;}
+.stat-bonus{font-size:13px;color:var(--green2);margin-top:2px;}
+/* SLOTS */
+.slots{display:grid;grid-template-columns:repeat(6,70px);gap:10px;}
+.slot{width:70px;height:70px;background:#111;border:2px dashed var(--border);border-radius:8px;overflow:hidden;display:flex;align-items:center;justify-content:center;cursor:pointer;position:relative;}
+.slot img{width:100%;height:100%;object-fit:cover;}
+.slot-n{font-size:13px;color:var(--text2);}
+.remove{position:absolute;top:2px;right:2px;width:16px;height:16px;border-radius:3px;background:var(--red);display:flex;align-items:center;justify-content:center;font-size:10px;color:white;cursor:pointer;}
+/* MODAL */
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.85);display:none;align-items:center;justify-content:center;z-index:100;}
+.modal.open{display:flex;}
+.modal-box{width:min(1300px,96vw);height:90vh;background:var(--bg2);border:1px solid var(--border);border-radius:10px;overflow:hidden;display:flex;flex-direction:column;}
+.modal-top{padding:14px;border-bottom:1px solid var(--border);display:flex;gap:10px;align-items:center;flex-wrap:wrap;}
+.msearch{flex:1;min-width:180px;padding:10px;background:#111;border:1px solid var(--border);color:var(--text);border-radius:6px;font-family:'Rajdhani',sans-serif;font-size:14px;}
+.mclose{padding:10px 16px;background:#111;border:1px solid var(--border);color:var(--text);cursor:pointer;border-radius:6px;font-family:'Rajdhani',sans-serif;}
+.mcats{display:flex;gap:6px;flex-wrap:wrap;}
+.mcat{padding:5px 12px;background:#111;border:1px solid var(--border);color:var(--text2);cursor:pointer;border-radius:4px;font-family:'Cinzel',serif;font-size:9px;letter-spacing:.1em;text-transform:uppercase;}
+.mcat.on{border-color:var(--green);color:var(--green);}
+.items-grid{padding:16px;overflow:auto;display:grid;grid-template-columns:repeat(auto-fill,minmax(88px,1fr));gap:10px;flex:1;}
+.item{background:var(--card);border:1px solid #203626;padding:8px;border-radius:6px;cursor:pointer;text-align:center;transition:.2s;}
+.item:hover{border-color:var(--green);transform:translateY(-2px);}
+.item img{width:52px;height:52px;margin-bottom:5px;}
+.item span{font-size:10px;display:block;line-height:1.3;}
+/* RUNES */
+.runes-layout{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+@media(max-width:700px){.runes-layout{grid-template-columns:1fr;}}
+.rune-col{background:var(--card);border:1px solid #203626;border-radius:10px;padding:16px;}
+.rune-col-header{font-family:'Cinzel',serif;font-size:13px;text-align:center;margin-bottom:16px;color:var(--gold);display:flex;align-items:center;justify-content:center;gap:8px;}
+.rune-col-header img{width:24px;height:24px;border-radius:4px;}
+.tree-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px;}
+.tree-tab{display:flex;align-items:center;gap:5px;padding:5px 10px;background:#0a1510;border:1px solid var(--border);color:var(--text2);cursor:pointer;border-radius:6px;font-size:12px;font-family:'Cinzel',serif;letter-spacing:.08em;transition:.15s;}
+.tree-tab img{width:18px;height:18px;border-radius:3px;}
+.tree-tab:hover{border-color:var(--green2);color:var(--text);}
+.tree-tab.on{border-color:var(--green);color:var(--green);background:rgba(74,222,128,.07);}
+.tree-tab.sec.on{border-color:#0BC4E3;color:#0BC4E3;background:rgba(11,196,227,.06);}
+.section-lbl{font-size:9px;font-family:'Cinzel',serif;letter-spacing:.18em;text-transform:uppercase;color:var(--text2);margin:.7rem 0 .3rem;}
+.keystone-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:4px;}
+.rune-row-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:4px;}
+.rune-btn{position:relative;overflow:hidden;border:1px solid #27422D;padding:8px 6px 8px;border-radius:7px;cursor:pointer;font-size:10px;font-family:'Cinzel',serif;text-align:center;transition:.15s;min-height:64px;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:4px;background:#0d1a10;letter-spacing:.05em;line-height:1.2;}
+.rune-btn img{width:36px;height:36px;border-radius:4px;flex-shrink:0;}
+.keystone-grid .rune-btn{min-height:80px;}
+.keystone-grid .rune-btn img{width:44px;height:44px;}
+.rune-btn span{position:relative;z-index:2;}
+.rune-btn:hover{border-color:var(--green2);transform:translateY(-1px);}
+.rune-btn.on{border-color:var(--green);box-shadow:0 0 12px rgba(74,222,128,.3),inset 0 0 10px rgba(74,222,128,.12);}
+.rune-btn.sec.on{border-color:#0BC4E3;box-shadow:0 0 12px rgba(11,196,227,.25);}
+/* SHARDS */
+.shards-wrap{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:4px;}
+.shard-slot{display:flex;flex-direction:column;gap:4px;}
+.shard-btn{display:flex;align-items:center;gap:5px;padding:5px 8px;background:#0a1510;border:1px solid var(--border);color:var(--text2);cursor:pointer;border-radius:5px;font-size:11px;transition:.15s;}
+.shard-btn img{width:18px;height:18px;border-radius:3px;}
+.shard-btn:hover{border-color:var(--green2);}
+.shard-btn.on{border-color:var(--green);color:var(--green);}
+/* SPELLS */
+.passive{margin-top:20px;padding:16px;background:var(--card);border:1px solid #203626;border-radius:8px;}
+.passive-title{font-family:'Cinzel',serif;font-size:14px;margin-bottom:14px;color:var(--green);}
+.spell-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;}
+.spell-card{background:#101913;border:1px solid #27422D;padding:12px;border-radius:8px;}
+.spell-name{font-family:'Cinzel',serif;font-size:12px;margin-bottom:6px;color:var(--gold);}
+.spell-cd{font-size:26px;font-weight:700;color:var(--green);margin-bottom:4px;}
+.spell-scaling{font-size:11px;color:var(--text2);}
+/* PASSIVE BOX */
+.leg-box{margin-top:14px;padding:14px;background:#101913;border:1px solid #27422D;border-radius:8px;}
+.leg-title{font-family:'Cinzel',serif;font-size:11px;letter-spacing:.15em;color:var(--green);margin-bottom:10px;text-transform:uppercase;}
+.leg-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:6px;}
+.leg-stat{font-size:12px;color:var(--text);}
+.leg-stat strong{color:var(--green2);}
 </style>
 </head>
-
 <body>
 
 <h1>Urgot Advanced Calculator</h1>
 
 <div class="card">
-
-<div class="title">Champion Level</div>
-
-<div class="slider-wrap">
-
-<div id="levelText">Level 9</div>
-
-<input type="range" min="1" max="20" value="9" id="levelSlider"/>
-
-</div>
-
+  <div class="title">Champion Level</div>
+  <div class="slider-wrap">
+    <div id="levelText">Level 9</div>
+    <input type="range" min="1" max="20" value="9" id="levelSlider"/>
+  </div>
 </div>
 
 <div class="card">
-
-<div class="title">Items</div>
-
-<div class="slots" id="slots"></div>
-
+  <div class="title">Items — 6 slots (ranked items only)</div>
+  <div class="slots" id="slots"></div>
 </div>
 
 <div class="card">
-
-<div class="title">Runes</div>
-
-<div class="tree-selects">
-
-<div>
-<div style="margin-bottom:6px;">Primary Tree</div>
-<select id="primaryTree"></select>
-</div>
-
-<div>
-<div style="margin-bottom:6px;">Secondary Tree</div>
-<select id="secondaryTree"></select>
-</div>
-
-</div>
-
-<div id="runesContainer"></div>
-
+  <div class="title">Runes</div>
+  <div class="runes-layout">
+    <div class="rune-col" id="col-primary">
+      <div class="rune-col-header" id="primary-header">PRIMARY TREE</div>
+      <div class="section-lbl">Choose primary tree</div>
+      <div class="tree-tabs" id="primary-tabs"></div>
+      <div id="primary-runes"></div>
+    </div>
+    <div class="rune-col" id="col-secondary">
+      <div class="rune-col-header" id="secondary-header">SECONDARY TREE</div>
+      <div class="section-lbl">Choose secondary tree</div>
+      <div class="tree-tabs" id="secondary-tabs"></div>
+      <div id="secondary-runes"></div>
+    </div>
+  </div>
+  <div style="margin-top:14px;">
+    <div class="section-lbl">Fragments (3 slots)</div>
+    <div class="shards-wrap" id="shards-wrap"></div>
+  </div>
 </div>
 
 <div class="card">
-
-<div class="title">Stats</div>
-
-<div class="grid" id="stats"></div>
-
-<div class="passive" id="spellCooldowns"></div>
-
+  <div class="title">Stats</div>
+  <div class="grid" id="stats"></div>
+  <div class="passive" id="spellCooldowns"></div>
 </div>
 
 <div class="modal" id="modal">
-
-<div class="modal-box">
-
-<div class="modal-top">
-
-<input
-class="search"
-id="searchInput"
-placeholder="Search item..."
-/>
-
-<button class="close" onclick="closeModal()">
-Close
-</button>
-
-</div>
-
-<div class="items" id="itemsContainer"></div>
-
-</div>
-
+  <div class="modal-box">
+    <div class="modal-top">
+      <input class="msearch" id="searchInput" placeholder="Search item…"/>
+      <div class="mcats" id="mcats"></div>
+      <button class="mclose" onclick="closeModal()">✕ Close</button>
+    </div>
+    <div class="items-grid" id="itemsContainer"></div>
+  </div>
 </div>
 
 <script>
+const PATCH="16.9.1";
+const DDI=id=>`https://ddragon.leagueoflegends.com/cdn/${PATCH}/img/item/${id}.png`;
+const CDN='https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/perk-images/styles/';
 
-const PATCH = "16.9.1";
-
-function itemImg(id){
-return `https://ddragon.leagueoflegends.com/cdn/${PATCH}/img/item/${id}.png`;
-}
-
-const BASE = {
-
-hp:{base:655,growth:102},
-mana:{base:340,growth:45},
-ad:{base:63,growth:4},
-armor:{base:36,growth:5},
-mr:{base:32,growth:2.05},
-attackSpeedRatio:0.625,
-attackSpeedGrowth:3.75,
-moveSpeed:330
-
+// ═══ BASE STATS patch 16.9.1 (wiki.leagueoflegends.com/en-us/Urgot) ═══
+const BASE={
+  hp:{base:585,growth:88},
+  hpReg:{base:6.25,growth:0.7},
+  mana:{base:340,growth:40},
+  mpReg:{base:7.5,growth:0.8},
+  ad:{base:55,growth:4},
+  armor:{base:36,growth:4.25},
+  mr:{base:32,growth:1.25},
+  asBase:0.625, asGrowth:3.75,
+  ms:330
 };
 
-function statGrowth(base,growth,level){
-
-if(level===1) return base;
-
-const n=level-1;
-
-return base + growth * (
-0.7025*n + 0.0175*n*n
-);
-
+function grow(b,g,lvl){
+  if(lvl<=1) return b;
+  const n=lvl-1;
+  return b + g*(0.7025*n + 0.0175*n*n);
 }
-
-function attackSpeed(level){
-
-return Math.min(
-BASE.attackSpeedRatio * (
-1 + (BASE.attackSpeedGrowth/100)*(level-1)
-),
-2.5
-);
-
+function growAS(b,gPct,lvl){
+  return Math.min(b*(1+(gPct/100)*(lvl-1)),2.5);
 }
+function shardHP(lvl){ return Math.round(10+(190/17)*Math.min(lvl-1,17)); }
 
-/* =========================
-SPELL CD DATA
-========================= */
-
-const SPELLS = {
-
-Q:{
-name:"Corrosive Charge",
-base:[10,9.5,9,8.5,8]
-},
-
-W:{
-name:"Purge",
-base:[12,11,10,9,0]
-},
-
-E:{
-name:"Disdain",
-base:[16,15,14,13,12]
-},
-
-R:{
-name:"Fear Beyond Death",
-base:[100,85,70]
-}
-
+// ═══ SPELL DATA ═══
+const SPELLS={
+  Q:{name:"Corrosive Charge",  base:[10,9.5,9,8.5,8]},
+  W:{name:"Purge",             base:[12,11,10,9,0]},
+  E:{name:"Disdain",           base:[16,15,14,13,12]},
+  R:{name:"Fear Beyond Death", base:[100,85,70]}
 };
 
-/* =========================
-RUNES
-========================= */
-
-const RUNES = {
-
-precision:{
-name:"Precision",
-keystones:[
-"Press the Attack",
-"Lethal Tempo",
-"Fleet Footwork",
-"Conqueror"
-],
-rows:[
-[
-"Absorb Life",
-"Triumph",
-"Presence of Mind"
-],
-[
-"Legend: Alacrity",
-"Legend: Haste",
-"Legend: Bloodline"
-],
-[
-"Coup de Grace",
-"Cut Down",
-"Last Stand"
-]
-]
-},
-
-resolve:{
-name:"Resolve",
-keystones:[
-"Grasp of the Undying",
-"Aftershock",
-"Guardian"
-],
-rows:[
-[
-"Demolish",
-"Font of Life",
-"Shield Bash"
-],
-[
-"Conditioning",
-"Second Wind",
-"Bone Plating"
-],
-[
-"Overgrowth",
-"Revitalize",
-"Unflinching"
-]
-]
-}
-
+// ═══ RUNE TREES (all 5, all rows, all keystones + images) ═══
+const RP=CDN;
+const TREES={
+  precision:{
+    label:'Precision', color:'#c8aa6e',
+    img:CDN+'7201_precision.png',
+    keystones:[
+      {id:'pta',      label:'Press the Attack', img:RP+'precision/presstheattack/presstheattack.png',     stats:{},        effect:'Amplifie les dégâts de 12% sur 3 autos'},
+      {id:'lethal',   label:'Lethal Tempo',      img:RP+'precision/lethaltempo/lethaltempoTemp.png',       stats:{as:0.54},  effect:'+54% AS max'},
+      {id:'fleet',    label:'Fleet Footwork',    img:RP+'precision/fleetfootwork/fleetfootwork.png',       stats:{ms:15},   effect:'Soin + MS sur auto chargée'},
+      {id:'conq',     label:'Conqueror',         img:RP+'precision/conqueror/conqueror.png',               stats:{ad:28},   effect:'12 stacks = 28 AD'},
+    ],
+    rows:[
+      [{id:'absorb',   label:'Absorb Life',         img:RP+'precision/absorb_life.png',                   stats:{},effect:'Soin sur kill de minion'},
+       {id:'triumph',  label:'Triumph',             img:RP+'precision/triumph.png',                       stats:{},effect:'+5% HP manquant sur kill'},
+       {id:'pom',      label:'Presence of Mind',    img:RP+'precision/presenceofmind/presenceofmind.png', stats:{},effect:'Restaure la mana sur kill'}],
+      [{id:'alacrity', label:'Legend: Alacrity',    img:RP+'precision/legendalacrity/legendalacrity.png', stats:{as:0.18}, effect:'+18% AS'},
+       {id:'leghaste', label:'Legend: Haste',       img:RP+'precision/legendhaste/legendhaste.png',       stats:{ah:20},   effect:'+20 AH'},
+       {id:'bloodline',label:'Legend: Bloodline',   img:RP+'precision/legendbloodline/legendbloodline.png',stats:{ls:6},  effect:'+6% lifesteal'}],
+      [{id:'cdg',      label:'Coup de Grâce',       img:RP+'precision/coupdegrace.png',                   stats:{},effect:'+8% dégâts à <40% HP'},
+       {id:'cutdown',  label:'Cut Down',            img:RP+'precision/cutdown/cutdown.png',               stats:{},effect:'+8% dégâts si cible > HP max'},
+       {id:'laststand',label:'Last Stand',          img:RP+'precision/laststand/laststand.png',           stats:{},effect:'+12% dégâts à <30% HP'}],
+    ]
+  },
+  domination:{
+    label:'Domination', color:'#c84b4b',
+    img:CDN+'7200_domination.png',
+    keystones:[
+      {id:'electro', label:'Electrocute',    img:RP+'domination/electrocute/electrocute.png',           stats:{},effect:'Burst sur 3 touches en 3s'},
+      {id:'dark',    label:'Dark Harvest',   img:RP+'domination/darkharvest/darkharvest.png',            stats:{},effect:'Dégâts adaptatifs sur <50% HP'},
+      {id:'hob',     label:'Hail of Blades', img:RP+'domination/hailofblades/hailofblades.png',          stats:{as:0.75},effect:'+75% AS pour 3 autos'},
+    ],
+    rows:[
+      [{id:'cheapshot',  label:'Cheap Shot',    img:RP+'domination/cheapshot/cheapshot.png',            stats:{},effect:'Vrai dégâts sur CC'},
+       {id:'taste',      label:'Taste of Blood',img:RP+'domination/tasteofblood/greenterror_tasteofblood.png',stats:{ls:3},effect:'+3% LS hors combat'},
+       {id:'sudden',     label:'Sudden Impact', img:RP+'domination/suddenimpact/suddenimpact.png',      stats:{leth:7},effect:'+7 lethality après dash'}],
+      [{id:'sixthsense', label:'Sixth Sense',   img:RP+'domination/sixthsense.png',                     stats:{},effect:'Détecte les wards proches'},
+       {id:'grisly',     label:'Grisly Mementos',img:RP+'domination/grislymementos.png',                stats:{},effect:'Haste de trinket sur kill'},
+       {id:'deepward',   label:'Deep Ward',     img:RP+'domination/deepward.png',                       stats:{},effect:'Wards durent plus longtemps'}],
+      [{id:'treasure',   label:'Treasure Hunter',img:RP+'domination/treasurehunter/treasurehunter.png', stats:{},effect:'+Gold sur kill unique'},
+       {id:'relentless', label:'Relentless Hunter',img:RP+'domination/relentlesshunter/slayer_relentlesshunter.png',stats:{ms_flat:30},effect:'+30 MS hors combat max'},
+       {id:'ulthunter',  label:'Ultimate Hunter',img:RP+'domination/ultimatehunter/slayer_ultimatehunter.png',stats:{ah:8},effect:'-8 AH sur ulti'}],
+    ]
+  },
+  sorcery:{
+    label:'Sorcery', color:'#5b8dd9',
+    img:CDN+'7202_sorcery.png',
+    keystones:[
+      {id:'aery',    label:'Summon Aery',  img:RP+'sorcery/summonaery/summonaery.png',         stats:{},effect:'Aery inflige/bouclier sur auto/spell'},
+      {id:'comet',   label:'Arcane Comet', img:RP+'sorcery/arcanecomet/arcanecomet.png',        stats:{},effect:'Comète après une compétence'},
+      {id:'phase',   label:'Phase Rush',   img:RP+'sorcery/phaserush/phaserush.png',            stats:{ms_pct:0.15},effect:'+15% MS après 3 touches'},
+    ],
+    rows:[
+      [{id:'axiom',    label:'Axiom Arcanist', img:RP+'sorcery/axiom_arcanist.png',             stats:{ah:10},effect:'+10 AH'},
+       {id:'manaflow', label:'Manaflow Band',  img:RP+'sorcery/manaflowband/manaflowband.png',  stats:{},effect:'+250 mana max en laning'},
+       {id:'nimbus',   label:'Nimbus Cloak',   img:RP+'sorcery/nimbuscloak.png',               stats:{ms_flat:25},effect:'+25-45 MS après summoner spell'}],
+      [{id:'transcendence',label:'Transcendence',img:RP+'sorcery/transcendence/transcendence.png',stats:{ah:5},effect:'+5 AH, réset kills'},
+       {id:'celerity', label:'Celerity',       img:RP+'sorcery/celerity.png',                  stats:{ms_pct:0.07},effect:'+7% MS'},
+       {id:'absfocus', label:'Absolute Focus', img:RP+'sorcery/absolutefocus/absolutefocus.png',stats:{},effect:'+18 AD/30 AP à plein HP'},
+       {id:'tripletonic',label:'Triple Tonic', img:RP+'sorcery/tripletonic.png',               stats:{ah:10},effect:'+10 AH + élixirs lvl 3/6/9'}],
+      [{id:'scorch',   label:'Scorch',         img:RP+'sorcery/scorch/scorch.png',             stats:{},effect:'Brûlure sur premier hit/10s'},
+       {id:'waterwalk',label:'Waterwalking',   img:RP+'sorcery/waterwalking/waterwalking.png',  stats:{ms_flat:8},effect:'+8 MS + AD dans rivière'},
+       {id:'gathering',label:'Gathering Storm',img:RP+'sorcery/gatheringstorm/gatheringstorm.png',stats:{ad:30},effect:'+AD/AP escaladant par tranche de 10 min'}],
+    ]
+  },
+  resolve:{
+    label:'Resolve', color:'#5cb85c',
+    img:CDN+'7204_resolve.png',
+    keystones:[
+      {id:'grasp',    label:'Grasp of Undying',img:RP+'resolve/graspoftheundying/graspoftheundying.png',stats:{hp:80},effect:'+HP permanent sur proc'},
+      {id:'aftershock',label:'Aftershock',     img:RP+'resolve/aftershock/aftershock.png',              stats:{armor:35,mr:35},effect:'+résistances + explosion AoE après CC'},
+      {id:'guardian', label:'Guardian',        img:RP+'resolve/guardian/guardian.png',                  stats:{},effect:'Bouclier sur allié proche'},
+    ],
+    rows:[
+      [{id:'demolish', label:'Demolish',   img:RP+'resolve/demolish/demolish.png',                     stats:{},effect:'Charge pour dégâts de tour'},
+       {id:'fontoflife',label:'Font of Life',img:RP+'resolve/fontoflife/fontoflife.png',               stats:{},effect:'Marque ennemis, soigne allié'},
+       {id:'shieldbash',label:'Shield Bash',img:RP+'resolve/shieldbash/shieldbash.png',               stats:{},effect:'+dégâts auto avec bouclier actif'}],
+      [{id:'conditioning',label:'Conditioning',img:RP+'resolve/conditioning/conditioning.png',          stats:{armor:8,mr:8},effect:'+8 armor/MR + 3% après 12min'},
+       {id:'secondwind',label:'Second Wind',  img:RP+'resolve/secondwind/secondwind.png',              stats:{},effect:'+HP regen après dommages'},
+       {id:'boneplating',label:'Bone Plating',img:RP+'resolve/boneplating/boneplating.png',            stats:{},effect:'Réduit 3 prochains dommages reçus'}],
+      [{id:'revitalize',label:'Revitalize',   img:RP+'resolve/revitalize/revitalize.png',              stats:{},effect:'+5% soins/boucliers, +10% si <40% HP'},
+       {id:'unflinching',label:'Unflinching',img:RP+'resolve/unflinching/unflinching.png',             stats:{},effect:'+15% ténacité quand slow/root'},
+       {id:'overgrowth',label:'Overgrowth',  img:RP+'resolve/overgrowth/overgrowth.png',              stats:{hp:100},effect:'+HP permanent sur minions tués'}],
+    ]
+  },
+  inspiration:{
+    label:'Inspiration', color:'#3dbaf7',
+    img:CDN+'7203_whimsy.png',
+    keystones:[
+      {id:'firststrike',label:'First Strike',    img:RP+'inspiration/firststrike/firststrike.png',       stats:{},effect:'+Dégâts si premier à toucher'},
+      {id:'glacial',    label:'Glacial Augment', img:RP+'resolve/glacialaugment/glacialaugment.png',     stats:{},effect:'Slow zones sur CC'},
+      {id:'unsealed',   label:'Unsealed Spellbook',img:RP+'inspiration/unsealedspellbook/unsealedspellbook.png',stats:{ah:10},effect:'Swap summoner spells en jeu'},
+    ],
+    rows:[
+      [{id:'cashback',   label:'Cash Back',        img:RP+'inspiration/cashback/cashback.png',           stats:{},effect:'Remboursement partiel sur items'},
+       {id:'magfoot',    label:'Magical Footwear',  img:RP+'inspiration/magicalfootwear/magicalfootwear.png',stats:{ms_flat:10},effect:'Bottes gratuites à 12min'},
+       {id:'timewarp',   label:'Time Warp Tonic',   img:RP+'inspiration/timewarptonic/timewarptonic.png',stats:{},effect:'Potions actives instantanément en partie'}],
+      [{id:'biscuits',   label:'Biscuit Delivery',  img:RP+'inspiration/biscuitdelivery/biscuitdelivery.png',stats:{hp:100},effect:'+HP et mana restaurés'},
+       {id:'jack',       label:'Jack of All Trades', img:RP+'inspiration/jackofalltrades/jackofalltrades.png',stats:{ad:5},effect:'+stats différentes = +AD/AP'},
+       {id:'approachvel',label:'Approach Velocity', img:RP+'sorcery/approachvelocity/approachvelocity.png',stats:{},effect:'+MS vers ennemi slow ou CC'}],
+      [{id:'cosmic',     label:'Cosmic Insight',    img:RP+'inspiration/cosmicinsight/cosmicinsight.png',stats:{ah:15},effect:'+15 AH + 15 item haste'},
+       {id:'absorblife',  label:'Absorb Life',      img:RP+'inspiration/absorb_life.png',                stats:{},effect:'Soin sur kill de minion'},
+       {id:'futmarket',   label:'Future\'s Market',  img:RP+'inspiration/futuresmarket/futuresmarket.png',stats:{},effect:'Acheter dans la dette'}],
+    ]
+  }
 };
 
-const RUNE_IMAGES = {
+const TREE_KEYS=['precision','domination','sorcery','resolve','inspiration'];
 
-"Press the Attack":
-"https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Precision/PressTheAttack/PressTheAttack.png",
+// ═══ SHARDS patch 16.9.1 ═══
+const SA='https://ddragon.leagueoflegends.com/cdn/img/perk-images/StatMods/';
+const SHARDS=[
+  [{id:'sh1_ad', label:'5.4 AD',       img:SA+'StatModsAdaptiveForceIcon.png',   stats:{ad:5.4}},
+   {id:'sh1_as', label:'10% AS',       img:SA+'StatModsAttackSpeedIcon.png',      stats:{as:0.10}},
+   {id:'sh1_ah', label:'8 AH',         img:SA+'StatModsCDRScalingIcon.png',       stats:{ah:8}}],
+  [{id:'sh2_ad', label:'5.4 AD',       img:SA+'StatModsAdaptiveForceIcon.png',   stats:{ad:5.4}},
+   {id:'sh2_ms', label:'2.5% MS',      img:SA+'StatModsMoveSpeedIcon.png',        stats:{ms_pct:0.025}},
+   {id:'sh2_hp', label:'HP scalant',   img:SA+'StatModsHealthScalingIcon.png',    stats:{hp:'scaling'}}],
+  [{id:'sh3_65', label:'65 HP',        img:SA+'StatModsHealthPlusIcon.png',       stats:{hp:65}},
+   {id:'sh3_ten',label:'15% Tenacity', img:SA+'StatModsTenacityIcon.png',         stats:{tenacity:15}},
+   {id:'sh3_hp', label:'HP scalant',   img:SA+'StatModsHealthScalingIcon.png',    stats:{hp:'scaling'}}],
+];
 
-"Lethal Tempo":
-"https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Precision/LethalTempo/LethalTempoTemp.png",
+// ═══ ITEMS (ranked only — pulled from DDragon, filtered to relevant ranked items) ═══
+// Whitelist of item IDs available in ranked SR patch 16.9.1
+// Includes: boots, fighter, tank, marksman, mage, assassin, support, starter items
+const RANKED_IDS=[
+  // Boots
+  3047,3111,223008,3009,3020,3158,3006,
+  // Fighter/Bruiser
+  3071,3053,2501,6609,6695,6333,3156,3748,223181,223161,6692,3814,3033,3036,
+  3142,6701,// also assassin
+  // Tank
+  3742,3143,4401,222504,6665,3075,3076,3110,3083,3065,2053,3068,4005,
+  // Marksman
+  3031,3094,3046,3087,6672,6676,3095,3085,6673,3139,3036,
+  // Mage
+  3089,4645,3135,3116,3152,4637,3040,4628,3041,
+  // Support
+  3190,3107,2065,3222,3109,
+  // Starter
+  1055,1054,1083,
+  // Components (useful ones)
+  3044,1037,1036,1028,1029,1033,3082,
+];
 
-"Fleet Footwork":
-"https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Precision/FleetFootwork/FleetFootwork.png",
-
-"Conqueror":
-"https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Precision/Conqueror/Conqueror.png",
-
-"Grasp of the Undying":
-"https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Resolve/GraspOfTheUndying/GraspOfTheUndying.png"
-
+const ITEM_CATS={
+  3047:'Boots',3111:'Boots',223008:'Boots',3009:'Boots',3020:'Boots',3158:'Boots',3006:'Boots',
+  3071:'Fighter',3053:'Fighter',2501:'Fighter',6609:'Fighter',6695:'Fighter',6333:'Fighter',
+  3156:'Fighter',3748:'Fighter',223181:'Fighter',223161:'Fighter',6692:'Fighter',3814:'Fighter',
+  3033:'Fighter',3036:'Fighter',
+  3742:'Tank',3143:'Tank',4401:'Tank',222504:'Tank',6665:'Tank',3075:'Tank',3076:'Tank',
+  3110:'Tank',3083:'Tank',3065:'Tank',2053:'Tank',3068:'Tank',4005:'Tank',
+  3031:'Marksman',3094:'Marksman',3046:'Marksman',3087:'Marksman',6672:'Marksman',
+  6676:'Marksman',3095:'Marksman',3085:'Marksman',6673:'Marksman',3139:'Marksman',
+  3089:'Mage',4645:'Mage',3135:'Mage',3116:'Mage',3152:'Mage',4637:'Mage',3040:'Mage',4628:'Mage',3041:'Mage',
+  3190:'Support',3107:'Support',2065:'Support',3222:'Support',3109:'Support',
+  3142:'Assassin',6701:'Assassin',
+  1055:'Starter',1054:'Starter',1083:'Starter',
+  3044:'Component',1037:'Component',1036:'Component',1028:'Component',1029:'Component',1033:'Component',3082:'Component',
 };
 
-/* =========================
-PASSIVES
-========================= */
-
-const ITEM_PASSIVES = {
-
-2501:{
-bloodmail:true
-},
-
-3748:{
-hpToAD:0.02
-},
-
-3053:{
-sterakBonusAD:0.25
-}
-
+// Special passives
+const SPECIALS={
+  2501:{bloodmail:true},
+  6665:{jaksho:true},
+  3053:{sterak:true},
+  3071:{bc:true},
 };
 
-let ITEMS=[];
-
-const STATE={
-
-level:9,
-
-items:[null,null,null,null,null,null],
-
-primaryTree:"precision",
-secondaryTree:"resolve",
-
-keystone:null,
-
-primarySelections:{
-1:null,
-2:null,
-3:null
-},
-
-secondarySelections:[],
-
-activeSlot:null
-
-};
-
-/* =========================
-LOAD ITEMS
-========================= */
+let ALL_ITEMS=[];
+let activeCat='All';
 
 async function loadItems(){
-
-const res = await fetch(
-`https://ddragon.leagueoflegends.com/cdn/${PATCH}/data/en_US/item.json`
-);
-
-const data = await res.json();
-
-ITEMS = Object.entries(data.data)
-.map(([id,item])=>({
-
-id:Number(id),
-
-name:item.name,
-
-stats:{
-
-hp:item.stats.FlatHPPoolMod || 0,
-mana:item.stats.FlatMPPoolMod || 0,
-ad:item.stats.FlatPhysicalDamageMod || 0,
-armor:item.stats.FlatArmorMod || 0,
-mr:item.stats.FlatSpellBlockMod || 0,
-haste:item.stats.FlatHasteMod || 0,
-
-attackSpeedPercent:
-(item.stats.PercentAttackSpeedMod || 0),
-
-ms:item.stats.FlatMovementSpeedMod || 0,
-
-msPercent:
-item.stats.PercentMovementSpeedMod || 0
-
-},
-
-boots:item.tags?.includes("Boots") || false,
-
-image:itemImg(id),
-
-passive:ITEM_PASSIVES[id] || null
-
-}));
-
-renderItems();
-
+  try{
+    const res=await fetch(`https://ddragon.leagueoflegends.com/cdn/${PATCH}/data/en_US/item.json`);
+    const data=await res.json();
+    ALL_ITEMS=Object.entries(data.data)
+      .filter(([id])=>RANKED_IDS.includes(Number(id)))
+      .map(([id,item])=>({
+        id:Number(id),
+        name:item.name,
+        cat:ITEM_CATS[Number(id)]||'Other',
+        img:DDI(id),
+        hp:item.stats.FlatHPPoolMod||0,
+        ad:item.stats.FlatPhysicalDamageMod||0,
+        armor:item.stats.FlatArmorMod||0,
+        mr:item.stats.FlatSpellBlockMod||0,
+        ah:item.stats.FlatHasteMod||0,
+        as:item.stats.PercentAttackSpeedMod||0,
+        crit:(item.stats.FlatCritChanceMod||0)*100,
+        ls:(item.stats.PercentLifeStealMod||0)*100,
+        ms:item.stats.FlatMovementSpeedMod||0,
+        ms_pct:item.stats.PercentMovementSpeedMod||0,
+        leth:item.stats.FlatMagicPenetrationMod||0, // API uses wrong key for leth sometimes
+        special:SPECIALS[Number(id)]||null,
+      }));
+    // Fix lethality (DDragon doesn't always expose it correctly — use known values)
+    const lethMap={3814:20,6695:18,6692:20,3142:18,6701:20,3033:0,3036:0};
+    ALL_ITEMS.forEach(it=>{if(lethMap[it.id]!==undefined)it.leth=lethMap[it.id];});
+    const apenMap={3033:30,3036:35};
+    ALL_ITEMS.forEach(it=>{it.apen=apenMap[it.id]||0;});
+    const omniMap={223008:8,1055:3};
+    ALL_ITEMS.forEach(it=>{it.omni=omniMap[it.id]||0;});
+    renderItems();
+  }catch(e){console.error('Item load failed',e);}
 }
 
-/* =========================
-ITEM UI
-========================= */
+const STATE={
+  level:9,
+  items:[null,null,null,null,null,null],
+  primaryTree:'precision',
+  secondaryTree:'resolve',
+  keystone:'pta',
+  pri:[null,null,null],
+  sec:[null,null],
+  sh:['sh1_ad','sh2_hp','sh3_65'],
+  activeSlot:null,
+};
 
+// ─── SLOTS ───
 function renderSlots(){
-
-const root=document.getElementById("slots");
-
-root.innerHTML="";
-
-STATE.items.forEach((item,index)=>{
-
-const div=document.createElement("div");
-
-div.className="slot";
-
-if(item){
-
-div.innerHTML=`
-<img src="${item.image}">
-<div class="remove">✕</div>
-`;
-
-div.querySelector(".remove").onclick=(e)=>{
-
-e.stopPropagation();
-
-STATE.items[index]=null;
-
-renderSlots();
-calculate();
-
-};
-
-}else{
-
-div.innerHTML=`<span>${index+1}</span>`;
-
+  const root=document.getElementById('slots'); root.innerHTML='';
+  STATE.items.forEach((item,idx)=>{
+    const d=document.createElement('div'); d.className='slot';
+    if(item){
+      d.innerHTML=`<img src="${item.img}" title="${item.name}"><div class="remove">✕</div>`;
+      d.querySelector('.remove').onclick=e=>{e.stopPropagation();STATE.items[idx]=null;renderSlots();calc();};
+    } else d.innerHTML=`<span class="slot-n">${idx+1}</span>`;
+    d.onclick=()=>openModal(idx);
+    root.appendChild(d);
+  });
 }
 
-div.onclick=()=>openModal(index);
-
-root.appendChild(div);
-
-});
-
+function openModal(idx){
+  STATE.activeSlot=idx;
+  document.getElementById('modal').classList.add('open');
+  document.getElementById('searchInput').value='';
+  renderMCats();renderItems();
+  setTimeout(()=>document.getElementById('searchInput').focus(),40);
 }
+function closeModal(){document.getElementById('modal').classList.remove('open');STATE.activeSlot=null;}
+document.getElementById('modal').onclick=e=>{if(e.target===document.getElementById('modal'))closeModal();};
 
-function openModal(index){
-
-STATE.activeSlot=index;
-
-document.getElementById("modal")
-.classList.add("open");
-
-renderItems();
-
+const CAT_LIST=['All','Fighter','Tank','Boots','Marksman','Mage','Assassin','Support','Starter','Component'];
+function renderMCats(){
+  const c=document.getElementById('mcats'); c.innerHTML='';
+  CAT_LIST.forEach(cat=>{
+    const b=document.createElement('button'); b.className='mcat'+(activeCat===cat?' on':'');
+    b.textContent=cat;
+    b.onclick=()=>{activeCat=cat;renderMCats();renderItems();};
+    c.appendChild(b);
+  });
 }
-
-function closeModal(){
-
-document.getElementById("modal")
-.classList.remove("open");
-
-}
-
 function renderItems(){
+  const root=document.getElementById('itemsContainer'); root.innerHTML='';
+  const q=document.getElementById('searchInput').value.toLowerCase();
+  const list=ALL_ITEMS.filter(it=>(activeCat==='All'||it.cat===activeCat)&&(!q||it.name.toLowerCase().includes(q)));
+  if(!list.length){root.innerHTML='<div style="color:var(--text2);padding:1rem;grid-column:1/-1">No items found</div>';return;}
+  list.forEach(item=>{
+    const d=document.createElement('div'); d.className='item';
+    d.innerHTML=`<img src="${item.img}"><span>${item.name}</span>`;
+    d.onclick=()=>{if(STATE.activeSlot!==null){STATE.items[STATE.activeSlot]=item;closeModal();renderSlots();calc();}};
+    root.appendChild(d);
+  });
+}
+document.getElementById('searchInput').addEventListener('input',renderItems);
 
-const root=document.getElementById("itemsContainer");
-
-root.innerHTML="";
-
-const search=document
-.getElementById("searchInput")
-.value
-.toLowerCase();
-
-ITEMS
-.filter(item=>
-item.name.toLowerCase().includes(search)
-)
-.forEach(item=>{
-
-const div=document.createElement("div");
-
-div.className="item";
-
-div.innerHTML=`
-<img src="${item.image}">
-<span>${item.name}</span>
-`;
-
-div.onclick=()=>{
-
-STATE.items[STATE.activeSlot]=item;
-
-closeModal();
-
-renderSlots();
-
-calculate();
-
-};
-
-root.appendChild(div);
-
-});
-
+// ─── RUNES ───
+function findRune(id){
+  for(const tk of TREE_KEYS){
+    const t=TREES[tk];
+    for(const k of t.keystones) if(k.id===id) return k;
+    for(const row of t.rows) for(const r of row) if(r.id===id) return r;
+  }
+  for(const slot of SHARDS) for(const r of slot) if(r.id===id) return r;
+  return null;
 }
 
-document
-.getElementById("searchInput")
-.addEventListener("input",renderItems);
-
-/* =========================
-RUNES
-========================= */
-
-function renderTreeSelectors(){
-
-const primary=document.getElementById("primaryTree");
-const secondary=document.getElementById("secondaryTree");
-
-primary.innerHTML="";
-secondary.innerHTML="";
-
-Object.entries(RUNES).forEach(([key,tree])=>{
-
-const option1=document.createElement("option");
-option1.value=key;
-option1.textContent=tree.name;
-
-if(STATE.primaryTree===key){
-option1.selected=true;
+function runeBtn(rune, stateKey, idx, isSec){
+  const b=document.createElement('button');
+  const isOn = Array.isArray(STATE[stateKey])
+    ? (idx!==undefined ? STATE[stateKey][idx]===rune.id : STATE[stateKey].includes(rune.id))
+    : STATE[stateKey]===rune.id;
+  b.className='rune-btn'+(isOn?' on':'')+(isSec&&isOn?' sec':'');
+  b.title=rune.label+(rune.effect?'\n'+rune.effect:'');
+  b.innerHTML=`<img src="${rune.img}" onerror="this.style.display='none'"/><span>${rune.label}</span>`;
+  b.onclick=()=>{
+    if(Array.isArray(STATE[stateKey])&&idx!==undefined){
+      STATE[stateKey][idx]=(STATE[stateKey][idx]===rune.id?null:rune.id);
+    } else {
+      STATE[stateKey]=(STATE[stateKey]===rune.id?null:rune.id);
+    }
+    renderRunes();calc();
+  };
+  return b;
 }
 
-primary.appendChild(option1);
-
-const option2=document.createElement("option");
-option2.value=key;
-option2.textContent=tree.name;
-
-if(STATE.secondaryTree===key){
-option2.selected=true;
-}
-
-secondary.appendChild(option2);
-
-});
-
-primary.onchange=(e)=>{
-
-STATE.primaryTree=e.target.value;
-
-renderRunes();
-
-};
-
-secondary.onchange=(e)=>{
-
-STATE.secondaryTree=e.target.value;
-
-renderRunes();
-
-};
-
-}
-
-function runeButton(text,active,onClick){
-
-const div=document.createElement("div");
-
-div.className="rune";
-
-if(active){
-div.classList.add("active");
-}
-
-if(RUNE_IMAGES[text]){
-div.style.backgroundImage=
-`url(${RUNE_IMAGES[text]})`;
-}
-
-div.innerHTML=`<span>${text}</span>`;
-
-div.onclick=onClick;
-
-return div;
-
+function treeTabs(containerId, selectedTree, role){
+  const c=document.getElementById(containerId); c.innerHTML='';
+  TREE_KEYS.forEach(tk=>{
+    if(role==='secondary'&&tk===STATE.primaryTree) return;
+    const t=TREES[tk];
+    const b=document.createElement('button');
+    b.className='tree-tab'+(role==='secondary'?' sec':'')+(selectedTree===tk?' on':'');
+    b.innerHTML=`<img src="${t.img}" onerror="this.style.display='none'"/>${t.label}`;
+    b.onclick=()=>{
+      if(role==='primary'){
+        STATE.primaryTree=tk; STATE.keystone=null; STATE.pri=[null,null,null];
+        if(STATE.secondaryTree===tk) STATE.secondaryTree=TREE_KEYS.find(k=>k!==tk);
+        STATE.sec=[null,null];
+      } else {
+        STATE.secondaryTree=tk; STATE.sec=[null,null];
+      }
+      renderRunes();calc();
+    };
+    c.appendChild(b);
+  });
 }
 
 function renderRunes(){
+  const pt=TREES[STATE.primaryTree];
+  const st=TREES[STATE.secondaryTree];
 
-const root=document.getElementById("runesContainer");
+  treeTabs('primary-tabs', STATE.primaryTree,'primary');
+  treeTabs('secondary-tabs',STATE.secondaryTree,'secondary');
 
-root.innerHTML="";
+  document.getElementById('primary-header').innerHTML=
+    `<img src="${pt.img}" style="width:24px;height:24px;border-radius:4px;"/> PRIMARY — ${pt.label}`;
+  document.getElementById('secondary-header').innerHTML=
+    `<img src="${st.img}" style="width:24px;height:24px;border-radius:4px;"/> SECONDARY — ${st.label}`;
 
-const primary = RUNES[STATE.primaryTree];
-const secondary = RUNES[STATE.secondaryTree];
+  // Primary
+  const pp=document.getElementById('primary-runes'); pp.innerHTML='';
+  const kGrid=document.createElement('div'); kGrid.className='keystone-grid';
+  pt.keystones.forEach(k=>kGrid.appendChild(runeBtn(k,'keystone',undefined,false)));
+  pp.appendChild(Object.assign(document.createElement('div'),{className:'section-lbl',textContent:'Keystone'}));
+  pp.appendChild(kGrid);
+  pt.rows.forEach((row,i)=>{
+    pp.appendChild(Object.assign(document.createElement('div'),{className:'section-lbl',textContent:`Ligne ${i+1}`}));
+    const rg=document.createElement('div'); rg.className='rune-row-grid';
+    row.forEach(r=>rg.appendChild(runeBtn(r,'pri',i,false)));
+    pp.appendChild(rg);
+  });
 
-const layout=document.createElement("div");
+  // Secondary
+  const sp=document.getElementById('secondary-runes'); sp.innerHTML='';
+  // Flatten all rows of secondary tree
+  const allSecRunes=st.rows.flat();
+  ['Ligne A','Ligne B'].forEach((lbl,i)=>{
+    sp.appendChild(Object.assign(document.createElement('div'),{className:'section-lbl',textContent:lbl+' (choisir 1)'}));
+    const rg=document.createElement('div'); rg.className='rune-row-grid';
+    allSecRunes.forEach(r=>{
+      const b=runeBtn(r,'sec',i,true);
+      // Disable if already picked in other slot
+      const other=STATE.sec[1-i];
+      if(other===r.id){b.style.opacity='.3';b.style.pointerEvents='none';}
+      rg.appendChild(b);
+    });
+    sp.appendChild(rg);
+  });
 
-layout.className="runes-layout";
-
-/* PRIMARY */
-
-const primaryCol=document.createElement("div");
-
-primaryCol.className="rune-tree-column";
-
-primaryCol.innerHTML=`
-<div class="rune-tree-header">
-PRIMARY — ${primary.name}
-</div>
-`;
-
-const keyGrid=document.createElement("div");
-
-keyGrid.className="keystone-grid";
-
-primary.keystones.forEach(keystone=>{
-
-keyGrid.appendChild(
-runeButton(
-keystone,
-STATE.keystone===keystone,
-()=>{
-
-STATE.keystone=keystone;
-
-renderRunes();
-calculate();
-
-}
-)
-);
-
-});
-
-primaryCol.appendChild(keyGrid);
-
-primary.rows.forEach((row,index)=>{
-
-const rowDiv=document.createElement("div");
-
-rowDiv.className="rune-row";
-
-row.forEach(rune=>{
-
-rowDiv.appendChild(
-
-runeButton(
-rune,
-STATE.primarySelections[index+1]===rune,
-()=>{
-
-STATE.primarySelections[index+1]=rune;
-
-renderRunes();
-calculate();
-
-}
-)
-
-);
-
-});
-
-primaryCol.appendChild(rowDiv);
-
-});
-
-/* SECONDARY */
-
-const secondaryCol=document.createElement("div");
-
-secondaryCol.className="rune-tree-column";
-
-secondaryCol.innerHTML=`
-<div class="rune-tree-header">
-SECONDARY — ${secondary.name}
-</div>
-`;
-
-secondary.rows.forEach(row=>{
-
-const rowDiv=document.createElement("div");
-
-rowDiv.className="rune-row";
-
-row.forEach(rune=>{
-
-rowDiv.appendChild(
-
-runeButton(
-rune,
-STATE.secondarySelections.includes(rune),
-()=>{
-
-if(
-STATE.secondarySelections.includes(rune)
-){
-
-STATE.secondarySelections=
-STATE.secondarySelections.filter(
-r=>r!==rune
-);
-
-}else{
-
-if(
-STATE.secondarySelections.length >= 2
-){
-return;
+  // Shards
+  renderShards();
 }
 
-STATE.secondarySelections.push(rune);
-
+function renderShards(){
+  const c=document.getElementById('shards-wrap'); c.innerHTML='';
+  SHARDS.forEach((opts,i)=>{
+    const col=document.createElement('div'); col.className='shard-slot';
+    col.appendChild(Object.assign(document.createElement('div'),{className:'section-lbl',textContent:`Slot ${i+1}`}));
+    opts.forEach(s=>{
+      const b=document.createElement('button');
+      b.className='shard-btn'+(STATE.sh[i]===s.id?' on':'');
+      b.innerHTML=`<img src="${s.img}" onerror="this.style.display='none'"/>${s.label}`;
+      b.onclick=()=>{STATE.sh[i]=s.id;renderShards();calc();};
+      col.appendChild(b);
+    });
+    c.appendChild(col);
+  });
 }
 
-renderRunes();
-calculate();
-
-}
-)
-
-);
-
-});
-
-secondaryCol.appendChild(rowDiv);
-
-});
-
-layout.appendChild(primaryCol);
-layout.appendChild(secondaryCol);
-
-root.appendChild(layout);
-
+// ─── ABILITY HASTE ───
+function getAH(){
+  let ah=0;
+  STATE.items.forEach(it=>{if(it) ah+=it.ah||0;});
+  const allRunes=[STATE.keystone,...STATE.pri,...STATE.sec,...STATE.sh];
+  allRunes.forEach(id=>{
+    const r=findRune(id); if(r&&r.stats&&r.stats.ah) ah+=r.stats.ah;
+  });
+  return ah;
 }
 
-/* =========================
-ABILITY HASTE
-========================= */
+function cdFormula(base,ah){return base*(100/(100+ah));}
 
-function getAbilityHaste(){
-
-let haste=0;
-
-STATE.items.forEach(item=>{
-
-if(!item) return;
-
-haste += item.stats.haste || 0;
-
-});
-
-const primaryRunes =
-Object.values(STATE.primarySelections);
-
-const secondaryRunes =
-STATE.secondarySelections;
-
-if(
-primaryRunes.includes("Legend: Haste")
-){
-haste += 15;
+// ─── SPELL RANKS (standard Urgot order: W max 9, Q after, E last) ───
+function spellRanks(lvl){
+  // Q: 1 point at lvl 1, then maxed after W
+  // W: maxed at lvl 9
+  // E: 1 point at lvl 2
+  // R: 6,11,16
+  const r=lvl>=16?3:lvl>=11?2:1;
+  const w=Math.min(5,lvl>=9?5:Math.max(1,lvl-Math.min(lvl,1)));
+  const e=1;
+  const q=Math.max(1,Math.min(5,lvl-w-e-(r-1)-1+1));
+  return {q:Math.min(5,Math.max(1,q)),w:Math.min(5,Math.max(1,w)),e:1,r};
 }
 
-if(
-primaryRunes.includes("Transcendence") ||
-secondaryRunes.includes("Transcendence")
-){
-haste += 10;
-}
+function calcSpells(){
+  const ah=getAH();
+  const ranks=spellRanks(STATE.level);
+  const qCD=cdFormula(SPELLS.Q.base[ranks.q-1],ah);
+  const wCD=ranks.w===5?0:cdFormula(SPELLS.W.base[ranks.w-1],ah);
+  const eCD=cdFormula(SPELLS.E.base[ranks.e-1],ah);
+  const rCD=cdFormula(SPELLS.R.base[ranks.r-1],ah);
 
-return haste;
-
-}
-
-function cooldownFormula(baseCD,haste){
-
-return baseCD * (
-100 / (100 + haste)
-);
-
-}
-
-/* =========================
-SPELL CALC
-========================= */
-
-function calculateSpellCooldowns(){
-
-const haste = getAbilityHaste();
-
-/* SKILL ORDER */
-
-const qRank =
-Math.min(
-5,
-Math.max(
-1,
-Math.floor((STATE.level+1)/2)
-)
-);
-
-const wRank =
-STATE.level >= 9
-? 5
-: Math.min(
-5,
-Math.floor(STATE.level/2)
-);
-
-const eRank =
-Math.min(
-5,
-Math.floor((STATE.level-1)/4)+1
-);
-
-const rRank =
-STATE.level >= 16
-? 3
-: STATE.level >= 11
-? 2
-: 1;
-
-const qCD =
-cooldownFormula(
-SPELLS.Q.base[qRank-1],
-haste
-);
-
-const wCD =
-cooldownFormula(
-SPELLS.W.base[wRank-1],
-haste
-);
-
-const eCD =
-cooldownFormula(
-SPELLS.E.base[eRank-1],
-haste
-);
-
-const rCD =
-cooldownFormula(
-SPELLS.R.base[rRank-1],
-haste
-);
-
-document.getElementById(
-"spellCooldowns"
-).innerHTML = `
-
-<div class="passive-title">
-Ability Cooldowns
-</div>
-
+  document.getElementById('spellCooldowns').innerHTML=`
+<div class="passive-title">Ability Cooldowns (AH: ${Math.round(ah)})</div>
 <div class="spell-grid">
+  <div class="spell-card"><div class="spell-name">Q — ${SPELLS.Q.name}</div><div class="spell-cd">${qCD.toFixed(2)}s</div><div class="spell-scaling">Base: ${SPELLS.Q.base[ranks.q-1]}s · Rang ${ranks.q}/5</div></div>
+  <div class="spell-card"><div class="spell-name">W — ${SPELLS.W.name}</div><div class="spell-cd">${wCD===0?'Toggle':wCD.toFixed(2)+'s'}</div><div class="spell-scaling">Rang ${ranks.w}/5${ranks.w===5?' — Toggle infini':''}</div></div>
+  <div class="spell-card"><div class="spell-name">E — ${SPELLS.E.name}</div><div class="spell-cd">${eCD.toFixed(2)}s</div><div class="spell-scaling">Base: ${SPELLS.E.base[ranks.e-1]}s · Rang ${ranks.e}/5</div></div>
+  <div class="spell-card"><div class="spell-name">R — ${SPELLS.R.name}</div><div class="spell-cd">${rCD.toFixed(2)}s</div><div class="spell-scaling">Base: ${SPELLS.R.base[ranks.r-1]}s · Rang ${ranks.r}/3</div></div>
+  <div class="spell-card"><div class="spell-name">Formule</div><div class="spell-cd" style="font-size:14px;line-height:1.5">CD × 100 / (100 + AH)</div><div class="spell-scaling">AH actuel: ${Math.round(ah)}</div></div>
+</div>`;
 
-<div class="spell-card">
+  // Passive Echoing Flames
+  const ADR=[.40,.40,.40,.40,.60,.60,.60,.60,.80,.80,.80,.80,1,.95,1,1,1,1.05,1.05,1.10];
+  const HPR=[.02,.02,.02,.02,.02,.02,.02,.02,.02,.02,.02,.02,.04,.04,.04,.05,.06,.06,.06,.06];
+  const LCDS=[30,28,26,22,18,15,12,10,8,6,4.5,3.5,2.5,2.5,2.5,2.5,2.5,2.5,2.5,2.5];
+  const lvl=STATE.level;
+  const adR=ADR[lvl-1]||1.10, hpR=HPR[lvl-1]||.06, legCD=LCDS[lvl-1]||2.5;
 
-<div class="spell-name">
-Q — ${SPELLS.Q.name}
-</div>
-
-<div class="spell-cd">
-${qCD.toFixed(2)}s
-</div>
-
-<div class="spell-scaling">
-Base: ${SPELLS.Q.base[qRank-1]}s
-<br>
-Rank ${qRank}/5
-</div>
-
-</div>
-
-<div class="spell-card">
-
-<div class="spell-name">
-W — ${SPELLS.W.name}
-</div>
-
-<div class="spell-cd">
-${wCD.toFixed(2)}s
-</div>
-
-<div class="spell-scaling">
-Base: ${SPELLS.W.base[wRank-1]}s
-<br>
-Rank ${wRank}/5
-</div>
-
-</div>
-
-<div class="spell-card">
-
-<div class="spell-name">
-E — ${SPELLS.E.name}
-</div>
-
-<div class="spell-cd">
-${eCD.toFixed(2)}s
-</div>
-
-<div class="spell-scaling">
-Base: ${SPELLS.E.base[eRank-1]}s
-<br>
-Rank ${eRank}/5
-</div>
-
-</div>
-
-<div class="spell-card">
-
-<div class="spell-name">
-R — ${SPELLS.R.name}
-</div>
-
-<div class="spell-cd">
-${rCD.toFixed(2)}s
-</div>
-
-<div class="spell-scaling">
-Base: ${SPELLS.R.base[rRank-1]}s
-<br>
-Rank ${rRank}/3
-</div>
-
-</div>
-
-<div class="spell-card">
-
-<div class="spell-name">
-Ability Haste
-</div>
-
-<div class="spell-cd">
-${Math.round(haste)}
-</div>
-
-<div class="spell-scaling">
-Formula:
-<br>
-Cooldown × 100 / (100 + Haste)
-</div>
-
-</div>
-
-</div>
-
-`;
-
+  // Get total AD and HP from calc result (we call from calc so they're computed)
+  return {adR,hpR,legCD};
 }
 
-/* =========================
-CALCULATE STATS
-========================= */
+// ─── MAIN CALC ───
+function calc(){
+  const lvl=STATE.level;
 
-function calculate(){
+  // Base stats
+  let hp    = grow(BASE.hp.base,   BASE.hp.growth,   lvl);
+  let ad    = grow(BASE.ad.base,   BASE.ad.growth,   lvl);
+  let armor = grow(BASE.armor.base,BASE.armor.growth,lvl);
+  let mr    = grow(BASE.mr.base,   BASE.mr.growth,   lvl);
+  let as    = growAS(BASE.asBase,  BASE.asGrowth,    lvl);
+  let hp5   = grow(BASE.hpReg.base,BASE.hpReg.growth,lvl)*5;
+  const bHP=hp, bAD=ad, bArmor=armor, bMR=mr;
+  let ms=BASE.ms, crit=0, ls=0, ah=0, leth=0, apen=0, mrpen=0, omni=0, ten=0, ms_pct=0;
 
-const lvl=STATE.level;
+  // Rune stats
+  const allRuneIds=[STATE.keystone,...STATE.pri,...STATE.sec,...STATE.sh];
+  allRuneIds.forEach(id=>{
+    if(!id) return;
+    const r=findRune(id); if(!r||!r.stats) return;
+    const s=r.stats;
+    if(s.hp==='scaling') hp+=shardHP(lvl);
+    else if(s.hp) hp+=s.hp;
+    if(s.ad)      ad+=s.ad;
+    if(s.armor)   armor+=s.armor;
+    if(s.mr)      mr+=s.mr;
+    if(s.as)      as=Math.min(as*(1+s.as),2.5);
+    if(s.crit)    crit+=s.crit;
+    if(s.ls)      ls+=s.ls;
+    if(s.ah)      ah+=s.ah;
+    if(s.leth)    leth+=s.leth;
+    if(s.apen)    apen+=s.apen;
+    if(s.mrpen)   mrpen+=s.mrpen;
+    if(s.omni)    omni+=s.omni;
+    if(s.tenacity)ten+=s.tenacity;
+    if(s.ms_flat) ms+=s.ms_flat;
+    if(s.ms_pct)  ms_pct+=s.ms_pct;
+  });
 
-const stats={
+  // Item stats
+  let bonusHP_items=0;
+  let hasBloodmail=false,hasJaksho=false,hasBC=false;
+  STATE.items.forEach(it=>{
+    if(!it) return;
+    hp+=it.hp||0; bonusHP_items+=it.hp||0;
+    ad+=it.ad||0; armor+=it.armor||0; mr+=it.mr||0;
+    if(it.ah) ah+=it.ah;
+    if(it.as) as=Math.min(as*(1+it.as),2.5);
+    if(it.crit) crit+=it.crit;
+    if(it.ls)   ls+=it.ls;
+    if(it.leth) leth+=it.leth;
+    if(it.apen) apen+=it.apen;
+    if(it.mrpen)mrpen+=it.mrpen;
+    if(it.omni) omni+=it.omni;
+    if(it.ms)   ms+=it.ms;
+    if(it.ms_pct)ms_pct+=it.ms_pct;
+    if(it.special){
+      if(it.special.bloodmail)hasBloodmail=true;
+      if(it.special.jaksho)  hasJaksho=true;
+      if(it.special.bc)      hasBC=true;
+    }
+  });
 
-hp:0,
-mana:0,
-ad:0,
-armor:0,
-mr:0,
-haste:0,
-attackSpeedPercent:0,
-ms:0,
-msPercent:0
+  const totalBonusHP=hp-bHP;
+  // Bloodmail: +4% AD per 100 bonus HP
+  let bloodmailAD=0;
+  if(hasBloodmail) bloodmailAD=Math.floor(totalBonusHP/100)*0.04*(ad-bAD);
+  ad+=bloodmailAD;
+  // Jak'Sho at 6 stacks: +12% resists
+  let jakArmor=0,jakMR=0;
+  if(hasJaksho){jakArmor=armor*0.12; jakMR=mr*0.12; armor+=jakArmor; mr+=jakMR;}
+  // MS pct
+  if(ms_pct) ms=Math.floor(ms*(1+ms_pct));
 
-};
+  const ehpP=hp*(1+armor/100);
+  const ehpM=hp*(1+mr/100);
+  const bonusAD=ad-bAD;
 
-stats.hp += statGrowth(BASE.hp.base,BASE.hp.growth,lvl);
-stats.mana += statGrowth(BASE.mana.base,BASE.mana.growth,lvl);
-stats.ad += statGrowth(BASE.ad.base,BASE.ad.growth,lvl);
-stats.armor += statGrowth(BASE.armor.base,BASE.armor.growth,lvl);
-stats.mr += statGrowth(BASE.mr.base,BASE.mr.growth,lvl);
+  // Spell CDs
+  const leg=calcSpells();
+  const legAD=ad*leg.adR;
+  const legHP=hp*leg.hpR;
 
-const baseHP = stats.hp;
-const baseAD = stats.ad;
+  // Render stats
+  const g=document.getElementById('stats');
+  function s(ico,name,val,bonus){
+    const bStr=bonus!==undefined&&bonus>0?`<div class="stat-bonus">+${Math.round(bonus)}</div>`:'';
+    return `<div class="stat"><div class="stat-name">${ico} ${name}</div><div class="stat-value">${typeof val==='number'?Math.round(val*100)/100:val}</div>${bStr}</div>`;
+  }
+  g.innerHTML=
+    s('❤️','Health',        hp,     hp-bHP)+
+    s('⚔️','Attack Damage', ad,     bonusAD)+
+    s('🛡','Armor',          armor,  armor-bArmor)+
+    s('🔮','Magic Resist',  mr,     mr-bMR)+
+    s('⚡','Attack Speed',  as.toFixed(3))+
+    s('💨','Move Speed',    Math.round(ms))+
+    s('🩹','HP Regen /5s',  hp5.toFixed(1))+
+    s('🎯','Crit Chance',   crit+'%')+
+    s('🩸','Life Steal',    ls+'%')+
+    s('⏱','Ability Haste', Math.round(ah))+
+    s('🔪','Lethality',     Math.round(leth))+
+    s('📐','Armor Pen %',   apen+'%')+
+    s('🌀','Magic Pen %',   mrpen+'%')+
+    s('💊','Omnivamp',      omni+'%')+
+    (ten?s('🧊','Tenacity %',ten+'%'):'')+
+    s('🏋','EHP vs Phys',  Math.round(ehpP))+
+    s('🔥','EHP vs Magic', Math.round(ehpM));
 
-STATE.items.forEach(item=>{
+  // Passive leg info
+  let notes='';
+  if(hasBloodmail&&bloodmailAD>0.5) notes+=`<div class="leg-stat">Bloodmail bonus: <strong>+${Math.round(bloodmailAD)} AD</strong></div>`;
+  if(hasJaksho)notes+=`<div class="leg-stat">Jak'Sho 6 stacks: <strong>+${Math.round(jakArmor)} armor / +${Math.round(jakMR)} MR</strong></div>`;
+  if(hasBC)    notes+=`<div class="leg-stat">Black Cleaver: <strong>6×6% = 36% armor shred max</strong></div>`;
 
-if(!item) return;
+  const legBox=document.createElement('div'); legBox.className='leg-box';
+  legBox.innerHTML=`<div class="leg-title">⚙ Echoing Flames — Niveau ${STATE.level}</div><div class="leg-grid">
+    <div class="leg-stat">AD/leg: <strong>${Math.round(leg.adR*100)}% = ${Math.round(legAD)}</strong></div>
+    <div class="leg-stat">HP%/leg: <strong>${Math.round(leg.hpR*100)}% = ${Math.round(legHP)}</strong></div>
+    <div class="leg-stat">Burst 6 legs: <strong>${Math.round(legAD*6)} AD + ${Math.round(legHP*6)} HP</strong></div>
+    <div class="leg-stat">CD/leg: <strong>${leg.legCD}s</strong></div>
+    ${notes}</div>`;
+  document.getElementById('spellCooldowns').appendChild(legBox);
+}
 
-Object.entries(item.stats).forEach(([key,val])=>{
-
-stats[key]=(stats[key] || 0)+val;
-
+// ─── INIT ───
+document.getElementById('levelSlider').addEventListener('input',e=>{
+  STATE.level=parseInt(e.target.value);
+  document.getElementById('levelText').textContent=`Level ${STATE.level}`;
+  calc();
 });
-
-});
-
-const bonusHP =
-stats.hp - baseHP;
-
-/* PASSIVES */
-
-STATE.items.forEach(item=>{
-
-if(!item || !item.passive) return;
-
-if(item.passive.hpToAD){
-
-stats.ad += bonusHP * .02;
-
-}
-
-if(item.passive.bloodmail){
-
-stats.ad +=
-Math.floor(bonusHP / 100) * 2;
-
-}
-
-if(item.passive.sterakBonusAD){
-
-stats.ad += baseAD * .25;
-
-}
-
-});
-
-const totalAS = Math.min(
-attackSpeed(lvl) *
-(1 + stats.attackSpeedPercent),
-2.5
-);
-
-let totalMS =
-BASE.moveSpeed +
-(stats.ms || 0);
-
-if(stats.msPercent){
-
-totalMS *= (1 + stats.msPercent);
-
-}
-
-document.getElementById("stats").innerHTML = `
-
-<div class="stat">
-<div class="stat-name">Health</div>
-<div class="stat-value">${Math.round(stats.hp)}</div>
-</div>
-
-<div class="stat">
-<div class="stat-name">Attack Damage</div>
-<div class="stat-value">${Math.round(stats.ad)}</div>
-</div>
-
-<div class="stat">
-<div class="stat-name">Armor</div>
-<div class="stat-value">${Math.round(stats.armor)}</div>
-</div>
-
-<div class="stat">
-<div class="stat-name">Magic Resist</div>
-<div class="stat-value">${Math.round(stats.mr)}</div>
-</div>
-
-<div class="stat">
-<div class="stat-name">Attack Speed</div>
-<div class="stat-value">${totalAS.toFixed(3)}</div>
-</div>
-
-<div class="stat">
-<div class="stat-name">Move Speed</div>
-<div class="stat-value">${Math.round(totalMS)}</div>
-</div>
-
-`;
-
-calculateSpellCooldowns();
-
-}
-
-/* =========================
-LEVEL
-========================= */
-
-document
-.getElementById("levelSlider")
-.addEventListener("input",(e)=>{
-
-STATE.level=parseInt(e.target.value);
-
-document.getElementById(
-"levelText"
-).textContent=`Level ${STATE.level}`;
-
-calculate();
-
-});
-
-/* =========================
-INIT
-========================= */
-
-async function init(){
-
-renderTreeSelectors();
 
 renderSlots();
-
 renderRunes();
-
-calculate();
-
-await loadItems();
-
-}
-
-init();
-
+calc();
+loadItems();
 </script>
-
 </body>
 </html>
