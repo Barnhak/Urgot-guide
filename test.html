@@ -430,6 +430,10 @@ function itemImg(id){
 return `https://ddragon.leagueoflegends.com/cdn/${PATCH}/img/item/${id}.png`;
 }
 
+/* =========================
+URGOT BASE STATS
+========================= */
+
 const BASE = {
 
 hp:{base:655,growth:102},
@@ -445,6 +449,10 @@ attackSpeedGrowth:3.75,
 moveSpeed:330
 
 };
+
+/* =========================
+LEVEL SCALING
+========================= */
 
 function statGrowth(base,growth,level){
 
@@ -469,13 +477,9 @@ BASE.attackSpeedRatio * (
 
 }
 
-function scalingShardHP(level){
-
-return Math.round(
-10 + (190 / 19) * (level - 1)
-);
-
-}
+/* =========================
+RUNES
+========================= */
 
 const RUNES = {
 
@@ -506,59 +510,6 @@ rows:[
 ]
 },
 
-domination:{
-name:"Domination",
-keystones:[
-"Electrocute",
-"Dark Harvest",
-"Hail of Blades",
-"Predator"
-],
-rows:[
-[
-"Cheap Shot",
-"Taste of Blood",
-"Sudden Impact"
-],
-[
-"Zombie Ward",
-"Ghost Poro",
-"Eyeball Collection"
-],
-[
-"Treasure Hunter",
-"Relentless Hunter",
-"Ultimate Hunter"
-]
-]
-},
-
-sorcery:{
-name:"Sorcery",
-keystones:[
-"Summon Aery",
-"Arcane Comet",
-"Phase Rush"
-],
-rows:[
-[
-"Nullifying Orb",
-"Manaflow Band",
-"Nimbus Cloak"
-],
-[
-"Transcendence",
-"Celerity",
-"Absolute Focus"
-],
-[
-"Scorch",
-"Waterwalking",
-"Gathering Storm"
-]
-]
-},
-
 resolve:{
 name:"Resolve",
 keystones:[
@@ -583,35 +534,46 @@ rows:[
 "Unflinching"
 ]
 ]
-},
-
-inspiration:{
-name:"Inspiration",
-keystones:[
-"Glacial Augment",
-"First Strike",
-"Unsealed Spellbook"
-],
-rows:[
-[
-"Hextech Flashtraption",
-"Magical Footwear",
-"Cash Back"
-],
-[
-"Triple Tonic",
-"Biscuit Delivery",
-"Time Warp Tonic"
-],
-[
-"Cosmic Insight",
-"Approach Velocity",
-"Jack of All Trades"
-]
-]
 }
 
 };
+
+/* =========================
+ITEM PASSIVES
+========================= */
+
+const ITEM_PASSIVES = {
+
+/* TITANIC HYDRA */
+3748:{
+hpToAD:0.02
+},
+
+/* OVERLORD'S BLOODMAIL */
+2501:{
+bloodmail:true
+},
+
+/* STERAK */
+3053:{
+sterakBonusAD:0.25
+},
+
+/* JAKSHO */
+6665:{
+resistAmp:0.12
+},
+
+/* BLACK CLEAVER */
+3071:{
+armorShred:30
+}
+
+};
+
+/* =========================
+STATE
+========================= */
 
 let ITEMS = [];
 
@@ -637,6 +599,63 @@ secondarySelections:[],
 activeSlot:null
 
 };
+
+/* =========================
+ITEMS
+========================= */
+
+async function loadItems(){
+
+const res = await fetch(
+`https://ddragon.leagueoflegends.com/cdn/${PATCH}/data/en_US/item.json`
+);
+
+const data = await res.json();
+
+ITEMS = Object.entries(data.data)
+.map(([id,item])=>({
+
+id:Number(id),
+
+name:item.name,
+
+stats:{
+
+hp:item.stats.FlatHPPoolMod || 0,
+mana:item.stats.FlatMPPoolMod || 0,
+ad:item.stats.FlatPhysicalDamageMod || 0,
+armor:item.stats.FlatArmorMod || 0,
+mr:item.stats.FlatSpellBlockMod || 0,
+
+attackSpeedPercent:
+(item.stats.PercentAttackSpeedMod || 0),
+
+crit:
+(item.stats.FlatCritChanceMod || 0) * 100,
+
+ms:
+item.stats.FlatMovementSpeedMod || 0,
+
+msPercent:
+item.stats.PercentMovementSpeedMod || 0
+
+},
+
+boots:item.tags?.includes("Boots") || false,
+
+image:itemImg(id),
+
+passive: ITEM_PASSIVES[id] || null
+
+}));
+
+renderItems();
+
+}
+
+/* =========================
+SLOTS
+========================= */
 
 function renderSlots(){
 
@@ -704,52 +723,9 @@ return STATE.items.some(i=>i && i.boots);
 
 }
 
-async function loadItems(){
-
-const res = await fetch(
-`https://ddragon.leagueoflegends.com/cdn/${PATCH}/data/en_US/item.json`
-);
-
-const data = await res.json();
-
-ITEMS = Object.entries(data.data)
-.map(([id,item])=>({
-
-id:Number(id),
-
-name:item.name,
-
-stats:{
-
-hp:item.stats.FlatHPPoolMod || 0,
-mana:item.stats.FlatMPPoolMod || 0,
-ad:item.stats.FlatPhysicalDamageMod || 0,
-armor:item.stats.FlatArmorMod || 0,
-mr:item.stats.FlatSpellBlockMod || 0,
-
-attackSpeedPercent:
-(item.stats.PercentAttackSpeedMod || 0),
-
-crit:
-(item.stats.FlatCritChanceMod || 0) * 100,
-
-ms:
-item.stats.FlatMovementSpeedMod || 0,
-
-msPercent:
-item.stats.PercentMovementSpeedMod || 0
-
-},
-
-boots:item.tags?.includes("Boots") || false,
-
-image:itemImg(id)
-
-}));
-
-renderItems();
-
-}
+/* =========================
+ITEM RENDER
+========================= */
 
 function renderItems(){
 
@@ -806,6 +782,10 @@ root.appendChild(div);
 document
 .getElementById("searchInput")
 .addEventListener("input",renderItems);
+
+/* =========================
+RUNES
+========================= */
 
 function renderTreeSelectors(){
 
@@ -1043,6 +1023,10 @@ root.appendChild(layout);
 
 }
 
+/* =========================
+CALCULATIONS
+========================= */
+
 function calculate(){
 
 const lvl=STATE.level;
@@ -1060,11 +1044,18 @@ msPercent:0
 
 };
 
+/* BASE STATS */
+
 stats.hp += statGrowth(BASE.hp.base,BASE.hp.growth,lvl);
 stats.mana += statGrowth(BASE.mana.base,BASE.mana.growth,lvl);
 stats.ad += statGrowth(BASE.ad.base,BASE.ad.growth,lvl);
 stats.armor += statGrowth(BASE.armor.base,BASE.armor.growth,lvl);
 stats.mr += statGrowth(BASE.mr.base,BASE.mr.growth,lvl);
+
+const baseHP = stats.hp;
+const baseAD = stats.ad;
+
+/* ITEM STATS */
 
 STATE.items.forEach(item=>{
 
@@ -1077,6 +1068,64 @@ stats[key]=(stats[key] || 0) + val;
 });
 
 });
+
+/* BONUS HP */
+
+const bonusHP =
+stats.hp - baseHP;
+
+/* =========================
+PASSIVES
+========================= */
+
+STATE.items.forEach(item=>{
+
+if(!item || !item.passive) return;
+
+/* TITANIC */
+
+if(item.passive.hpToAD){
+
+stats.ad +=
+bonusHP * item.passive.hpToAD;
+
+}
+
+/* BLOODMAIL */
+
+if(item.passive.bloodmail){
+
+stats.ad +=
+Math.floor(bonusHP / 100) * 2;
+
+}
+
+/* STERAK */
+
+if(item.passive.sterakBonusAD){
+
+stats.ad +=
+baseAD * item.passive.sterakBonusAD;
+
+}
+
+/* JAKSHO */
+
+if(item.passive.resistAmp){
+
+stats.armor *=
+(1 + item.passive.resistAmp);
+
+stats.mr *=
+(1 + item.passive.resistAmp);
+
+}
+
+});
+
+/* =========================
+FINAL STATS
+========================= */
 
 const totalAS = Math.min(
 attackSpeed(lvl) *
@@ -1094,6 +1143,60 @@ totalMS *= (1 + stats.msPercent);
 
 }
 
+const ehpPhys =
+Math.round(
+stats.hp * (1 + stats.armor / 100)
+);
+
+const ehpMagic =
+Math.round(
+stats.hp * (1 + stats.mr / 100)
+);
+
+/* =========================
+PASSIVE LEGS
+========================= */
+
+const LEG_TABLE = [
+
+{ad:.40,hp:.02,cd:30},
+{ad:.40,hp:.02,cd:28},
+{ad:.40,hp:.02,cd:26},
+{ad:.40,hp:.02,cd:22},
+{ad:.60,hp:.02,cd:18},
+{ad:.60,hp:.02,cd:15},
+{ad:.60,hp:.02,cd:12},
+{ad:.60,hp:.02,cd:10},
+{ad:.80,hp:.02,cd:8},
+{ad:.80,hp:.02,cd:6},
+{ad:.80,hp:.02,cd:4.5},
+{ad:.80,hp:.02,cd:3.5},
+{ad:1,hp:.04,cd:2.5},
+{ad:1,hp:.04,cd:2.5},
+{ad:1,hp:.04,cd:2.5},
+{ad:1.05,hp:.05,cd:2.5},
+{ad:1.05,hp:.06,cd:2.5},
+{ad:1.05,hp:.06,cd:2.5},
+{ad:1.10,hp:.06,cd:2.5},
+{ad:1.10,hp:.06,cd:2.5}
+
+];
+
+const legs = LEG_TABLE[lvl-1];
+
+const legAD =
+stats.ad * legs.ad;
+
+const legHP =
+stats.hp * legs.hp;
+
+const burst6 =
+(legAD + legHP) * 6;
+
+/* =========================
+STATS DISPLAY
+========================= */
+
 document.getElementById("stats").innerHTML = `
 
 <div class="stat">
@@ -1102,13 +1205,18 @@ document.getElementById("stats").innerHTML = `
 </div>
 
 <div class="stat">
-<div class="stat-name">Mana</div>
-<div class="stat-value">${Math.round(stats.mana)}</div>
+<div class="stat-name">Bonus Health</div>
+<div class="stat-value">${Math.round(bonusHP)}</div>
 </div>
 
 <div class="stat">
 <div class="stat-name">Attack Damage</div>
 <div class="stat-value">${Math.round(stats.ad)}</div>
+</div>
+
+<div class="stat">
+<div class="stat-name">Bonus AD</div>
+<div class="stat-value">${Math.round(stats.ad - baseAD)}</div>
 </div>
 
 <div class="stat">
@@ -1131,9 +1239,69 @@ document.getElementById("stats").innerHTML = `
 <div class="stat-value">${Math.round(totalMS)}</div>
 </div>
 
+<div class="stat">
+<div class="stat-name">Physical EHP</div>
+<div class="stat-value">${ehpPhys}</div>
+</div>
+
+<div class="stat">
+<div class="stat-name">Magic EHP</div>
+<div class="stat-value">${ehpMagic}</div>
+</div>
+
+`;
+
+/* =========================
+PASSIVE DISPLAY
+========================= */
+
+document.getElementById("passiveBox").innerHTML = `
+
+<div class="passive-title">
+Echoing Flames — Passive Legs
+</div>
+
+<div class="passive-grid">
+
+<div class="stat">
+<div class="stat-name">Leg AD Ratio</div>
+<div class="stat-value">${Math.round(legs.ad*100)}%</div>
+</div>
+
+<div class="stat">
+<div class="stat-name">Leg HP Ratio</div>
+<div class="stat-value">${Math.round(legs.hp*100)}%</div>
+</div>
+
+<div class="stat">
+<div class="stat-name">Leg Damage (AD)</div>
+<div class="stat-value">${Math.round(legAD)}</div>
+</div>
+
+<div class="stat">
+<div class="stat-name">Leg Damage (HP)</div>
+<div class="stat-value">${Math.round(legHP)}</div>
+</div>
+
+<div class="stat">
+<div class="stat-name">6 Legs Burst</div>
+<div class="stat-value">${Math.round(burst6)}</div>
+</div>
+
+<div class="stat">
+<div class="stat-name">Leg Cooldown</div>
+<div class="stat-value">${legs.cd}s</div>
+</div>
+
+</div>
+
 `;
 
 }
+
+/* =========================
+LEVEL SLIDER
+========================= */
 
 document
 .getElementById("levelSlider")
@@ -1147,6 +1315,10 @@ document.getElementById("levelText").textContent =
 calculate();
 
 });
+
+/* =========================
+INIT
+========================= */
 
 async function init(){
 
