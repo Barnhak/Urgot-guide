@@ -1,705 +1,638 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Stats Calculator — Urgot Guide</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Urgot Stats Calculator</title>
+
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Rajdhani:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+
 <style>
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{--green:#4ADE80;--green-mid:#22C55E;--green-dark:#15803D;--bg:#060D07;--bg-surface:#0B1A0D;--bg-card:#0F2211;--border:#1A3D1E;--border-bright:#2D6A33;--text:#A8D4A0;--text-dim:#4A7550;--text-bright:#E8F5E2;--blue:#0BC4E3;--red:#C84B4B;--orange:#E67E22;--gold:#C89B3C;}
-body{background:var(--bg);color:var(--text);font-family:'Rajdhani',sans-serif;font-size:15px;overflow-x:hidden;background-image:radial-gradient(ellipse 80% 40% at 50% -5%,rgba(74,222,128,.04) 0%,transparent 60%),repeating-linear-gradient(0deg,transparent,transparent 49px,rgba(26,61,30,.08) 50px),repeating-linear-gradient(90deg,transparent,transparent 49px,rgba(26,61,30,.08) 50px);}
-.hero{position:relative;height:280px;display:flex;align-items:center;justify-content:center;overflow:hidden}
-.hero-bg{position:absolute;inset:0;background:url('https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Urgot_2.jpg') center 30%/cover no-repeat;filter:brightness(.22) saturate(.5);animation:heroZoom 20s ease-in-out infinite alternate}
-@keyframes heroZoom{from{transform:scale(1.03)}to{transform:scale(1.08)}}
-.hero-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(6,13,7,.4) 0%,rgba(6,13,7,0) 40%,rgba(6,13,7,.85) 85%,var(--bg) 100%)}
-.hero-content{position:relative;text-align:center}
-.hero-eyebrow{font-family:'Cinzel',serif;font-size:10px;letter-spacing:.4em;color:var(--green-mid);text-transform:uppercase;margin-bottom:.5rem;opacity:.8}
-.hero-title{font-family:'Cinzel',serif;font-size:clamp(22px,4vw,42px);font-weight:900;color:var(--text-bright);letter-spacing:.08em;text-shadow:0 0 60px rgba(74,222,128,.15),0 4px 20px rgba(0,0,0,.9)}
-.hero-title span{color:var(--green)}
-.hero-sub{font-size:12px;letter-spacing:.15em;color:var(--text-dim);text-transform:uppercase;margin-top:.5rem}
-.main{max-width:1100px;margin:0 auto;padding:1.5rem 1.5rem 5rem}
-.card{background:var(--bg-surface);border:1px solid var(--border);border-radius:4px;padding:1.25rem;margin-bottom:1rem;position:relative}
-.card::before{content:'';position:absolute;inset:0;border-radius:4px;border:1px solid transparent;background:linear-gradient(135deg,rgba(74,222,128,.07),transparent 40%) border-box;-webkit-mask:linear-gradient(#fff 0 0) padding-box,linear-gradient(#fff 0 0);-webkit-mask-composite:destination-out;mask-composite:exclude;pointer-events:none}
-.card-title{font-family:'Cinzel',serif;font-size:10px;letter-spacing:.22em;color:var(--green-dark);text-transform:uppercase;margin-bottom:1rem}
-/* LEVEL */
-.lvl-row{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
-.lvl-lbl{font-family:'Cinzel',serif;font-size:11px;letter-spacing:.15em;color:var(--green-mid);min-width:50px}
-input[type=range]{flex:1;min-width:160px;-webkit-appearance:none;height:4px;border-radius:2px;background:var(--border-bright);outline:none}
-input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:var(--green);cursor:pointer;border:2px solid var(--bg)}
-.lvl-num{font-family:'Cinzel',serif;font-size:22px;font-weight:900;color:var(--green);min-width:36px;text-align:center}
-/* ITEM SLOTS */
-.slots-row{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-bottom:8px}
-.slot{position:relative;aspect-ratio:1;border-radius:4px;border:2px dashed var(--border-bright);background:var(--bg-card);cursor:pointer;display:flex;align-items:center;justify-content:center;overflow:hidden;transition:border-color .2s}
-.slot:hover{border-color:var(--green-mid)}
-.slot.filled{border-style:solid}
-.slot img{width:100%;height:100%;object-fit:cover;border-radius:2px}
-.slot-n{font-family:'Cinzel',serif;font-size:10px;color:var(--text-dim)}
-.slot-x{position:absolute;top:2px;right:2px;width:14px;height:14px;background:rgba(200,75,75,.85);border-radius:2px;display:none;align-items:center;justify-content:center;font-size:9px;color:#fff;cursor:pointer;z-index:3}
-.slot:hover .slot-x{display:flex}
-/* MODAL */
-.overlay{position:fixed;inset:0;background:rgba(0,0,0,.78);z-index:600;display:none;align-items:center;justify-content:center}
-.overlay.open{display:flex}
-.modal{background:var(--bg-surface);border:1px solid var(--border-bright);border-radius:6px;width:min(740px,97vw);max-height:84vh;display:flex;flex-direction:column;overflow:hidden}
-.modal-hd{padding:.8rem 1.1rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
-.modal-title{font-family:'Cinzel',serif;font-size:11px;letter-spacing:.2em;color:var(--green);text-transform:uppercase}
-.modal-x{background:none;border:none;color:var(--text-dim);font-size:20px;cursor:pointer}
-.modal-x:hover{color:var(--text-bright)}
-.msearch{padding:.55rem 1.1rem;border-bottom:1px solid var(--border)}
-.msearch input{width:100%;background:var(--bg-card);border:1px solid var(--border-bright);border-radius:3px;color:var(--text-bright);font-family:'Rajdhani',sans-serif;font-size:14px;padding:6px 11px;outline:none}
-.msearch input:focus{border-color:var(--green-mid)}
-.mcat-bar{display:flex;gap:4px;padding:.45rem 1.1rem;flex-wrap:wrap;border-bottom:1px solid var(--border)}
-.mcat{font-family:'Cinzel',serif;font-size:8px;letter-spacing:.12em;padding:3px 8px;border-radius:20px;border:1px solid var(--border-bright);background:transparent;color:var(--text-dim);cursor:pointer;text-transform:uppercase;transition:all .15s;white-space:nowrap}
-.mcat.on{background:var(--green-dark);color:var(--text-bright);border-color:var(--green-dark)}
-.mcat:hover:not(.on){color:var(--green-mid)}
-.mgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(66px,1fr));gap:7px;padding:.9rem 1.1rem;overflow-y:auto;flex:1}
-.mitem{display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;padding:5px;border-radius:4px;border:1px solid transparent;transition:all .15s}
-.mitem:hover{background:var(--bg-card);border-color:var(--border-bright)}
-.mitem img{width:44px;height:44px;border-radius:4px;border:1px solid var(--border-bright)}
-.mitem span{font-size:9px;color:var(--text-dim);text-align:center;line-height:1.3;max-width:64px}
-.mitem:hover span{color:var(--text-bright)}
-/* RUNE SYSTEM */
-.rune-trees{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1rem}
-.tree-btn{font-family:'Cinzel',serif;font-size:10px;letter-spacing:.15em;padding:7px 14px;border-radius:4px;border:1px solid var(--border-bright);background:transparent;color:var(--text-dim);cursor:pointer;text-transform:uppercase;transition:all .15s;display:flex;align-items:center;gap:6px}
-.tree-btn img{width:20px;height:20px;border-radius:3px}
-.tree-btn.on{background:rgba(74,222,128,.1);border-color:var(--green-dark);color:var(--green)}
-.tree-btn.sec.on{background:rgba(11,196,227,.08);border-color:rgba(11,196,227,.4);color:var(--blue)}
-.tree-btn:hover:not(.on){color:var(--text-bright);border-color:var(--border-bright)}
-.rune-section-lbl{font-family:'Cinzel',serif;font-size:9px;letter-spacing:.18em;color:var(--text-dim);text-transform:uppercase;margin:.7rem 0 .35rem}
-.rune-row{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:.3rem}
-.rbtn{display:flex;align-items:center;gap:7px;background:var(--bg-card);border:1px solid var(--border);border-radius:3px;padding:5px 9px;cursor:pointer;transition:all .15s;font-size:12px;color:var(--text-dim);white-space:nowrap}
-.rbtn img{width:20px;height:20px;border-radius:3px;flex-shrink:0}
-.rbtn:hover{border-color:var(--border-bright);color:var(--text-bright)}
-.rbtn.on{border-color:var(--green-dark);background:rgba(74,222,128,.09);color:var(--green)}
-.rbtn.on.sec{border-color:rgba(11,196,227,.4);background:rgba(11,196,227,.07);color:var(--blue)}
-/* STATS */
-.stats-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px}
-.srow{display:flex;align-items:center;gap:9px;background:var(--bg-card);border:1px solid var(--border);border-radius:4px;padding:8px 12px;transition:border-color .2s}
-.srow:hover{border-color:var(--border-bright)}
-.sico{font-size:15px;width:22px;text-align:center;flex-shrink:0}
-.sbody{flex:1;min-width:0}
-.sname{font-family:'Cinzel',serif;font-size:9px;letter-spacing:.12em;color:var(--text-dim);text-transform:uppercase}
-.sval{font-size:18px;font-weight:700;color:var(--text-bright);line-height:1.1}
-.sval em{font-size:11px;color:var(--green-mid);font-style:normal;margin-left:4px}
-.sbar{height:3px;background:var(--border);border-radius:2px;margin-top:3px;overflow:hidden}
-.sfill{height:100%;border-radius:2px;transition:width .4s ease}
-.passive-box{background:var(--bg-card);border:1px solid var(--border-bright);border-radius:4px;padding:.9rem;margin-top:.9rem}
-.passive-title{font-family:'Cinzel',serif;font-size:9px;letter-spacing:.2em;color:var(--green);text-transform:uppercase;margin-bottom:.6rem}
-.passive-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(165px,1fr));gap:5px}
-.pstat{font-size:12px;color:var(--text)}
-.pstat strong{color:var(--green-mid)}
-footer{border-top:1px solid var(--border);padding:1.5rem 1rem;text-align:center;font-size:11px;letter-spacing:.08em;color:var(--text-dim);margin-top:1rem}
-footer a{color:var(--green-dark);text-decoration:none}
+*{margin:0;padding:0;box-sizing:border-box}
+
+:root{
+--bg:#08100A;
+--card:#0E1A11;
+--border:#204028;
+--green:#4ADE80;
+--green2:#22C55E;
+--txt:#CFEBCB;
+--txt2:#6D9671;
+--red:#C84B4B;
+}
+
+body{
+background:var(--bg);
+color:var(--txt);
+font-family:'Rajdhani',sans-serif;
+padding:24px;
+}
+
+h1{
+font-family:'Cinzel',serif;
+margin-bottom:24px;
+font-size:38px;
+}
+
+.card{
+background:var(--card);
+border:1px solid var(--border);
+border-radius:8px;
+padding:18px;
+margin-bottom:18px;
+}
+
+.title{
+font-family:'Cinzel',serif;
+font-size:12px;
+letter-spacing:.18em;
+color:var(--green2);
+margin-bottom:16px;
+text-transform:uppercase;
+}
+
+.slots{
+display:grid;
+grid-template-columns:repeat(6,70px);
+gap:10px;
+}
+
+.slot{
+width:70px;
+height:70px;
+border:2px dashed var(--border);
+background:#111;
+display:flex;
+align-items:center;
+justify-content:center;
+cursor:pointer;
+border-radius:6px;
+overflow:hidden;
+position:relative;
+}
+
+.slot img{
+width:100%;
+height:100%;
+object-fit:cover;
+}
+
+.remove{
+position:absolute;
+top:2px;
+right:2px;
+width:16px;
+height:16px;
+border-radius:3px;
+background:var(--red);
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:11px;
+color:#fff;
+cursor:pointer;
+}
+
+.stats{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:10px;
+}
+
+.stat{
+background:#132017;
+border:1px solid #1f3525;
+padding:12px;
+border-radius:6px;
+}
+
+.stat-name{
+font-size:11px;
+letter-spacing:.12em;
+color:var(--txt2);
+text-transform:uppercase;
+margin-bottom:6px;
+}
+
+.stat-value{
+font-size:24px;
+font-weight:700;
+}
+
+.modal{
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.85);
+display:none;
+align-items:center;
+justify-content:center;
+z-index:100;
+}
+
+.modal.open{
+display:flex;
+}
+
+.modal-box{
+width:min(900px,95vw);
+max-height:85vh;
+overflow:auto;
+background:var(--card);
+border:1px solid var(--border);
+border-radius:8px;
+padding:18px;
+}
+
+.item-grid{
+display:grid;
+grid-template-columns:repeat(auto-fill,minmax(90px,1fr));
+gap:10px;
+}
+
+.item{
+background:#122017;
+border:1px solid #203426;
+padding:8px;
+border-radius:6px;
+cursor:pointer;
+text-align:center;
+}
+
+.item:hover{
+border-color:var(--green);
+}
+
+.item img{
+width:52px;
+height:52px;
+margin-bottom:6px;
+}
+
+.item span{
+font-size:11px;
+display:block;
+}
+
+.close{
+margin-bottom:12px;
+background:#17261A;
+border:1px solid var(--border);
+padding:8px 12px;
+color:var(--txt);
+cursor:pointer;
+}
+
+.runes{
+display:flex;
+flex-wrap:wrap;
+gap:8px;
+}
+
+.rune{
+padding:8px 12px;
+background:#122017;
+border:1px solid #28402D;
+border-radius:6px;
+cursor:pointer;
+font-size:13px;
+}
+
+.rune.active{
+border-color:var(--green);
+color:var(--green);
+}
+
+input[type=range]{
+width:100%;
+margin-top:12px;
+}
 </style>
 </head>
+
 <body>
-<section class="hero">
-  <div class="hero-bg"></div><div class="hero-overlay"></div>
-  <div class="hero-content">
-    <p class="hero-eyebrow">Urgot Guide</p>
-    <h1 class="hero-title">Stats <span>Calculator</span></h1>
-    <p class="hero-sub">Level 1–20 · Items · Runes — patch 16.9.1</p>
-  </div>
-</section>
-<div class="main">
-  <div class="card">
-    <p class="card-title">✦ Champion Level</p>
-    <div class="lvl-row">
-      <span class="lvl-lbl">Level</span>
-      <input type="range" id="lvl" min="1" max="20" value="9"/>
-      <span class="lvl-num" id="lvl-n">9</span>
-    </div>
-  </div>
-  <div class="card">
-    <p class="card-title">✦ Items — 6 slots</p>
-    <div class="slots-row" id="slots"></div>
-    <div style="font-size:11px;color:var(--text-dim)">Passifs calculés : Overlord's Bloodmail, Jak'Sho, BC shred…</div>
-  </div>
-  <div class="card" id="rune-card">
-    <p class="card-title">✦ Runes — Arbre Primaire & Secondaire</p>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem" id="rune-panes">
-      <div id="pane-primary">
-        <div class="rune-section-lbl">Arbre Primaire</div>
-        <div class="rune-trees" id="primary-trees"></div>
-        <div id="primary-runes"></div>
-      </div>
-      <div id="pane-secondary">
-        <div class="rune-section-lbl">Arbre Secondaire</div>
-        <div class="rune-trees" id="secondary-trees"></div>
-        <div id="secondary-runes"></div>
-      </div>
-    </div>
-    <div style="margin-top:1rem">
-      <div class="rune-section-lbl">Fragments (Shards)</div>
-      <div id="shards-ui"></div>
-    </div>
-  </div>
-  <div class="card">
-    <p class="card-title">✦ Statistiques Urgot</p>
-    <div class="stats-grid" id="stats-grid"></div>
-    <div class="passive-box" id="passive-box"></div>
-  </div>
+
+<h1>Urgot Stats Calculator</h1>
+
+<div class="card">
+<div class="title">Champion Level</div>
+
+<div style="font-size:28px" id="lvlText">Level 9</div>
+
+<input type="range" min="1" max="18" value="9" id="lvl">
 </div>
-<div class="overlay" id="overlay">
-  <div class="modal">
-    <div class="modal-hd"><span class="modal-title">Item Shop</span><button class="modal-x" id="mx">✕</button></div>
-    <div class="msearch"><input type="text" id="iq" placeholder="Rechercher un item…" oninput="fItems()"/></div>
-    <div class="mcat-bar" id="mcat-bar"></div>
-    <div class="mgrid" id="mgrid"></div>
-  </div>
+
+<div class="card">
+<div class="title">Items</div>
+
+<div class="slots" id="slots"></div>
 </div>
-<footer>Not affiliated with Riot Games &nbsp;·&nbsp; <a href="https://www.twitch.tv/quante" target="_blank">Quante — Twitch ↗</a></footer>
+
+<div class="card">
+<div class="title">Runes</div>
+
+<div class="runes" id="runes"></div>
+</div>
+
+<div class="card">
+<div class="title">Stats</div>
+
+<div class="stats" id="stats"></div>
+</div>
+
+<div class="modal" id="modal">
+<div class="modal-box">
+
+<button class="close" onclick="closeModal()">Fermer</button>
+
+<div class="item-grid" id="itemGrid"></div>
+
+</div>
+</div>
+
 <script>
-// ════════════════════════════════════════════════════
-// BASE STATS Urgot patch 16.9.1  (level 1 values + growth)
-// Source: wiki.leagueoflegends.com/en-us/Urgot
-// ════════════════════════════════════════════════════
-var BASE={
-  hp:    {b:585,  g:88   },
-  hpReg: {b:6.25, g:0.7  },
-  mp:    {b:340,  g:40   },
-  mpReg: {b:7.5,  g:0.8  },
-  ad:    {b:55,   g:4    },
-  as:    {b:0.625,g:0.0375}, // g = growth% per level (3.75%)
-  armor: {b:36,   g:4.25 },
-  mr:    {b:32,   g:1.25 },
-  ms:330, range:350
-};
-// Riot curved growth formula: base + g * n * (0.7025 + 0.0175*n)  n=lvl-1
-function grow(b,g,lvl){if(lvl<=1)return b;var n=lvl-1;return b+g*n*(0.7025+0.0175*n);}
-// AS = base * (1 + g% * (lvl-1)), cap 2.5
-function growAS(b,g,lvl){return Math.min(b*(1+g*(lvl-1)),2.5);}
-// Shard HP formula: 10 + (190/(17))*(lvl-1) = 10 to 200 across lvl 1-18, capped at 18
-function shardHP(lvl){return Math.round(10+(190/17)*Math.min(lvl-1,17));}
 
-// ════════════════════════════════════════════════════
-// ITEM DATABASE  (patch 16.9.1)
-// Fields: id, n, cat, img, hp, ad, armor, mr, as_pct, crit, ls, ah, leth, apen, mrpen, omni, ms
-// special: passive handled in calc()
-// ════════════════════════════════════════════════════
-var DDI=function(id){return 'https://ddragon.leagueoflegends.com/cdn/16.9.1/img/item/'+id+'.png';};
-var ITEMS=[
-// BOOTS
-{id:3047,n:"Plated Steelcaps",cat:"Boots",img:DDI(3047),hp:0,ad:0,armor:20,mr:0,as_pct:0,crit:0,ls:0,ah:0,leth:0,apen:0,mrpen:0,omni:0,ms:45},
-{id:3111,n:"Mercury's Treads",cat:"Boots",img:DDI(3111),hp:0,ad:0,armor:0,mr:20,as_pct:0,crit:0,ls:0,ah:0,leth:0,apen:0,mrpen:0,omni:0,ms:45},
-{id:223008,n:"Gluttonous Greaves",cat:"Boots",img:DDI(223008),hp:0,ad:0,armor:0,mr:0,as_pct:0,crit:0,ls:8,ah:0,leth:0,apen:0,mrpen:0,omni:0,ms:45},
-{id:3009,n:"Boots of Swiftness",cat:"Boots",img:DDI(3009),hp:0,ad:0,armor:0,mr:0,as_pct:0,crit:0,ls:0,ah:0,leth:0,apen:0,mrpen:0,omni:0,ms:60},
-{id:3020,n:"Sorcerer's Shoes",cat:"Boots",img:DDI(3020),hp:0,ad:0,armor:0,mr:0,as_pct:0,crit:0,ls:0,ah:0,leth:0,apen:0,mrpen:18,omni:0,ms:45},
-{id:3158,n:"Ionian Boots",cat:"Boots",img:DDI(3158),hp:0,ad:0,armor:0,mr:0,as_pct:0,crit:0,ls:0,ah:15,leth:0,apen:0,mrpen:0,omni:0,ms:45},
-{id:3006,n:"Berserker's Greaves",cat:"Boots",img:DDI(3006),hp:0,ad:0,armor:0,mr:0,as_pct:0.35,crit:0,ls:0,ah:0,leth:0,apen:0,mrpen:0,omni:0,ms:45},
-// BRUISER/FIGHTER
-{id:3071,n:"Black Cleaver",cat:"Fighter",img:DDI(3071),hp:400,ad:40,armor:0,mr:0,as_pct:0,crit:0,ls:0,ah:20,leth:0,apen:0,mrpen:0,omni:0,ms:0,note:"6×6% armor shred"},
-{id:3053,n:"Sterak's Gage",cat:"Fighter",img:DDI(3053),hp:400,ad:0,armor:0,mr:0,as_pct:0,crit:0,ls:0,ah:0,leth:0,apen:0,mrpen:0,omni:0,ms:0,note:"Shield on low HP"},
-{id:2501,n:"Overlord's Bloodmail",cat:"Fighter",img:DDI(2501),hp:400,ad:40,armor:0,mr:0,as_pct:0,crit:0,ls:0,ah:0,leth:0,apen:0,mrpen:0,omni:0,ms:0,special:"bloodmail",note:"+4% AD/100 bonus HP"},
-{id:6609,n:"Chempunk Chainsword",cat:"Fighter",img:DDI(6609),hp:250,ad:50,armor:0,mr:0,as_pct:0,crit:0,ls:0,ah:15,leth:0,apen:0,mrpen:0,omni:0,ms:0},
-{id:6695,n:"Serpent's Fang",cat:"Fighter",img:DDI(6695),hp:0,ad:55,armor:0,mr:0,as_pct:0,crit:0,ls:0,ah:0,leth:18,apen:0,mrpen:0,omni:0,ms:0},
-{id:6333,n:"Death's Dance",cat:"Fighter",img:DDI(6333),hp:0,ad:55,armor:45,mr:0,as_pct:0,crit:0,ls:0,ah:15,leth:0,apen:0,mrpen:0,omni:0,ms:0},
-{id:3156,n:"Maw of Malmortius",cat:"Fighter",img:DDI(3156),hp:0,ad:55,armor:0,mr:50,as_pct:0,crit:0,ls:0,ah:15,leth:0,apen:0,mrpen:0,omni:0,ms:0},
-{id:3748,n:"Titanic Hydra",cat:"Fighter",img:DDI(3748),hp:600,ad:40,armor:0,mr:0,as_pct:0,crit:0,ls:0,ah:20,leth:0,apen:0,mrpen:0,omni:0,ms:0},
-{id:223181,n:"Hullbreaker",cat:"Fighter",img:DDI(223181),hp:400,ad:40,armor:0,mr:0,as_pct:0,crit:0,ls:0,ah:0,leth:0,apen:0,mrpen:0,omni:0,ms:0},
-{id:223161,n:"Spear of Shojin",cat:"Fighter",img:DDI(223161),hp:300,ad:40,armor:0,mr:0,as_pct:0,crit:0,ls:0,ah:20,leth:0,apen:0,mrpen:0,omni:0,ms:0},
-{id:6692,n:"Eclipse",cat:"Fighter",img:DDI(6692),hp:0,ad:55,armor:0,mr:0,as_pct:0,crit:0,ls:0,ah:15,leth:20,apen:0,mrpen:0,omni:0,ms:0},
-{id:3814,n:"Edge of Night",cat:"Fighter",img:DDI(3814),hp:250,ad:55,armor:0,mr:0,as_pct:0,crit:0,ls:0,ah:0,leth:20,apen:0,mrpen:0,omni:0,ms:0},
-{id:3033,n:"Mortal Reminder",cat:"Fighter",img:DDI(3033),hp:0,ad:30,armor:0,mr:0,as_pct:0,crit:0,ls:0,ah:0,leth:0,apen:30,mrpen:0,omni:0,ms:0},
-{id:3036,n:"Lord Dominik's",cat:"Fighter",img:DDI(3036),hp:0,ad:30,armor:0,mr:0,as_pct:0,crit:0,ls:0,ah:0,leth:0,apen:35,mrpen:0,omni:0,ms:0},
-// TANK
-{id:3742,n:"Deadman's Plate",cat:"Tank",img:DDI(3742),hp:300,ad:0,armor:50,mr:0,as_pct:0,crit:0,ls:0,ah:0,leth:0,apen:0,mrpen:0,omni:0,ms:5},
-{id:3143,n:"Randuin's Omen",cat:"Tank",img:DDI(3143),hp:400,ad:0,armor:60,mr:0,as_pct:0,crit:0,ls:0,ah:0,leth:0,apen:0,mrpen:0,omni:0,ms:0},
-{id:4401,n:"Force of Nature",cat:"Tank",img:DDI(4401),hp:350,ad:0,armor:0,mr:70,as_pct:0,crit:0,ls:0,ah:0,leth:0,apen:0,mrpen:0,omni:0,ms:5},
-{id:222504,n:"Rookern",cat:"Tank",img:DDI(222504),hp:300,ad:0,armor:0,mr:60,as_pct:0,crit:0,ls:0,ah:0,leth:0,apen:0,mrpen:0,omni:0,ms:0},
-{id:6665,n:"Jak'Sho, The Protean",cat:"Tank",img:DDI(6665),hp:300,ad:0,armor:30,mr:30,as_pct:0,crit:0,ls:0,ah:15,leth:0,apen:0,mrpen:0,omni:0,ms:0,special:"jaksho",note:"+12% resists at 6 stacks"},
-{id:3075,n:"Thornmail",cat:"Tank",img:DDI(3075),hp:350,ad:0,armor:60,mr:0,as_pct:0,crit:0,ls:0,ah:0,leth:0,apen:0,mrpen:0,omni:0,ms:0},
-{id:3076,n:"Bramble Vest",cat:"Tank",img:DDI(3076),hp:0,ad:0,armor:40,mr:0,as_pct:0,crit:0,ls:0,ah:0,leth:0,apen:0,mrpen:0,omni:0,ms:0},
-{id:3110,n:"Frozen Heart",cat:"Tank",img:DDI(3110),hp:0,ad:0,armor:80,mr:0,as_pct:0,crit:0,ls:0,ah:20,leth:0,apen:0,mrpen:0,omni:0,ms:0},
-{id:3083,n:"Warmog's Armor",cat:"Tank",img:DDI(3083),hp:800,ad:0,armor:0,mr:0,as_pct:0,crit:0,ls:0,ah:0,leth:0,apen:0,mrpen:0,omni:0,ms:0},
-{id:3065,n:"Spirit Visage",cat:"Tank",img:DDI(3065),hp:500,ad:0,armor:0,mr:60,as_pct:0,crit:0,ls:0,ah:10,leth:0,apen:0,mrpen:0,omni:0,ms:0},
-{id:2053,n:"Aegis of the Legion",cat:"Tank",img:DDI(2053),hp:200,ad:0,armor:0,mr:30,as_pct:0,crit:0,ls:0,ah:0,leth:0,apen:0,mrpen:0,omni:0,ms:0},
-// MARKSMAN / ADC
-{id:3031,n:"Infinity Edge",cat:"Marksman",img:DDI(3031),hp:0,ad:70,armor:0,mr:0,as_pct:0,crit:20,ls:0,ah:0,leth:0,apen:0,mrpen:0,omni:0,ms:0},
-{id:3094,n:"Rapid Firecannon",cat:"Marksman",img:DDI(3094),hp:0,ad:0,armor:0,mr:0,as_pct:0.30,crit:20,ls:0,ah:0,leth:0,apen:0,mrpen:0,omni:0,ms:7},
-{id:3046,n:"Phantom Dancer",cat:"Marksman",img:DDI(3046),hp:0,ad:0,armor:0,mr:0,as_pct:0.45,crit:20,ls:0,ah:0,leth:0,apen:0,mrpen:0,omni:0,ms:7},
-{id:3087,n:"Statikk Shiv",cat:"Marksman",img:DDI(3087),hp:0,ad:0,armor:0,mr:0,as_pct:0.30,crit:20,ls:0,ah:0,leth:0,apen:0,mrpen:0,omni:0,ms:5},
-{id:6672,n:"Kraken Slayer",cat:"Marksman",img:DDI(6672),hp:0,ad:40,armor:0,mr:0,as_pct:0.35,crit:20,ls:0,ah:0,leth:0,apen:0,mrpen:0,omni:0,ms:0},
-// MAGE / AP
-{id:3089,n:"Rabadon's Deathcap",cat:"Mage",img:DDI(3089),hp:0,ad:0,armor:0,mr:0,as_pct:0,crit:0,ls:0,ah:0,leth:0,apen:0,mrpen:0,omni:0,ms:0},
-{id:4645,n:"Shadowflame",cat:"Mage",img:DDI(4645),hp:0,ad:0,armor:0,mr:0,as_pct:0,crit:0,ls:0,ah:0,leth:0,apen:0,mrpen:10,omni:0,ms:0},
-{id:3135,n:"Void Staff",cat:"Mage",img:DDI(3135),hp:0,ad:0,armor:0,mr:0,as_pct:0,crit:0,ls:0,ah:0,leth:0,apen:0,mrpen:40,omni:0,ms:0},
-{id:3116,n:"Rylai's Crystal Scepter",cat:"Mage",img:DDI(3116),hp:350,ad:0,armor:0,mr:0,as_pct:0,crit:0,ls:0,ah:0,leth:0,apen:0,mrpen:0,omni:0,ms:0},
-// ASSASSIN
-{id:3142,n:"Youmuu's Ghostblade",cat:"Assassin",img:DDI(3142),hp:0,ad:55,armor:0,mr:0,as_pct:0,crit:0,ls:0,ah:15,leth:18,apen:0,mrpen:0,omni:0,ms:0},
-{id:6701,n:"Opportunity",cat:"Assassin",img:DDI(6701),hp:0,ad:55,armor:0,mr:0,as_pct:0,crit:0,ls:0,ah:0,leth:20,apen:0,mrpen:0,omni:0,ms:0},
-{id:4636,n:"Night Harvester",cat:"Assassin",img:DDI(4636),hp:300,ad:0,armor:0,mr:0,as_pct:0,crit:0,ls:0,ah:25,leth:0,apen:0,mrpen:0,omni:0,ms:0},
-// SUPPORT
-{id:3190,n:"Locket of the Iron Solari",cat:"Support",img:DDI(3190),hp:200,ad:0,armor:0,mr:30,as_pct:0,crit:0,ls:0,ah:20,leth:0,apen:0,mrpen:0,omni:0,ms:0},
-{id:3107,n:"Redemption",cat:"Support",img:DDI(3107),hp:200,ad:0,armor:0,mr:25,as_pct:0,crit:0,ls:0,ah:15,leth:0,apen:0,mrpen:0,omni:0,ms:0},
-{id:2065,n:"Shurelya's Battlesong",cat:"Support",img:DDI(2065),hp:200,ad:0,armor:0,mr:0,as_pct:0,crit:0,ls:0,ah:20,leth:0,apen:0,mrpen:0,omni:0,ms:5},
-// STARTER
-{id:1055,n:"Doran's Blade",cat:"Starter",img:DDI(1055),hp:80,ad:8,armor:0,mr:0,as_pct:0,crit:0,ls:0,ah:0,leth:0,apen:0,mrpen:0,omni:3,ms:0},
-{id:1054,n:"Doran's Shield",cat:"Starter",img:DDI(1054),hp:180,ad:0,armor:0,mr:0,as_pct:0,crit:0,ls:0,ah:0,leth:0,apen:0,mrpen:0,omni:0,ms:0},
-{id:1083,n:"Cull",cat:"Starter",img:DDI(1083),hp:0,ad:5,armor:0,mr:0,as_pct:0,crit:0,ls:0,ah:0,leth:0,apen:0,mrpen:0,omni:0,ms:0},
-// COMPONENTS
-{id:3044,n:"Phage",cat:"Component",img:DDI(3044),hp:200,ad:20,armor:0,mr:0,as_pct:0,crit:0,ls:0,ah:0,leth:0,apen:0,mrpen:0,omni:0,ms:0},
-{id:1037,n:"Pickaxe",cat:"Component",img:DDI(1037),hp:0,ad:25,armor:0,mr:0,as_pct:0,crit:0,ls:0,ah:0,leth:0,apen:0,mrpen:0,omni:0,ms:0},
-{id:1036,n:"Long Sword",cat:"Component",img:DDI(1036),hp:0,ad:10,armor:0,mr:0,as_pct:0,crit:0,ls:0,ah:0,leth:0,apen:0,mrpen:0,omni:0,ms:0},
-{id:1028,n:"Ruby Crystal",cat:"Component",img:DDI(1028),hp:150,ad:0,armor:0,mr:0,as_pct:0,crit:0,ls:0,ah:0,leth:0,apen:0,mrpen:0,omni:0,ms:0},
-{id:1029,n:"Cloth Armor",cat:"Component",img:DDI(1029),hp:0,ad:0,armor:15,mr:0,as_pct:0,crit:0,ls:0,ah:0,leth:0,apen:0,mrpen:0,omni:0,ms:0},
-{id:1033,n:"Null-Magic Mantle",cat:"Component",img:DDI(1033),hp:0,ad:0,armor:0,mr:25,as_pct:0,crit:0,ls:0,ah:0,leth:0,apen:0,mrpen:0,omni:0,ms:0},
-{id:3082,n:"Warden's Mail",cat:"Component",img:DDI(3082),hp:0,ad:0,armor:40,mr:0,as_pct:0,crit:0,ls:0,ah:0,leth:0,apen:0,mrpen:0,omni:0,ms:0},
+const BASE = {
+hp:{b:585,g:88},
+ad:{b:55,g:4},
+armor:{b:36,g:4.25},
+mr:{b:32,g:1.25},
+as:{b:0.625,g:0.0375},
+ms:330
+};
+
+function grow(base,growth,lvl){
+if(lvl===1) return base;
+const n=lvl-1;
+return base + growth*n*(0.7025+0.0175*n);
+}
+
+function growAS(base,growth,lvl){
+return Math.min(
+base*(1+growth*(lvl-1)),
+2.5
+);
+}
+
+const ITEMS = [
+
+{
+id:3071,
+name:"Black Cleaver",
+img:"https://ddragon.leagueoflegends.com/cdn/15.24.1/img/item/3071.png",
+hp:400,
+ad:40,
+armor:0,
+mr:0
+},
+
+{
+id:3053,
+name:"Sterak's Gage",
+img:"https://ddragon.leagueoflegends.com/cdn/15.24.1/img/item/3053.png",
+hp:400,
+ad:0,
+armor:0,
+mr:0
+},
+
+{
+id:6665,
+name:"Jak'Sho",
+img:"https://ddragon.leagueoflegends.com/cdn/15.24.1/img/item/6665.png",
+hp:350,
+ad:0,
+armor:45,
+mr:45
+},
+
+{
+id:3748,
+name:"Titanic Hydra",
+img:"https://ddragon.leagueoflegends.com/cdn/15.24.1/img/item/3748.png",
+hp:550,
+ad:40,
+armor:0,
+mr:0
+},
+
+{
+id:3047,
+name:"Plated Steelcaps",
+img:"https://ddragon.leagueoflegends.com/cdn/15.24.1/img/item/3047.png",
+hp:0,
+ad:0,
+armor:20,
+mr:0,
+boots:true
+},
+
+{
+id:3111,
+name:"Mercury's Treads",
+img:"https://ddragon.leagueoflegends.com/cdn/15.24.1/img/item/3111.png",
+hp:0,
+ad:0,
+armor:0,
+mr:20,
+boots:true
+}
+
 ];
 
-// ════════════════════════════════════════════════════
-// RUNE SYSTEM — Full 5-tree structure
-// Each rune: {id, label, img, stats, row, tree}
-// stats keys: hp, ad, armor, mr, as_pct, crit, ls, ah, leth, apen, mrpen, omni, ms_flat, ms_pct, tenacity
-// ════════════════════════════════════════════════════
-var RP='https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/perk-images/styles/';
+const RUNES = [
 
-var TREES={
-  precision:{
-    label:'Precision', color:'#c8aa6e',
-    img:'https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/perk-images/styles/7201_precision.png',
-    keystones:[
-      {id:'pta',    label:'Press the Attack', img:RP+'precision/presstheattack/presstheattack.png',      stats:{}},
-      {id:'lethal', label:'Lethal Tempo',      img:RP+'precision/lethaltempo/lethaltempoTemp.png',        stats:{as_pct:0.54}},
-      {id:'fleet',  label:'Fleet Footwork',   img:RP+'precision/fleetfootwork/fleetfootwork.png',        stats:{ms_flat:15}},
-      {id:'conq',   label:'Conqueror',         img:RP+'precision/conqueror/conqueror.png',                stats:{ad:28}},
-    ],
-    rows:[
-      [{id:'triumph',label:'Triumph',          img:RP+'precision/triumph.png',                           stats:{}},
-       {id:'pom',   label:'Presence of Mind', img:RP+'precision/presenceofmind/presenceofmind.png',     stats:{}}],
-      [{id:'bloodline',label:'Legend: Bloodline',img:RP+'precision/legendbloodline/legendbloodline.png', stats:{ls:6}},
-       {id:'alacrity',label:'Legend: Alacrity', img:RP+'precision/legendalacrity/legendalacrity.png',   stats:{as_pct:0.18}},
-       {id:'leghaste',label:'Legend: Haste',    img:RP+'precision/legendhaste/legendhaste.png',          stats:{ah:20}}],
-      [{id:'laststand',label:'Last Stand',      img:RP+'precision/laststand/laststand.png',              stats:{}},
-       {id:'cutdown', label:'Cut Down',         img:RP+'precision/cutdown/cutdown.png',                  stats:{}},
-       {id:'cdg',     label:'Coup de Grâce',    img:RP+'precision/coupdegrace.png',                      stats:{}}],
-    ]
-  },
-  domination:{
-    label:'Domination', color:'#c84b4b',
-    img:'https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/perk-images/styles/7200_domination.png',
-    keystones:[
-      {id:'electrocute',label:'Electrocute',   img:RP+'domination/electrocute/electrocute.png',          stats:{}},
-      {id:'darkharvest',label:'Dark Harvest',  img:RP+'domination/darkharvest/darkharvest.png',           stats:{}},
-      {id:'hob',        label:'Hail of Blades',img:RP+'domination/hailofblades/hailofblades.png',         stats:{as_pct:0.75}},
-    ],
-    rows:[
-      [{id:'cheapshot',label:'Cheap Shot',    img:RP+'domination/cheapshot/cheapshot.png',               stats:{}},
-       {id:'tasteofblood',label:'Taste of Blood',img:RP+'domination/tasteofblood/greenterror_tasteofblood.png',stats:{ls:3}},
-       {id:'suddenimpact',label:'Sudden Impact',img:RP+'domination/suddenimpact/suddenimpact.png',       stats:{leth:7}}],
-      [{id:'sixthsense',label:'Sixth Sense',  img:RP+'domination/sixthsense.png',                        stats:{}},
-       {id:'grisley',  label:'Grisly Mementos',img:RP+'domination/grislymementos.png',                   stats:{}},
-       {id:'deepward', label:'Deep Ward',     img:RP+'domination/deepward.png',                          stats:{}}],
-      [{id:'treasurehunter',label:'Treasure Hunter',img:RP+'domination/treasurehunter/treasurehunter.png',stats:{}},
-       {id:'relentless',label:'Relentless Hunter',img:RP+'domination/relentlesshunter/slayer_relentlesshunter.png',stats:{ms_flat:30}},
-       {id:'ulthunter',label:'Ultimate Hunter',img:RP+'domination/ultimatehunter/slayer_ultimatehunter.png',stats:{ah:8}}],
-    ]
-  },
-  sorcery:{
-    label:'Sorcery', color:'#5b8dd9',
-    img:'https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/perk-images/styles/7202_sorcery.png',
-    keystones:[
-      {id:'aery',     label:'Summon Aery',    img:RP+'sorcery/summonaery/summonaery.png',                stats:{}},
-      {id:'comet',    label:'Arcane Comet',   img:RP+'sorcery/arcanecomet/arcanecomet.png',              stats:{}},
-      {id:'phaserush',label:'Phase Rush',     img:RP+'sorcery/phaserush/phaserush.png',                  stats:{ms_pct:0.15}},
-    ],
-    rows:[
-      [{id:'axiom',   label:'Axiom Arcanist', img:RP+'sorcery/axiom_arcanist.png',                       stats:{ah:10}},
-       {id:'manaflow',label:'Manaflow Band',  img:RP+'sorcery/manaflowband/manaflowband.png',            stats:{}},
-       {id:'nimbus',  label:'Nimbus Cloak',   img:RP+'sorcery/nimbuscloak.png',                          stats:{ms_flat:25}}],
-      [{id:'transcendence',label:'Transcendence',img:RP+'sorcery/transcendence/transcendence.png',       stats:{ah:5}},
-       {id:'celerity',label:'Celerity',       img:RP+'sorcery/celerity.png',                             stats:{ms_pct:0.07}},
-       {id:'absfocus',label:'Absolute Focus', img:RP+'sorcery/absolutefocus/absolutefocus.png',          stats:{}},
-       {id:'tripletonic',label:'Triple Tonic',img:RP+'sorcery/tripletonic.png',                          stats:{ah:10}}],
-      [{id:'scorch',  label:'Scorch',         img:RP+'sorcery/scorch/scorch.png',                        stats:{}},
-       {id:'waterwalk',label:'Waterwalking',  img:RP+'sorcery/waterwalking/waterwalking.png',            stats:{ms_flat:8}},
-       {id:'gatheringstorm',label:'Gathering Storm',img:RP+'sorcery/gatheringstorm/gatheringstorm.png',  stats:{ad:30}}],
-    ]
-  },
-  resolve:{
-    label:'Resolve', color:'#5cb85c',
-    img:'https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/perk-images/styles/7204_resolve.png',
-    keystones:[
-      {id:'grasp',    label:'Grasp of Undying',img:RP+'resolve/graspoftheundying/graspoftheundying.png', stats:{hp:80}},
-      {id:'vow',      label:'Glacial Augment', img:RP+'resolve/glacialaugment/glacialaugment.png',       stats:{}},
-      {id:'aftershock',label:'Aftershock',     img:RP+'resolve/aftershock/aftershock.png',               stats:{armor:35,mr:35}},
-    ],
-    rows:[
-      [{id:'demolish',label:'Demolish',       img:RP+'resolve/demolish/demolish.png',                   stats:{}},
-       {id:'fontoflife',label:'Font of Life',  img:RP+'resolve/fontoflife/fontoflife.png',               stats:{}},
-       {id:'shieldbash',label:'Shield Bash',   img:RP+'resolve/shieldbash/shieldbash.png',               stats:{}}],
-      [{id:'conditioning',label:'Conditioning',img:RP+'resolve/conditioning/conditioning.png',           stats:{armor:8,mr:8}},
-       {id:'secondwind',label:'Second Wind',   img:RP+'resolve/secondwind/secondwind.png',               stats:{}},
-       {id:'boneplating',label:'Bone Plating', img:RP+'resolve/boneplating/boneplating.png',             stats:{}}],
-      [{id:'revitalize',label:'Revitalize',    img:RP+'resolve/revitalize/revitalize.png',               stats:{}},
-       {id:'unflinching',label:'Unflinching',  img:RP+'resolve/unflinching/unflinching.png',             stats:{}},
-       {id:'overgrowth',label:'Overgrowth',    img:RP+'resolve/overgrowth/overgrowth.png',               stats:{hp:100}}],
-    ]
-  },
-  inspiration:{
-    label:'Inspiration', color:'#3dbaf7',
-    img:'https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/perk-images/styles/7203_whimsy.png',
-    keystones:[
-      {id:'firststrike',label:'First Strike',  img:RP+'inspiration/firststrike/firststrike.png',         stats:{}},
-      {id:'glacialaugment',label:'Glacial Augment',img:RP+'resolve/glacialaugment/glacialaugment.png',   stats:{}},
-      {id:'unsealed',  label:'Unsealed Spellbook',img:RP+'inspiration/unsealedspellbook/unsealedspellbook.png',stats:{ah:10}},
-    ],
-    rows:[
-      [{id:'cashback',label:'Cash Back',       img:RP+'inspiration/cashback/cashback.png',               stats:{}},
-       {id:'magicalfootwear',label:'Magical Footwear',img:RP+'inspiration/magicalfootwear/magicalfootwear.png',stats:{ms_flat:10}},
-       {id:'timewarptonic',label:'Time Warp Tonic',img:RP+'inspiration/timewarptonic/timewarptonic.png', stats:{}}],
-      [{id:'biscuits',label:'Biscuit Delivery',img:RP+'inspiration/biscuitdelivery/biscuitdelivery.png', stats:{hp:100}},
-       {id:'jackofalltrades',label:'Jack of All Trades',img:RP+'inspiration/jackofalltrades/jackofalltrades.png',stats:{ad:5}},
-       {id:'approachvel',label:'Approach Velocity',img:RP+'sorcery/approachvelocity/approachvelocity.png',stats:{}}],
-      [{id:'cosmicinsight',label:'Cosmic Insight',img:RP+'inspiration/cosmicinsight/cosmicinsight.png',  stats:{ah:15}},
-       {id:'memorymaze',label:'Absorb Life',    img:RP+'inspiration/absorb_life.png',                   stats:{}},
-       {id:'miniondem',label:"Future's Market", img:RP+'inspiration/futuresmarket/futuresmarket.png', stats:{}},
-    ]
-  }
-};
+{
+id:"conq",
+name:"Conqueror",
+ad:28
+},
 
-// SHARDS — exact values patch 16.9.1
-// Slot 1: 5.4 AD | 10% bonus AS | 8 AH
-// Slot 2: 5.4 AD | 2.5% MS | 10-200 HP (level based)
-// Slot 3: 65 HP | 15% tenacity | 10-200 HP (level based)
-var SHARDS=[
-  [{id:'sh1_ad',    label:'5.4 AD',            img:'https://ddragon.leagueoflegends.com/cdn/img/perk-images/StatMods/StatModsAdaptiveForceIcon.png', stats:{ad:5.4}},
-   {id:'sh1_as',    label:'10% Attack Speed',   img:'https://ddragon.leagueoflegends.com/cdn/img/perk-images/StatMods/StatModsAttackSpeedIcon.png',  stats:{as_pct:0.10}},
-   {id:'sh1_ah',    label:'8 Ability Haste',    img:'https://ddragon.leagueoflegends.com/cdn/img/perk-images/StatMods/StatModsCDRScalingIcon.png',    stats:{ah:8}}],
-  [{id:'sh2_ad',    label:'5.4 AD',             img:'https://ddragon.leagueoflegends.com/cdn/img/perk-images/StatMods/StatModsAdaptiveForceIcon.png', stats:{ad:5.4}},
-   {id:'sh2_ms',    label:'2.5% Move Speed',    img:'https://ddragon.leagueoflegends.com/cdn/img/perk-images/StatMods/StatModsMoveSpeedIcon.png',     stats:{ms_pct:0.025}},
-   {id:'sh2_hp',    label:'10–200 HP (scaling)',img:'https://ddragon.leagueoflegends.com/cdn/img/perk-images/StatMods/StatModsHealthScalingIcon.png', stats:{hp:'scaling'}}],
-  [{id:'sh3_hp65',  label:'65 HP',              img:'https://ddragon.leagueoflegends.com/cdn/img/perk-images/StatMods/StatModsHealthPlusIcon.png',    stats:{hp:65}},
-   {id:'sh3_tenacity',label:'15% Tenacity',     img:'https://ddragon.leagueoflegends.com/cdn/img/perk-images/StatMods/StatModsTenacityIcon.png',     stats:{tenacity:15}},
-   {id:'sh3_hp',    label:'10–200 HP (scaling)',img:'https://ddragon.leagueoflegends.com/cdn/img/perk-images/StatMods/StatModsHealthScalingIcon.png', stats:{hp:'scaling'}}],
+{
+id:"grasp",
+name:"Grasp",
+hp:80
+},
+
+{
+id:"aftershock",
+name:"Aftershock",
+armor:35,
+mr:35
+}
+
 ];
 
-// ════════════════════════════════════════════════════
-// STATE
-// ════════════════════════════════════════════════════
-var S={
-  lvl:9,
-  items:[null,null,null,null,null,null],
-  primaryTree:'precision',
-  secondaryTree:'sorcery',
-  keystone:null,
-  primary_r0:null, primary_r1:null, primary_r2:null, // 3 rows
-  sec_r0:null, sec_r1:null, // 2 secondary rows
-  sh0:'sh1_ad', sh1:'sh2_hp', sh2:'sh3_hp65',
-  activeSlot:null, activeCat:'All'
+const STATE = {
+lvl:9,
+items:[null,null,null,null,null,null],
+rune:"conq",
+activeSlot:null
 };
-// default PTA
-S.keystone='pta';
 
-// ════════════════════════════════════════════════════
-// ITEM SLOTS UI
-// ════════════════════════════════════════════════════
 function renderSlots(){
-  var g=document.getElementById('slots'); g.innerHTML='';
-  for(var i=0;i<6;i++){(function(idx){
-    var d=document.createElement('div');
-    var it=S.items[idx];
-    d.className='slot'+(it?' filled':'');
-    if(it){
-      d.innerHTML='<img src="'+it.img+'" title="'+it.n+'"/>'+
-        '<div class="slot-x" onclick="event.stopPropagation();rmSlot('+idx+')">✕</div>';
-    } else d.innerHTML='<span class="slot-n">'+(idx+1)+'</span>';
-    d.onclick=function(){openModal(idx);};
-    g.appendChild(d);
-  })(i);}
-}
-function rmSlot(i){S.items[i]=null;renderSlots();calc();}
 
-// MODAL
-var CAT_LIST=['All','Fighter','Tank','Boots','Marksman','Mage','Assassin','Support','Starter','Component'];
-function openModal(idx){
-  S.activeSlot=idx;
-  document.getElementById('overlay').classList.add('open');
-  document.getElementById('iq').value='';
-  renderMCats();renderMItems('');
-  setTimeout(function(){document.getElementById('iq').focus();},40);
-}
-function closeModal(){document.getElementById('overlay').classList.remove('open');S.activeSlot=null;}
-document.getElementById('mx').onclick=closeModal;
-document.getElementById('overlay').onclick=function(e){if(e.target===this)closeModal();};
-function renderMCats(){
-  var c=document.getElementById('mcat-bar'); c.innerHTML='';
-  CAT_LIST.forEach(function(cat){
-    var b=document.createElement('button'); b.className='mcat'+(S.activeCat===cat?' on':'');
-    b.textContent=cat;
-    b.onclick=function(){S.activeCat=cat;renderMCats();renderMItems(document.getElementById('iq').value);};
-    c.appendChild(b);
-  });
-}
-function fItems(){renderMItems(document.getElementById('iq').value);}
-function renderMItems(q){
-  var g=document.getElementById('mgrid'); g.innerHTML='';
-  var list=ITEMS.filter(function(it){
-    return (S.activeCat==='All'||it.cat===S.activeCat)&&(!q||it.n.toLowerCase().includes(q.toLowerCase()));
-  });
-  if(!list.length){g.innerHTML='<div style="color:var(--text-dim);padding:1rem;grid-column:1/-1">Aucun item</div>';return;}
-  list.forEach(function(item){
-    var d=document.createElement('div'); d.className='mitem';
-    d.innerHTML='<img src="'+item.img+'" alt="'+item.n+'"/><span>'+item.n+'</span>';
-    d.onclick=function(){if(S.activeSlot!==null){S.items[S.activeSlot]=item;closeModal();renderSlots();calc();}};
-    g.appendChild(d);
-  });
+const root=document.getElementById("slots");
+root.innerHTML="";
+
+STATE.items.forEach((item,index)=>{
+
+const div=document.createElement("div");
+div.className="slot";
+
+if(item){
+
+div.innerHTML=`
+<img src="${item.img}">
+<div class="remove">✕</div>
+`;
+
+div.querySelector(".remove").onclick=(e)=>{
+e.stopPropagation();
+STATE.items[index]=null;
+renderSlots();
+calc();
+};
+
+}else{
+
+div.innerHTML=`<span>${index+1}</span>`;
+
 }
 
-// ════════════════════════════════════════════════════
-// RUNE UI
-// ════════════════════════════════════════════════════
-var TREE_KEYS=['precision','domination','sorcery','resolve','inspiration'];
+div.onclick=()=>{
+openModal(index);
+};
 
-function renderTreeButtons(containerId, selectedTree, role, otherTree){
-  var c=document.getElementById(containerId); c.innerHTML='';
-  TREE_KEYS.forEach(function(tk){
-    if(role==='secondary'&&tk===S.primaryTree) return; // can't pick same as primary
-    var t=TREES[tk];
-    var b=document.createElement('button');
-    b.className='tree-btn'+(role==='secondary'?' sec':'')+(selectedTree===tk?' on':'');
-    b.innerHTML='<img src="'+t.img+'" onerror="this.style.display=\'none\'"/>'+t.label;
-    b.onclick=function(){
-      if(role==='primary'){
-        S.primaryTree=tk; S.keystone=null;
-        S.primary_r0=null;S.primary_r1=null;S.primary_r2=null;
-        if(S.secondaryTree===tk){S.secondaryTree=tk==='precision'?'sorcery':'precision';}
-        S.sec_r0=null;S.sec_r1=null;
-      } else {
-        S.secondaryTree=tk;
-        S.sec_r0=null;S.sec_r1=null;
-      }
-      renderRunes();calc();
-    };
-    c.appendChild(b);
-  });
+root.appendChild(div);
+
+});
+
 }
 
-function runeBtn(rune, stateKey, isSecondary){
-  var b=document.createElement('button');
-  var val=S[stateKey];
-  b.className='rbtn'+(val===rune.id?' on'+(isSecondary?' sec':''):'');
-  if(rune.img) b.innerHTML='<img src="'+rune.img+'" onerror="this.style.display=\'none\'"/>';
-  b.innerHTML+='<span>'+rune.label+'</span>';
-  b.onclick=function(){S[stateKey]=(S[stateKey]===rune.id?null:rune.id);renderRunes();calc();};
-  return b;
+function openModal(index){
+
+STATE.activeSlot=index;
+
+document.getElementById("modal").classList.add("open");
+
+renderItems();
+
+}
+
+function closeModal(){
+document.getElementById("modal").classList.remove("open");
+}
+
+function hasBoots(){
+
+return STATE.items.some(i=>i && i.boots);
+
+}
+
+function renderItems(){
+
+const root=document.getElementById("itemGrid");
+root.innerHTML="";
+
+ITEMS.forEach(item=>{
+
+const div=document.createElement("div");
+div.className="item";
+
+div.innerHTML=`
+<img src="${item.img}">
+<span>${item.name}</span>
+`;
+
+div.onclick=()=>{
+
+if(item.boots && hasBoots()){
+
+alert("Vous avez déjà des bottes.");
+return;
+
+}
+
+STATE.items[STATE.activeSlot]=item;
+
+closeModal();
+
+renderSlots();
+
+calc();
+
+};
+
+root.appendChild(div);
+
+});
+
 }
 
 function renderRunes(){
-  var pt=TREES[S.primaryTree], st=TREES[S.secondaryTree];
 
-  // tree selectors
-  renderTreeButtons('primary-trees', S.primaryTree, 'primary', S.secondaryTree);
-  renderTreeButtons('secondary-trees', S.secondaryTree, 'secondary', S.primaryTree);
+const root=document.getElementById("runes");
+root.innerHTML="";
 
-  // PRIMARY pane
-  var pp=document.getElementById('primary-runes'); pp.innerHTML='';
-  function addLbl(parent, txt){var d=document.createElement('div');d.className='rune-section-lbl';d.textContent=txt;parent.appendChild(d);}
-  function addRow(parent, runes, sk){var r=document.createElement('div');r.className='rune-row';runes.forEach(function(rn){r.appendChild(runeBtn(rn,sk,false));});parent.appendChild(r);}
+RUNES.forEach(r=>{
 
-  addLbl(pp,'Keystone');
-  addRow(pp, pt.keystones, 'keystone');
-  pt.rows.forEach(function(row,i){
-    addLbl(pp,'Ligne '+(i+1));
-    addRow(pp, row, 'primary_r'+i);
-  });
+const div=document.createElement("div");
 
-  // SECONDARY pane
-  var sp=document.getElementById('secondary-runes'); sp.innerHTML='';
-  addLbl(sp,'Ligne 1');
-  var r1=document.createElement('div'); r1.className='rune-row';
-  st.rows.forEach(function(row){row.forEach(function(rn){r1.appendChild(runeBtn(rn,'sec_r0',true));});});
-  sp.appendChild(r1);
-  addLbl(sp,'Ligne 2');
-  var r2=document.createElement('div'); r2.className='rune-row';
-  st.rows.forEach(function(row){row.forEach(function(rn){
-    var b=runeBtn(rn,'sec_r1',true);
-    // disable if already selected in sec_r0
-    if(S.sec_r0===rn.id){b.style.opacity='.35';b.style.pointerEvents='none';}
-    r2.appendChild(b);
-  });});
-  sp.appendChild(r2);
+div.className="rune";
 
-  // SHARDS
-  renderShards();
+if(STATE.rune===r.id){
+div.classList.add("active");
 }
 
-function renderShards(){
-  var c=document.getElementById('shards-ui'); c.innerHTML='';
-  var keys=['sh0','sh1','sh2'];
-  SHARDS.forEach(function(opts,i){
-    var row=document.createElement('div'); row.className='rune-row'; row.style.marginBottom='4px';
-    opts.forEach(function(rune){
-      var b=document.createElement('button');
-      b.className='rbtn'+(S[keys[i]]===rune.id?' on':'');
-      if(rune.img) b.innerHTML='<img src="'+rune.img+'" onerror="this.style.display=\'none\'"/>';
-      b.innerHTML+='<span>Slot '+(i+1)+': '+rune.label+'</span>';
-      b.onclick=(function(k,id){return function(){S[k]=id;renderShards();calc();};})(keys[i],rune.id);
-      row.appendChild(b);
-    });
-    c.appendChild(row);
-  });
+div.textContent=r.name;
+
+div.onclick=()=>{
+
+STATE.rune=r.id;
+
+renderRunes();
+
+calc();
+
+};
+
+root.appendChild(div);
+
+});
+
 }
 
-// ════════════════════════════════════════════════════
-// STATS CALCULATION
-// ════════════════════════════════════════════════════
-function getRuneById(id){
-  var all=[];
-  TREE_KEYS.forEach(function(tk){
-    var t=TREES[tk];
-    t.keystones.forEach(function(r){all.push(r);});
-    t.rows.forEach(function(row){row.forEach(function(r){all.push(r);});});
-  });
-  SHARDS.forEach(function(opts){opts.forEach(function(r){all.push(r);});});
-  return all.find(function(r){return r.id===id;})||null;
+function getRune(){
+
+return RUNES.find(r=>r.id===STATE.rune);
+
 }
 
 function calc(){
-  var lvl=S.lvl;
-  var rs={hp:0,ad:0,armor:0,mr:0,as_pct:0,crit:0,ls:0,ah:0,leth:0,apen:0,mrpen:0,omni:0,ms_flat:0,ms_pct:0,tenacity:0};
 
-  // collect rune stats
-  var runeIds=[S.keystone,S.primary_r0,S.primary_r1,S.primary_r2,S.sec_r0,S.sec_r1,S.sh0,S.sh1,S.sh2];
-  runeIds.forEach(function(rid){
-    if(!rid) return;
-    var r=getRuneById(rid); if(!r) return;
-    var st=r.stats||{};
-    Object.keys(st).forEach(function(k){
-      if(k==='hp' && st[k]==='scaling') rs.hp+=shardHP(lvl);
-      else if(rs[k]!==undefined) rs[k]+=st[k];
-    });
-  });
+const lvl=STATE.lvl;
 
-  // collect item stats
-  var is={hp:0,ad:0,armor:0,mr:0,as_pct:0,crit:0,ls:0,ah:0,leth:0,apen:0,mrpen:0,omni:0,ms:0};
-  var hasBloodmail=false,hasJaksho=false,hasBC=false;
-  S.items.forEach(function(it){
-    if(!it) return;
-    is.hp+=it.hp||0; is.ad+=it.ad||0; is.armor+=it.armor||0; is.mr+=it.mr||0;
-    is.as_pct+=it.as_pct||0; is.crit+=it.crit||0; is.ls+=it.ls||0;
-    is.ah+=it.ah||0; is.leth+=it.leth||0; is.apen+=it.apen||0;
-    is.mrpen+=it.mrpen||0; is.omni+=it.omni||0; is.ms+=it.ms||0;
-    if(it.special==='bloodmail') hasBloodmail=true;
-    if(it.special==='jaksho')    hasJaksho=true;
-    if(it.id===3071)             hasBC=true;
-  });
+const rune=getRune();
 
-  // base stats at level
-  var bHP   =grow(BASE.hp.b,   BASE.hp.g,   lvl);
-  var bAD   =grow(BASE.ad.b,   BASE.ad.g,   lvl);
-  var bArmor=grow(BASE.armor.b,BASE.armor.g,lvl);
-  var bMR   =grow(BASE.mr.b,   BASE.mr.g,   lvl);
-  var bAS   =growAS(BASE.as.b, BASE.as.g,   lvl);
-  var bHP5  =grow(BASE.hpReg.b,BASE.hpReg.g,lvl)*5;
+let hpBonus=0;
+let adBonus=0;
+let armorBonus=0;
+let mrBonus=0;
 
-  var bonusHP=is.hp+rs.hp;
+STATE.items.forEach(item=>{
 
-  // Overlord's Bloodmail: +4% bonus AD per 100 bonus HP
-  var bloodmailAD=0;
-  if(hasBloodmail) bloodmailAD=Math.floor(bonusHP/100)*0.04*(is.ad+rs.ad);
+if(!item) return;
 
-  // Jak'Sho: +12% to all resistances at 6 stacks
-  var jakArmorBonus=0,jakMRBonus=0;
-  if(hasJaksho){
-    jakArmorBonus=(bArmor+is.armor+rs.armor)*0.12;
-    jakMRBonus   =(bMR   +is.mr   +rs.mr  )*0.12;
-  }
+hpBonus += item.hp || 0;
+adBonus += item.ad || 0;
+armorBonus += item.armor || 0;
+mrBonus += item.mr || 0;
 
-  var totalHP    =bHP+bonusHP;
-  var totalAD    =bAD+is.ad+rs.ad+bloodmailAD;
-  var bonusAD    =totalAD-bAD;
-  var totalArmor =bArmor+is.armor+rs.armor+jakArmorBonus;
-  var totalMR    =bMR   +is.mr   +rs.mr   +jakMRBonus;
-  var totalAS    =Math.min(bAS*(1+is.as_pct+rs.as_pct),2.5);
-  var totalMS    =BASE.ms+is.ms+rs.ms_flat;
-  if(rs.ms_pct) totalMS=Math.floor(totalMS*(1+rs.ms_pct));
-  var totalCrit  =is.crit +rs.crit;
-  var totalLS    =is.ls   +rs.ls;
-  var totalAH    =is.ah   +rs.ah;
-  var totalLeth  =is.leth +rs.leth;
-  var totalApen  =is.apen +rs.apen;
-  var totalMrpen =is.mrpen+rs.mrpen;
-  var totalOmni  =is.omni +rs.omni;
-  var totalHP5   =bHP5;
-  var totalTenacity=rs.tenacity;
+});
 
-  // EHP
-  var ehpPhys =totalHP*(1+totalArmor/100);
-  var ehpMagic=totalHP*(1+totalMR/100);
+hpBonus += rune.hp || 0;
+adBonus += rune.ad || 0;
+armorBonus += rune.armor || 0;
+mrBonus += rune.mr || 0;
 
-  // Passive legs
-  // AD ratio: 40% lvl1-4 → 60% lvl5-8 → 80% lvl9-12 → 100% lvl13-18 → 105% lvl19-20
-  var ADR=[.40,.40,.40,.40,.60,.60,.60,.60,.80,.80,.80,.80,1.00,1.00,1.00,1.00,1.00,1.05,1.05,1.10];
-  var HPR=[.02,.02,.02,.02,.02,.02,.02,.02,.02,.02,.02,.02,.04,.04,.04,.05,.06,.06,.06,.06];
-  var LCDS=[30,28,26,22,18,15,12,10,8,6,4.5,3.5,2.5,2.5,2.5,2.5,2.5,2.5,2.5,2.5];
-  var adR=ADR[lvl-1]||1.10, hpR=HPR[lvl-1]||.06, legCD=LCDS[lvl-1]||2.5;
-  var legAD=totalAD*adR;
-  var legHP=totalHP*hpR;
+const hp = Math.round(
+grow(BASE.hp.b,BASE.hp.g,lvl)
++ hpBonus
+);
 
-  renderStats({lvl,totalHP,bHP,totalAD,bonusAD,totalArmor,totalMR,totalAS,totalMS,
-    totalCrit,totalLS,totalAH,totalLeth,totalApen,totalMrpen,totalOmni,totalHP5,
-    totalTenacity,ehpPhys,ehpMagic,legAD,legHP,legCD,adR,hpR,
-    hasBloodmail,bloodmailAD,hasJaksho,jakArmorBonus,jakMRBonus,hasBC});
+const ad = Math.round(
+grow(BASE.ad.b,BASE.ad.g,lvl)
++ adBonus
+);
+
+const armor = Math.round(
+grow(BASE.armor.b,BASE.armor.g,lvl)
++ armorBonus
+);
+
+const mr = Math.round(
+grow(BASE.mr.b,BASE.mr.g,lvl)
++ mrBonus
+);
+
+const atkSpeed = growAS(
+BASE.as.b,
+BASE.as.g,
+lvl
+).toFixed(3);
+
+const ehpPhys = Math.round(
+hp * (1 + armor/100)
+);
+
+const ehpMagic = Math.round(
+hp * (1 + mr/100)
+);
+
+const stats=document.getElementById("stats");
+
+stats.innerHTML=`
+
+<div class="stat">
+<div class="stat-name">Health</div>
+<div class="stat-value">${hp}</div>
+</div>
+
+<div class="stat">
+<div class="stat-name">Attack Damage</div>
+<div class="stat-value">${ad}</div>
+</div>
+
+<div class="stat">
+<div class="stat-name">Armor</div>
+<div class="stat-value">${armor}</div>
+</div>
+
+<div class="stat">
+<div class="stat-name">Magic Resist</div>
+<div class="stat-value">${mr}</div>
+</div>
+
+<div class="stat">
+<div class="stat-name">Attack Speed</div>
+<div class="stat-value">${atkSpeed}</div>
+</div>
+
+<div class="stat">
+<div class="stat-name">Move Speed</div>
+<div class="stat-value">${BASE.ms}</div>
+</div>
+
+<div class="stat">
+<div class="stat-name">EHP Physical</div>
+<div class="stat-value">${ehpPhys}</div>
+</div>
+
+<div class="stat">
+<div class="stat-name">EHP Magical</div>
+<div class="stat-value">${ehpMagic}</div>
+</div>
+
+`;
+
 }
 
-function renderStats(s){
-  function bar(v,max,col){return '<div class="sbar"><div class="sfill" style="width:'+Math.min(100,v/max*100)+'%;background:'+col+'"></div></div>';}
-  function row(ico,name,val,em,max,col){
-    var vf=typeof val==='number'?Math.round(val*100)/100:val;
-    return '<div class="srow"><div class="sico">'+ico+'</div><div class="sbody"><div class="sname">'+name+'</div>'+
-      '<div class="sval">'+vf+(em?'<em>'+em+'</em>':'')+'</div>'+(max?bar(val,max,col||'var(--green-dark)'):'')+
-      '</div></div>';
-  }
-  var g=document.getElementById('stats-grid');
-  g.innerHTML=
-    row('❤️','Health',        s.totalHP,  '+'+Math.round(s.totalHP-s.bHP),8000,'#c84b4b')+
-    row('⚔️','Attack Damage', s.totalAD,  '+'+Math.round(s.bonusAD),       600,'#e67e22')+
-    row('🛡','Armor',          s.totalArmor,null,400,'#d4b483')+
-    row('🔮','Magic Resist',  s.totalMR,  null,300,'#0bc4e3')+
-    row('⚡','Attack Speed',  +s.totalAS.toFixed(3),null,2.5,'#f0e68c')+
-    row('💨','Move Speed',    s.totalMS,  null,600,'#22c55e')+
-    row('🩹','HP Regen /5s',  +s.totalHP5.toFixed(1),null,0)+
-    row('🎯','Crit Chance',   s.totalCrit,null,100,'#c89b3c')+
-    row('🩸','Life Steal',    s.totalLS,  null,30,'#c84b4b')+
-    row('⏱','Ability Haste', s.totalAH,  null,0)+
-    row('🔪','Lethality',     s.totalLeth,null,60,'#e67e22')+
-    row('📐','Armor Pen %',   s.totalApen,null,0)+
-    row('🌀','Magic Pen %',   s.totalMrpen,null,0)+
-    row('💊','Omnivamp',      s.totalOmni,null,0)+
-    (s.totalTenacity?row('🧊','Tenacity %',s.totalTenacity,null,0):'')+
-    row('🏋','EHP vs Phys',  Math.round(s.ehpPhys), null,0)+
-    row('🔥','EHP vs Magic', Math.round(s.ehpMagic),null,0);
+document.getElementById("lvl").addEventListener("input",(e)=>{
 
-  var notes='';
-  if(s.hasBloodmail&&s.bloodmailAD>0.5) notes+='<div class="pstat">Bloodmail: <strong>+'+Math.round(s.bloodmailAD)+' AD bonus</strong></div>';
-  if(s.hasJaksho) notes+='<div class="pstat">Jak\'Sho 6 stacks: <strong>+'+Math.round(s.jakArmorBonus)+' armor / +'+Math.round(s.jakMRBonus)+' MR</strong></div>';
-  if(s.hasBC) notes+='<div class="pstat">Black Cleaver: <strong>6×6% = 36% armor shred max</strong></div>';
+STATE.lvl=parseInt(e.target.value);
 
-  document.getElementById('passive-box').innerHTML=
-    '<div class="passive-title">⚙ Echoing Flames — niveau '+s.lvl+'</div>'+
-    '<div class="passive-grid">'+
-      '<div class="pstat">Ratio AD/leg: <strong>'+Math.round(s.adR*100)+'% AD → '+Math.round(s.legAD)+' dmg</strong></div>'+
-      '<div class="pstat">Ratio HP%/leg: <strong>'+Math.round(s.hpR*100)+'% max HP → '+Math.round(s.legHP)+' dmg</strong></div>'+
-      '<div class="pstat">Burst 6 legs AD: <strong>'+Math.round(s.legAD*6)+'</strong></div>'+
-      '<div class="pstat">Burst 6 legs HP: <strong>'+Math.round(s.legHP*6)+'</strong></div>'+
-      '<div class="pstat">Cooldown/leg: <strong>'+s.legCD+'s</strong></div>'+
-      notes+
-    '</div>';
-}
+document.getElementById("lvlText").textContent=
+`Level ${STATE.lvl}`;
 
-// ════════════════════════════════════════════════════
-// INIT
-// ════════════════════════════════════════════════════
-document.getElementById('lvl').addEventListener('input',function(){
-  S.lvl=parseInt(this.value);
-  document.getElementById('lvl-n').textContent=this.value;
-  calc();
+calc();
+
 });
 
 renderSlots();
 renderRunes();
 calc();
+
 </script>
+
 </body>
 </html>
