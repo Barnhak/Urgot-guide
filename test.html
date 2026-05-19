@@ -1,954 +1,90 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1.0" />
+/* =========================
+REMPLACE TOUT LE CSS RUNES
+========================= */
 
-<title>Urgot Advanced Calculator — Season 2026</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
-
-<style>
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-}
-
-:root{
---bg:#071009;
---bg2:#0F1D12;
---card:#132417;
---border:#24422B;
---green:#4ADE80;
---green2:#22C55E;
---text:#D6F5D3;
---text2:#6B8F71;
---red:#C84B4B;
---gold:#D7B56D;
-}
-
-body{
-background:var(--bg);
-color:var(--text);
-font-family:'Rajdhani',sans-serif;
-padding:24px;
-}
-
-h1{
-font-family:'Cinzel',serif;
-font-size:42px;
-margin-bottom:24px;
-}
-
-.card{
-background:var(--bg2);
-border:1px solid var(--border);
-padding:20px;
-border-radius:8px;
-margin-bottom:20px;
-}
-
-.title{
-font-family:'Cinzel',serif;
-font-size:12px;
-letter-spacing:.18em;
-text-transform:uppercase;
-color:var(--green2);
-margin-bottom:16px;
-}
-
-.slider-wrap{
+.tree-selects{
 display:flex;
-align-items:center;
-gap:16px;
+gap:20px;
+margin-bottom:28px;
+flex-wrap:wrap;
 }
 
-#levelText{
-font-size:30px;
-font-weight:700;
-min-width:100px;
-}
-
-input[type=range]{
-width:100%;
-}
-
-.grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-gap:12px;
-}
-
-.stat{
-background:var(--card);
-border:1px solid #1F3624;
-padding:12px;
-border-radius:6px;
-}
-
-.stat-name{
-font-size:11px;
-letter-spacing:.12em;
-color:var(--text2);
-text-transform:uppercase;
-margin-bottom:6px;
-}
-
-.stat-value{
-font-size:24px;
-font-weight:700;
-}
-
-.slots{
-display:grid;
-grid-template-columns:repeat(6,70px);
-gap:10px;
-}
-
-.slot{
-width:70px;
-height:70px;
-background:#111;
-border:2px dashed var(--border);
+.runes-layout{
 display:flex;
-align-items:center;
-justify-content:center;
-cursor:pointer;
-border-radius:6px;
-overflow:hidden;
-position:relative;
+gap:28px;
+align-items:flex-start;
+flex-wrap:wrap;
 }
 
-.slot img{
-width:100%;
-height:100%;
-object-fit:cover;
-}
-
-.remove{
-position:absolute;
-top:2px;
-right:2px;
-width:16px;
-height:16px;
-border-radius:3px;
-background:var(--red);
-display:flex;
-align-items:center;
-justify-content:center;
-font-size:11px;
-color:#fff;
-cursor:pointer;
-}
-
-.modal{
-position:fixed;
-inset:0;
-background:rgba(0,0,0,.85);
-display:none;
-align-items:center;
-justify-content:center;
-z-index:100;
-}
-
-.modal.open{
-display:flex;
-}
-
-.modal-box{
-width:min(1300px,95vw);
-height:90vh;
-background:var(--bg2);
-border:1px solid var(--border);
-border-radius:8px;
-display:flex;
-flex-direction:column;
-overflow:hidden;
-}
-
-.modal-top{
-padding:16px;
-border-bottom:1px solid var(--border);
-display:flex;
-gap:12px;
-align-items:center;
-}
-
-.search{
-flex:1;
-padding:10px;
-background:#111;
-border:1px solid var(--border);
-color:var(--text);
-border-radius:6px;
-}
-
-.close{
-padding:10px 16px;
-background:#111;
-border:1px solid var(--border);
-color:var(--text);
-cursor:pointer;
-border-radius:6px;
-}
-
-.items{
-padding:18px;
-overflow:auto;
-display:grid;
-grid-template-columns:repeat(auto-fill,minmax(90px,1fr));
-gap:10px;
-}
-
-.item{
+.rune-tree-column{
+width:340px;
 background:var(--card);
 border:1px solid #203626;
-padding:8px;
-border-radius:6px;
-cursor:pointer;
-text-align:center;
-transition:.2s;
+border-radius:10px;
+padding:18px;
 }
 
-.item:hover{
-border-color:var(--green);
-transform:translateY(-2px);
-}
-
-.item img{
-width:52px;
-height:52px;
-margin-bottom:6px;
-}
-
-.item span{
-font-size:11px;
-display:block;
-}
-
-.rune-section{
-margin-bottom:26px;
-}
-
-.rune-title{
+.rune-tree-header{
 font-family:'Cinzel',serif;
-margin-bottom:12px;
+font-size:16px;
+margin-bottom:20px;
 color:var(--gold);
-font-size:14px;
+text-align:center;
 }
 
-.runes{
-display:flex;
-flex-wrap:wrap;
-gap:8px;
+.keystone-grid{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:10px;
+margin-bottom:22px;
+}
+
+.rune-row{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:10px;
+margin-bottom:16px;
+padding-top:16px;
+border-top:1px solid #1d3222;
 }
 
 .rune{
-background:var(--card);
+background:#101913;
 border:1px solid #27422D;
-padding:8px 12px;
-border-radius:6px;
+padding:10px;
+border-radius:8px;
 cursor:pointer;
-font-size:13px;
+font-size:12px;
+text-align:center;
 transition:.15s;
+min-height:62px;
+display:flex;
+align-items:center;
+justify-content:center;
+line-height:1.2;
 }
 
 .rune:hover{
 border-color:var(--green);
+transform:translateY(-1px);
 }
 
 .rune.active{
 border-color:var(--green);
 color:var(--green);
+box-shadow:0 0 12px rgba(74,222,128,.2);
 }
 
-.passive{
-margin-top:18px;
-padding:16px;
-background:var(--card);
-border:1px solid #203626;
-border-radius:6px;
+.secondary-note{
+font-size:12px;
+color:var(--text2);
+margin-bottom:16px;
+text-align:center;
 }
 
-.passive-title{
-font-family:'Cinzel',serif;
-font-size:13px;
-margin-bottom:12px;
-color:var(--green);
-}
-
-.passive-grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-gap:10px;
-}
-
-.tree-selects{
-display:flex;
-gap:20px;
-margin-bottom:20px;
-flex-wrap:wrap;
-}
-
-select{
-padding:10px;
-background:#111;
-border:1px solid var(--border);
-color:var(--text);
-border-radius:6px;
-}
-
-</style>
-</head>
-
-<body>
-
-<h1>Urgot Advanced Calculator</h1>
-
-<div class="card">
-
-<div class="title">Champion Level</div>
-
-<div class="slider-wrap">
-
-<div id="levelText">Level 9</div>
-
-<input type="range" min="1" max="20" value="9" id="levelSlider"/>
-
-</div>
-
-</div>
-
-<div class="card">
-
-<div class="title">Items</div>
-
-<div class="slots" id="slots"></div>
-
-</div>
-
-<div class="card">
-
-<div class="title">Runes</div>
-
-<div class="tree-selects">
-
-<div>
-<div style="margin-bottom:6px;">Primary Tree</div>
-<select id="primaryTree"></select>
-</div>
-
-<div>
-<div style="margin-bottom:6px;">Secondary Tree</div>
-<select id="secondaryTree"></select>
-</div>
-
-</div>
-
-<div id="runesContainer"></div>
-
-</div>
-
-<div class="card">
-
-<div class="title">Stats</div>
-
-<div class="grid" id="stats"></div>
-
-<div class="passive" id="passiveBox"></div>
-
-</div>
-
-<div class="modal" id="modal">
-
-<div class="modal-box">
-
-<div class="modal-top">
-
-<input
-class="search"
-id="searchInput"
-placeholder="Search item..."
-/>
-
-<button class="close" onclick="closeModal()">
-Close
-</button>
-
-</div>
-
-<div class="items" id="itemsContainer"></div>
-
-</div>
-
-</div>
-
-<script>
-
-const PATCH = "16.9.1";
-
-function itemImg(id){
-return `https://ddragon.leagueoflegends.com/cdn/${PATCH}/img/item/${id}.png`;
-}
-
-const BASE = {
-
-hp:{base:655,growth:102},
-mana:{base:340,growth:45},
-hpRegen:{base:6,growth:0.8},
-manaRegen:{base:7.25,growth:0.65},
-ad:{base:63,growth:4},
-armor:{base:36,growth:5},
-mr:{base:32,growth:2.05},
-attackSpeed:0.625,
-attackSpeedRatio:0.625,
-attackSpeedGrowth:3.75,
-moveSpeed:330
-
-};
-
-function statGrowth(base,growth,level){
-
-if(level===1) return base;
-
-const n = level - 1;
-
-return base + growth * (
-0.7025*n + 0.0175*n*n
-);
-
-}
-
-function attackSpeed(level){
-
-return Math.min(
-BASE.attackSpeedRatio * (
-1 + (BASE.attackSpeedGrowth / 100) * (level - 1)
-),
-2.5
-);
-
-}
-
-function scalingShardHP(level){
-
-return Math.round(
-10 + (190 / 19) * (level - 1)
-);
-
-}
-
-const SHARDS = [
-
-[
-{
-id:"offense_ad",
-name:"+5.4 Adaptive Force",
-stats:{ad:5.4}
-},
-{
-id:"offense_as",
-name:"+10% Attack Speed",
-stats:{attackSpeedPercent:0.10}
-},
-{
-id:"offense_haste",
-name:"+8 Ability Haste",
-stats:{ah:8}
-}
-],
-
-[
-{
-id:"flex_ad",
-name:"+5.4 Adaptive Force",
-stats:{ad:5.4}
-},
-{
-id:"flex_ms",
-name:"+2.5% Move Speed",
-stats:{msPercent:0.025}
-},
-{
-id:"flex_scaling_hp",
-name:"10-200 Health",
-dynamic:true
-}
-],
-
-[
-{
-id:"def_hp",
-name:"+65 Health",
-stats:{hp:65}
-},
-{
-id:"def_tenacity",
-name:"+15% Tenacity",
-stats:{tenacity:15}
-},
-{
-id:"def_scaling_hp",
-name:"10-200 Health",
-dynamic:true
-}
-]
-
-];
-
-const RUNES = {
-
-precision:{
-name:"Precision",
-keystones:[
-"Press the Attack",
-"Lethal Tempo",
-"Fleet Footwork",
-"Conqueror"
-],
-rows:[
-[
-"Absorb Life",
-"Triumph",
-"Presence of Mind"
-],
-[
-"Legend: Alacrity",
-"Legend: Haste",
-"Legend: Bloodline"
-],
-[
-"Coup de Grace",
-"Cut Down",
-"Last Stand"
-]
-]
-},
-
-domination:{
-name:"Domination",
-keystones:[
-"Electrocute",
-"Dark Harvest",
-"Hail of Blades",
-"Predator"
-],
-rows:[
-[
-"Cheap Shot",
-"Taste of Blood",
-"Sudden Impact"
-],
-[
-"Zombie Ward",
-"Ghost Poro",
-"Eyeball Collection"
-],
-[
-"Treasure Hunter",
-"Relentless Hunter",
-"Ultimate Hunter"
-]
-]
-},
-
-sorcery:{
-name:"Sorcery",
-keystones:[
-"Summon Aery",
-"Arcane Comet",
-"Phase Rush"
-],
-rows:[
-[
-"Nullifying Orb",
-"Manaflow Band",
-"Nimbus Cloak"
-],
-[
-"Transcendence",
-"Celerity",
-"Absolute Focus"
-],
-[
-"Scorch",
-"Waterwalking",
-"Gathering Storm"
-]
-]
-},
-
-resolve:{
-name:"Resolve",
-keystones:[
-"Grasp of the Undying",
-"Aftershock",
-"Guardian"
-],
-rows:[
-[
-"Demolish",
-"Font of Life",
-"Shield Bash"
-],
-[
-"Conditioning",
-"Second Wind",
-"Bone Plating"
-],
-[
-"Overgrowth",
-"Revitalize",
-"Unflinching"
-]
-]
-},
-
-inspiration:{
-name:"Inspiration",
-keystones:[
-"Glacial Augment",
-"First Strike",
-"Unsealed Spellbook"
-],
-rows:[
-[
-"Hextech Flashtraption",
-"Magical Footwear",
-"Cash Back"
-],
-[
-"Triple Tonic",
-"Biscuit Delivery",
-"Time Warp Tonic"
-],
-[
-"Cosmic Insight",
-"Approach Velocity",
-"Jack of All Trades"
-]
-]
-}
-
-};
-
-let ITEMS = [];
-
-const STATE = {
-
-level:9,
-
-items:[null,null,null,null,null,null],
-
-primaryTree:"precision",
-secondaryTree:"resolve",
-
-keystone:null,
-
-primarySelections:{
-1:null,
-2:null,
-3:null
-},
-
-secondarySelections:[],
-
-shards:[
-"offense_ad",
-"flex_scaling_hp",
-"def_hp"
-],
-
-activeSlot:null
-
-};
-
-const ITEM_HASTE = {
-
-3071:20,
-6692:20,
-6630:15,
-6610:15,
-6665:15,
-3158:15
-
-};
-
-function renderSlots(){
-
-const root=document.getElementById("slots");
-
-root.innerHTML="";
-
-STATE.items.forEach((item,index)=>{
-
-const div=document.createElement("div");
-
-div.className="slot";
-
-if(item){
-
-div.innerHTML=`
-<img src="${item.image}">
-<div class="remove">✕</div>
-`;
-
-div.querySelector(".remove").onclick=(e)=>{
-
-e.stopPropagation();
-
-STATE.items[index]=null;
-
-renderSlots();
-
-calculate();
-
-};
-
-}else{
-
-div.innerHTML=`<span>${index+1}</span>`;
-
-}
-
-div.onclick=()=>{
-
-openModal(index);
-
-};
-
-root.appendChild(div);
-
-});
-
-}
-
-function openModal(index){
-
-STATE.activeSlot=index;
-
-document.getElementById("modal").classList.add("open");
-
-renderItems();
-
-}
-
-function closeModal(){
-
-document.getElementById("modal").classList.remove("open");
-
-}
-
-function hasBoots(){
-
-return STATE.items.some(i=>i && i.boots);
-
-}
-
-async function loadItems(){
-
-const res = await fetch(
-`https://ddragon.leagueoflegends.com/cdn/${PATCH}/data/en_US/item.json`
-);
-
-const data = await res.json();
-
-ITEMS = Object.entries(data.data)
-.map(([id,item])=>({
-
-id:Number(id),
-
-name:item.name,
-
-stats:{
-
-hp:item.stats.FlatHPPoolMod || 0,
-mana:item.stats.FlatMPPoolMod || 0,
-ad:item.stats.FlatPhysicalDamageMod || 0,
-armor:item.stats.FlatArmorMod || 0,
-mr:item.stats.FlatSpellBlockMod || 0,
-
-attackSpeedPercent:
-(item.stats.PercentAttackSpeedMod || 0),
-
-crit:
-(item.stats.FlatCritChanceMod || 0) * 100,
-
-ms:
-item.stats.FlatMovementSpeedMod || 0,
-
-msPercent:
-item.stats.PercentMovementSpeedMod || 0,
-
-lifesteal:
-(item.stats.PercentLifeStealMod || 0) * 100,
-
-ah: ITEM_HASTE[id] || 0
-
-},
-
-boots:item.tags?.includes("Boots") || false,
-
-category:item.tags?.join(", ") || "Other",
-
-image:itemImg(id)
-
-}))
-.filter(item=>!item.name.includes("Arena"));
-
-renderItems();
-
-}
-
-function renderItems(){
-
-const root=document.getElementById("itemsContainer");
-
-root.innerHTML="";
-
-const search=
-document.getElementById("searchInput")
-.value
-.toLowerCase();
-
-ITEMS
-.filter(item=>
-item.name.toLowerCase().includes(search)
-)
-.forEach(item=>{
-
-const div=document.createElement("div");
-
-div.className="item";
-
-div.innerHTML=`
-<img src="${item.image}">
-<span>${item.name}</span>
-`;
-
-if(item.boots && hasBoots()){
-
-div.style.opacity=".4";
-
-}
-
-div.onclick=()=>{
-
-if(item.boots && hasBoots()){
-
-alert("Already wearing boots.");
-
-return;
-
-}
-
-STATE.items[STATE.activeSlot]=item;
-
-closeModal();
-
-renderSlots();
-
-calculate();
-
-};
-
-root.appendChild(div);
-
-});
-
-}
-
-document
-.getElementById("searchInput")
-.addEventListener("input",renderItems);
-
-function renderTreeSelectors(){
-
-const primary=document.getElementById("primaryTree");
-const secondary=document.getElementById("secondaryTree");
-
-primary.innerHTML="";
-secondary.innerHTML="";
-
-Object.entries(RUNES).forEach(([key,tree])=>{
-
-const option1=document.createElement("option");
-option1.value=key;
-option1.textContent=tree.name;
-
-if(STATE.primaryTree===key){
-option1.selected=true;
-}
-
-primary.appendChild(option1);
-
-const option2=document.createElement("option");
-option2.value=key;
-option2.textContent=tree.name;
-
-if(STATE.secondaryTree===key){
-option2.selected=true;
-}
-
-secondary.appendChild(option2);
-
-});
-
-primary.onchange=(e)=>{
-
-STATE.primaryTree=e.target.value;
-
-if(STATE.primaryTree===STATE.secondaryTree){
-
-STATE.secondaryTree="resolve";
-
-secondary.value="resolve";
-
-}
-
-renderRunes();
-
-};
-
-secondary.onchange=(e)=>{
-
-if(e.target.value===STATE.primaryTree){
-
-alert("Secondary tree must be different.");
-
-secondary.value=STATE.secondaryTree;
-
-return;
-
-}
-
-STATE.secondaryTree=e.target.value;
-
-renderRunes();
-
-};
-
-}
-
-function runeButton(text,active,onClick){
-
-const div=document.createElement("div");
-
-div.className="rune";
-
-if(active){
-div.classList.add("active");
-}
-
-div.textContent=text;
-
-div.onclick=onClick;
-
-return div;
-
-}
+/* =========================
+REMPLACE renderRunes()
+========================= */
 
 function renderRunes(){
 
@@ -959,21 +95,31 @@ root.innerHTML="";
 const primary = RUNES[STATE.primaryTree];
 const secondary = RUNES[STATE.secondaryTree];
 
-const primarySection=document.createElement("div");
-primarySection.className="rune-section";
+const layout=document.createElement("div");
 
-primarySection.innerHTML=`
-<div class="rune-title">
-Primary — ${primary.name}
+layout.className="runes-layout";
+
+/* =========================
+PRIMARY TREE
+========================= */
+
+const primaryCol=document.createElement("div");
+
+primaryCol.className="rune-tree-column";
+
+primaryCol.innerHTML=`
+<div class="rune-tree-header">
+PRIMARY — ${primary.name}
 </div>
 `;
 
-const primaryWrap=document.createElement("div");
-primaryWrap.className="runes";
+const keystoneGrid=document.createElement("div");
+
+keystoneGrid.className="keystone-grid";
 
 primary.keystones.forEach(keystone=>{
 
-primaryWrap.appendChild(
+keystoneGrid.appendChild(
 
 runeButton(
 keystone,
@@ -992,11 +138,21 @@ calculate();
 
 });
 
+primaryCol.appendChild(keystoneGrid);
+
+/* =========================
+PRIMARY ROWS
+========================= */
+
 primary.rows.forEach((row,index)=>{
+
+const rowDiv=document.createElement("div");
+
+rowDiv.className="rune-row";
 
 row.forEach(rune=>{
 
-primaryWrap.appendChild(
+rowDiv.appendChild(
 
 runeButton(
 rune,
@@ -1015,43 +171,59 @@ calculate();
 
 });
 
+primaryCol.appendChild(rowDiv);
+
 });
 
-primarySection.appendChild(primaryWrap);
+/* =========================
+SECONDARY TREE
+========================= */
 
-root.appendChild(primarySection);
+const secondaryCol=document.createElement("div");
 
-const secondarySection=document.createElement("div");
-secondarySection.className="rune-section";
+secondaryCol.className="rune-tree-column";
 
-secondarySection.innerHTML=`
-<div class="rune-title">
-Secondary — ${secondary.name}
+secondaryCol.innerHTML=`
+<div class="rune-tree-header">
+SECONDARY — ${secondary.name}
+</div>
+
+<div class="secondary-note">
+Choose 2 secondary runes
 </div>
 `;
 
-const secondaryWrap=document.createElement("div");
-secondaryWrap.className="runes";
+secondary.rows.forEach((row)=>{
 
-secondary.rows.flat().forEach(rune=>{
+const rowDiv=document.createElement("div");
 
-secondaryWrap.appendChild(
+rowDiv.className="rune-row";
+
+row.forEach(rune=>{
+
+rowDiv.appendChild(
 
 runeButton(
 rune,
 STATE.secondarySelections.includes(rune),
 ()=>{
 
-if(STATE.secondarySelections.includes(rune)){
+if(
+STATE.secondarySelections.includes(rune)
+){
 
 STATE.secondarySelections =
-STATE.secondarySelections.filter(r=>r!==rune);
+STATE.secondarySelections.filter(
+r=>r!==rune
+);
 
 }else{
 
-if(STATE.secondarySelections.length>=2){
+if(
+STATE.secondarySelections.length >= 2
+){
 
-alert("Only 2 secondary runes.");
+alert("You can only select 2 runes.");
 
 return;
 
@@ -1071,291 +243,13 @@ calculate();
 
 });
 
-secondarySection.appendChild(secondaryWrap);
+secondaryCol.appendChild(rowDiv);
 
-root.appendChild(secondarySection);
+});
+
+layout.appendChild(primaryCol);
+layout.appendChild(secondaryCol);
+
+root.appendChild(layout);
 
 }
-
-function calculate(){
-
-const lvl=STATE.level;
-
-const stats={
-
-hp:0,
-mana:0,
-ad:0,
-armor:0,
-mr:0,
-attackSpeedPercent:0,
-crit:0,
-lifesteal:0,
-omnivamp:0,
-ah:0,
-lethality:0,
-armorPen:0,
-magicPen:0,
-ms:0,
-msPercent:0,
-tenacity:0
-
-};
-
-stats.hp += statGrowth(BASE.hp.base,BASE.hp.growth,lvl);
-stats.mana += statGrowth(BASE.mana.base,BASE.mana.growth,lvl);
-stats.ad += statGrowth(BASE.ad.base,BASE.ad.growth,lvl);
-stats.armor += statGrowth(BASE.armor.base,BASE.armor.growth,lvl);
-stats.mr += statGrowth(BASE.mr.base,BASE.mr.growth,lvl);
-
-let baseAD = stats.ad;
-
-STATE.items.forEach(item=>{
-
-if(!item) return;
-
-Object.entries(item.stats).forEach(([key,val])=>{
-
-stats[key]=(stats[key] || 0) + val;
-
-});
-
-});
-
-STATE.shards.forEach(id=>{
-
-SHARDS.flat().forEach(shard=>{
-
-if(shard.id!==id) return;
-
-if(shard.dynamic){
-
-stats.hp += scalingShardHP(lvl);
-
-}else{
-
-Object.entries(shard.stats).forEach(([key,val])=>{
-
-stats[key]=(stats[key] || 0) + val;
-
-});
-
-}
-
-});
-
-});
-
-const totalAS = Math.min(
-attackSpeed(lvl) *
-(1 + stats.attackSpeedPercent),
-2.5
-);
-
-let totalMS =
-BASE.moveSpeed +
-(stats.ms || 0);
-
-if(stats.msPercent){
-
-totalMS *= (1 + stats.msPercent);
-
-}
-
-const ehpPhys =
-Math.round(
-stats.hp * (1 + stats.armor / 100)
-);
-
-const ehpMagic =
-Math.round(
-stats.hp * (1 + stats.mr / 100)
-);
-
-const LEG_TABLE = [
-
-{ad:.40,hp:.02,cd:30},
-{ad:.40,hp:.02,cd:28},
-{ad:.40,hp:.02,cd:26},
-{ad:.40,hp:.02,cd:22},
-{ad:.60,hp:.02,cd:18},
-{ad:.60,hp:.02,cd:15},
-{ad:.60,hp:.02,cd:12},
-{ad:.60,hp:.02,cd:10},
-{ad:.80,hp:.02,cd:8},
-{ad:.80,hp:.02,cd:6},
-{ad:.80,hp:.02,cd:4.5},
-{ad:.80,hp:.02,cd:3.5},
-{ad:1,hp:.04,cd:2.5},
-{ad:1,hp:.04,cd:2.5},
-{ad:1,hp:.04,cd:2.5},
-{ad:1.05,hp:.05,cd:2.5},
-{ad:1.05,hp:.06,cd:2.5},
-{ad:1.05,hp:.06,cd:2.5},
-{ad:1.10,hp:.06,cd:2.5},
-{ad:1.10,hp:.06,cd:2.5}
-
-];
-
-const legs = LEG_TABLE[lvl-1];
-
-const legAD =
-stats.ad * legs.ad;
-
-const legHP =
-stats.hp * legs.hp;
-
-const burst6 =
-(legAD + legHP) * 6;
-
-document.getElementById("stats").innerHTML = `
-
-<div class="stat">
-<div class="stat-name">Health</div>
-<div class="stat-value">${Math.round(stats.hp)}</div>
-</div>
-
-<div class="stat">
-<div class="stat-name">Mana</div>
-<div class="stat-value">${Math.round(stats.mana)}</div>
-</div>
-
-<div class="stat">
-<div class="stat-name">Attack Damage</div>
-<div class="stat-value">${Math.round(stats.ad)}</div>
-</div>
-
-<div class="stat">
-<div class="stat-name">Bonus AD</div>
-<div class="stat-value">${Math.round(stats.ad - baseAD)}</div>
-</div>
-
-<div class="stat">
-<div class="stat-name">Armor</div>
-<div class="stat-value">${Math.round(stats.armor)}</div>
-</div>
-
-<div class="stat">
-<div class="stat-name">Magic Resist</div>
-<div class="stat-value">${Math.round(stats.mr)}</div>
-</div>
-
-<div class="stat">
-<div class="stat-name">Attack Speed</div>
-<div class="stat-value">${totalAS.toFixed(3)}</div>
-</div>
-
-<div class="stat">
-<div class="stat-name">Move Speed</div>
-<div class="stat-value">${Math.round(totalMS)}</div>
-</div>
-
-<div class="stat">
-<div class="stat-name">Ability Haste</div>
-<div class="stat-value">${Math.round(stats.ah || 0)}</div>
-</div>
-
-<div class="stat">
-<div class="stat-name">Crit</div>
-<div class="stat-value">${Math.round(stats.crit || 0)}%</div>
-</div>
-
-<div class="stat">
-<div class="stat-name">Lifesteal</div>
-<div class="stat-value">${Math.round(stats.lifesteal || 0)}%</div>
-</div>
-
-<div class="stat">
-<div class="stat-name">Tenacity</div>
-<div class="stat-value">${Math.round(stats.tenacity || 0)}%</div>
-</div>
-
-<div class="stat">
-<div class="stat-name">EHP Physical</div>
-<div class="stat-value">${ehpPhys}</div>
-</div>
-
-<div class="stat">
-<div class="stat-name">EHP Magical</div>
-<div class="stat-value">${ehpMagic}</div>
-</div>
-
-`;
-
-document.getElementById("passiveBox").innerHTML = `
-
-<div class="passive-title">
-Echoing Flames — Passive Legs
-</div>
-
-<div class="passive-grid">
-
-<div class="stat">
-<div class="stat-name">Leg AD Ratio</div>
-<div class="stat-value">${Math.round(legs.ad*100)}%</div>
-</div>
-
-<div class="stat">
-<div class="stat-name">Leg HP Ratio</div>
-<div class="stat-value">${Math.round(legs.hp*100)}%</div>
-</div>
-
-<div class="stat">
-<div class="stat-name">Leg Damage (AD)</div>
-<div class="stat-value">${Math.round(legAD)}</div>
-</div>
-
-<div class="stat">
-<div class="stat-name">Leg Damage (HP)</div>
-<div class="stat-value">${Math.round(legHP)}</div>
-</div>
-
-<div class="stat">
-<div class="stat-name">6 Legs Burst</div>
-<div class="stat-value">${Math.round(burst6)}</div>
-</div>
-
-<div class="stat">
-<div class="stat-name">Leg Cooldown</div>
-<div class="stat-value">${legs.cd}s</div>
-</div>
-
-</div>
-
-`;
-
-}
-
-document
-.getElementById("levelSlider")
-.addEventListener("input",(e)=>{
-
-STATE.level = parseInt(e.target.value);
-
-document.getElementById("levelText").textContent =
-`Level ${STATE.level}`;
-
-calculate();
-
-});
-
-async function init(){
-
-renderTreeSelectors();
-
-renderSlots();
-
-renderRunes();
-
-calculate();
-
-await loadItems();
-
-}
-
-init();
-
-</script>
-
-</body>
-</html>
