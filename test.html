@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-<title>Urgot Advanced Calculator — Patch 16.9.1</title>
+
+<title>Urgot Advanced Calculator — Season 2026</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
 
@@ -37,7 +38,7 @@ padding:24px;
 
 h1{
 font-family:'Cinzel',serif;
-font-size:40px;
+font-size:42px;
 margin-bottom:24px;
 }
 
@@ -46,7 +47,7 @@ background:var(--bg2);
 border:1px solid var(--border);
 padding:20px;
 border-radius:8px;
-margin-bottom:18px;
+margin-bottom:20px;
 }
 
 .title{
@@ -67,7 +68,7 @@ gap:16px;
 #levelText{
 font-size:30px;
 font-weight:700;
-min-width:90px;
+min-width:100px;
 }
 
 input[type=range]{
@@ -76,8 +77,8 @@ width:100%;
 
 .grid{
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
-gap:10px;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:12px;
 }
 
 .stat{
@@ -157,8 +158,8 @@ display:flex;
 }
 
 .modal-box{
-width:min(1100px,95vw);
-height:85vh;
+width:min(1300px,95vw);
+height:90vh;
 background:var(--bg2);
 border:1px solid var(--border);
 border-radius:8px;
@@ -208,10 +209,12 @@ padding:8px;
 border-radius:6px;
 cursor:pointer;
 text-align:center;
+transition:.2s;
 }
 
 .item:hover{
 border-color:var(--green);
+transform:translateY(-2px);
 }
 
 .item img{
@@ -225,14 +228,15 @@ font-size:11px;
 display:block;
 }
 
-.rune-tree{
-margin-bottom:20px;
+.rune-section{
+margin-bottom:26px;
 }
 
-.rune-tree-title{
+.rune-title{
 font-family:'Cinzel',serif;
 margin-bottom:12px;
 color:var(--gold);
+font-size:14px;
 }
 
 .runes{
@@ -248,6 +252,11 @@ padding:8px 12px;
 border-radius:6px;
 cursor:pointer;
 font-size:13px;
+transition:.15s;
+}
+
+.rune:hover{
+border-color:var(--green);
 }
 
 .rune.active{
@@ -272,8 +281,23 @@ color:var(--green);
 
 .passive-grid{
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
 gap:10px;
+}
+
+.tree-selects{
+display:flex;
+gap:20px;
+margin-bottom:20px;
+flex-wrap:wrap;
+}
+
+select{
+padding:10px;
+background:#111;
+border:1px solid var(--border);
+color:var(--text);
+border-radius:6px;
 }
 
 </style>
@@ -284,6 +308,7 @@ gap:10px;
 <h1>Urgot Advanced Calculator</h1>
 
 <div class="card">
+
 <div class="title">Champion Level</div>
 
 <div class="slider-wrap">
@@ -293,17 +318,34 @@ gap:10px;
 <input type="range" min="1" max="20" value="9" id="levelSlider"/>
 
 </div>
+
 </div>
 
 <div class="card">
+
 <div class="title">Items</div>
 
 <div class="slots" id="slots"></div>
+
 </div>
 
 <div class="card">
 
 <div class="title">Runes</div>
+
+<div class="tree-selects">
+
+<div>
+<div style="margin-bottom:6px;">Primary Tree</div>
+<select id="primaryTree"></select>
+</div>
+
+<div>
+<div style="margin-bottom:6px;">Secondary Tree</div>
+<select id="secondaryTree"></select>
+</div>
+
+</div>
 
 <div id="runesContainer"></div>
 
@@ -325,9 +367,15 @@ gap:10px;
 
 <div class="modal-top">
 
-<input class="search" id="searchInput" placeholder="Rechercher un item..." />
+<input
+class="search"
+id="searchInput"
+placeholder="Search item..."
+/>
 
-<button class="close" onclick="closeModal()">Fermer</button>
+<button class="close" onclick="closeModal()">
+Close
+</button>
 
 </div>
 
@@ -347,13 +395,13 @@ return `https://ddragon.leagueoflegends.com/cdn/${PATCH}/img/item/${id}.png`;
 
 const BASE = {
 
-hp:{base:585,growth:88},
-mana:{base:340,growth:40},
-hpRegen:{base:6.25,growth:0.7},
-manaRegen:{base:7.5,growth:0.8},
-ad:{base:55,growth:4},
-armor:{base:36,growth:4.25},
-mr:{base:32,growth:1.25},
+hp:{base:655,growth:102},
+mana:{base:340,growth:45},
+hpRegen:{base:6,growth:0.8},
+manaRegen:{base:7.25,growth:0.65},
+ad:{base:63,growth:4},
+armor:{base:36,growth:5},
+mr:{base:32,growth:2.05},
 attackSpeed:0.625,
 attackSpeedRatio:0.625,
 attackSpeedGrowth:3.75,
@@ -392,107 +440,61 @@ return Math.round(
 
 }
 
-const ITEMS = [
+const SHARDS = [
 
+[
 {
-id:3071,
-name:"Black Cleaver",
-category:"Bruiser",
-stats:{
-ad:40,
-hp:400,
-ah:20
+id:"offense_ad",
+name:"+5.4 Adaptive Force",
+stats:{ad:5.4}
 },
-passive:{
-armorShred:30
+{
+id:"offense_as",
+name:"+10% Attack Speed",
+stats:{attackSpeedPercent:0.10}
+},
+{
+id:"offense_haste",
+name:"+8 Ability Haste",
+stats:{ah:8}
 }
-},
+],
 
+[
 {
-id:3053,
-name:"Sterak's Gage",
-category:"Bruiser",
-stats:{
-hp:400
+id:"flex_ad",
+name:"+5.4 Adaptive Force",
+stats:{ad:5.4}
 },
-passive:{
-bonusADPercent:0.25
+{
+id:"flex_ms",
+name:"+2.5% Move Speed",
+stats:{msPercent:0.025}
+},
+{
+id:"flex_scaling_hp",
+name:"10-200 Health",
+dynamic:true
 }
-},
+],
 
+[
 {
-id:6665,
-name:"Jak'Sho",
-category:"Tank",
-stats:{
-hp:350,
-armor:45,
-mr:45
+id:"def_hp",
+name:"+65 Health",
+stats:{hp:65}
 },
-passive:{
-resistAmp:0.12
+{
+id:"def_tenacity",
+name:"+15% Tenacity",
+stats:{tenacity:15}
+},
+{
+id:"def_scaling_hp",
+name:"10-200 Health",
+dynamic:true
 }
-},
-
-{
-id:2501,
-name:"Overlord's Bloodmail",
-category:"Bruiser",
-stats:{
-hp:400,
-ad:40
-},
-passive:{
-bloodmail:true
-}
-},
-
-{
-id:3748,
-name:"Titanic Hydra",
-category:"Bruiser",
-stats:{
-hp:550,
-ad:40
-},
-passive:{
-hpToAD:0.02
-}
-},
-
-{
-id:3047,
-name:"Plated Steelcaps",
-category:"Boots",
-stats:{
-armor:20,
-ms:45
-},
-boots:true
-},
-
-{
-id:3111,
-name:"Mercury's Treads",
-category:"Boots",
-stats:{
-mr:20,
-ms:45,
-tenacity:30
-},
-boots:true
-},
-
-{
-id:3006,
-name:"Berserker's Greaves",
-category:"Boots",
-stats:{
-attackSpeedPercent:0.35,
-ms:45
-},
-boots:true
-}
+]
 
 ];
 
@@ -500,217 +502,139 @@ const RUNES = {
 
 precision:{
 name:"Precision",
-
 keystones:[
-
-{
-id:"pta",
-name:"Press The Attack",
-stats:{}
-},
-
-{
-id:"conq",
-name:"Conqueror",
-stats:{
-ad:28
-}
-},
-
-{
-id:"fleet",
-name:"Fleet Footwork",
-stats:{
-ms:15
-}
-}
-
+"Press the Attack",
+"Lethal Tempo",
+"Fleet Footwork",
+"Conqueror"
 ],
-
 rows:[
-
 [
-{
-id:"triumph",
-name:"Triumph",
-stats:{}
+"Absorb Life",
+"Triumph",
+"Presence of Mind"
+],
+[
+"Legend: Alacrity",
+"Legend: Haste",
+"Legend: Bloodline"
+],
+[
+"Coup de Grace",
+"Cut Down",
+"Last Stand"
+]
+]
 },
 
-{
-id:"pom",
-name:"Presence of Mind",
-stats:{}
-}
+domination:{
+name:"Domination",
+keystones:[
+"Electrocute",
+"Dark Harvest",
+"Hail of Blades",
+"Predator"
 ],
-
+rows:[
 [
-{
-id:"bloodline",
-name:"Legend: Bloodline",
-stats:{
-lifesteal:6
-}
+"Cheap Shot",
+"Taste of Blood",
+"Sudden Impact"
+],
+[
+"Zombie Ward",
+"Ghost Poro",
+"Eyeball Collection"
+],
+[
+"Treasure Hunter",
+"Relentless Hunter",
+"Ultimate Hunter"
+]
+]
 },
 
-{
-id:"alacrity",
-name:"Legend: Alacrity",
-stats:{
-attackSpeedPercent:0.18
-}
-}
+sorcery:{
+name:"Sorcery",
+keystones:[
+"Summon Aery",
+"Arcane Comet",
+"Phase Rush"
 ],
-
+rows:[
 [
-{
-id:"laststand",
-name:"Last Stand",
-stats:{}
-}
+"Nullifying Orb",
+"Manaflow Band",
+"Nimbus Cloak"
+],
+[
+"Transcendence",
+"Celerity",
+"Absolute Focus"
+],
+[
+"Scorch",
+"Waterwalking",
+"Gathering Storm"
 ]
-
 ]
-
 },
 
 resolve:{
 name:"Resolve",
-
 keystones:[
-
-{
-id:"grasp",
-name:"Grasp",
-stats:{
-hp:80
-}
+"Grasp of the Undying",
+"Aftershock",
+"Guardian"
+],
+rows:[
+[
+"Demolish",
+"Font of Life",
+"Shield Bash"
+],
+[
+"Conditioning",
+"Second Wind",
+"Bone Plating"
+],
+[
+"Overgrowth",
+"Revitalize",
+"Unflinching"
+]
+]
 },
 
-{
-id:"aftershock",
-name:"Aftershock",
-stats:{
-armor:35,
-mr:35
-}
-}
-
+inspiration:{
+name:"Inspiration",
+keystones:[
+"Glacial Augment",
+"First Strike",
+"Unsealed Spellbook"
 ],
-
 rows:[
-
 [
-{
-id:"conditioning",
-name:"Conditioning",
-stats:{
-armor:8,
-mr:8
-}
-}
+"Hextech Flashtraption",
+"Magical Footwear",
+"Cash Back"
 ],
-
 [
-{
-id:"overgrowth",
-name:"Overgrowth",
-stats:{
-hp:100
-}
-}
+"Triple Tonic",
+"Biscuit Delivery",
+"Time Warp Tonic"
 ],
-
 [
-{
-id:"revitalize",
-name:"Revitalize",
-stats:{}
-}
+"Cosmic Insight",
+"Approach Velocity",
+"Jack of All Trades"
 ]
-
 ]
-
 }
 
 };
 
-const SHARDS = [
-
-[
-{
-id:"shard_ad_1",
-name:"5.4 AD",
-stats:{
-ad:5.4
-}
-},
-
-{
-id:"shard_as_1",
-name:"10% AS",
-stats:{
-attackSpeedPercent:0.10
-}
-},
-
-{
-id:"shard_ah_1",
-name:"8 AH",
-stats:{
-ah:8
-}
-}
-],
-
-[
-{
-id:"shard_ad_2",
-name:"5.4 AD",
-stats:{
-ad:5.4
-}
-},
-
-{
-id:"shard_ms_2",
-name:"2.5% MS",
-stats:{
-msPercent:0.025
-}
-},
-
-{
-id:"shard_hp_2",
-name:"10-200 HP",
-dynamic:true
-}
-],
-
-[
-{
-id:"shard_hp_3",
-name:"65 HP",
-stats:{
-hp:65
-}
-},
-
-{
-id:"shard_tenacity_3",
-name:"15% Tenacity",
-stats:{
-tenacity:15
-}
-},
-
-{
-id:"shard_scaling_hp_3",
-name:"10-200 HP",
-dynamic:true
-}
-]
-
-];
+let ITEMS = [];
 
 const STATE = {
 
@@ -722,20 +646,35 @@ primaryTree:"precision",
 secondaryTree:"resolve",
 
 keystone:null,
-primaryRunes:[],
-secondaryRunes:[],
+
+primarySelections:{
+1:null,
+2:null,
+3:null
+},
+
+secondarySelections:[],
 
 shards:[
-"shard_ad_1",
-"shard_hp_2",
-"shard_hp_3"
+"offense_ad",
+"flex_scaling_hp",
+"def_hp"
 ],
 
 activeSlot:null
 
 };
 
-STATE.keystone = "conq";
+const ITEM_HASTE = {
+
+3071:20,
+6692:20,
+6630:15,
+6610:15,
+6665:15,
+3158:15
+
+};
 
 function renderSlots(){
 
@@ -752,8 +691,7 @@ div.className="slot";
 if(item){
 
 div.innerHTML=`
-<img src="${itemImg(item.id)}">
-
+<img src="${item.image}">
 <div class="remove">✕</div>
 `;
 
@@ -809,16 +747,76 @@ return STATE.items.some(i=>i && i.boots);
 
 }
 
+async function loadItems(){
+
+const res = await fetch(
+`https://ddragon.leagueoflegends.com/cdn/${PATCH}/data/en_US/item.json`
+);
+
+const data = await res.json();
+
+ITEMS = Object.entries(data.data)
+.map(([id,item])=>({
+
+id:Number(id),
+
+name:item.name,
+
+stats:{
+
+hp:item.stats.FlatHPPoolMod || 0,
+mana:item.stats.FlatMPPoolMod || 0,
+ad:item.stats.FlatPhysicalDamageMod || 0,
+armor:item.stats.FlatArmorMod || 0,
+mr:item.stats.FlatSpellBlockMod || 0,
+
+attackSpeedPercent:
+(item.stats.PercentAttackSpeedMod || 0),
+
+crit:
+(item.stats.FlatCritChanceMod || 0) * 100,
+
+ms:
+item.stats.FlatMovementSpeedMod || 0,
+
+msPercent:
+item.stats.PercentMovementSpeedMod || 0,
+
+lifesteal:
+(item.stats.PercentLifeStealMod || 0) * 100,
+
+ah: ITEM_HASTE[id] || 0
+
+},
+
+boots:item.tags?.includes("Boots") || false,
+
+category:item.tags?.join(", ") || "Other",
+
+image:itemImg(id)
+
+}))
+.filter(item=>!item.name.includes("Arena"));
+
+renderItems();
+
+}
+
 function renderItems(){
 
 const root=document.getElementById("itemsContainer");
 
 root.innerHTML="";
 
-const search=document.getElementById("searchInput").value.toLowerCase();
+const search=
+document.getElementById("searchInput")
+.value
+.toLowerCase();
 
 ITEMS
-.filter(i=>i.name.toLowerCase().includes(search))
+.filter(item=>
+item.name.toLowerCase().includes(search)
+)
 .forEach(item=>{
 
 const div=document.createElement("div");
@@ -826,15 +824,21 @@ const div=document.createElement("div");
 div.className="item";
 
 div.innerHTML=`
-<img src="${itemImg(item.id)}">
+<img src="${item.image}">
 <span>${item.name}</span>
 `;
+
+if(item.boots && hasBoots()){
+
+div.style.opacity=".4";
+
+}
 
 div.onclick=()=>{
 
 if(item.boots && hasBoots()){
 
-alert("Vous avez déjà des bottes.");
+alert("Already wearing boots.");
 
 return;
 
@@ -856,7 +860,95 @@ root.appendChild(div);
 
 }
 
-document.getElementById("searchInput").addEventListener("input",renderItems);
+document
+.getElementById("searchInput")
+.addEventListener("input",renderItems);
+
+function renderTreeSelectors(){
+
+const primary=document.getElementById("primaryTree");
+const secondary=document.getElementById("secondaryTree");
+
+primary.innerHTML="";
+secondary.innerHTML="";
+
+Object.entries(RUNES).forEach(([key,tree])=>{
+
+const option1=document.createElement("option");
+option1.value=key;
+option1.textContent=tree.name;
+
+if(STATE.primaryTree===key){
+option1.selected=true;
+}
+
+primary.appendChild(option1);
+
+const option2=document.createElement("option");
+option2.value=key;
+option2.textContent=tree.name;
+
+if(STATE.secondaryTree===key){
+option2.selected=true;
+}
+
+secondary.appendChild(option2);
+
+});
+
+primary.onchange=(e)=>{
+
+STATE.primaryTree=e.target.value;
+
+if(STATE.primaryTree===STATE.secondaryTree){
+
+STATE.secondaryTree="resolve";
+
+secondary.value="resolve";
+
+}
+
+renderRunes();
+
+};
+
+secondary.onchange=(e)=>{
+
+if(e.target.value===STATE.primaryTree){
+
+alert("Secondary tree must be different.");
+
+secondary.value=STATE.secondaryTree;
+
+return;
+
+}
+
+STATE.secondaryTree=e.target.value;
+
+renderRunes();
+
+};
+
+}
+
+function runeButton(text,active,onClick){
+
+const div=document.createElement("div");
+
+div.className="rune";
+
+if(active){
+div.classList.add("active");
+}
+
+div.textContent=text;
+
+div.onclick=onClick;
+
+return div;
+
+}
 
 function renderRunes(){
 
@@ -864,112 +956,124 @@ const root=document.getElementById("runesContainer");
 
 root.innerHTML="";
 
-Object.entries(RUNES).forEach(([treeKey,tree])=>{
+const primary = RUNES[STATE.primaryTree];
+const secondary = RUNES[STATE.secondaryTree];
 
-const section=document.createElement("div");
+const primarySection=document.createElement("div");
+primarySection.className="rune-section";
 
-section.className="rune-tree";
-
-section.innerHTML=`
-<div class="rune-tree-title">${tree.name}</div>
+primarySection.innerHTML=`
+<div class="rune-title">
+Primary — ${primary.name}
+</div>
 `;
 
-const wrap=document.createElement("div");
+const primaryWrap=document.createElement("div");
+primaryWrap.className="runes";
 
-wrap.className="runes";
+primary.keystones.forEach(keystone=>{
 
-tree.keystones.forEach(rune=>{
+primaryWrap.appendChild(
 
-const div=document.createElement("div");
+runeButton(
+keystone,
+STATE.keystone===keystone,
+()=>{
 
-div.className="rune";
-
-if(STATE.keystone===rune.id){
-div.classList.add("active");
-}
-
-div.textContent=rune.name;
-
-div.onclick=()=>{
-
-STATE.keystone=rune.id;
+STATE.keystone=keystone;
 
 renderRunes();
-
 calculate();
 
-};
+}
+)
 
-wrap.appendChild(div);
+);
 
 });
 
-tree.rows.flat().forEach(rune=>{
+primary.rows.forEach((row,index)=>{
 
-const div=document.createElement("div");
+row.forEach(rune=>{
 
-div.className="rune";
+primaryWrap.appendChild(
 
-if(
-STATE.primaryRunes.includes(rune.id)
-||
-STATE.secondaryRunes.includes(rune.id)
-){
-div.classList.add("active");
+runeButton(
+rune,
+STATE.primarySelections[index+1]===rune,
+()=>{
+
+STATE.primarySelections[index+1]=rune;
+
+renderRunes();
+calculate();
+
 }
+)
 
-div.textContent=rune.name;
+);
 
-div.onclick=()=>{
+});
 
-if(STATE.primaryRunes.includes(rune.id)){
+});
 
-STATE.primaryRunes =
-STATE.primaryRunes.filter(r=>r!==rune.id);
+primarySection.appendChild(primaryWrap);
+
+root.appendChild(primarySection);
+
+const secondarySection=document.createElement("div");
+secondarySection.className="rune-section";
+
+secondarySection.innerHTML=`
+<div class="rune-title">
+Secondary — ${secondary.name}
+</div>
+`;
+
+const secondaryWrap=document.createElement("div");
+secondaryWrap.className="runes";
+
+secondary.rows.flat().forEach(rune=>{
+
+secondaryWrap.appendChild(
+
+runeButton(
+rune,
+STATE.secondarySelections.includes(rune),
+()=>{
+
+if(STATE.secondarySelections.includes(rune)){
+
+STATE.secondarySelections =
+STATE.secondarySelections.filter(r=>r!==rune);
 
 }else{
 
-STATE.primaryRunes.push(rune.id);
+if(STATE.secondarySelections.length>=2){
+
+alert("Only 2 secondary runes.");
+
+return;
+
+}
+
+STATE.secondarySelections.push(rune);
 
 }
 
 renderRunes();
-
 calculate();
 
-};
-
-wrap.appendChild(div);
-
-});
-
-section.appendChild(wrap);
-
-root.appendChild(section);
-
-});
-
 }
+)
 
-function allRunes(){
-
-const arr=[];
-
-Object.values(RUNES).forEach(tree=>{
-
-tree.keystones.forEach(r=>arr.push(r));
-
-tree.rows.flat().forEach(r=>arr.push(r));
+);
 
 });
 
-return arr;
+secondarySection.appendChild(secondaryWrap);
 
-}
-
-function getRune(id){
-
-return allRunes().find(r=>r.id===id);
+root.appendChild(secondarySection);
 
 }
 
@@ -1018,28 +1122,6 @@ stats[key]=(stats[key] || 0) + val;
 
 });
 
-const runeIDs=[
-
-STATE.keystone,
-...STATE.primaryRunes,
-...STATE.secondaryRunes
-
-];
-
-runeIDs.forEach(id=>{
-
-const rune=getRune(id);
-
-if(!rune) return;
-
-Object.entries(rune.stats).forEach(([key,val])=>{
-
-stats[key]=(stats[key] || 0) + val;
-
-});
-
-});
-
 STATE.shards.forEach(id=>{
 
 SHARDS.flat().forEach(shard=>{
@@ -1061,43 +1143,6 @@ stats[key]=(stats[key] || 0) + val;
 }
 
 });
-
-});
-
-const bonusHP =
-stats.hp -
-statGrowth(BASE.hp.base,BASE.hp.growth,lvl);
-
-STATE.items.forEach(item=>{
-
-if(!item || !item.passive) return;
-
-if(item.passive.hpToAD){
-
-stats.ad += bonusHP * item.passive.hpToAD;
-
-}
-
-if(item.passive.bloodmail){
-
-stats.ad += Math.floor(
-bonusHP / 100
-) * 2;
-
-}
-
-});
-
-STATE.items.forEach(item=>{
-
-if(!item || !item.passive) return;
-
-if(item.passive.resistAmp){
-
-stats.armor *= (1 + item.passive.resistAmp);
-stats.mr *= (1 + item.passive.resistAmp);
-
-}
 
 });
 
@@ -1221,26 +1266,6 @@ document.getElementById("stats").innerHTML = `
 </div>
 
 <div class="stat">
-<div class="stat-name">Omnivamp</div>
-<div class="stat-value">${Math.round(stats.omnivamp || 0)}%</div>
-</div>
-
-<div class="stat">
-<div class="stat-name">Lethality</div>
-<div class="stat-value">${Math.round(stats.lethality || 0)}</div>
-</div>
-
-<div class="stat">
-<div class="stat-name">Armor Pen</div>
-<div class="stat-value">${Math.round(stats.armorPen || 0)}%</div>
-</div>
-
-<div class="stat">
-<div class="stat-name">Magic Pen</div>
-<div class="stat-value">${Math.round(stats.magicPen || 0)}</div>
-</div>
-
-<div class="stat">
 <div class="stat-name">Tenacity</div>
 <div class="stat-value">${Math.round(stats.tenacity || 0)}%</div>
 </div>
@@ -1301,7 +1326,9 @@ Echoing Flames — Passive Legs
 
 }
 
-document.getElementById("levelSlider").addEventListener("input",(e)=>{
+document
+.getElementById("levelSlider")
+.addEventListener("input",(e)=>{
 
 STATE.level = parseInt(e.target.value);
 
@@ -1312,9 +1339,21 @@ calculate();
 
 });
 
+async function init(){
+
+renderTreeSelectors();
+
 renderSlots();
+
 renderRunes();
+
 calculate();
+
+await loadItems();
+
+}
+
+init();
 
 </script>
 
