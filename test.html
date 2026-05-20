@@ -374,7 +374,7 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;
    Données live Data Dragon + calculs exacts patch courant
    ============================================================ */
 
-const DDV_FALLBACK = '15.10.1';            // utilisé si la liste de versions échoue
+const DDV_FALLBACK = '16.9.1';            // utilisé si la liste de versions échoue
 let DDV = DDV_FALLBACK;                      // version réelle résolue au chargement
 const CD = 'https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/perk-images/styles/';
 const SM = 'https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/perk-images/statmods/';
@@ -513,20 +513,20 @@ function shardScaleHP(l){ return Math.round(10 + (170/17)*Math.min(Math.max(l-1,
 const S = {
   lvl:9,
   items:[null,null,null,null,null,null,null], // 7e = potion
-  priTree:'precision', secTree:'resolve',
-  keystone:'conq', pri:[null,null,null], sec:[null,null],
-  shards:['a_force','b_hp','c_hp'],
+  priTree:'precision', secTree:'inspiration',
+  keystone:'pta', pri:[null,null,null], sec:[null,null],
+  shards:['a_force','b_force','c_hps'],
   slot:null,
 };
 
 /* ---------- BASES D'URGOT (chargées depuis DDragon, fallback codé) ---------- */
 let BASE = {
-  hp:580, hpPerLvl:88, hpReg:6.25, hpRegPerLvl:0.7,
-  mp:360, mpPerLvl:40,
-  ad:62, adPerLvl:4,
+  hp:655, hpPerLvl:88, hpReg:6.25, hpRegPerLvl:0.7,
+  mp:340, mpPerLvl:40,
+  ad:63, adPerLvl:4,
   armor:36, armorPerLvl:5,
   mr:32, mrPerLvl:1.25,
-  asBase:0.625, asPerLvl:3.75,
+  asBase:0.625, asPerLvl:2.7,
   ms:330,
 };
 // Formule officielle Riot pour la croissance par niveau (courbe)
@@ -643,12 +643,12 @@ const ITEM_PASSIVES = {
   },
   "Black Cleaver": {
     special:'cleaver',
-    note:"Black Cleaver : réduit jusqu'à 30% de l'armure de la cible (6 stacks)."
+    note:"Black Cleaver : réduit jusqu'à 30% de l'armure de la cible (6 stacks).",
     applyStats:(A)=>{ A.armPenPct += 0.30; }
   },
   "Serylda's Grudge": {
     special:'serylda',
-    note:"Rancune de Serylda : pénétration d'armure en %, appliquée après la léthalité."
+    note:"Rancune de Serylda : pénétration d'armure en %, appliquée après la léthalité.",
     applyStats:(A)=>{ A.armPenPct += 0.35; }
   },
   "Eclipse": {
