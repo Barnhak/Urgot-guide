@@ -418,8 +418,8 @@ const TREES = {
        {id:'triumph',n:'Triomphe',        img:CD+'precision/triumph.png',s:{}},
        {id:'pom',   n:'Présence d\'Esprit',img:CD+'precision/presenceofmind/presenceofmind.png',s:{}}],
       [{id:'alac', n:'Légende : Célérité',img:CD+'precision/legendalacrity/legendalacrity.png',s:{as:0.18}},
-       {id:'haste',n:'Légende : Hâte',     img:CD+'precision/legendhaste/legendhaste.png',s:{bah:12}},
-       {id:'blood',n:'Légende : Lignée',   img:CD+'precision/legendbloodline/legendbloodline.png',s:{ls:0}}],
+       {id:'haste',n:'Légende : Hâte',     img:CD+'precision/legendhaste/legendhaste.png',s:{bah:15}},
+       {id:'blood',n:'Légende : Lignée',   img:CD+'precision/legendbloodline/legendbloodline.png',s:{ls:8}}],
       [{id:'cdg',  n:'Coup de Grâce',     img:CD+'precision/coupdegrace/coupdegrace.png',s:{}},
        {id:'cut',  n:'Tir d\'Achèvement', img:CD+'precision/cutdown/cutdown.png',s:{}},
        {id:'last', n:'Baroud d\'Honneur', img:CD+'sorcery/laststand/laststand.png',s:{}}],
@@ -433,7 +433,7 @@ const TREES = {
     rows:[
       [{id:'cheap',n:'Coup Bas',        img:CD+'domination/cheapshot/cheapshot.png',s:{}},
        {id:'taste',n:'Goût du Sang',    img:CD+'domination/tasteofblood/greenterror_tasteofblood.png',s:{}},
-       {id:'sudden',n:'Impact Soudain', img:CD+'domination/suddenimpact/suddenimpact.png',s:{}}],
+       {id:'sudden',n:'Impact Soudain', img:CD+'domination/suddenimpact/suddenimpact.png',s:{leth:7}}],
       [{id:'sixth',n:'Sixième Sens',    img:CD+'domination/sixthsense/sixthsense.png',s:{}},
        {id:'grisly',n:'Mementos Macabres',img:CD+'domination/grislymementos/grislymementos.png',s:{}},
        {id:'deep', n:'Garde Profonde',  img:CD+'domination/deepward/deepward.png',s:{}}],
@@ -456,7 +456,7 @@ const TREES = {
        {id:'focus',n:'Concentration Absolue',img:CD+'sorcery/absolutefocus/absolutefocus.png',s:{}}],
       [{id:'scorch',n:'Carbonisation',   img:CD+'sorcery/scorch/scorch.png',s:{}},
        {id:'water',n:'Marche sur l\'Eau',img:CD+'sorcery/waterwalking/waterwalking.png',s:{}},
-       {id:'storm',n:'Tempête Imminente',img:CD+'sorcery/gatheringstorm/gatheringstorm.png',s:{}}],
+       {id:'storm',n:'Tempête Imminente',img:CD+'sorcery/gatheringstorm/gatheringstorm.png',s:{ad:24}}],
     ]},
   resolve:{ label:'Détermination', icon:CD+'7204_resolve.png',
     keystones:[
@@ -615,94 +615,193 @@ function classifyItem(it){
   return 'fighter';
 }
 
-/* ---------- STATS NON FOURNIES PAR DDRAGON (par nom d'item) ----------
-   DDragon ne donne pas léthalité / pen / AH / passifs spéciaux dans .stats.
-   On les mappe par nom (robuste aux changements d'ID). */
-const ITEM_AH = {
-  'Abyssal Mask':15,"Archangel's Staff":25,'Axiom Arc':25,'Black Cleaver':20,'Blackfire Torch':20,
-  "Bloodletter's Curse":15,"Caulfield's Warhammer":10,'Chempunk Chainsword':15,'Cosmic Drive':25,
-  'Cryptbloom':20,"Death's Dance":15,'Dawncore':15,'Echoes of Helia':20,'Eclipse':15,'Essence Reaver':25,
-  'Fiendish Codex':10,'Fimbulwinter':20,'Frozen Heart':20,'Glacial Buckler':10,'Hextech Rocketbelt':15,
-  'Hollow Radiance':10,'Horizon Focus':25,'Hubris':15,'Iceborn Gauntlet':15,'Imperial Mandate':25,
-  'Ionian Boots of Lucidity':12,'Kindlegem':10,"Knight's Vow":10,'Lich Bane':10,'Locket of the Iron Solari':15,
-  'Lost Chapter':10,"Luden's Companion":10,'Malignance':25,'Manamune':15,'Maw of Malmortius':15,
-  "Mikael's Blessing":15,'Moonstone Renewer':15,'Morellonomicon':15,'Muramana':15,"Nashor's Tooth":15,
-  'Profane Hydra':18,'Ravenous Hydra':20,'Redemption':10,'Riftmaker':15,"Seraph's Embrace":25,
-  "Serylda's Grudge":15,'Sheen':0,"Shurelya's Battlesong":15,'Spirit Visage':10,'Staff of Flowing Water':15,
-  'Sundered Sky':20,'Sunfire Aegis':15,'Trinity Force':20,'Umbral Glaive':15,'Unending Despair':15,
-  'Voltaic Cyclosword':18,"Winter's Approach":20,"Zeke's Convergence":20,'Liandry\u2019s Torment':20,
-  "Liandry's Torment":20,'Mejai\u2019s Soulstealer':10,"Mejai's Soulstealer":10,'Banshee\u2019s Veil':10,
-  "Banshee's Veil":10,'Demonic Embrace':0,'Cosmic Drive':30,'Wit\u2019s End':0,
-};
-const ITEM_BAH = { 'Spear of Shojin':25 };       // basic ability haste (Q/W/E)
-const ITEM_UH  = { 'Experimental Hexplate':30, 'Zephyr':20 }; // ultimate haste (R)
-const ITEM_LETH = {
-  'Serrated Dirk':10,'The Collector':12,"Youmuu's Ghostblade":18,"Edge of Night":15,'Eclipse':12,
-  'Hubris':18,'Opportunity':18,'Profane Hydra':18,'Umbral Glaive':15,'Voltaic Cyclosword':18,
-  "Serylda's Grudge":15,'Axiom Arc':15,'Ironspike Whip':0,
-};
-const ITEM_APEN = { "Serylda's Grudge":30 };    // % armor pen (Serylda = 30% conditionnel, on l'affiche)
-const ITEM_OMNI = { 'Ravenous Hydra':12,'Profane Hydra':0,"Death's Dance":0 };
-// Passifs spéciaux notables pour Urgot (par nom)
-const ITEM_SPECIAL = {
-  'Black Cleaver':'cleaver',       // shred d'armure jusqu'à 30%
-  "Serylda's Grudge":'serylda',    // % armor pen
-  "Eclipse":'eclipse',             // % max HP
-  'Trinity Force':'spellblade',
-};
+/* ============================================================
+   STATS COMPLÈTES VIA MERAKI ANALYTICS
+   DDragon n'expose qu'une fraction des stats (bug Riot connu :
+   AD/AH/léthalité/pen des items récents manquants). Meraki fournit
+   un JSON complet et structuré, idéal pour un calculateur de build.
+   Source : cdn.merakianalytics.com/riot/lol/resources/latest/en-US/items.json
+   ============================================================ */
+const MERAKI_URL = 'https://cdn.merakianalytics.com/riot/lol/resources/latest/en-US/items.json';
 
-function statsFromName(name){
-  return {
-    ah:   ITEM_AH[name]   || 0,
-    bah:  ITEM_BAH[name]  || 0,
-    uh:   ITEM_UH[name]   || 0,
-    leth: ITEM_LETH[name] || 0,
-    apen: ITEM_APEN[name] || 0,
-    omni: ITEM_OMNI[name] || 0,
-    special: ITEM_SPECIAL[name] || null,
-  };
-}
+// Récupère une valeur de stat Meraki en toute sécurité (flat/percent)
+const mflat = (s,k)=> (s && s[k] && typeof s[k].flat==='number') ? s[k].flat : 0;
+const mpct  = (s,k)=> (s && s[k] && typeof s[k].percent==='number') ? s[k].percent : 0;
+
+/* ---------- PASSIFS D'ITEMS (effets conditionnels, par nom) ----------
+   Meraki donne les stats mais pas l'application des passifs dynamiques.
+   On code ici les passifs qui changent réellement les stats/dégâts d'Urgot.
+   Chaque entrée peut définir :
+     - applyStats(A)  : modifie l'objet stats agrégé (ex: Sterak +50% base AD)
+     - special        : drapeau pour le mannequin (cleaver, serylda…)
+     - onHitPctHP     : on-hit en % PV cible (BotRK) pour le mannequin
+     - note           : texte affiché dans les notes de build  */
+const ITEM_PASSIVES = {
+  "Sterak's Gage": {
+    note:"Gage de Sterak : +50% de l'AD de base.",
+    applyStats:(A)=>{ A.ad += A.baseAD * 0.50; A._sterak = A.baseAD*0.50; }
+  },
+  "Black Cleaver": {
+    special:'cleaver',
+    note:"Black Cleaver : réduit jusqu'à 30% de l'armure de la cible (6 stacks)."
+  },
+  "Serylda's Grudge": {
+    special:'serylda',
+    note:"Rancune de Serylda : pénétration d'armure en %, appliquée après la léthalité."
+  },
+  "Eclipse": {
+    special:'eclipse',
+    note:"Éclipse : dégâts bonus en % des PV max sur 2 attaques (non simulé)."
+  },
+  "Blade of the Ruined King": {
+    onHitPctHP:0.06,                 // 6% PV courant en on-hit (mêlée)
+    note:"Lame du Roi Déchu : on-hit ≈ 6% des PV de la cible (compté dans auto/W)."
+  },
+  "Ravenous Hydra": {
+    note:"Hydre Sanguinaire : dégâts de zone (cleave) sur les autos + omnivamp."
+  },
+  "Titanic Hydra": {
+    note:"Hydre Titanesque : dégâts bonus en % PV max d'Urgot sur les autos (non simulé)."
+  },
+  "Manamune": {
+    note:"Manamune/Muramana : AD bonus selon le mana (évolutif, non simulé en direct)."
+  },
+  "The Collector": {
+    note:"Le Collectionneur : exécute les cibles sous 5% PV."
+  },
+};
 
 async function loadItems(){
+  // Charge en parallèle : Meraki (stats complètes) + DDragon (images & filtre SR)
+  let meraki=null, dd=null;
   try{
-    const r = await fetch(`https://ddragon.leagueoflegends.com/cdn/${DDV}/data/fr_FR/item.json`);
-    const d = await r.json();
-    ALL_ITEMS = Object.entries(d.data).filter(([id,it])=>{
-      const maps = it.maps||{};
-      if(!maps['11']) return false;                 // Summoner's Rift uniquement
-      const g = it.gold||{};
-      if(!g.purchasable) return false;              // achetable
-      if(it.requiredChampion) return false;         // exclut items spécifiques (Viktor, Gangplank…)
-      if(it.consumed === undefined && it.into===undefined && it.from===undefined && g.total===0) return false;
-      const tags = it.tags||[];
-      if(tags.includes('Trinket')) return false;    // pas les trinkets
-      if(/Quick Charge|Total Biscuit|Your Cut|Health Potion$/.test(it.name) && g.total===0) return false;
-      return true;
-    }).map(([id,it])=>{
-      const st = it.stats||{};
-      const extra = statsFromName(it.name);
-      return {
-        id:+id, name:it.name, cat:classifyItem(it),
-        gold:(it.gold&&it.gold.total)||0,
-        img:`https://ddragon.leagueoflegends.com/cdn/${DDV}/img/item/${id}.png`,
-        hp:st.FlatHPPoolMod||0,
-        ad:st.FlatPhysicalDamageMod||0,
-        armor:st.FlatArmorMod||0,
-        mr:st.FlatSpellBlockMod||0,
-        as:st.PercentAttackSpeedMod||0,
-        crit:Math.round((st.FlatCritChanceMod||0)*100),
-        ls:Math.round((st.PercentLifeStealMod||0)*100),
-        ms_flat:st.FlatMovementSpeedMod||0,
-        ms_pct:st.PercentMovementSpeedMod||0,
-        ...extra,
-      };
-    }).sort((a,b)=> a.gold-b.gold || a.name.localeCompare(b.name));
-    renderItems();
-  }catch(e){
-    console.error('Erreur chargement items', e);
+    const [mr, dr] = await Promise.all([
+      fetch(MERAKI_URL).then(r=>r.json()).catch(()=>null),
+      fetch(`https://ddragon.leagueoflegends.com/cdn/${DDV}/data/fr_FR/item.json`).then(r=>r.json()).catch(()=>null),
+    ]);
+    meraki = mr; dd = dr;
+  }catch(e){ console.warn('Chargement items partiel', e); }
+
+  if(meraki){
+    buildFromMeraki(meraki, dd);
+  } else if(dd){
+    buildFromDDragon(dd);   // fallback dégradé
+  } else {
     document.getElementById('mgrid').innerHTML =
-      '<div class="modal-loading">Impossible de charger les items (réseau/API Riot indisponible).</div>';
+      '<div class="modal-loading">Impossible de charger les items (réseau/API indisponible).</div>';
+    return;
   }
+  renderItems();
+}
+
+/* ---- Construction depuis Meraki (chemin principal, stats complètes) ---- */
+function buildFromMeraki(meraki, dd){
+  const ddData = (dd && dd.data) || {};
+  ALL_ITEMS = Object.values(meraki).filter(it=>{
+    if(!it || !it.id) return false;
+    const maps = it.maps || {};
+    if(maps['11'] === false) return false;            // exclut hors SR
+    const shop = it.shop || {};
+    if(shop.purchasable === false) return false;
+    if(it.requiredChampion) return false;             // items spécifiques (Viktor…)
+    const tier = it.tier;
+    const total = (shop.prices && shop.prices.total) || 0;
+    // garde consommables + tout ce qui a un prix
+    const isConsumable = (it.type && it.type.includes && it.type.includes('CONSUMABLE')) ||
+                         /Potion|Biscuit|Elixir|Cookie/i.test(it.name||'');
+    if(!isConsumable && total<=0) return false;
+    if(/Trinket|Ward|Oracle|Stealth Ward|Farsight/i.test(it.name||'')) return false;
+    return true;
+  }).map(it=>{
+    const s = it.stats || {};
+    const name = it.name;
+    const ddId = it.id;
+    const passive = ITEM_PASSIVES[name] || null;
+    // Léthalité : Meraki la met dans stats.lethality.flat
+    const lethality = mflat(s,'lethality');
+    const armPenPct = mpct(s,'armorPenetration');
+    return {
+      id: ddId, name,
+      cat: classifyMeraki(it),
+      gold: (it.shop && it.shop.prices && it.shop.prices.total) || 0,
+      img: `https://ddragon.leagueoflegends.com/cdn/${DDV}/img/item/${ddId}.png`,
+      hp:    mflat(s,'health'),
+      ad:    mflat(s,'attackDamage'),
+      armor: mflat(s,'armor'),
+      mr:    mflat(s,'magicResistance'),
+      ah:    mflat(s,'abilityHaste'),
+      as:    mpct(s,'attackSpeed')/100,      // percent → décimal pour as_*(1+as)
+      crit:  Math.round(mpct(s,'criticalStrikeChance')),
+      ls:    Math.round(mpct(s,'lifesteal')),
+      omni:  Math.round(mpct(s,'omnivamp')),
+      ms_flat: mflat(s,'movespeed'),
+      ms_pct:  mpct(s,'movespeed')/100,      // percent → décimal pour ms*(1+ms_pct)
+      leth:  lethality,
+      apen:  Math.round(armPenPct),
+      bah:0, uh:0,
+      passiveKey: passive ? name : null,
+      special: passive && passive.special ? passive.special : null,
+      onHitPctHP: passive && passive.onHitPctHP ? passive.onHitPctHP : 0,
+      note: passive ? passive.note : null,
+    };
+  }).sort((a,b)=> a.gold-b.gold || a.name.localeCompare(b.name));
+}
+
+/* ---- Catégorisation depuis Meraki (tags shop) ---- */
+function classifyMeraki(it){
+  const name = it.name||'';
+  const shop = it.shop||{};
+  const tags = (shop.tags||[]).map(t=>String(t).toLowerCase());
+  const total = (shop.prices&&shop.prices.total)||0;
+  const s = it.stats||{};
+  const has = t => tags.includes(t);
+  if(/Potion|Biscuit|Elixir|Cookie|Refillable/i.test(name)) return 'consumable';
+  if(/Boots|Greaves|Treads|Steelcaps|Sorcerer|Swiftness|Mobility|Lucidity/i.test(name) && total<2000) return 'boots';
+  if(/Jungle|Mosstomper|Gustwalker|Scorchclaw|Smite/i.test(name)) return 'jungle';
+  if(has('lane') || /Relic Shield|Steel Shoulderguards|Spectral Sickle|Spellthief|World Atlas|Runic Compass|Bloodsong|Celestial|Dream Maker|Zaz'Zak|Bountiful/i.test(name)) return 'support';
+  if(total>0 && total<=500) return 'starter';
+  if(mflat(s,'criticalStrikeChance')>0 || mpct(s,'criticalStrikeChance')>0) return 'marksman';
+  if(mflat(s,'lethality')>0) return 'assassin';
+  if(mflat(s,'abilityPower')>0 && mflat(s,'attackDamage')===0) return 'mage';
+  const ad=mflat(s,'attackDamage'), hp=mflat(s,'health'), arm=mflat(s,'armor'), mr=mflat(s,'magicResistance');
+  if((arm>0||mr>0) && ad===0) return 'tank';
+  if(ad>0 && (hp>0 || mpct(s,'lifesteal')>0)) return 'fighter';
+  if(ad>0) return 'fighter';
+  if(hp>0 && (arm>0||mr>0)) return 'tank';
+  if(total>0 && total<1100) return 'component';
+  return 'fighter';
+}
+
+/* ---- Fallback DDragon (si Meraki indisponible) ---- */
+function buildFromDDragon(d){
+  ALL_ITEMS = Object.entries(d.data).filter(([id,it])=>{
+    const maps = it.maps||{};
+    if(!maps['11']) return false;
+    const g = it.gold||{};
+    if(!g.purchasable) return false;
+    if(it.requiredChampion) return false;
+    const tags = it.tags||[];
+    if(tags.includes('Trinket')) return false;
+    return true;
+  }).map(([id,it])=>{
+    const st = it.stats||{};
+    return {
+      id:+id, name:it.name, cat:classifyItem(it),
+      gold:(it.gold&&it.gold.total)||0,
+      img:`https://ddragon.leagueoflegends.com/cdn/${DDV}/img/item/${id}.png`,
+      hp:st.FlatHPPoolMod||0, ad:st.FlatPhysicalDamageMod||0,
+      armor:st.FlatArmorMod||0, mr:st.FlatSpellBlockMod||0,
+      as:st.PercentAttackSpeedMod||0,
+      crit:Math.round((st.FlatCritChanceMod||0)*100),
+      ls:Math.round((st.PercentLifeStealMod||0)*100),
+      ms_flat:st.FlatMovementSpeedMod||0, ms_pct:st.PercentMovementSpeedMod||0,
+      ah:0, omni:0, leth:0, apen:0, bah:0, uh:0,
+      passiveKey: ITEM_PASSIVES[it.name]?it.name:null,
+      special: ITEM_PASSIVES[it.name]&&ITEM_PASSIVES[it.name].special || null,
+      onHitPctHP: ITEM_PASSIVES[it.name]&&ITEM_PASSIVES[it.name].onHitPctHP || 0,
+      note: ITEM_PASSIVES[it.name]&&ITEM_PASSIVES[it.name].note || null,
+    };
+  }).sort((a,b)=> a.gold-b.gold || a.name.localeCompare(b.name));
 }
 
 /* ============================================================
@@ -955,21 +1054,36 @@ function aggregate(){
 
   // --- Items ---
   let special = { cleaver:false, serylda:false, eclipse:false };
+  let itemNotes = [];
+  let onHitPctHP = 0;
   S.items.forEach(it=>{
     if(!it) return;
     hp+=it.hp; ad+=it.ad; armor+=it.armor; mr+=it.mr;
     crit+=it.crit; ls+=it.ls; omni+=it.omni;
-    ah+=it.ah; bah+=it.bah; uh+=it.uh;
+    ah+=it.ah; bah+=it.bah||0; uh+=it.uh||0;
     leth+=it.leth; apen+=it.apen;
     ms+=it.ms_flat; if(it.ms_pct) ms_pct+=it.ms_pct;
     if(it.as) as_ = as_ * (1 + it.as);
     if(it.special && special.hasOwnProperty(it.special)) special[it.special]=true;
+    if(it.onHitPctHP) onHitPctHP += it.onHitPctHP;
+    if(it.note) itemNotes.push(it.note);
   });
 
   // Vitesse % appliquée en dernier ; AS plafonnée à 2.5
   if(ms_pct) ms = Math.floor(ms * (1 + ms_pct));
   as_ = Math.min(as_, 2.5);
   crit = Math.min(crit, 100);
+
+  const baseADval = baseAD;
+  // Objet de travail pour les passifs (Sterak modifie ad à partir de baseAD)
+  const work = { ad, baseAD:baseADval, _sterak:0 };
+  S.items.forEach(it=>{
+    if(!it || !it.passiveKey) return;
+    const p = ITEM_PASSIVES[it.passiveKey];
+    if(p && typeof p.applyStats==='function') p.applyStats(work);
+  });
+  ad = work.ad;
+  const sterakBonus = work._sterak || 0;
 
   const bonusAD = ad - baseAD;
   const bonusHP = hp - baseHP;
@@ -978,7 +1092,8 @@ function aggregate(){
     l, baseHP, baseAD, baseArmor, baseMR,
     hp, ad, armor, mr, as_, hp5, ms,
     crit, ls, omni, ah, bah, uh, leth, apen, ten, ms_pct,
-    bonusAD, bonusHP, special,
+    bonusAD, bonusHP, special, sterakBonus, onHitPctHP,
+    itemNotes,
   };
 }
 
@@ -1119,12 +1234,16 @@ function renderAbilities(A){
     </div>
     <div class="notes-box" id="buildNotes"></div>`;
 
-  // Notes de build (items spéciaux)
+  // Notes de build (passifs d'items réellement présents)
   let notes='';
-  if(A.special.cleaver) notes += `<div class="note"><b>Black Cleaver</b> — réduit jusqu'à 30% de l'armure de la cible (6 stacks).</div>`;
-  if(A.special.serylda) notes += `<div class="note"><b>Rancune de Serylda</b> — pénétration d'armure en % appliquée après la léthalité.</div>`;
-  if(A.special.eclipse) notes += `<div class="note"><b>Éclipse</b> — dégâts bonus en % des PV max (non simulé dans le mannequin).</div>`;
-  document.getElementById('buildNotes').innerHTML = notes;
+  if(A.sterakBonus>0) notes += `<div class="note"><b>Gage de Sterak</b> — +${Math.round(A.sterakBonus)} AD (50% de l'AD de base, déjà inclus ci-dessus).</div>`;
+  const uniqueNotes = [...new Set(A.itemNotes||[])];
+  uniqueNotes.forEach(n=>{
+    // évite de redoubler la note Sterak déjà affichée avec sa valeur
+    if(/Sterak/i.test(n)) return;
+    notes += `<div class="note">${n.replace(/^([^:]+):/, '<b>$1</b> —')}</div>`;
+  });
+  document.getElementById('buildNotes').innerHTML = notes || '<div class="note" style="opacity:.6">Aucun passif d\'item particulier sur ce build.</div>';
 }
 
 /* ============================================================
@@ -1167,11 +1286,14 @@ function renderDummy(){
 
   // Dégâts bruts par source (avant armure & passif) — protège les rangs 0 (sort non appris)
   const rIdx = k => Math.max(0, ranks[k]-1);
+  // On-hit % PV courant de la cible (BotRK) — physique, s'applique aux autos et tirs de W
+  const onHitFlat = (A.onHitPctHP||0) * dHP;
   const raw = {};
-  raw.auto = A.ad;
+  raw.auto = A.ad + onHitFlat;
   raw.Q = ranks.Q>=1 ? SPELLS.Q.base[rIdx('Q')] + A.ad*SPELLS.Q.adRatio : 0;
   raw.E = ranks.E>=1 ? SPELLS.E.base[rIdx('E')] + A.bonusAD*SPELLS.E.adRatio : 0;
-  raw.Wshot = ranks.W>=1 ? SPELLS.W.base[rIdx('W')] + A.ad*SPELLS.W.adRatio : 0;
+  // W applique l'on-hit à 50% d'efficacité par tir
+  raw.Wshot = ranks.W>=1 ? SPELLS.W.base[rIdx('W')] + A.ad*SPELLS.W.adRatio + onHitFlat*0.5 : 0;
   raw.R = ranks.rLearned ? (SPELLS.R.base[rIdx('R')] + A.bonusAD*SPELLS.R.adRatio) : 0;
   // Passif : 1 jambe = (adR * AD) + (hpR * PV max cible)
   const adR = passiveADRatio(A.l), hpR = passiveHPRatio(A.l);
