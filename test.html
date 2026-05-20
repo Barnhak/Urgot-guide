@@ -152,6 +152,62 @@ input[type=range]{width:100%;}
   </div>
 </div>
 
+
+<!-- TRAINING DUMMY -->
+<div class="card" id="dummy-card">
+  <div class="title">Training Dummy — Simulation de dégâts</div>
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-bottom:16px;">
+    <div>
+      <div class="row-lbl">HP du mannequin</div>
+      <div style="display:flex;align-items:center;gap:10px;">
+        <input type="range" min="100" max="12000" step="50" value="3000" id="dummy-hp-slider"/>
+        <input type="number" min="100" max="12000" step="50" value="3000" id="dummy-hp-val" style="width:90px;background:#111;border:1px solid var(--border);color:var(--text);border-radius:5px;padding:6px 8px;font-family:'Rajdhani',sans-serif;font-size:14px;"/>
+      </div>
+    </div>
+    <div>
+      <div class="row-lbl">Armure du mannequin</div>
+      <div style="display:flex;align-items:center;gap:10px;">
+        <input type="range" min="0" max="500" step="5" value="100" id="dummy-armor-slider"/>
+        <input type="number" min="0" max="500" step="5" value="100" id="dummy-armor-val" style="width:90px;background:#111;border:1px solid var(--border);color:var(--text);border-radius:5px;padding:6px 8px;font-family:'Rajdhani',sans-serif;font-size:14px;"/>
+      </div>
+    </div>
+    <div>
+      <div class="row-lbl">MR du mannequin</div>
+      <div style="display:flex;align-items:center;gap:10px;">
+        <input type="range" min="0" max="300" step="5" value="50" id="dummy-mr-slider"/>
+        <input type="number" min="0" max="300" step="5" value="50" id="dummy-mr-val" style="width:90px;background:#111;border:1px solid var(--border);color:var(--text);border-radius:5px;padding:6px 8px;font-family:'Rajdhani',sans-serif;font-size:14px;"/>
+      </div>
+    </div>
+    <div>
+      <div class="row-lbl">Passif ennemi (réduction dmg)</div>
+      <select id="dummy-passive" style="width:100%;background:#111;border:1px solid var(--border);color:var(--text);border-radius:5px;padding:8px;font-family:'Rajdhani',sans-serif;font-size:13px;">
+        <option value="none">Aucun</option>
+        <option value="malphite">Malphite — W réduit 10% AD reçu</option>
+        <option value="wukong">Wukong — W clone dummy</option>
+        <option value="shyvana">Shyvana — Résistances doublées en dragon</option>
+        <option value="ornn">Ornn — +10% HP max bonus</option>
+        <option value="maokai">Maokai — Réduit 5% dégâts non-sorts</option>
+        <option value="mundo">Dr. Mundo — Régén massive (non simulé ici)</option>
+        <option value="sion">Sion — Passif HP infini post-mort</option>
+        <option value="chogath">Cho'Gath — +HP par stack R</option>
+        <option value="galio">Galio — +50 MR bonus</option>
+      </select>
+    </div>
+  </div>
+
+  <div id="dummy-results" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;"></div>
+</div>
+
+<style>
+#dummy-card .row-lbl{margin:.4rem 0 .3rem;}
+.dmg-card{background:var(--card);border:1px solid #27422D;padding:12px 14px;border-radius:8px;}
+.dmg-label{font-family:'Cinzel',serif;font-size:10px;letter-spacing:.12em;color:var(--text2);text-transform:uppercase;margin-bottom:5px;}
+.dmg-val{font-size:22px;font-weight:700;color:var(--green);}
+.dmg-pct{font-size:12px;color:var(--text2);margin-top:2px;}
+.dmg-val.warn{color:var(--gold);}
+</style>
+
 <script>
 // ═══════════════════════════════════════════════
 // BASE STATS  Urgot patch 16.9.1
@@ -704,14 +760,18 @@ function syncDummy(hp,armor,mr){
   calcDummy();
 }
 
-// Slider ↔ input sync
-['hp','armor','mr'].forEach(stat=>{
-  const sl=document.getElementById(`dummy-${stat}-slider`);
-  const inp=document.getElementById(`dummy-${stat}-val`);
-  sl.input=()=>{inp.value=sl.value;DUMMY[stat]=+sl.value;calcDummy();};
-  inp.input=()=>{sl.value=inp.value;DUMMY[stat]=+inp.value;calcDummy();};
-});
-document.getElementById('dummy-passive').onchange=e=>{DUMMY.passive=e.target.value;calcDummy();};
+// Slider ↔ input sync — called after DOM ready
+function initDummy(){
+  ['hp','armor','mr'].forEach(stat=>{
+    const sl=document.getElementById('dummy-'+stat+'-slider');
+    const inp=document.getElementById('dummy-'+stat+'-val');
+    if(!sl||!inp) return;
+    sl.oninput=()=>{inp.value=sl.value;DUMMY[stat]=+sl.value;calcDummy();};
+    inp.oninput=()=>{sl.value=inp.value;DUMMY[stat]=+inp.value;calcDummy();};
+  });
+  const dp=document.getElementById('dummy-passive');
+  if(dp) dp.onchange=e=>{DUMMY.passive=e.target.value;calcDummy();};
+}
 
 function calcDummy(){
   const l=S.lvl;
@@ -829,62 +889,9 @@ document.getElementById('levelSlider').addEventListener('input',e=>{
 renderSlots();
 renderRunes();
 calc();
+initDummy();
+calcDummy();
 loadItems();
 </script>
 
-<!-- TRAINING DUMMY -->
-<div class="card" id="dummy-card">
-  <div class="title">Training Dummy — Simulation de dégâts</div>
-
-  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-bottom:16px;">
-    <div>
-      <div class="row-lbl">HP du mannequin</div>
-      <div style="display:flex;align-items:center;gap:10px;">
-        <input type="range" min="100" max="12000" step="50" value="3000" id="dummy-hp-slider"/>
-        <input type="number" min="100" max="12000" step="50" value="3000" id="dummy-hp-val" style="width:90px;background:#111;border:1px solid var(--border);color:var(--text);border-radius:5px;padding:6px 8px;font-family:'Rajdhani',sans-serif;font-size:14px;"/>
-      </div>
-    </div>
-    <div>
-      <div class="row-lbl">Armure du mannequin</div>
-      <div style="display:flex;align-items:center;gap:10px;">
-        <input type="range" min="0" max="500" step="5" value="100" id="dummy-armor-slider"/>
-        <input type="number" min="0" max="500" step="5" value="100" id="dummy-armor-val" style="width:90px;background:#111;border:1px solid var(--border);color:var(--text);border-radius:5px;padding:6px 8px;font-family:'Rajdhani',sans-serif;font-size:14px;"/>
-      </div>
-    </div>
-    <div>
-      <div class="row-lbl">MR du mannequin</div>
-      <div style="display:flex;align-items:center;gap:10px;">
-        <input type="range" min="0" max="300" step="5" value="50" id="dummy-mr-slider"/>
-        <input type="number" min="0" max="300" step="5" value="50" id="dummy-mr-val" style="width:90px;background:#111;border:1px solid var(--border);color:var(--text);border-radius:5px;padding:6px 8px;font-family:'Rajdhani',sans-serif;font-size:14px;"/>
-      </div>
-    </div>
-    <div>
-      <div class="row-lbl">Passif ennemi (réduction dmg)</div>
-      <select id="dummy-passive" style="width:100%;background:#111;border:1px solid var(--border);color:var(--text);border-radius:5px;padding:8px;font-family:'Rajdhani',sans-serif;font-size:13px;">
-        <option value="none">Aucun</option>
-        <option value="malphite">Malphite — W réduit 10% AD reçu</option>
-        <option value="wukong">Wukong — W clone dummy</option>
-        <option value="shyvana">Shyvana — Résistances doublées en dragon</option>
-        <option value="ornn">Ornn — +10% HP max bonus</option>
-        <option value="maokai">Maokai — Réduit 5% dégâts non-sorts</option>
-        <option value="mundo">Dr. Mundo — Régén massive (non simulé ici)</option>
-        <option value="sion">Sion — Passif HP infini post-mort</option>
-        <option value="chogath">Cho'Gath — +HP par stack R</option>
-        <option value="galio">Galio — +50 MR bonus</option>
-      </select>
-    </div>
-  </div>
-
-  <div id="dummy-results" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;"></div>
-</div>
-
-<style>
-#dummy-card .row-lbl{margin:.4rem 0 .3rem;}
-.dmg-card{background:var(--card);border:1px solid #27422D;padding:12px 14px;border-radius:8px;}
-.dmg-label{font-family:'Cinzel',serif;font-size:10px;letter-spacing:.12em;color:var(--text2);text-transform:uppercase;margin-bottom:5px;}
-.dmg-val{font-size:22px;font-weight:700;color:var(--green);}
-.dmg-pct{font-size:12px;color:var(--text2);margin-top:2px;}
-.dmg-val.warn{color:var(--gold);}
-</style>
 </body>
-</html>
