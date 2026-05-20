@@ -374,25 +374,7 @@ const LETH_MAP={3814:20,6695:18,6692:20,3142:18,6701:20};
 const APEN_MAP={3033:30,3036:35};
 const OMNI_MAP={223008:8,1055:3};
 const SPECIAL={2501:'bloodmail',6665:'jaksho',3071:'bc'};
-// AH map (DDragon FlatHasteMod unreliable) — patch 16.9.1
-// ult_ah = ability haste that applies to R only (e.g. Hexplate)
-const AH_MAP={
-  3071:20, 3053:0,  3748:20, 3748:20, 223181:0, 223161:20, 6609:15, 6333:15,
-  3156:15, 6692:15, 3814:0,  2501:0,  6665:15,  3110:20,   3065:10, 3083:0,
-  3143:0,  3742:0,  4401:0,  222504:0,3075:0,   3076:0,    6695:0,  6333:15,
-  3033:0,  3036:0,  3142:15, 6701:0,  3190:20,  3107:15,   2065:20, 3222:15,
-  3109:20, 3020:0,  3158:15, 3006:0,  3047:0,   3111:0,    223008:0,3009:0,
-  3031:0,  3094:0,  3046:0,  3087:0,  6672:0,   6676:0,    3089:0,  4645:0,
-  3135:0,  3116:0,  4637:10, 3040:0,  4628:10,  3041:0,    3152:10, 3109:20,
-  1055:0,  1054:0,  1083:0,
-  // Hexplate: 30 AH but only on ult (special case)
-  3041:0,
-};
-// Items that give AH on ult only
-const ULT_AH_MAP={
-  // Hexplate id — gives 30 ult haste
-};
-// Manually checked AH from patch notes for most common items:
+// AH manual map patch 16.9.1 (DDragon FlatHasteMod unreliable)
 const AH_OVERRIDE={
   3071:20, 6609:15, 6333:15, 3156:15, 6692:15, 3748:20, 223161:20,
   3142:15, 3190:20, 3107:15, 2065:20, 3222:15, 3109:20, 3158:15,
@@ -755,19 +737,15 @@ function calc(){
 // ═══════════════════════════════════════════════
 const DUMMY={hp:3000,armor:100,mr:50,passive:'none'};
 
-function syncDummy(hp,armor,mr){
-  DUMMY.hp=hp; DUMMY.armor=armor; DUMMY.mr=mr;
-  calcDummy();
-}
-
 // Slider ↔ input sync — called after DOM ready
 function initDummy(){
+  let _syncing=false;
   ['hp','armor','mr'].forEach(stat=>{
     const sl=document.getElementById('dummy-'+stat+'-slider');
     const inp=document.getElementById('dummy-'+stat+'-val');
     if(!sl||!inp) return;
-    sl.oninput=()=>{inp.value=sl.value;DUMMY[stat]=+sl.value;calcDummy();};
-    inp.oninput=()=>{sl.value=inp.value;DUMMY[stat]=+inp.value;calcDummy();};
+    sl.oninput=()=>{if(_syncing)return;_syncing=true;inp.value=sl.value;DUMMY[stat]=+sl.value;_syncing=false;calcDummy();};
+    inp.oninput=()=>{if(_syncing)return;_syncing=true;sl.value=inp.value;DUMMY[stat]=+inp.value;_syncing=false;calcDummy();};
   });
   const dp=document.getElementById('dummy-passive');
   if(dp) dp.onchange=e=>{DUMMY.passive=e.target.value;calcDummy();};
@@ -874,8 +852,6 @@ function calcDummy(){
     card('All-In ~4s',    allIn,     allInPct, allInPct>=100?'warn':'')+
     `<div class="dmg-card"><div class="dmg-label">Eff. Armor après pen</div><div class="dmg-val" style="font-size:16px">${Math.round(effArmor)} (base ${DUMMY.armor})</div></div>`+
     `<div class="dmg-card"><div class="dmg-label">HP effectif (phys)</div><div class="dmg-val" style="font-size:16px">${Math.round(dHP*(1+effArmor/100))}</div></div>`;
-  // update dummy
-  if(typeof calcDummy==='function') calcDummy();
 }
 
 // ═══ INIT ═══
