@@ -956,7 +956,7 @@ function calcDummy(){
     card('6-Leg Burst',   burst6Legs,burst6Legs/dHP*100)+
     card('All-In ~4s',    allIn,     allInPct, allInPct>=100?'warn':'')+
     `<div class="dmg-card"><div class="dmg-label">Eff. Armor après pen</div><div class="dmg-val" style="font-size:16px">${Math.round(effArmor)} (base ${DUMMY.armor})</div></div>`+
-    (bcShred>0?`<div class="dmg-card"><div class="dmg-label">Armor après BC shred</div><div class="dmg-val" style="font-size:16px">${Math.round(effArmorAfterBC)} (-${Math.round(bcShred*100)}%)</div></div>`:'`)+
+    (bcShred>0?`<div class="dmg-card"><div class="dmg-label">Armor après BC shred</div><div class="dmg-val" style="font-size:16px">${Math.round(effArmorAfterBC)} (-${Math.round(bcShred*100)}%)</div></div>`:`<div></div>`)+
     `<div class="dmg-card"><div class="dmg-label">HP effectif (phys)</div><div class="dmg-val" style="font-size:16px">${Math.round(dHP*(1+effArmorAfterBC/100))}</div></div>`;
 }
 
