@@ -372,20 +372,61 @@ function getItemCat(tags,gold){
 const LETH_MAP={3814:20,6695:18,6692:20,3142:18,6701:20};
 const APEN_MAP={3033:30,3036:35};
 const OMNI_MAP={223008:8,1055:3};
-const SPECIAL={2501:'bloodmail',6665:'jaksho',3071:'bc'};
-// AH manual map patch 16.9.1 (DDragon FlatHasteMod unreliable) + bonus passifs
+const SPECIAL={2501:'bloodmail',6665:'jaksho',3071:'bc',6673:'endless',3504:'batonflots'};
+// AH manual map patch 16.9.1 — Tous les items SR 5v5 avec AH
 const AH_OVERRIDE={
-  3071:20, 6609:15, 6333:15, 3156:15, 6692:15, 3748:20, 223161:20,
-  3142:15, 3190:20, 3107:15, 2065:20, 3222:15, 3109:20, 3158:15,
-  4637:10, 4628:10, 3152:10, 6665:15, 3110:20, 3065:10,
-  // Items avec bonus AH passif uniques
-  3068:10,   // Kaenic Rookern (anti-spell, +10 AH)
-  6672:20,   // Heartsteel (+20 AH passif)
-  3124:15,   // Guinsoo's Rageblade (+15 AH)
-  2065:20,   // Spirit Visage (+20 AH)
-  3814:10,   // Edge of Night (+10 AH)
-  6609:15,   // Silvermere Dawn (+15 AH)
-  3157:15,   // Void Radiance (+15 AH)
+  // Base items (composants)
+  3057:10,   // Fiendish Codex / Sheen
+  3067:10,   // Caulfield's Warhammer / Kindlegem
+  3024:10,   // Glacial Buckler
+  3802:10,   // Lost Chapter
+  
+  // Boots
+  3158:10,   // Ionian Boots of Lucidity
+  
+  // Full items
+  3001:15,   // Abyssal Mask
+  6333:10,   // Actualizer
+  3003:25,   // Archangel's Staff / Manamune / Muramana
+  4003:20,   // Axiom Arc
+  3071:20,   // Black Cleaver
+  4005:20,   // Blackfire Torch
+  6609:15,   // Bloodletter's Curse
+  3033:15,   // Chempunk Chainsword
+  3108:25,   // Cosmic Drive
+  4636:20,   // Cryptbloom / Fimbulwinter
+  3165:15,   // Morellonomicon
+  6616:20,   // Dusk and Dawn / Echoes of Helia
+  3508:20,   // Essence Reaver
+  6673:15,   // Malignance / Zephyr
+  3025:15,   // Iceborn Gauntlet
+  3504:20,   // Imperial Mandate / Mikael's Blessing / Moonstone / Staff of Flowing Water / Shurelya's
+  3152:20,   // Hextech Rocketbelt
+  4637:10,   // Hollow Radiance / Protoplasm Harness
+  3859:25,   // Horizon Focus
+  6617:10,   // Hubris / Unending Despair / Voltaic Cyclosword
+  3109:10,   // Knight's Vow
+  3100:10,   // Lich Bane
+  3190:10,   // Locket of the Iron Solari
+  3135:10,   // Luden's Echo
+  3142:15,   // Maw of Malmortius
+  3115:15,   // Nashor's Tooth
+  3748:10,   // Profane Hydra / Ravenous Hydra (10 for Profane, 15 for Ravenous)
+  3107:15,   // Redemption
+  3085:15,   // Riftmaker
+  3040:25,   // Seraph's Embrace
+  3036:15,   // Serylda's Grudge
+  3156:10,   // Spirit Visage
+  3860:10,   // Sundered Sky
+  3068:10,   // Sunfire Aegis
+  3078:15,   // Trinity Force
+  3147:15,   // Umbral Glaive
+  3050:10,   // Zeke's Convergence
+};
+
+// Corrections spécifiques pour items avec plusieurs versions
+const AH_SPECIAL={
+  3748:15,   // Ravenous Hydra (15 au lieu de Profane's 10)
 };
 
 let ALL_ITEMS=[];
@@ -662,9 +703,23 @@ function calc(){
   });
 
   const bonusHP=hp-bHP;
+  const bonusAD=ad-bAD;
+  
   // Bloodmail +4% AD per 100 bonus HP
   let bloodAD=0;
-  if(hasBlood){bloodAD=Math.floor(bonusHP/100)*0.04*(ad-bAD);ad+=bloodAD;}
+  if(hasBlood){bloodAD=Math.floor(bonusHP/100)*0.04*bonusAD;ad+=bloodAD;}
+  
+  // Endless Hunger — Famine: 5 + (13% bonus AD) AH
+  let endlessAH=0;
+  let hasEndless=false;
+  S.items.forEach(it=>{if(it&&it.special==='endless'){hasEndless=true;}});
+  if(hasEndless){endlessAH=5+Math.floor(bonusAD*0.13);ah+=endlessAH;}
+  
+  // Bâton des Flots — Rapids: +15 AH (bonus passif)
+  let hasBaston=false;
+  S.items.forEach(it=>{if(it&&it.special==='batonflots'){hasBaston=true;}});
+  if(hasBaston){ah+=15;}
+  
   // Jak'Sho +12% resists at 6 stacks
   let jakA=0,jakM=0;
   if(hasJak){jakA=armor*0.12;jakM=mr*0.12;armor+=jakA;mr+=jakM;}
@@ -714,6 +769,8 @@ function calc(){
   // Spells + passive
   let notes='';
   if(hasBlood&&bloodAD>0.5) notes+=`<div class="leg-stat">Bloodmail bonus: <strong>+${Math.round(bloodAD)} AD</strong></div>`;
+  if(hasEndless&&endlessAH>0) notes+=`<div class="leg-stat">Endless Hunger (Famine): <strong>+${Math.round(endlessAH)} AH</strong> (5 + 13% bonus AD)</div>`;
+  if(hasBaston) notes+=`<div class="leg-stat">Bâton des Flots (Rapids): <strong>+15 AH</strong></div>`;
   if(hasJak) notes+=`<div class="leg-stat">Jak'Sho 6 stacks: <strong>+${Math.round(jakA)} armor / +${Math.round(jakM)} MR</strong></div>`;
   if(hasBC)  notes+=`<div class="leg-stat">Black Cleaver: <strong>36% armor shred max</strong></div>`;
 
@@ -785,7 +842,14 @@ function calcDummy(){
 
   // Bloodmail
   let bonusHP=hp-grow(BASE.hp.b,BASE.hp.g,l);
-  S.items.forEach(it=>{if(it&&it.special==='bloodmail'){ad+=Math.floor(bonusHP/100)*0.04*(ad-grow(BASE.ad.b,BASE.ad.g,l));}});
+  let bonusAD=ad-grow(BASE.ad.b,BASE.ad.g,l);
+  S.items.forEach(it=>{if(it&&it.special==='bloodmail'){ad+=Math.floor(bonusHP/100)*0.04*bonusAD;}});
+  
+  // Endless Hunger — Famine: 5 + (13% bonus AD) AH
+  S.items.forEach(it=>{if(it&&it.special==='endless'){ah+=5+Math.floor(bonusAD*0.13);}});
+  
+  // Bâton des Flots — Rapids: +15 AH
+  S.items.forEach(it=>{if(it&&it.special==='batonflots'){ah+=15;}});
 
   // Dummy effective armor/mr after pen
   let dArmor=DUMMY.armor;
