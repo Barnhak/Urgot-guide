@@ -373,69 +373,78 @@ const LETH_MAP={3814:20,6695:18,6692:20,3142:18,6701:20};
 const APEN_MAP={3033:30,3036:35};
 const OMNI_MAP={223008:8,1055:3};
 const SPECIAL={2501:'bloodmail',6665:'jaksho',3071:'bc',6673:'endless',3504:'batonflots'};
-// AH manual map patch 16.9.1 — ABILITY HASTE NORMAL (affecte Q/W/E/R)
-const AH_NORMAL={
-  // Base items (composants)
-  3057:10,   // Fiendish Codex / Sheen
-  3067:10,   // Caulfield's Warhammer / Kindlegem
-  3024:10,   // Glacial Buckler
-  3802:10,   // Lost Chapter
-  
-  // Boots
-  3158:10,   // Ionian Boots of Lucidity
-  
-  // Full items
-  3001:15,   // Abyssal Mask
-  6333:10,   // Actualizer
-  3003:25,   // Archangel's Staff / Manamune / Muramana
-  4003:20,   // Axiom Arc
-  3071:20,   // Black Cleaver
-  4005:20,   // Blackfire Torch
-  6609:15,   // Bloodletter's Curse
-  3033:15,   // Chempunk Chainsword
-  3108:25,   // Cosmic Drive
-  4636:20,   // Cryptbloom / Fimbulwinter
-  3165:15,   // Morellonomicon
-  6616:20,   // Dusk and Dawn / Echoes of Helia
-  3508:20,   // Essence Reaver
-  3025:15,   // Iceborn Gauntlet
-  3504:20,   // Imperial Mandate / Mikael's Blessing / Moonstone / Staff of Flowing Water / Shurelya's
-  3152:20,   // Hextech Rocketbelt
-  4637:10,   // Hollow Radiance / Protoplasm Harness
-  3859:25,   // Horizon Focus
-  6617:10,   // Hubris / Unending Despair / Voltaic Cyclosword
-  3109:10,   // Knight's Vow
-  3100:10,   // Lich Bane
-  3190:10,   // Locket of the Iron Solari
-  3135:10,   // Luden's Echo
-  3142:15,   // Maw of Malmortius
-  3115:15,   // Nashor's Tooth
-  3748:10,   // Profane Hydra / Ravenous Hydra (10 for Profane, 15 for Ravenous)
-  3107:15,   // Redemption
-  3085:15,   // Riftmaker
-  3040:25,   // Seraph's Embrace
-  3036:15,   // Serylda's Grudge
-  3156:10,   // Spirit Visage
-  3860:10,   // Sundered Sky
-  3068:10,   // Sunfire Aegis
-  3078:15,   // Trinity Force
-  3147:15,   // Umbral Glaive
-  3050:10,   // Zeke's Convergence
-  2400:15,   // Winter's Approach
-  3147:15,   // Umbral Glaive
-};
+// AH MAPS — Basées sur les NOMS d'items pour éviter les problèmes d'ID
+const ITEM_AH_DATA = {
+  // ABILITY HASTE NORMAL (affecte Q/W/E/R)
+  "Abyssal Mask": { ah: 15 },
+  "Actualizer": { ah: 10 },
+  "Archangel's Staff": { ah: 25 },
+  "Axiom Arc": { ah: 20 },
+  "Black Cleaver": { ah: 20 },
+  "Blackfire Torch": { ah: 20 },
+  "Bloodletter's Curse": { ah: 15 },
+  "Caulfield's Warhammer": { ah: 10 },
+  "Chempunk Chainsword": { ah: 15 },
+  "Cosmic Drive": { ah: 25 },
+  "Crimson Lucidity": { ah: 20 },
+  "Cryptbloom": { ah: 20 },
+  "Death's Dance": { ah: 15 },
+  "Dusk and Dawn": { ah: 20 },
+  "Echoes of Helia": { ah: 20 },
+  "Eclipse": { ah: 15 },
+  "Essence Reaver": { ah: 20 },
+  "Fiendish Codex": { ah: 10 },
+  "Fimbulwinter": { ah: 15 },
+  "Frozen Heart": { ah: 20 },
+  "Glacial Buckler": { ah: 10 },
+  "Hextech Rocketbelt": { ah: 20 },
+  "Hollow Radiance": { ah: 10 },
+  "Horizon Focus": { ah: 25 },
+  "Hubris": { ah: 10 },
+  "Iceborn Gauntlet": { ah: 15 },
+  "Imperial Mandate": { ah: 20 },
+  "Ionian Boots of Lucidity": { ah: 10 },
+  "Kindlegem": { ah: 10 },
+  "Knight's Vow": { ah: 10 },
+  "Lich Bane": { ah: 10 },
+  "Locket of the Iron Solari": { ah: 10 },
+  "Lost Chapter": { ah: 10 },
+  "Luden's Echo": { ah: 10 },
+  "Malignance": { ah: 15 },
+  "Manamune": { ah: 15 },
+  "Maw of Malmortius": { ah: 15 },
+  "Mikael's Blessing": { ah: 15 },
+  "Moonstone Renewer": { ah: 20 },
+  "Morellonomicon": { ah: 15 },
+  "Muramana": { ah: 15 },
+  "Nashor's Tooth": { ah: 15 },
+  "Profane Hydra": { ah: 10 },
+  "Protoplasm Harness": { ah: 20 },
+  "Ravenous Hydra": { ah: 15 },
+  "Redemption": { ah: 15 },
+  "Riftmaker": { ah: 15 },
+  "Seraph's Embrace": { ah: 25 },
+  "Serylda's Grudge": { ah: 15 },
+  "Sheen": { ah: 10 },
+  "Shurelya's Battlesong": { ah: 15 },
+  "Spirit Visage": { ah: 10 },
+  "Staff of Flowing Water": { ah: 10 },
+  "Sundered Sky": { ah: 10 },
+  "Sunfire Aegis": { ah: 10 },
+  "Trinity Force": { ah: 15 },
+  "Umbral Glaive": { ah: 15 },
+  "Unending Despair": { ah: 15 },
+  "Voltaic Cyclosword": { ah: 10 },
+  "Winter's Approach": { ah: 15 },
+  "Zeke's Convergence": { ah: 10 },
 
-// BASIC ABILITY HASTE (affecte Q/W/E seulement)
-const AH_BASIC={
-  3031:25,   // Spear of Shojin
-};
+  // BASIC ABILITY HASTE (affecte Q/W/E seulement)
+  "Spear of Shojin": { bah: 25 },
 
-// ULTIMATE HASTE (affecte R seulement)
-const AH_ULTIMATE={
-  6616:20,   // Experimental Hexplate
-  // Fiendhunter Bolts (besoin ID)
-  6673:20,   // Malignance (Ultimate Haste version)
-  3050:20,   // Zeke's Convergence (Ultimate Haste version)
+  // ULTIMATE HASTE (affecte R seulement)
+  "Experimental Hexplate": { uh: 20 },
+  "Fiendhunter Bolts": { uh: 20 },
+  "Zephyr": { uh: 30 },
 };
 
 let ALL_ITEMS=[];
@@ -455,27 +464,30 @@ async function loadItems(){
         if(tags.includes('Trinket')) return false;
         return true;
       })
-      .map(([id,it])=>({
-        id:+id, name:it.name,
-        cat:getItemCat(it.tags,it.gold),
-        img:`https://ddragon.leagueoflegends.com/cdn/16.9.1/img/item/${id}.png`,
-        hp:it.stats.FlatHPPoolMod||0,
-        ad:it.stats.FlatPhysicalDamageMod||0,
-        armor:it.stats.FlatArmorMod||0,
-        mr:it.stats.FlatSpellBlockMod||0,
-        ah:AH_NORMAL[+id]||(it.stats.FlatHasteMod||0),
-        bah:AH_BASIC[+id]||0,
-        uh:AH_ULTIMATE[+id]||0,
-        as:it.stats.PercentAttackSpeedMod||0,
-        crit:(it.stats.FlatCritChanceMod||0)*100,
-        ls:(it.stats.PercentLifeStealMod||0)*100,
-        ms:it.stats.FlatMovementSpeedMod||0,
-        ms_pct:it.stats.PercentMovementSpeedMod||0,
-        leth:LETH_MAP[+id]||0,
-        apen:APEN_MAP[+id]||0,
-        omni:OMNI_MAP[+id]||0,
-        special:SPECIAL[+id]||null,
-      }));
+      .map(([id,it])=>{
+        const ahData = ITEM_AH_DATA[it.name] || {};
+        return {
+          id:+id, name:it.name,
+          cat:getItemCat(it.tags,it.gold),
+          img:`https://ddragon.leagueoflegends.com/cdn/16.9.1/img/item/${id}.png`,
+          hp:it.stats.FlatHPPoolMod||0,
+          ad:it.stats.FlatPhysicalDamageMod||0,
+          armor:it.stats.FlatArmorMod||0,
+          mr:it.stats.FlatSpellBlockMod||0,
+          ah:ahData.ah||0,
+          bah:ahData.bah||0,
+          uh:ahData.uh||0,
+          as:it.stats.PercentAttackSpeedMod||0,
+          crit:(it.stats.FlatCritChanceMod||0)*100,
+          ls:(it.stats.PercentLifeStealMod||0)*100,
+          ms:it.stats.FlatMovementSpeedMod||0,
+          ms_pct:it.stats.PercentMovementSpeedMod||0,
+          leth:LETH_MAP[+id]||0,
+          apen:APEN_MAP[+id]||0,
+          omni:OMNI_MAP[+id]||0,
+          special:SPECIAL[+id]||null,
+        };
+      });
     renderItems();
   }catch(e){console.error('Items load error',e);}
 }
@@ -970,10 +982,9 @@ document.getElementById('levelSlider').addEventListener('input',e=>{
 
 renderSlots();
 renderRunes();
-calc();
 initDummy();
-calcDummy();
-loadItems();
+loadItems(); // Charger les items EN PREMIER
+// Ensuite calc() sera appelée quand on ajoutera des items
 </script>
 
 </body>
