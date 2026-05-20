@@ -70,9 +70,10 @@ input[type=range]{width:100%;}
 .rune-btn.on-pri{border-color:var(--green);box-shadow:0 0 12px rgba(74,222,128,.3),inset 0 0 10px rgba(74,222,128,.12);}
 .rune-btn.on-sec{border-color:#0BC4E3;box-shadow:0 0 10px rgba(11,196,227,.25);}
 /* SHARDS */
-.shards-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:6px;}
-.shard-col{display:flex;flex-direction:column;gap:4px;}
-.shard-btn{display:flex;align-items:center;gap:5px;padding:5px 7px;background:#0a1510;border:1px solid var(--border);color:var(--text2);cursor:pointer;border-radius:5px;font-size:11px;transition:.15s;white-space:nowrap;}
+.shards-grid{display:flex;flex-direction:column;gap:6px;margin-top:6px;}
+.shard-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.shard-slot-lbl{font-family:'Cinzel',serif;font-size:9px;letter-spacing:.15em;color:var(--text2);text-transform:uppercase;min-width:48px;flex-shrink:0;}
+.shard-btn{display:flex;align-items:center;gap:5px;padding:5px 10px;background:#0a1510;border:1px solid var(--border);color:var(--text2);cursor:pointer;border-radius:5px;font-size:11px;transition:.15s;white-space:nowrap;}
 .shard-btn img{width:18px;height:18px;border-radius:3px;flex-shrink:0;}
 .shard-btn:hover{border-color:var(--green2);}
 .shard-btn.on{border-color:var(--green);color:var(--green);}
@@ -103,7 +104,7 @@ input[type=range]{width:100%;}
 </div>
 
 <div class="card">
-  <div class="title">Items — 6 slots (ranked only)</div>
+  <div class="title">Items — 6 slots (tous les items SR)</div>
   <div class="slots" id="slots"></div>
   <div style="font-size:11px;color:var(--text2)">Items chargés depuis DDragon 16.9.1 — filtrés sur les items ranked SR uniquement</div>
 </div>
@@ -217,9 +218,10 @@ const TREES={
     label:'Sorcery',color:'#5b8dd9',
     img:CDN+'7202_sorcery.png',
     keystones:[
-      {id:'aery',   n:'Summon Aery',   img:CDN+'sorcery/summonaery/summonaery.png',                     s:{}},
-      {id:'comet',  n:'Arcane Comet',  img:CDN+'sorcery/arcanecomet/arcanecomet.png',                    s:{}},
-      {id:'phase',  n:'Phase Rush',    img:CDN+'sorcery/phaserush/phaserush.png',                        s:{ms_pct:0.15}},
+      {id:'aery',      n:'Summon Aery',        img:CDN+'sorcery/summonaery/summonaery.png',                                s:{}},
+      {id:'comet',     n:'Arcane Comet',       img:CDN+'sorcery/arcanecomet/arcanecomet.png',                               s:{}},
+      {id:'stormraider',n:"Stormraider's Surge",img:CDN+'sorcery/stormraiderssurge/stormraiderssurge.png',                 s:{ms_pct:0.25}},
+      {id:'deathfire', n:'Deathfire Touch',    img:CDN+'sorcery/deathfiretorch/deathfiretorch.png',                        s:{}},
     ],
     rows:[
       [{id:'axiom',   n:'Axiom Arcanist',img:CDN+'sorcery/axiom_arcanist.png',                          s:{ah:10}},
@@ -316,6 +318,30 @@ const LETH_MAP={3814:20,6695:18,6692:20,3142:18,6701:20};
 const APEN_MAP={3033:30,3036:35};
 const OMNI_MAP={223008:8,1055:3};
 const SPECIAL={2501:'bloodmail',6665:'jaksho',3071:'bc'};
+// AH map (DDragon FlatHasteMod unreliable) — patch 16.9.1
+// ult_ah = ability haste that applies to R only (e.g. Hexplate)
+const AH_MAP={
+  3071:20, 3053:0,  3748:20, 3748:20, 223181:0, 223161:20, 6609:15, 6333:15,
+  3156:15, 6692:15, 3814:0,  2501:0,  6665:15,  3110:20,   3065:10, 3083:0,
+  3143:0,  3742:0,  4401:0,  222504:0,3075:0,   3076:0,    6695:0,  6333:15,
+  3033:0,  3036:0,  3142:15, 6701:0,  3190:20,  3107:15,   2065:20, 3222:15,
+  3109:20, 3020:0,  3158:15, 3006:0,  3047:0,   3111:0,    223008:0,3009:0,
+  3031:0,  3094:0,  3046:0,  3087:0,  6672:0,   6676:0,    3089:0,  4645:0,
+  3135:0,  3116:0,  4637:10, 3040:0,  4628:10,  3041:0,    3152:10, 3109:20,
+  1055:0,  1054:0,  1083:0,
+  // Hexplate: 30 AH but only on ult (special case)
+  3041:0,
+};
+// Items that give AH on ult only
+const ULT_AH_MAP={
+  // Hexplate id — gives 30 ult haste
+};
+// Manually checked AH from patch notes for most common items:
+const AH_OVERRIDE={
+  3071:20, 6609:15, 6333:15, 3156:15, 6692:15, 3748:20, 223161:20,
+  3142:15, 3190:20, 3107:15, 2065:20, 3222:15, 3109:20, 3158:15,
+  4637:10, 4628:10, 3152:10, 6665:15, 3110:20, 3065:10,
+};
 
 let ALL_ITEMS=[];
 let activeCat='All';
@@ -342,7 +368,7 @@ async function loadItems(){
         ad:it.stats.FlatPhysicalDamageMod||0,
         armor:it.stats.FlatArmorMod||0,
         mr:it.stats.FlatSpellBlockMod||0,
-        ah:it.stats.FlatHasteMod||0,
+        ah:AH_OVERRIDE[+id]||(it.stats.FlatHasteMod||0),
         as:it.stats.PercentAttackSpeedMod||0,
         crit:(it.stats.FlatCritChanceMod||0)*100,
         ls:(it.stats.PercentLifeStealMod||0)*100,
@@ -525,17 +551,17 @@ function renderRunes(){
 function renderShards(){
   const g=document.getElementById('shards'); g.innerHTML='';
   SHARDS.forEach((opts,i)=>{
-    const col=document.createElement('div'); col.className='shard-col';
-    const lbl=document.createElement('div'); lbl.className='row-lbl'; lbl.textContent=`Slot ${i+1}`;
-    col.appendChild(lbl);
+    const row=document.createElement('div'); row.className='shard-row';
+    const lbl=document.createElement('span'); lbl.className='shard-slot-lbl'; lbl.textContent=`Slot ${i+1}`;
+    row.appendChild(lbl);
     opts.forEach(sh=>{
       const b=document.createElement('button');
       b.className='shard-btn'+(S.sh[i]===sh.id?' on':'');
       b.innerHTML=`<img src="${sh.img}" onerror="this.style.display='none'"/>${sh.n}`;
       b.onclick=()=>{S.sh[i]=sh.id;renderShards();calc();};
-      col.appendChild(b);
+      row.appendChild(b);
     });
-    g.appendChild(col);
+    g.appendChild(row);
   });
 }
 
@@ -667,11 +693,137 @@ function calc(){
 </div></div>`;
 }
 
+
+// ═══════════════════════════════════════════════
+// TRAINING DUMMY
+// ═══════════════════════════════════════════════
+const DUMMY={hp:3000,armor:100,mr:50,passive:'none'};
+
+function syncDummy(hp,armor,mr){
+  DUMMY.hp=hp; DUMMY.armor=armor; DUMMY.mr=mr;
+  calcDummy();
+}
+
+// Slider ↔ input sync
+['hp','armor','mr'].forEach(stat=>{
+  const sl=document.getElementById(`dummy-${stat}-slider`);
+  const inp=document.getElementById(`dummy-${stat}-val`);
+  sl.oninput=()=>{inp.value=sl.value;DUMMY[stat]=+sl.value;calcDummy();};
+  inp.oninput=()=>{sl.value=inp.value;DUMMY[stat]=+inp.value;calcDummy();};
+});
+document.getElementById('dummy-passive').onchange=e=>{DUMMY.passive=e.target.value;calcDummy();};
+
+function calcDummy(){
+  const l=S.lvl;
+  // Get current Urgot stats from calc state
+  let hp=grow(BASE.hp.b,BASE.hp.g,l);
+  let ad=grow(BASE.ad.b,BASE.ad.g,l);
+  let armor_u=grow(BASE.armor.b,BASE.armor.g,l);
+  let mr_u=grow(BASE.mr.b,BASE.mr.g,l);
+  let as_=growAS(BASE.asBase,BASE.asGrowth,l);
+  let leth=0, apen=0;
+
+  [S.keystone,...S.pri,...S.sec,...S.sh].forEach(id=>{
+    const r=findRune(id); if(!r||!r.s) return;
+    if(r.s.ad) ad+=r.s.ad;
+    if(r.s.as) as_=Math.min(as_*(1+r.s.as),2.5);
+    if(r.s.leth) leth+=r.s.leth;
+    if(r.s.hp) hp+=(r.s.hp==='scale'?shardHP(l):r.s.hp);
+  });
+
+  S.items.forEach(it=>{
+    if(!it) return;
+    ad+=it.ad||0; leth+=it.leth||0; apen+=it.apen||0;
+    if(it.as) as_=Math.min(as_*(1+it.as),2.5);
+    hp+=it.hp||0;
+  });
+
+  // Bloodmail
+  let bonusHP=hp-grow(BASE.hp.b,BASE.hp.g,l);
+  S.items.forEach(it=>{if(it&&it.special==='bloodmail'){ad+=Math.floor(bonusHP/100)*0.04*(ad-grow(BASE.ad.b,BASE.ad.g,l));}});
+
+  // Dummy effective armor/mr after pen
+  let dArmor=DUMMY.armor;
+  let dMR=DUMMY.mr;
+  let dHP=DUMMY.hp;
+
+  // Passive modifiers
+  let adDmgMult=1.0;
+  if(DUMMY.passive==='malphite') adDmgMult=0.90;
+  if(DUMMY.passive==='maokai')   adDmgMult=0.95;
+  if(DUMMY.passive==='shyvana')  {dArmor*=1.5; dMR*=1.5;}
+  if(DUMMY.passive==='ornn')     dHP*=1.10;
+  if(DUMMY.passive==='galio')    dMR+=50;
+  if(DUMMY.passive==='chogath')  dHP+=450;
+
+  // Armor pen: flat lethality then %
+  const effArmor=Math.max(0, (dArmor*(1-apen/100)) - leth*(10/(10+l)));
+  const effMR=Math.max(0, dMR);
+
+  // Physical dmg multiplier
+  const physMult=(100/(100+effArmor))*adDmgMult;
+
+  // ── Auto damage ──
+  const autoDmg = ad * physMult;
+
+  // ── Q damage (base + 120% AD at rank 5) ──
+  const qRk=Math.max(1,Math.min(5,S.lvl-4));
+  const qBase=[80,120,160,200,240][qRk-1];
+  const qADR=[0.8,0.85,0.9,0.95,1.0][qRk-1];
+  const qDmg=(qBase+ad*qADR)*physMult;
+
+  // ── W damage per tick (14-18 + 35% AD per tick at rank 5) ──
+  const wBase=[5,7,9,11,14][4];
+  const wADR=0.35;
+  const wTickDmg=(wBase+ad*wADR)*physMult;
+  const wDps=wTickDmg*3; // 3 ticks/s
+
+  // ── E damage (base + 100% AD at rank 5) ──
+  const eBase=[80,110,140,170,200][4];
+  const eADR=1.0;
+  const eDmg=(eBase+ad*eADR)*physMult;
+
+  // ── R1 damage (150-350 + 50% AD) ──
+  const rRk=l>=16?3:l>=11?2:1;
+  const rBase=[150,250,350][rRk-1];
+  const rADR=0.5;
+  const rDmg=(rBase+ad*rADR)*physMult;
+
+  // ── Passive leg damage ──
+  const ADR=[.40,.40,.40,.40,.40,.52,.52,.52,.64,.64,.76,.76,.88,.88,1,1,1,1,1,1];
+  const HPR=[.02,.02,.02,.03,.03,.03,.04,.04,.04,.05,.05,.05,.06,.06,.06,.06,.06,.06,.06,.06];
+  const adR=ADR[l-1]||1, hpR=HPR[l-1]||.06;
+  const legDmg=(ad*adR+dHP*hpR)*physMult;
+  const burst6Legs=legDmg*6;
+
+  // ── All-in burst (E + W ticks 4s + Q + R + 6 legs) ──
+  const allIn=eDmg+wTickDmg*12+qDmg+rDmg+burst6Legs;
+  const allInPct=(allIn/dHP*100);
+
+  const r=document.getElementById('dummy-results');
+  const card=(lbl,val,pct,cls='')=>`<div class="dmg-card"><div class="dmg-label">${lbl}</div><div class="dmg-val ${cls}">${Math.round(val)}</div>${pct!==undefined?`<div class="dmg-pct">${pct.toFixed(1)}% HP (${Math.round(dHP)} HP)</div>`:''}</div>`;
+
+  r.innerHTML=
+    card('Auto Attack',   autoDmg,   autoDmg/dHP*100)+
+    card('Q — Corrosive', qDmg,      qDmg/dHP*100)+
+    card('E — Disdain',   eDmg,      eDmg/dHP*100)+
+    card('W — tick /s',   wDps,      wDps/dHP*100)+
+    card('R — Fear',      rDmg,      rDmg/dHP*100)+
+    card('Passive Leg',   legDmg,    legDmg/dHP*100)+
+    card('6-Leg Burst',   burst6Legs,burst6Legs/dHP*100)+
+    card('All-In ~4s',    allIn,     allInPct, allInPct>=100?'warn':'')+
+    `<div class="dmg-card"><div class="dmg-label">Eff. Armor après pen</div><div class="dmg-val" style="font-size:16px">${Math.round(effArmor)} (base ${DUMMY.armor})</div></div>`+
+    `<div class="dmg-card"><div class="dmg-label">HP effectif (phys)</div><div class="dmg-val" style="font-size:16px">${Math.round(dHP*(1+effArmor/100))}</div></div>`;
+  // update dummy
+  if(typeof calcDummy==='function') calcDummy();
+}
+
 // ═══ INIT ═══
 document.getElementById('levelSlider').addEventListener('input',e=>{
   S.lvl=+e.target.value;
   document.getElementById('levelText').textContent=`Level ${S.lvl}`;
   calc();
+  calcDummy();
 });
 
 renderSlots();
@@ -679,5 +831,60 @@ renderRunes();
 calc();
 loadItems();
 </script>
+
+<!-- TRAINING DUMMY -->
+<div class="card" id="dummy-card">
+  <div class="title">Training Dummy — Simulation de dégâts</div>
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-bottom:16px;">
+    <div>
+      <div class="row-lbl">HP du mannequin</div>
+      <div style="display:flex;align-items:center;gap:10px;">
+        <input type="range" min="100" max="12000" step="50" value="3000" id="dummy-hp-slider"/>
+        <input type="number" min="100" max="12000" step="50" value="3000" id="dummy-hp-val" style="width:90px;background:#111;border:1px solid var(--border);color:var(--text);border-radius:5px;padding:6px 8px;font-family:'Rajdhani',sans-serif;font-size:14px;"/>
+      </div>
+    </div>
+    <div>
+      <div class="row-lbl">Armure du mannequin</div>
+      <div style="display:flex;align-items:center;gap:10px;">
+        <input type="range" min="0" max="500" step="5" value="100" id="dummy-armor-slider"/>
+        <input type="number" min="0" max="500" step="5" value="100" id="dummy-armor-val" style="width:90px;background:#111;border:1px solid var(--border);color:var(--text);border-radius:5px;padding:6px 8px;font-family:'Rajdhani',sans-serif;font-size:14px;"/>
+      </div>
+    </div>
+    <div>
+      <div class="row-lbl">MR du mannequin</div>
+      <div style="display:flex;align-items:center;gap:10px;">
+        <input type="range" min="0" max="300" step="5" value="50" id="dummy-mr-slider"/>
+        <input type="number" min="0" max="300" step="5" value="50" id="dummy-mr-val" style="width:90px;background:#111;border:1px solid var(--border);color:var(--text);border-radius:5px;padding:6px 8px;font-family:'Rajdhani',sans-serif;font-size:14px;"/>
+      </div>
+    </div>
+    <div>
+      <div class="row-lbl">Passif ennemi (réduction dmg)</div>
+      <select id="dummy-passive" style="width:100%;background:#111;border:1px solid var(--border);color:var(--text);border-radius:5px;padding:8px;font-family:'Rajdhani',sans-serif;font-size:13px;">
+        <option value="none">Aucun</option>
+        <option value="malphite">Malphite — W réduit 10% AD reçu</option>
+        <option value="wukong">Wukong — W clone dummy</option>
+        <option value="shyvana">Shyvana — Résistances doublées en dragon</option>
+        <option value="ornn">Ornn — +10% HP max bonus</option>
+        <option value="maokai">Maokai — Réduit 5% dégâts non-sorts</option>
+        <option value="mundo">Dr. Mundo — Régén massive (non simulé ici)</option>
+        <option value="sion">Sion — Passif HP infini post-mort</option>
+        <option value="chogath">Cho'Gath — +HP par stack R</option>
+        <option value="galio">Galio — +50 MR bonus</option>
+      </select>
+    </div>
+  </div>
+
+  <div id="dummy-results" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;"></div>
+</div>
+
+<style>
+#dummy-card .row-lbl{margin:.4rem 0 .3rem;}
+.dmg-card{background:var(--card);border:1px solid #27422D;padding:12px 14px;border-radius:8px;}
+.dmg-label{font-family:'Cinzel',serif;font-size:10px;letter-spacing:.12em;color:var(--text2);text-transform:uppercase;margin-bottom:5px;}
+.dmg-val{font-size:22px;font-weight:700;color:var(--green);}
+.dmg-pct{font-size:12px;color:var(--text2);margin-top:2px;}
+.dmg-val.warn{color:var(--gold);}
+</style>
 </body>
 </html>
