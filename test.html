@@ -386,10 +386,10 @@ const SM = 'https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/
    R Fear Beyond Death: 100/225/350 (+50% AD bonus) impact, exécute <25% PV  CD 100/85/70
    Passif Echoing Flames: 50/60/70/80% AD (+2/3/4/5% PV max cible)  CD/jambe 30/20/10/5/2.5  */
 const SPELLS = {
-  Q: { name:'Corrosive Charge', tag:'Q', base:[15,45,75,105,135], adRatio:0.85, ratioType:'total',
-       cd:[15,14,13,12,11], maxRank:5, type:'phys' },
-  W: { name:'Purge', tag:'W', base:[17,17,17,17,17], adRatio:0.50, ratioType:'total',
-       cd:[13,11.5,10,8.5,0], maxRank:5, type:'phys', perShot:true, ticksPerSec:3 },
+  Q: { name:'Corrosive Charge', tag:'Q', base:[25,70,115,160,205], adRatio:0.7, ratioType:'total',
+       cd:[10,9.5,9,8.5,8], maxRank:5, type:'phys' },
+  W: { name:'Purge', tag:'W', base:12, adRatio:[0.20,0.235,0.27,0.305,0.34], ratioType:'total',
+       cd:[12,9,6,3,0], maxRank:5, type:'phys', perShot:true, ticksPerSec:3 },
   E: { name:'Disdain', tag:'E', base:[90,120,150,180,210], adRatio:1.00, ratioType:'bonus',
        cd:[16,15.5,15,14.5,14], maxRank:5, type:'phys' },
   R: { name:'Fear Beyond Death', tag:'R', base:[100,225,350], adRatio:0.50, ratioType:'bonus',
@@ -639,15 +639,17 @@ const mpct  = (s,k)=> (s && s[k] && typeof s[k].percent==='number') ? s[k].perce
 const ITEM_PASSIVES = {
   "Sterak's Gage": {
     note:"Gage de Sterak : +50% de l'AD de base.",
-    applyStats:(A)=>{ A.ad += A.baseAD * 0.50; A._sterak = A.baseAD*0.50; }
+    applyStats:(A)=>{ A.ad += A.baseAD * 0.45; A._sterak = A.baseAD*0.50; }
   },
   "Black Cleaver": {
     special:'cleaver',
     note:"Black Cleaver : réduit jusqu'à 30% de l'armure de la cible (6 stacks)."
+    applyStats:(A)=>{ A.armPenPct += 0.30; }
   },
   "Serylda's Grudge": {
     special:'serylda',
     note:"Rancune de Serylda : pénétration d'armure en %, appliquée après la léthalité."
+    applyStats:(A)=>{ A.armPenPct += 0.35; }
   },
   "Eclipse": {
     special:'eclipse',
@@ -1149,8 +1151,8 @@ function skillRanks(l){
   const rPts = l>=16?3 : l>=11?2 : l>=6?1 : 0;
   let pts = l - rPts;                 // points à répartir entre Q/W/E
   const cap = {Q:0, W:0, E:0};
-  // 1 point dans chaque sort dès que possible (ordre d'apprentissage Q,W,E)
-  for(const k of ['Q','W','E']){ if(pts>0){ cap[k]=1; pts--; } }
+  // 1 point dans chaque sort dès que possible (ordre d'apprentissage E,Q,W)
+  for(const k of ['E',"Q","W"]){ if(pts>0){ cap[k]=1; pts--; } }
   // puis on maxe W, ensuite E, ensuite Q (ordre de max classique d'Urgot)
   for(const k of ['W','E','Q']){ while(pts>0 && cap[k]<5){ cap[k]++; pts--; } }
   return { Q:cap.Q, W:cap.W, E:cap.E, R:rPts, rLearned:rPts>0 };
