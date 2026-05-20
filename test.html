@@ -666,11 +666,12 @@ function calc(){
   const ehpP=hp*(1+armor/100), ehpM=hp*(1+mr/100);
 
   // Passif legs
-  const ADR=[.40,.40,.40,.40,.60,.60,.60,.60,.80,.80,.80,.80,1,1,1,1,1,1.05,1.05,1.10];
-  const HPR=[.02,.02,.02,.02,.02,.02,.02,.02,.02,.02,.02,.02,.04,.04,.04,.05,.06,.06,.06,.06];
-  const LCD=[30,28,26,22,18,15,12,10,8,6,4.5,3.5,2.5,2.5,2.5,2.5,2.5,2.5,2.5,2.5];
+  const ADR=[.40,.40,.40,.40,.40,.52,.52,.52,.64,.64,.76,.76,.88,.88,1,1,1,1,1,1];
+  const HPR=[.02,.02,.02,.03,.03,.03,.04,.04,.04,.05,.05,.05,.06,.06,.06,.06,.06,.06,.06,.06];
+  const LCD=[30,30,30,20,20,20,10,10,10,5,5,5,2.5,2.5,2.5,2.5,2.5,2.5,2.5,2.5];
   const adR=ADR[l-1]||1.10, hpR=HPR[l-1]||.06, legCD=LCD[l-1]||2.5;
   const legAD=ad*adR, legHP=hp*hpR;
+
 
   // Spell CDs
   const ah_=ah;
@@ -699,11 +700,8 @@ function calc(){
     s('⏱','Ability Haste',Math.round(ah_))+
     s('🔪','Lethality',Math.round(leth))+
     s('📐','Armor Pen%',apen+'%')+
-    s('🌀','Magic Pen%',mrpen+'%')+
     s('💊','Omnivamp',omni+'%')+
-    (ten?s('🧊','Tenacity',ten+'%'):'')+
-    s('🏋','EHP Phys',Math.round(ehpP))+
-    s('🔥','EHP Magic',Math.round(ehpM));
+    (ten?s('🧊','Tenacity',ten+'%'):'');
 
   // Spells + passive
   let notes='';
