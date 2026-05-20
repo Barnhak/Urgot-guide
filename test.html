@@ -225,7 +225,7 @@ const SPELLS={Q:{n:"Corrosive Charge",cd:[10,9.5,9,8.5,8]},W:{n:"Purge",cd:[12,1
 // ═══════════════════════════════════════════════
 // RUNE TREES — all 5
 // ═══════════════════════════════════════════════
-const CDN='https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/perk-images/styles/';
+const CDN='https://raw.communitydragon.org/16.9/plugins/rcp-be-lol-game-data/global/default/v1/perk-images/styles/';
 const SA='https://ddragon.leagueoflegends.com/cdn/img/perk-images/StatMods/';
 
 const TREES={
@@ -234,12 +234,12 @@ const TREES={
     img:CDN+'7201_precision.png',
     keystones:[
       {id:'pta',     n:'Press the Attack', img:CDN+'precision/presstheattack/presstheattack.png',      s:{}},
-      {id:'lethal',  n:'Lethal Tempo',     img:CDN+'precision/lethaltempo/lethaltempoTemp.png',         s:{as:0.54}},
+      {id:'lethal',  n:'Lethal Tempo',     img:CDN+'precision/lethaltempo/lethaltempotemp.png',         s:{as:0.54}},
       {id:'fleet',   n:'Fleet Footwork',   img:CDN+'precision/fleetfootwork/fleetfootwork.png',         s:{ms_flat:15}},
       {id:'conq',    n:'Conqueror',        img:CDN+'precision/conqueror/conqueror.png',                  s:{ad:28}},
     ],
     rows:[
-      [{id:'absorb', n:'Absorb Life',         img:CDN+'precision/absorb_life.png',                      s:{}},
+      [{id:'absorb', n:'Absorb Life',         img:CDN+'precision/absorblife.png',                      s:{}},
        {id:'triumph',n:'Triumph',             img:CDN+'precision/triumph.png',                          s:{}},
        {id:'pom',    n:'Presence of Mind',    img:CDN+'precision/presenceofmind/presenceofmind.png',    s:{}}],
       [{id:'alacrity',n:'Legend: Alacrity',   img:CDN+'precision/legendalacrity/legendalacrity.png',   s:{as:0.18}},
@@ -247,7 +247,7 @@ const TREES={
        {id:'bloodline',n:'Legend: Bloodline', img:CDN+'precision/legendbloodline/legendbloodline.png',  s:{ls:6}}],
       [{id:'cdg',    n:'Coup de Grâce',       img:CDN+'precision/coupdegrace.png',                      s:{}},
        {id:'cutdown',n:'Cut Down',            img:CDN+'precision/cutdown/cutdown.png',                   s:{}},
-       {id:'laststand',n:'Last Stand',        img:CDN+'precision/laststand/laststand.png',               s:{}}],
+       {id:'laststand',n:'Last Stand',        img:CDN+'sorcery/laststand/laststand.png',               s:{}}],
     ]
   },
   domination:{
@@ -262,12 +262,12 @@ const TREES={
       [{id:'cheapshot',n:'Cheap Shot',    img:CDN+'domination/cheapshot/cheapshot.png',                  s:{}},
        {id:'taste',    n:'Taste of Blood',img:CDN+'domination/tasteofblood/greenterror_tasteofblood.png',s:{ls:3}},
        {id:'sudden',   n:'Sudden Impact', img:CDN+'domination/suddenimpact/suddenimpact.png',            s:{leth:7}}],
-      [{id:'sixth',   n:'Sixth Sense',    img:CDN+'domination/sixthsense.png',                           s:{}},
-       {id:'grisly',  n:'Grisly Mementos',img:CDN+'domination/grislymementos.png',                       s:{}},
-       {id:'deepward',n:'Deep Ward',      img:CDN+'domination/deepward.png',                             s:{}}],
+      [{id:'sixth',   n:'Sixth Sense',    img:CDN+'domination/sixthsense/sixthsense.png',                           s:{}},
+       {id:'grisly',  n:'Grisly Mementos',img:CDN+'domination/grislymementos/grislymementos.png',                       s:{}},
+       {id:'deepward',n:'Deep Ward',      img:CDN+'domination/deepward/deepward.png',                             s:{}}],
       [{id:'treasure',n:'Treasure Hunter',img:CDN+'domination/treasurehunter/treasurehunter.png',        s:{}},
-       {id:'relentless',n:'Relentless Hunter',img:CDN+'domination/relentlesshunter/slayer_relentlesshunter.png',s:{ms_flat:30}},
-       {id:'ulthunter',n:'Ultimate Hunter',img:CDN+'domination/ultimatehunter/slayer_ultimatehunter.png',s:{ah:8}}],
+       {id:'relentless',n:'Relentless Hunter',img:CDN+'domination/relentlesshunter/relentlesshunter.png',s:{ms_flat:30}},
+       {id:'ulthunter',n:'Ultimate Hunter',img:CDN+'domination/ultimatehunter/ultimatehunter.png',s:{ah:8}}],
     ]
   },
   sorcery:{
@@ -276,17 +276,16 @@ const TREES={
     keystones:[
       {id:'aery',      n:'Summon Aery',        img:CDN+'sorcery/summonaery/summonaery.png',                                s:{}},
       {id:'comet',     n:'Arcane Comet',       img:CDN+'sorcery/arcanecomet/arcanecomet.png',                               s:{}},
-      {id:'stormraider',n:"Stormraider's Surge",img:CDN+'sorcery/stormraiderssurge/stormraiderssurge.png',                 s:{ms_pct:0.25}},
-      {id:'deathfire', n:'Deathfire Touch',    img:CDN+'sorcery/deathfiretorch/deathfiretorch.png',                        s:{}},
+      {id:'stormraider',n:"Stormraider's Surge",img:CDN+'sorcery/phaserush/stormraiderssurgeruneicon2.png',                 s:{ms_pct:0.25}},
+      {id:'deathfire', n:'Deathfire Touch',    img:CDN+'sorcery/deathfiretouch/deathfire_touch_keystone.png',                        s:{}},
     ],
     rows:[
-      [{id:'axiom',   n:'Axiom Arcanist',img:CDN+'sorcery/axiom_arcanist.png',                          s:{ah:10}},
+      [{id:'axiom',   n:'Axiom Arcanist',img:CDN+'sorcerynullifyingorb/axiom_arcanist.png',                          s:{ah:10}},
        {id:'manaflow',n:'Manaflow Band', img:CDN+'sorcery/manaflowband/manaflowband.png',                s:{}},
-       {id:'nimbus',  n:'Nimbus Cloak',  img:CDN+'sorcery/nimbuscloak.png',                             s:{ms_flat:25}}],
+       {id:'nimbus',  n:'Nimbus Cloak',  img:CDN+'sorcery/nimbuscloak/nimbuscloak.png',                             s:{ms_flat:25}}],
       [{id:'transcend',n:'Transcendence',img:CDN+'sorcery/transcendence/transcendence.png',             s:{ah:5}},
-       {id:'celerity', n:'Celerity',     img:CDN+'sorcery/celerity.png',                                s:{ms_pct:0.07}},
-       {id:'absfocus', n:'Absolute Focus',img:CDN+'sorcery/absolutefocus/absolutefocus.png',             s:{}},
-       {id:'tripletonic',n:'Triple Tonic',img:CDN+'sorcery/tripletonic.png',                            s:{ah:10}}],
+       {id:'celerity', n:'Celerity',     img:CDN+'sorcery/celerity/celerity.png',                                s:{ms_pct:0.07}},
+       {id:'absfocus', n:'Absolute Focus',img:CDN+'sorcery/absolutefocus/absolutefocus.png',             s:{}}],
       [{id:'scorch',   n:'Scorch',       img:CDN+'sorcery/scorch/scorch.png',                           s:{}},
        {id:'waterwalk',n:'Waterwalking',  img:CDN+'sorcery/waterwalking/waterwalking.png',               s:{ms_flat:8}},
        {id:'gathering',n:'Gathering Storm',img:CDN+'sorcery/gatheringstorm/gatheringstorm.png',          s:{ad:30}}],
@@ -297,18 +296,18 @@ const TREES={
     img:CDN+'7204_resolve.png',
     keystones:[
       {id:'grasp',     n:'Grasp of Undying',img:CDN+'resolve/graspoftheundying/graspoftheundying.png',  s:{hp:80}},
-      {id:'aftershock',n:'Aftershock',      img:CDN+'resolve/aftershock/aftershock.png',                s:{armor:35,mr:35}},
+      {id:'aftershock',n:'Aftershock',      img:CDN+'resolve/veteranaftershock/veteranaftershock.png',                s:{armor:35,mr:35}},
       {id:'guardian',  n:'Guardian',        img:CDN+'resolve/guardian/guardian.png',                    s:{}},
     ],
     rows:[
       [{id:'demolish', n:'Demolish',    img:CDN+'resolve/demolish/demolish.png',                        s:{}},
        {id:'fontlife',  n:'Font of Life',img:CDN+'resolve/fontoflife/fontoflife.png',                   s:{}},
-       {id:'shieldbash',n:'Shield Bash', img:CDN+'resolve/shieldbash/shieldbash.png',                   s:{}}],
+       {id:'shieldbash',n:'Shield Bash', img:CDN+'resolve/mirrorshell/mirrorshell.png',                   s:{}}],
       [{id:'conditioning',n:'Conditioning',img:CDN+'resolve/conditioning/conditioning.png',              s:{armor:8,mr:8}},
        {id:'secondwind', n:'Second Wind', img:CDN+'resolve/secondwind/secondwind.png',                   s:{}},
        {id:'boneplating',n:'Bone Plating',img:CDN+'resolve/boneplating/boneplating.png',                 s:{}}],
       [{id:'revitalize',n:'Revitalize',  img:CDN+'resolve/revitalize/revitalize.png',                   s:{}},
-       {id:'unflinch',  n:'Unflinching', img:CDN+'resolve/unflinching/unflinching.png',                  s:{}},
+       {id:'unflinch',  n:'Unflinching', img:CDN+'sorcery/unflinching/unflinching.png',                  s:{}},
        {id:'overgrowth',n:'Overgrowth',  img:CDN+'resolve/overgrowth/overgrowth.png',                   s:{hp:100}}],
     ]
   },
@@ -321,15 +320,15 @@ const TREES={
       {id:'unsealed',   n:'Unsealed Spellbook',img:CDN+'inspiration/unsealedspellbook/unsealedspellbook.png',s:{ah:10}},
     ],
     rows:[
-      [{id:'cashback',  n:'Cash Back',          img:CDN+'inspiration/cashback/cashback.png',            s:{}},
+      [{id:'hexflash',  n:'Hextech Flashtraption',  img:CDN+'inspiration/hextechflashtraption/hextechflashtraption.png',            s:{}},
        {id:'magfoot',   n:'Magical Footwear',   img:CDN+'inspiration/magicalfootwear/magicalfootwear.png',s:{ms_flat:10}},
-       {id:'timewarp',  n:'Time Warp Tonic',    img:CDN+'inspiration/timewarptonic/timewarptonic.png',  s:{}}],
-      [{id:'biscuits',  n:'Biscuit Delivery',   img:CDN+'inspiration/biscuitdelivery/biscuitdelivery.png',s:{hp:100}},
-       {id:'jack',      n:'Jack of All Trades', img:CDN+'inspiration/jackofalltrades/jackofalltrades.png',s:{ad:5}},
-       {id:'approachv', n:'Approach Velocity',  img:CDN+'sorcery/approachvelocity/approachvelocity.png',s:{}}],
+       {id:'cashback',  n:'Cash Back',    img:CDN+'inspiration/cashback/cashback.png',  s:{}}],
+      [{id:'tripletonic',  n:'Triple Tonic',   img:CDN+'inspiration/perfecttiming/alchemistcabinet.png',s:{hp:100}},
+       {id:'timew',      n:'Time Warp Tonic', img:CDN+'inspiration/timewarptonic/timewarptonic.png',s:{ad:5}},
+       {id:'biscuit', n:'Biscuit Delivery',  img:CDN+'inspiration/biscuitdelivery/biscuitdelivery.png',s:{}}],
       [{id:'cosmic',    n:'Cosmic Insight',     img:CDN+'inspiration/cosmicinsight/cosmicinsight.png',  s:{ah:15}},
-       {id:'abslife',   n:'Absorb Life',         img:CDN+'inspiration/absorb_life.png',                 s:{}},
-       {id:'futmarket', n:"Future's Market",     img:CDN+'inspiration/futuresmarket/futuresmarket.png', s:{}}],
+       {id:'approach',   n:'Approach Velocity',         img:CDN+'resolve/approachvelocity/approachvelocity.png',                 s:{}},
+       {id:'jack', n:"Jack Of All Trades",     img:CDN+'inspiration/jackofalltrades/jackofalltrades2.png', s:{}}],
     ]
   }
 };
