@@ -619,26 +619,33 @@ function renderRunes(){
 
   // ── SECONDARY RUNES ──
   const sc=document.getElementById('sec-content'); sc.innerHTML='';
-  const allSec=st.rows.flat();
 
   [0,1].forEach(i=>{
     const lbl=document.createElement('div'); lbl.className='row-lbl'; lbl.textContent=`Choix ${i+1}`;
     sc.appendChild(lbl);
-    const cls=allSec.length<=9?'rune-row-3':'rune-row-4';
-    // Group by original rows for layout
+    
+    const rg=document.createElement('div'); rg.className='rune-row-3';
+    // Afficher TOUTES les runes de l'arbre secondaire une seule fois
     st.rows.forEach(row=>{
-      const rg=document.createElement('div'); rg.className='rune-row-3';
       row.forEach(r=>{
         const isOn=S.sec[i]===r.id;
         const taken=S.sec[1-i]===r.id; // already in other slot
         const b=mkRuneBtn(r,()=>{
-          if(!taken){S.sec[i]=(S.sec[i]===r.id?null:r.id);renderRunes();calc();}
+          if(!taken){
+            // Si on en sélectionne une troisième, retirer la première
+            if(S.sec[0]!==null && S.sec[1]!==null && !isOn){
+              S.sec[0]=null; // Vider le premier slot
+            }
+            S.sec[i]=(S.sec[i]===r.id?null:r.id);
+            renderRunes();
+            calc();
+          }
         },isOn,true);
         if(taken){b.style.opacity='.3';b.style.pointerEvents='none';}
         rg.appendChild(b);
       });
-      sc.appendChild(rg);
     });
+    sc.appendChild(rg);
   });
 
   // ── SHARDS ──
@@ -888,10 +895,16 @@ function calcDummy(){
 
   // Armor pen: flat lethality then %
   const effArmor=Math.max(0, (dArmor*(1-apen/100)) - leth*(10/(10+l)));
+  
+  // Black Cleaver shred: 35% armor shred (stack applied)
+  let bcShred=0;
+  S.items.forEach(it=>{if(it&&it.special==='bc'){bcShred=0.35;}});
+  const effArmorAfterBC=Math.max(0, effArmor*(1-bcShred));
+  
   const effMR=Math.max(0, dMR);
 
   // Physical dmg multiplier
-  const physMult=(100/(100+effArmor))*adDmgMult;
+  const physMult=(100/(100+effArmorAfterBC))*adDmgMult;
 
   // ── Auto damage ──
   const autoDmg = ad * physMult;
@@ -943,7 +956,8 @@ function calcDummy(){
     card('6-Leg Burst',   burst6Legs,burst6Legs/dHP*100)+
     card('All-In ~4s',    allIn,     allInPct, allInPct>=100?'warn':'')+
     `<div class="dmg-card"><div class="dmg-label">Eff. Armor après pen</div><div class="dmg-val" style="font-size:16px">${Math.round(effArmor)} (base ${DUMMY.armor})</div></div>`+
-    `<div class="dmg-card"><div class="dmg-label">HP effectif (phys)</div><div class="dmg-val" style="font-size:16px">${Math.round(dHP*(1+effArmor/100))}</div></div>`;
+    (bcShred>0?`<div class="dmg-card"><div class="dmg-label">Armor après BC shred</div><div class="dmg-val" style="font-size:16px">${Math.round(effArmorAfterBC)} (-${Math.round(bcShred*100)}%)</div></div>`:'`)+
+    `<div class="dmg-card"><div class="dmg-label">HP effectif (phys)</div><div class="dmg-val" style="font-size:16px">${Math.round(dHP*(1+effArmorAfterBC/100))}</div></div>`;
 }
 
 // ═══ INIT ═══
