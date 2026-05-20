@@ -731,7 +731,7 @@ function buildFromMeraki(meraki, dd){
       ad:    mflat(s,'attackDamage'),
       armor: mflat(s,'armor'),
       mr:    mflat(s,'magicResistance'),
-      ah:    mflat(s,'abilityHaste'),
+      ah:    mflat(s,'abilityhaste'),
       as:    mpct(s,'attackSpeed')/100,      // percent → décimal pour as_*(1+as)
       crit:  Math.round(mpct(s,'criticalStrikeChance')),
       ls:    Math.round(mpct(s,'lifesteal')),
