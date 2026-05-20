@@ -210,9 +210,9 @@ input[type=range]{width:100%;}
 
 <script>
 // ═══════════════════════════════════════════════
-// BASE STATS  Urgot patch 16.9.1
+// BASE STATS  Urgot patch 16.9.1 (STATS CORRIGÉES)
 // ═══════════════════════════════════════════════
-const BASE={hp:{b:585,g:88},hpReg:{b:6.25,g:0.7},mp:{b:340,g:40},mpReg:{b:7.5,g:0.8},ad:{b:55,g:4},armor:{b:36,g:4.25},mr:{b:32,g:1.25},asBase:0.625,asGrowth:3.75,ms:330};
+const BASE={hp:{b:580,g:88},hpReg:{b:6.25,g:0.7},mp:{b:360,g:40},mpReg:{b:7.5,g:0.8},ad:{b:53,g:3.5},armor:{b:37,g:4},mr:{b:32,g:1.25},asBase:0.625,asGrowth:3.75,ms:335};
 const grow=(b,g,l)=>{if(l<=1)return b;const n=l-1;return b+g*(0.7025*n+0.0175*n*n);};
 const growAS=(b,gp,l)=>Math.min(b*(1+(gp/100)*(l-1)),2.5);
 const shardHP=l=>Math.round(10+(190/17)*Math.min(l-1,17));
@@ -639,7 +639,7 @@ function calc(){
     if(s.ten)     ten+=s.ten;
   });
 
-  // Item stats
+  // Item stats (CORRIGÉ: AH des items est maintenant inclus)
   let hasBC=false,hasBlood=false,hasJak=false;
   S.items.forEach(it=>{
     if(!it) return;
@@ -750,25 +750,27 @@ function initDummy(){
 
 function calcDummy(){
   const l=S.lvl;
-  // Get current Urgot stats from calc state
+  // Get current Urgot stats from calc state (CORRIGÉ: inclut AH des items)
   let hp=grow(BASE.hp.b,BASE.hp.g,l);
   let ad=grow(BASE.ad.b,BASE.ad.g,l);
   let armor_u=grow(BASE.armor.b,BASE.armor.g,l);
   let mr_u=grow(BASE.mr.b,BASE.mr.g,l);
   let as_=growAS(BASE.asBase,BASE.asGrowth,l);
-  let leth=0, apen=0;
+  let ah=0, leth=0, apen=0;
 
   [S.keystone,...S.pri,...S.sec,...S.sh].forEach(id=>{
     const r=findRune(id); if(!r||!r.s) return;
     if(r.s.ad) ad+=r.s.ad;
     if(r.s.as) as_=Math.min(as_*(1+r.s.as),2.5);
     if(r.s.leth) leth+=r.s.leth;
+    if(r.s.ah) ah+=r.s.ah;
     if(r.s.hp) hp+=(r.s.hp==='scale'?shardHP(l):r.s.hp);
   });
 
   S.items.forEach(it=>{
     if(!it) return;
     ad+=it.ad||0; leth+=it.leth||0; apen+=it.apen||0;
+    ah+=it.ah||0;
     if(it.as) as_=Math.min(as_*(1+it.as),2.5);
     hp+=it.hp||0;
   });
@@ -868,3 +870,4 @@ loadItems();
 </script>
 
 </body>
+</html>
