@@ -243,7 +243,7 @@ const TREES={
        {id:'triumph',n:'Triumph',             img:CDN+'precision/triumph.png',                          s:{}},
        {id:'pom',    n:'Presence of Mind',    img:CDN+'precision/presenceofmind/presenceofmind.png',    s:{}}],
       [{id:'alacrity',n:'Legend: Alacrity',   img:CDN+'precision/legendalacrity/legendalacrity.png',   s:{as:0.18}},
-       {id:'leghaste',n:'Legend: Haste',      img:CDN+'precision/legendhaste/legendhaste.png',          s:{ah:20}},
+       {id:'leghaste',n:'Legend: Haste',      img:CDN+'precision/legendhaste/legendhaste.png',          s:{bah:15}},
        {id:'bloodline',n:'Legend: Bloodline', img:CDN+'precision/legendbloodline/legendbloodline.png',  s:{ls:6}}],
       [{id:'cdg',    n:'Coup de Grâce',       img:CDN+'precision/coupdegrace/coupdegrace.png',                      s:{}},
        {id:'cutdown',n:'Cut Down',            img:CDN+'precision/cutdown/cutdown.png',                   s:{}},
@@ -267,7 +267,7 @@ const TREES={
        {id:'deepward',n:'Deep Ward',      img:CDN+'domination/deepward/deepward.png',                             s:{}}],
       [{id:'treasure',n:'Treasure Hunter',img:CDN+'domination/treasurehunter/treasurehunter.png',        s:{}},
        {id:'relentless',n:'Relentless Hunter',img:CDN+'domination/relentlesshunter/relentlesshunter.png',s:{ms_flat:30}},
-       {id:'ulthunter',n:'Ultimate Hunter',img:CDN+'domination/ultimatehunter/ultimatehunter.png',s:{ah:8}}],
+       {id:'ulthunter',n:'Ultimate Hunter',img:CDN+'domination/ultimatehunter/ultimatehunter.png',s:{uh:31}}],
     ]
   },
   sorcery:{
@@ -373,8 +373,8 @@ const LETH_MAP={3814:20,6695:18,6692:20,3142:18,6701:20};
 const APEN_MAP={3033:30,3036:35};
 const OMNI_MAP={223008:8,1055:3};
 const SPECIAL={2501:'bloodmail',6665:'jaksho',3071:'bc',6673:'endless',3504:'batonflots'};
-// AH manual map patch 16.9.1 — Tous les items SR 5v5 avec AH
-const AH_OVERRIDE={
+// AH manual map patch 16.9.1 — ABILITY HASTE NORMAL (affecte Q/W/E/R)
+const AH_NORMAL={
   // Base items (composants)
   3057:10,   // Fiendish Codex / Sheen
   3067:10,   // Caulfield's Warhammer / Kindlegem
@@ -398,7 +398,6 @@ const AH_OVERRIDE={
   3165:15,   // Morellonomicon
   6616:20,   // Dusk and Dawn / Echoes of Helia
   3508:20,   // Essence Reaver
-  6673:15,   // Malignance / Zephyr
   3025:15,   // Iceborn Gauntlet
   3504:20,   // Imperial Mandate / Mikael's Blessing / Moonstone / Staff of Flowing Water / Shurelya's
   3152:20,   // Hextech Rocketbelt
@@ -422,11 +421,21 @@ const AH_OVERRIDE={
   3078:15,   // Trinity Force
   3147:15,   // Umbral Glaive
   3050:10,   // Zeke's Convergence
+  2400:15,   // Winter's Approach
+  3147:15,   // Umbral Glaive
 };
 
-// Corrections spécifiques pour items avec plusieurs versions
-const AH_SPECIAL={
-  3748:15,   // Ravenous Hydra (15 au lieu de Profane's 10)
+// BASIC ABILITY HASTE (affecte Q/W/E seulement)
+const AH_BASIC={
+  3031:25,   // Spear of Shojin
+};
+
+// ULTIMATE HASTE (affecte R seulement)
+const AH_ULTIMATE={
+  6616:20,   // Experimental Hexplate
+  // Fiendhunter Bolts (besoin ID)
+  6673:20,   // Malignance (Ultimate Haste version)
+  3050:20,   // Zeke's Convergence (Ultimate Haste version)
 };
 
 let ALL_ITEMS=[];
@@ -454,7 +463,9 @@ async function loadItems(){
         ad:it.stats.FlatPhysicalDamageMod||0,
         armor:it.stats.FlatArmorMod||0,
         mr:it.stats.FlatSpellBlockMod||0,
-        ah:AH_OVERRIDE[+id]||(it.stats.FlatHasteMod||0),
+        ah:AH_NORMAL[+id]||(it.stats.FlatHasteMod||0),
+        bah:AH_BASIC[+id]||0,
+        uh:AH_ULTIMATE[+id]||0,
         as:it.stats.PercentAttackSpeedMod||0,
         crit:(it.stats.FlatCritChanceMod||0)*100,
         ls:(it.stats.PercentLifeStealMod||0)*100,
@@ -669,7 +680,7 @@ function calc(){
   let mr=grow(BASE.mr.b,BASE.mr.g,l), bMR=mr;
   let as_=growAS(BASE.asBase,BASE.asGrowth,l);
   let hp5=grow(BASE.hpReg.b,BASE.hpReg.g,l)*5;
-  let ms=BASE.ms,crit=0,ls=0,ah=0,leth=0,apen=0,mrpen=0,omni=0,ten=0,ms_pct=0;
+  let ms=BASE.ms,crit=0,ls=0,ah=0,bah=0,uh=0,leth=0,apen=0,mrpen=0,omni=0,ten=0,ms_pct=0;
 
   // Rune stats
   [S.keystone,...S.pri,...S.sec,...S.sh].forEach(id=>{
@@ -682,6 +693,8 @@ function calc(){
     if(s.as)      as_=Math.min(as_*(1+s.as),2.5);
     if(s.ls)      ls+=s.ls;
     if(s.ah)      ah+=s.ah;
+    if(s.bah)     bah+=s.bah;
+    if(s.uh)      uh+=s.uh;
     if(s.leth)    leth+=s.leth;
     if(s.ms_flat) ms+=s.ms_flat;
     if(s.ms_pct)  ms_pct+=s.ms_pct;
@@ -693,7 +706,7 @@ function calc(){
   S.items.forEach(it=>{
     if(!it) return;
     hp+=it.hp||0; ad+=it.ad||0; armor+=it.armor||0; mr+=it.mr||0;
-    ah+=it.ah||0; crit+=it.crit||0; ls+=it.ls||0; leth+=it.leth||0;
+    ah+=it.ah||0; bah+=it.bah||0; uh+=it.uh||0; crit+=it.crit||0; ls+=it.ls||0; leth+=it.leth||0;
     apen+=it.apen||0; mrpen+=it.mrpen||0; omni+=it.omni||0;
     ms+=it.ms||0; if(it.ms_pct) ms_pct+=it.ms_pct;
     if(it.as) as_=Math.min(as_*(1+it.as),2.5);
@@ -736,16 +749,20 @@ function calc(){
   const legAD=ad*adR, legHP=hp*hpR;
 
 
-  // Spell CDs
-  const ah_=ah;
+  // Spell CDs — calcul intelligent des AH
+  // Q/W/E utilisent: ah (normal) + bah (basic)
+  // R utilise: ah (normal) + uh (ultimate)
+  const totalAH_basic = ah + bah;  // Pour Q/W/E
+  const totalAH_ult = ah + uh;     // Pour R
+  
   const rRk=l>=16?3:l>=11?2:1;
   const wRk=Math.min(5,l>=9?5:Math.max(1,l-1));
   const eRk=1;
   const qRk=Math.max(1,Math.min(5,l-wRk-eRk-(rRk-1)));
-  const qCD=cdF(SPELLS.Q.cd[Math.max(0,qRk-1)],ah_);
-  const wCD=wRk===5?0:cdF(SPELLS.W.cd[Math.max(0,wRk-1)],ah_);
-  const eCD=cdF(SPELLS.E.cd[eRk-1],ah_);
-  const rCD=cdF(SPELLS.R.cd[rRk-1],ah_);
+  const qCD=cdF(SPELLS.Q.cd[Math.max(0,qRk-1)],totalAH_basic);
+  const wCD=wRk===5?0:cdF(SPELLS.W.cd[Math.max(0,wRk-1)],totalAH_basic);
+  const eCD=cdF(SPELLS.E.cd[eRk-1],totalAH_basic);
+  const rCD=cdF(SPELLS.R.cd[rRk-1],totalAH_ult);
 
   // ── Render Stats ──
   const g=document.getElementById('stats');
@@ -760,7 +777,9 @@ function calc(){
     s('🩹','HP Regen /5s',hp5.toFixed(1))+
     s('🎯','Crit Chance',crit+'%')+
     s('🩸','Life Steal',ls+'%')+
-    s('⏱','Ability Haste',Math.round(ah_))+
+    s('⏱','Ability Haste',Math.round(ah))+
+    (bah>0?s('⚡','Basic AH',Math.round(bah)):'')+
+    (uh>0?s('🔴','Ultimate AH',Math.round(uh)):'')+
     s('🔪','Lethality',Math.round(leth))+
     s('📐','Armor Pen%',apen+'%')+
     s('💊','Omnivamp',omni+'%')+
@@ -775,7 +794,7 @@ function calc(){
   if(hasBC)  notes+=`<div class="leg-stat">Black Cleaver: <strong>36% armor shred max</strong></div>`;
 
   document.getElementById('spells').innerHTML=`
-<div class="passive-title">Ability Cooldowns — AH: ${Math.round(ah_)}</div>
+<div class="passive-title">Ability Cooldowns — AH: ${Math.round(ah)} | Basic: ${Math.round(bah)} | Ultimate: ${Math.round(uh)}</div>
 <div class="spell-grid">
   <div class="spell-card"><div class="spell-name">Q — ${SPELLS.Q.n}</div><div class="spell-cd">${qCD.toFixed(2)}s</div><div class="spell-info">Base ${SPELLS.Q.cd[qRk-1]}s · Rang ${qRk}/5</div></div>
   <div class="spell-card"><div class="spell-name">W — ${SPELLS.W.n}</div><div class="spell-cd">${wCD===0?'Toggle':wCD.toFixed(2)+'s'}</div><div class="spell-info">Rang ${wRk}/5${wRk===5?' — Toggle infini':''}</div></div>
@@ -821,7 +840,7 @@ function calcDummy(){
   let armor_u=grow(BASE.armor.b,BASE.armor.g,l);
   let mr_u=grow(BASE.mr.b,BASE.mr.g,l);
   let as_=growAS(BASE.asBase,BASE.asGrowth,l);
-  let ah=0, leth=0, apen=0;
+  let ah=0, bah=0, uh=0, leth=0, apen=0;
 
   [S.keystone,...S.pri,...S.sec,...S.sh].forEach(id=>{
     const r=findRune(id); if(!r||!r.s) return;
@@ -829,13 +848,15 @@ function calcDummy(){
     if(r.s.as) as_=Math.min(as_*(1+r.s.as),2.5);
     if(r.s.leth) leth+=r.s.leth;
     if(r.s.ah) ah+=r.s.ah;
+    if(r.s.bah) bah+=r.s.bah;
+    if(r.s.uh) uh+=r.s.uh;
     if(r.s.hp) hp+=(r.s.hp==='scale'?shardHP(l):r.s.hp);
   });
 
   S.items.forEach(it=>{
     if(!it) return;
     ad+=it.ad||0; leth+=it.leth||0; apen+=it.apen||0;
-    ah+=it.ah||0;
+    ah+=it.ah||0; bah+=it.bah||0; uh+=it.uh||0;
     if(it.as) as_=Math.min(as_*(1+it.as),2.5);
     hp+=it.hp||0;
   });
