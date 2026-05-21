@@ -9,47 +9,50 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
-  --ink:#07090a; --steel:#10151a; --plate:#161d24; --plate2:#1c252e;
-  --line:#2a3742; --line2:#384956;
-  --acid:#9fe870; --acid-d:#6fb53f; --acid-glow:rgba(159,232,112,.35);
-  --rust:#c8632b; --rust-d:#8f4419; --blood:#a8332f;
-  --txt:#d7e0d3; --txt2:#7d8a83; --txt3:#56615b;
-  --gold:#cda44e;
-  --cyan:#4fd0e0;
+  --ink:#07090a;--steel:#10151a;--plate:#161d24;--plate2:#1c252e;
+  --line:#2a3742;--line2:#384956;
+  --acid:#9fe870;--acid-d:#6fb53f;--acid-glow:rgba(159,232,112,.35);
+  --rust:#c8632b;--rust-d:#8f4419;--blood:#a8332f;
+  --txt:#d7e0d3;--txt2:#7d8a83;--txt3:#56615b;
+  --gold:#cda44e;--cyan:#4fd0e0;
   --shadow:0 8px 30px rgba(0,0,0,.55);
 }
 html{scroll-behavior:smooth}
 body{
   background:
-    radial-gradient(900px 500px at 15% -5%, rgba(159,232,112,.06), transparent 60%),
-    radial-gradient(800px 600px at 95% 10%, rgba(200,99,43,.07), transparent 55%),
+    radial-gradient(900px 500px at 15% -5%,rgba(159,232,112,.06),transparent 60%),
+    radial-gradient(800px 600px at 95% 10%,rgba(200,99,43,.07),transparent 55%),
     linear-gradient(180deg,#06080a,#080b0d 40%,#06080a);
-  color:var(--txt); font-family:'Oswald',sans-serif; font-weight:300;
-  padding:26px clamp(12px,3vw,40px) 60px; min-height:100vh;
-  letter-spacing:.01em;
+  color:var(--txt);font-family:'Oswald',sans-serif;font-weight:300;
+  padding:0 clamp(10px,2.5vw,32px) 60px;min-height:100vh;letter-spacing:.01em;
 }
-body::before{
-  content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.035;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-}
-.wrap{max-width:1320px;margin:0 auto;position:relative;z-index:1}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.035;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
+.wrap{max-width:1320px;margin:0 auto;position:relative;z-index:1;padding-top:20px}
 
-/* ===== HEADER ===== */
-.masthead{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;margin-bottom:26px;flex-wrap:wrap;border-bottom:1px solid var(--line);padding-bottom:18px}
-.brand{display:flex;align-items:center;gap:16px}
-.crest{width:54px;height:54px;flex-shrink:0;filter:drop-shadow(0 0 10px var(--acid-glow))}
-.brand h1{font-family:'Spectral',serif;font-weight:600;font-size:clamp(26px,4vw,40px);line-height:.95;letter-spacing:.02em;color:#eef3ea}
-.brand h1 b{color:var(--acid);font-weight:600}
-.brand .sub{font-size:12px;letter-spacing:.42em;text-transform:uppercase;color:var(--rust);margin-top:5px;font-weight:500}
-.patchtag{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--txt2);border:1px solid var(--line);padding:7px 13px;border-radius:2px;background:var(--steel)}
-.patchtag b{color:var(--acid)}
+/* HERO */
+.hero{position:relative;height:280px;display:flex;align-items:center;justify-content:center;
+  overflow:hidden;margin:-0px -32px 24px;width:calc(100% + 64px)}
+.hero-bg{position:absolute;inset:0;
+  background:url('https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Urgot_2.jpg') center 30%/cover no-repeat;
+  filter:brightness(.22) saturate(.5);animation:hZ 20s ease-in-out infinite alternate}
+@keyframes hZ{from{transform:scale(1.03)}to{transform:scale(1.08)}}
+.hero-ov{position:absolute;inset:0;
+  background:linear-gradient(to bottom,rgba(6,8,10,.4) 0%,rgba(6,8,10,0) 40%,rgba(6,8,10,.85) 85%,#06080a 100%)}
+.hero-ct{position:relative;text-align:center}
+.hero-ey{font-size:10px;letter-spacing:.4em;color:var(--acid-d);text-transform:uppercase;margin-bottom:.5rem;opacity:.8}
+.hero-ti{font-family:'Spectral',serif;font-weight:600;font-size:clamp(22px,4vw,40px);color:#eef3ea;
+  letter-spacing:.04em;text-shadow:0 0 60px rgba(159,232,112,.15),0 4px 20px rgba(0,0,0,.9)}
+.hero-ti b{color:var(--acid)}
+.hero-su{font-size:11px;letter-spacing:.25em;color:var(--txt2);text-transform:uppercase;margin-top:.5rem}
+.pbadge{display:inline-flex;align-items:center;gap:6px;margin-top:.75rem;font-size:10px;
+  letter-spacing:.2em;text-transform:uppercase;color:var(--txt2);border:1px solid var(--line);
+  padding:5px 11px;border-radius:2px;background:var(--steel)}
+.pbadge b{color:var(--acid)}
 
-/* ===== PANEL PRIMITIVES ===== */
-.panel{
-  background:linear-gradient(180deg,var(--plate),var(--steel));
-  border:1px solid var(--line); border-radius:4px; box-shadow:var(--shadow);
-  position:relative; margin-bottom:18px;
-}
+/* PANEL */
+.panel{background:linear-gradient(180deg,var(--plate),var(--steel));border:1px solid var(--line);
+  border-radius:4px;box-shadow:var(--shadow);position:relative;margin-bottom:18px}
 .panel::before{content:"";position:absolute;top:0;left:0;width:100%;height:2px;
   background:linear-gradient(90deg,transparent,var(--acid-d),transparent);opacity:.5}
 .panel-h{display:flex;align-items:center;gap:11px;padding:14px 18px;border-bottom:1px solid var(--line)}
@@ -57,11 +60,10 @@ body::before{
 .panel-h h2{font-family:'Spectral',serif;font-weight:600;font-size:14px;letter-spacing:.22em;text-transform:uppercase;color:#cdd6c8}
 .panel-h .hint{margin-left:auto;font-size:11px;color:var(--txt3);letter-spacing:.05em}
 .panel-b{padding:18px}
-
 .cols{display:grid;grid-template-columns:1fr 1fr;gap:18px}
 @media(max-width:900px){.cols{grid-template-columns:1fr}}
 
-/* ===== LEVEL ===== */
+/* LEVEL */
 .level-row{display:flex;align-items:center;gap:22px}
 .level-badge{display:flex;flex-direction:column;align-items:center;justify-content:center;
   width:96px;height:84px;flex-shrink:0;border:1px solid var(--line2);background:var(--ink);border-radius:3px;position:relative;overflow:hidden}
@@ -75,10 +77,10 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;heigh
   background:radial-gradient(circle at 35% 30%,#eafbe0,var(--acid) 60%,var(--acid-d));
   border:2px solid var(--ink);box-shadow:0 0 10px var(--acid-glow);cursor:pointer}
 input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;
-  background:var(--acid);border:2px solid var(--ink);box-shadow:0 0 10px var(--acid-glow);cursor:pointer}
+  background:var(--acid);border:2px solid var(--ink);cursor:pointer}
 .tickmarks{display:flex;justify-content:space-between;margin-top:8px;font-size:10px;color:var(--txt3);letter-spacing:.08em}
 
-/* ===== ITEM SLOTS ===== */
+/* SLOTS */
 .slots{display:grid;grid-template-columns:repeat(7,1fr);gap:10px}
 @media(max-width:640px){.slots{grid-template-columns:repeat(4,1fr)}}
 .slot{aspect-ratio:1;background:var(--ink);border:1px solid var(--line);border-radius:3px;
@@ -90,16 +92,19 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;
 .slot .ph{font-family:'Spectral',serif;font-size:22px;color:var(--txt3)}
 .slot .ph small{display:block;font-family:'Oswald';font-size:8px;letter-spacing:.2em;text-transform:uppercase;margin-top:3px}
 .slot .rm{position:absolute;top:0;right:0;width:18px;height:18px;background:var(--blood);color:#fff;
-  display:flex;align-items:center;justify-content:center;font-size:11px;cursor:pointer;z-index:3;border-bottom-left-radius:3px;opacity:0;transition:.15s}
+  display:flex;align-items:center;justify-content:center;font-size:11px;cursor:pointer;z-index:3;
+  border-bottom-left-radius:3px;opacity:0;transition:.15s}
 .slot:hover .rm{opacity:1}
 .slots-note{font-size:11px;color:var(--txt3);margin-top:11px;letter-spacing:.04em}
 .slots-note b{color:var(--acid-d)}
 
-/* ===== ITEM MODAL ===== */
-.modal{position:fixed;inset:0;background:rgba(3,5,6,.88);backdrop-filter:blur(3px);display:none;align-items:center;justify-content:center;z-index:100;padding:20px}
+/* MODAL */
+.modal{position:fixed;inset:0;background:rgba(3,5,6,.88);backdrop-filter:blur(3px);display:none;
+  align-items:center;justify-content:center;z-index:100;padding:20px}
 .modal.open{display:flex}
 .modal-box{width:min(1180px,97vw);height:88vh;background:linear-gradient(180deg,var(--plate),var(--steel));
-  border:1px solid var(--line2);border-radius:5px;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 30px 90px rgba(0,0,0,.7)}
+  border:1px solid var(--line2);border-radius:5px;display:flex;flex-direction:column;overflow:hidden;
+  box-shadow:0 30px 90px rgba(0,0,0,.7)}
 .modal-top{padding:14px 16px;border-bottom:1px solid var(--line);display:flex;gap:12px;align-items:center;flex-wrap:wrap}
 .modal-top h3{font-family:'Spectral',serif;font-weight:600;letter-spacing:.18em;text-transform:uppercase;font-size:13px;color:var(--acid);white-space:nowrap}
 .msearch{flex:1;min-width:160px;padding:10px 13px;background:var(--ink);border:1px solid var(--line);color:var(--txt);
@@ -109,20 +114,21 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;
   border-radius:3px;font-family:'Oswald';letter-spacing:.1em;text-transform:uppercase;font-size:12px;transition:.15s}
 .mclose:hover{border-color:var(--blood);color:#fff}
 .mcats{display:flex;gap:6px;flex-wrap:wrap;padding:12px 16px;border-bottom:1px solid var(--line);background:rgba(0,0,0,.2)}
-.mcat{padding:6px 13px;background:transparent;border:1px solid var(--line);color:var(--txt2);cursor:pointer;border-radius:2px;
-  font-family:'Oswald';font-size:11px;letter-spacing:.12em;text-transform:uppercase;transition:.15s;display:flex;align-items:center;gap:6px}
+.mcat{padding:6px 13px;background:transparent;border:1px solid var(--line);color:var(--txt2);cursor:pointer;
+  border-radius:2px;font-family:'Oswald';font-size:11px;letter-spacing:.12em;text-transform:uppercase;
+  transition:.15s;display:flex;align-items:center;gap:6px}
 .mcat:hover{border-color:var(--line2);color:var(--txt)}
 .mcat.on{border-color:var(--acid);color:var(--acid);background:var(--acid-glow)}
 .mcat .dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
 .items-grid{padding:16px;overflow-y:auto;display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:10px;flex:1}
-.iitem{background:var(--plate2);border:1px solid var(--line);padding:9px 7px;border-radius:3px;cursor:pointer;text-align:center;transition:.16s;position:relative}
+.iitem{background:var(--plate2);border:1px solid var(--line);padding:9px 7px;border-radius:3px;cursor:pointer;text-align:center;transition:.16s}
 .iitem:hover{border-color:var(--acid);transform:translateY(-2px);box-shadow:0 6px 16px rgba(0,0,0,.4)}
 .iitem img{width:50px;height:50px;border-radius:2px;margin-bottom:6px}
 .iitem .nm{font-size:10.5px;line-height:1.25;color:var(--txt);display:block;min-height:26px}
 .iitem .gp{font-size:10px;color:var(--gold);letter-spacing:.04em;margin-top:3px}
 .modal-loading{display:flex;align-items:center;justify-content:center;flex:1;color:var(--txt2);font-size:13px;letter-spacing:.1em}
 
-/* ===== RUNES ===== */
+/* RUNES */
 .rune-tree{background:var(--ink);border:1px solid var(--line);border-radius:4px;padding:15px}
 .rune-tree.secondary{border-color:#27424a}
 .tree-head{font-family:'Spectral',serif;font-weight:600;font-size:13px;letter-spacing:.14em;text-transform:uppercase;
@@ -131,7 +137,7 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;
 .tree-head.sec{color:var(--cyan)}
 .tree-tabs{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:15px}
 .ttab{width:38px;height:38px;border:1px solid var(--line);background:var(--steel);border-radius:3px;cursor:pointer;
-  display:flex;align-items:center;justify-content:center;transition:.15s;padding:5px;position:relative}
+  display:flex;align-items:center;justify-content:center;transition:.15s;padding:5px}
 .ttab img{width:100%;height:100%;object-fit:contain;filter:grayscale(.8) opacity(.55);transition:.15s}
 .ttab:hover img{filter:grayscale(.2) opacity(.85)}
 .ttab.on-pri{border-color:var(--acid);box-shadow:0 0 9px var(--acid-glow)}
@@ -145,7 +151,8 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;
 .kstone-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
 .rune-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
 .rbtn{position:relative;border:1px solid var(--line);background:var(--steel);border-radius:3px;cursor:pointer;
-  padding:9px 5px 7px;display:flex;flex-direction:column;align-items:center;gap:5px;transition:.15s;min-height:74px;justify-content:center}
+  padding:9px 5px 7px;display:flex;flex-direction:column;align-items:center;gap:5px;transition:.15s;
+  min-height:74px;justify-content:center}
 .rbtn img{width:32px;height:32px;border-radius:50%;filter:grayscale(.6) opacity(.6);transition:.15s}
 .rbtn .rn{font-size:9.5px;line-height:1.15;color:var(--txt2);text-align:center;letter-spacing:.02em}
 .kstone-grid .rbtn{min-height:92px}
@@ -171,7 +178,7 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;
 .sbtn:hover{border-color:var(--line2)}
 .sbtn.on{border-color:var(--acid);color:var(--acid);background:var(--acid-glow)}
 
-/* ===== STATS ===== */
+/* STATS */
 .stat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:11px}
 .stat{background:var(--ink);border:1px solid var(--line);border-radius:3px;padding:12px 14px;position:relative;overflow:hidden}
 .stat::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--acid-d);opacity:.7}
@@ -180,9 +187,8 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;
 .stat .sv{font-family:'Spectral',serif;font-weight:600;font-size:24px;color:#eaf1e4;line-height:1}
 .stat .sb{font-size:12px;color:var(--acid-d);margin-top:3px;letter-spacing:.03em}
 .stat .sb.rust{color:var(--rust)}
-.stat .icon{width:14px;height:14px;opacity:.8}
 
-/* ===== ABILITIES ===== */
+/* ABILITIES */
 .abil-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px}
 .abil{background:var(--ink);border:1px solid var(--line);border-radius:3px;overflow:hidden}
 .abil-top{display:flex;align-items:center;gap:10px;padding:11px 13px;border-bottom:1px solid var(--line);background:rgba(0,0,0,.25)}
@@ -197,7 +203,6 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;
 .abil-meta{display:flex;justify-content:space-between;margin-top:9px;font-size:11px;color:var(--txt2);letter-spacing:.03em;gap:8px}
 .abil-meta .cd{color:var(--cyan)}
 .abil-sub{font-size:10.5px;color:var(--txt3);margin-top:7px;line-height:1.4;border-top:1px dashed var(--line);padding-top:7px}
-
 .passive-box{margin-top:14px;background:var(--ink);border:1px solid var(--line);border-radius:3px;padding:14px}
 .passive-box .ph{font-family:'Spectral',serif;font-weight:600;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--acid);margin-bottom:11px;display:flex;align-items:center;gap:8px}
 .passive-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:9px}
@@ -207,7 +212,7 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;
 .note{font-size:11.5px;color:var(--txt2);padding:6px 10px;background:rgba(159,232,112,.05);border-left:2px solid var(--acid-d);border-radius:2px}
 .note b{color:var(--acid)}
 
-/* ===== DUMMY ===== */
+/* DUMMY */
 .dummy-controls{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:18px;margin-bottom:20px}
 .dctl .dlbl{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--txt2);margin-bottom:9px;display:flex;justify-content:space-between}
 .dctl .dlbl b{color:var(--acid);font-weight:500;font-family:'Spectral',serif}
@@ -218,7 +223,6 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;
 .dsel{width:100%;background:var(--ink);border:1px solid var(--line);color:var(--txt);border-radius:3px;padding:9px 10px;
   font-family:'Oswald';font-weight:300;font-size:13px;letter-spacing:.02em;cursor:pointer}
 .dsel:focus{outline:none;border-color:var(--acid-d)}
-
 .dummy-results{display:grid;grid-template-columns:repeat(auto-fill,minmax(168px,1fr));gap:11px}
 .dcard{background:var(--ink);border:1px solid var(--line);border-radius:3px;padding:13px;position:relative;overflow:hidden}
 .dcard.special{border-color:var(--rust-d)}
@@ -231,7 +235,6 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;
 .hpbar{height:5px;background:var(--steel);border-radius:3px;margin-top:8px;overflow:hidden}
 .hpbar i{display:block;height:100%;background:linear-gradient(90deg,var(--acid),var(--acid-d));border-radius:3px;transition:.3s}
 .hpbar i.over{background:linear-gradient(90deg,var(--rust),var(--blood))}
-
 .footnote{margin-top:18px;font-size:11px;color:var(--txt3);line-height:1.6;letter-spacing:.02em}
 .footnote b{color:var(--txt2)}
 </style>
@@ -239,123 +242,110 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;
 <body>
 <div class="wrap">
 
-  <!-- HEADER -->
-  <div class="masthead">
-    <div class="brand">
-      <svg class="crest" viewBox="0 0 64 64" fill="none">
-        <path d="M32 3l7 12 13-4-5 13 12 7-12 7 5 13-13-4-7 12-7-12-13 4 5-13L0 51l12-7-5-13 13 4z" fill="#161d24" stroke="#9fe870" stroke-width="1.5"/>
-        <circle cx="32" cy="32" r="9" fill="#9fe870" opacity=".18"/>
-        <circle cx="32" cy="32" r="4.5" fill="#9fe870"/>
-      </svg>
-      <div>
-        <h1>FORGE DE <b>BUILD</b></h1>
-        <div class="sub">Urgot · le Dreadnought</div>
+<div class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-ov"></div>
+  <div class="hero-ct">
+    <p class="hero-ey">Urgot Guide</p>
+    <h1 class="hero-ti">FORGE DE <b>BUILD</b></h1>
+    <p class="hero-su">Stats · Items · Runes · Mannequin</p>
+    <div class="pbadge">Données live · <b id="ddv">DDragon</b></div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="panel-h"><span class="tick"></span><h2>Niveau du champion</h2><span class="hint">1 → 20</span></div>
+  <div class="panel-b">
+    <div class="level-row">
+      <div class="level-badge"><span class="lbl">Niveau</span><span class="num" id="lvlNum">9</span></div>
+      <div class="slider-col">
+        <input type="range" min="1" max="20" value="9" id="lvlSlider"/>
+        <div class="tickmarks"><span>1</span><span>5</span><span>10</span><span>15</span><span>20</span></div>
       </div>
     </div>
-    <div class="patchtag">Données live · <b id="ddv">DDragon</b></div>
   </div>
+</div>
 
-  <!-- LEVEL -->
+<div class="cols">
   <div class="panel">
-    <div class="panel-h"><span class="tick"></span><h2>Niveau du champion</h2><span class="hint">1 → 20</span></div>
+    <div class="panel-h"><span class="tick"></span><h2>Items &amp; Potion</h2><span class="hint">6 + 1</span></div>
     <div class="panel-b">
-      <div class="level-row">
-        <div class="level-badge"><span class="lbl">Niveau</span><span class="num" id="lvlNum">9</span></div>
-        <div class="slider-col">
-          <input type="range" min="1" max="20" value="9" id="lvlSlider"/>
-          <div class="tickmarks"><span>1</span><span>5</span><span>10</span><span>15</span><span>20</span></div>
+      <div class="slots" id="slots"></div>
+      <div class="slots-note">Items du <b>Summoner's Rift 5v5</b> · stats via Meraki Analytics</div>
+    </div>
+  </div>
+  <div class="panel">
+    <div class="panel-h"><span class="tick"></span><h2>Runes</h2><span class="hint">Primaire + Secondaire + Fragments</span></div>
+    <div class="panel-b">
+      <div class="rune-tree" id="priTree"></div>
+      <div style="height:14px"></div>
+      <div class="rune-tree secondary" id="secTree"></div>
+      <div style="height:14px"></div>
+      <div class="rrow-lbl">Fragments</div>
+      <div class="shards" id="shards"></div>
+    </div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="panel-h"><span class="tick"></span><h2>Statistiques du champion</h2></div>
+  <div class="panel-b"><div class="stat-grid" id="stats"></div></div>
+</div>
+
+<div class="panel">
+  <div class="panel-h"><span class="tick"></span><h2>Dégâts &amp; Cooldowns</h2><span class="hint" id="ahHint"></span></div>
+  <div class="panel-b">
+    <div class="abil-grid" id="abilities"></div>
+    <div class="passive-box" id="passiveBox"></div>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="panel-h"><span class="tick"></span><h2>Mannequin d'entraînement</h2><span class="hint">Test de build &amp; pénétration</span></div>
+  <div class="panel-b">
+    <div class="dummy-controls">
+      <div class="dctl">
+        <div class="dlbl"><span>PV du mannequin</span><b id="dHpLbl">3000</b></div>
+        <div class="dctl-row">
+          <input type="range" min="100" max="12000" step="50" value="3000" id="dHpSlider" style="flex:1"/>
+          <input type="number" min="100" max="12000" step="50" value="3000" id="dHpNum" class="dnum"/>
         </div>
       </div>
-    </div>
-  </div>
-
-  <!-- ITEMS + RUNES -->
-  <div class="cols">
-    <div class="panel">
-      <div class="panel-h"><span class="tick"></span><h2>Items &amp; Potion</h2><span class="hint">6 + 1</span></div>
-      <div class="panel-b">
-        <div class="slots" id="slots"></div>
-        <div class="slots-note">Items du <b>Summoner's Rift 5v5</b> · catégories &amp; recherche dans le sélecteur</div>
+      <div class="dctl">
+        <div class="dlbl"><span>Armure du mannequin</span><b id="dArmLbl">100</b></div>
+        <div class="dctl-row">
+          <input type="range" min="0" max="600" step="5" value="100" id="dArmSlider" style="flex:1"/>
+          <input type="number" min="0" max="600" step="5" value="100" id="dArmNum" class="dnum"/>
+        </div>
       </div>
-    </div>
-
-    <div class="panel">
-      <div class="panel-h"><span class="tick"></span><h2>Runes</h2><span class="hint">Primaire + Secondaire + Fragments</span></div>
-      <div class="panel-b">
-        <div class="rune-tree" id="priTree"></div>
-        <div style="height:14px"></div>
-        <div class="rune-tree secondary" id="secTree"></div>
-        <div style="height:14px"></div>
-        <div class="rrow-lbl">Fragments</div>
-        <div class="shards" id="shards"></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- STATS -->
-  <div class="panel">
-    <div class="panel-h"><span class="tick"></span><h2>Statistiques du champion</h2></div>
-    <div class="panel-b"><div class="stat-grid" id="stats"></div></div>
-  </div>
-
-  <!-- ABILITIES -->
-  <div class="panel">
-    <div class="panel-h"><span class="tick"></span><h2>Dégâts &amp; Cooldowns</h2><span class="hint" id="ahHint"></span></div>
-    <div class="panel-b">
-      <div class="abil-grid" id="abilities"></div>
-      <div class="passive-box" id="passiveBox"></div>
-    </div>
-  </div>
-
-  <!-- DUMMY -->
-  <div class="panel">
-    <div class="panel-h"><span class="tick"></span><h2>Mannequin d'entraînement</h2><span class="hint">Test de build &amp; pénétration</span></div>
-    <div class="panel-b">
-      <div class="dummy-controls">
-        <div class="dctl">
-          <div class="dlbl"><span>PV du mannequin</span><b id="dHpLbl">3000</b></div>
+      <div class="dctl">
+        <div class="dlbl"><span>Passif défensif ennemi</span></div>
+        <select id="dPassive" class="dsel">
+          <option value="none">Aucun</option>
+          <option value="garen">Garen W — −60% dégâts (1.5s)</option>
+          <option value="garen30">Garen W — −30% (résidu)</option>
+          <option value="braum">Braum E — −35% dégâts</option>
+          <option value="annie">Bouclier — −50% prochaine source</option>
+          <option value="amumu">Aftershock-like — −25%</option>
+          <option value="malphite">Réduction générique −10%</option>
+          <option value="custom">Personnalisé…</option>
+        </select>
+        <div id="customWrap" style="display:none;margin-top:9px">
+          <div class="dlbl"><span>Réduction perso</span><b id="dCustomLbl">0%</b></div>
           <div class="dctl-row">
-            <input type="range" min="100" max="12000" step="50" value="3000" id="dHpSlider" style="flex:1"/>
-            <input type="number" min="100" max="12000" step="50" value="3000" id="dHpNum" class="dnum"/>
-          </div>
-        </div>
-        <div class="dctl">
-          <div class="dlbl"><span>Armure du mannequin</span><b id="dArmLbl">100</b></div>
-          <div class="dctl-row">
-            <input type="range" min="0" max="600" step="5" value="100" id="dArmSlider" style="flex:1"/>
-            <input type="number" min="0" max="600" step="5" value="100" id="dArmNum" class="dnum"/>
-          </div>
-        </div>
-        <div class="dctl">
-          <div class="dlbl"><span>Passif défensif ennemi</span></div>
-          <select id="dPassive" class="dsel">
-            <option value="none">Aucun</option>
-            <option value="garen">Garen W — −60% dégâts (1.5s) puis −30%</option>
-            <option value="garen30">Garen W — −30% (résidu)</option>
-            <option value="braum">Braum E — −35% dégâts directionnels</option>
-            <option value="annie">Bouclier (Tibbers/Annie) — −50% prochaine source</option>
-            <option value="kassadin">Kassadin P — −15% dégâts magiques (n/a phys)</option>
-            <option value="amumu">Aftershock-like — −25% pendant 2.5s</option>
-            <option value="malphite">Réduction générique −10%</option>
-            <option value="custom">Personnalisé…</option>
-          </select>
-          <div id="customWrap" style="display:none;margin-top:9px">
-            <div class="dlbl"><span>Réduction perso</span><b id="dCustomLbl">0%</b></div>
-            <div class="dctl-row">
-              <input type="range" min="0" max="90" step="5" value="0" id="dCustomSlider" style="flex:1"/>
-              <input type="number" min="0" max="90" step="5" value="0" id="dCustomNum" class="dnum"/>
-            </div>
+            <input type="range" min="0" max="90" step="5" value="0" id="dCustomSlider" style="flex:1"/>
+            <input type="number" min="0" max="90" step="5" value="0" id="dCustomNum" class="dnum"/>
           </div>
         </div>
       </div>
-      <div class="dummy-results" id="dummyResults"></div>
-      <div class="footnote" id="dummyNotes"></div>
     </div>
+    <div class="dummy-results" id="dummyResults"></div>
+    <div class="footnote" id="dummyNotes"></div>
   </div>
+</div>
 
 </div>
 
-<!-- ITEM MODAL -->
 <div class="modal" id="modal">
   <div class="modal-box">
     <div class="modal-top">
@@ -367,1209 +357,427 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;
     <div class="items-grid" id="mgrid"><div class="modal-loading">Chargement de l'arsenal…</div></div>
   </div>
 </div>
-
 <script>
-/* ============================================================
-   FORGE DE BUILD — URGOT
-   Données live Data Dragon + calculs exacts patch courant
-   ============================================================ */
+const DDV_FALLBACK='16.9.1';
+let DDV=DDV_FALLBACK;
+const CD='https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/perk-images/styles/';
+const SM='https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/perk-images/statmods/';
 
-const DDV_FALLBACK = '16.9.1';            // utilisé si la liste de versions échoue
-let DDV = DDV_FALLBACK;                      // version réelle résolue au chargement
-const CD = 'https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/perk-images/styles/';
-const SM = 'https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/perk-images/statmods/';
-
-/* ---------- SORTS D'URGOT (valeurs LoL PC, patch courant) ----------
-   Q Corrosive Charge : 15/45/75/105/135 (+85% AD total)  CD 15/14/13/12/11
-   W Purge            : 17 (+50% AD on-hit) par tir, toggle infini rang 5  CD 13/11.5/10/8.5/7 (n/a rang5)
-   E Disdain          : 90/120/150/180/210 (+100% AD bonus)  CD 16/15.5/15/14.5/14
-   R Fear Beyond Death: 100/225/350 (+50% AD bonus) impact, exécute <25% PV  CD 100/85/70
-   Passif Echoing Flames: 50/60/70/80% AD (+2/3/4/5% PV max cible)  CD/jambe 30/20/10/5/2.5  */
-const SPELLS = {
-  Q: { name:'Corrosive Charge', tag:'Q', base:[25,70,115,160,205], adRatio:0.7, ratioType:'total',
-       cd:[10,9.5,9,8.5,8], maxRank:5, type:'phys' },
-  W: { name:'Purge', tag:'W', base:12, adRatio:[0.20,0.235,0.27,0.305,0.34], ratioType:'total',
-       cd:[12,9,6,3,0], maxRank:5, type:'phys', perShot:true, ticksPerSec:3 },
-  E: { name:'Disdain', tag:'E', base:[90,120,150,180,210], adRatio:1.00, ratioType:'bonus',
-       cd:[16,15.5,15,14.5,14], maxRank:5, type:'phys' },
-  R: { name:'Fear Beyond Death', tag:'R', base:[100,225,350], adRatio:0.50, ratioType:'bonus',
-       cd:[100,85,70], maxRank:3, type:'phys', ult:true },
+const SPELLS={
+  Q:{name:'Corrosive Charge',tag:'Q',base:[25,70,115,160,205],adRatio:0.7,ratioType:'total',cd:[10,9.5,9,8.5,8],maxRank:5,type:'phys'},
+  W:{name:'Purge',tag:'W',base:12,adRatio:[0.20,0.235,0.27,0.305,0.34],ratioType:'total',cd:[12,9,6,3,0],maxRank:5,type:'phys',perShot:true,ticksPerSec:3},
+  E:{name:'Disdain',tag:'E',base:[90,120,150,180,210],adRatio:1.00,ratioType:'bonus',cd:[16,15.5,15,14.5,14],maxRank:5,type:'phys'},
+  R:{name:'Fear Beyond Death',tag:'R',base:[100,225,350],adRatio:0.50,ratioType:'bonus',cd:[100,85,70],maxRank:3,type:'phys',ult:true},
 };
-// Passif : index par niveau (1..20) -> palier
-function passiveADRatio(l){ if(l>=16) return 0.80; if(l>=11) return 0.70; if(l>=6) return 0.60; return 0.50; }
-function passiveHPRatio(l){ if(l>=16) return 0.05; if(l>=11) return 0.04; if(l>=6) return 0.03; return 0.02; }
-function passiveLegCD(l){ if(l>=16) return 2.5; if(l>=11) return 5; if(l>=7) return 10; if(l>=4) return 20; return 30; }
+function passiveADRatio(l){if(l>=16)return 0.80;if(l>=11)return 0.70;if(l>=6)return 0.60;return 0.50;}
+function passiveHPRatio(l){if(l>=16)return 0.05;if(l>=11)return 0.04;if(l>=6)return 0.03;return 0.02;}
+function passiveLegCD(l){if(l>=16)return 2.5;if(l>=11)return 5;if(l>=7)return 10;if(l>=4)return 20;return 30;}
 
-/* ---------- ARBRES DE RUNES ----------
-   s = bonus de stat passif fourni par la rune (pour les stats du champion)
-   ah  = ability haste (tous sorts)
-   bah = basic ability haste (Q/W/E uniquement)
-   uh  = ultimate haste (R uniquement) */
-const TREES = {
-  precision:{ label:'Précision', icon:CD+'7201_precision.png',
+const TREES={
+  precision:{label:'Précision',icon:CD+'7201_precision.png',
     keystones:[
-      {id:'pta',  n:'Frappe Assidue',  img:CD+'precision/presstheattack/presstheattack.png', s:{}},
-      {id:'lt',   n:'Tempo Mortel',     img:CD+'precision/lethaltempo/lethaltempotemp.png', s:{}},
-      {id:'fleet',n:'Pieds Lestes',     img:CD+'precision/fleetfootwork/fleetfootwork.png', s:{}},
-      {id:'conq', n:'Conquérant',       img:CD+'precision/conqueror/conqueror.png', s:{}},
+      {id:'pta',n:'Frappe Assidue',img:CD+'precision/presstheattack/presstheattack.png',s:{}},
+      {id:'lt',n:'Tempo Mortel',img:CD+'precision/lethaltempo/lethaltempotemp.png',s:{}},
+      {id:'fleet',n:'Pieds Lestes',img:CD+'precision/fleetfootwork/fleetfootwork.png',s:{}},
+      {id:'conq',n:'Conquérant',img:CD+'precision/conqueror/conqueror.png',s:{}},
     ],
     rows:[
       [{id:'absorb',n:'Absorption de Vie',img:CD+'precision/absorblife/absorblife.png',s:{}},
-       {id:'triumph',n:'Triomphe',        img:CD+'precision/triumph.png',s:{}},
-       {id:'pom',   n:'Présence d\'Esprit',img:CD+'precision/presenceofmind/presenceofmind.png',s:{}}],
-      [{id:'alac', n:'Légende : Célérité',img:CD+'precision/legendalacrity/legendalacrity.png',s:{as:0.18}},
-       {id:'haste',n:'Légende : Hâte',     img:CD+'precision/legendhaste/legendhaste.png',s:{bah:15}},
-       {id:'blood',n:'Légende : Lignée',   img:CD+'precision/legendbloodline/legendbloodline.png',s:{ls:8}}],
-      [{id:'cdg',  n:'Coup de Grâce',     img:CD+'precision/coupdegrace/coupdegrace.png',s:{}},
-       {id:'cut',  n:'Tir d\'Achèvement', img:CD+'precision/cutdown/cutdown.png',s:{}},
-       {id:'last', n:'Baroud d\'Honneur', img:CD+'sorcery/laststand/laststand.png',s:{}}],
+       {id:'triumph',n:'Triomphe',img:CD+'precision/triumph.png',s:{}},
+       {id:'pom',n:"Présence d'Esprit",img:CD+'precision/presenceofmind/presenceofmind.png',s:{}}],
+      [{id:'alac',n:'Légende : Célérité',img:CD+'precision/legendalacrity/legendalacrity.png',s:{as:0.18}},
+       {id:'haste',n:'Légende : Hâte',img:CD+'precision/legendhaste/legendhaste.png',s:{bah:15}},
+       {id:'blood',n:'Légende : Lignée',img:CD+'precision/legendbloodline/legendbloodline.png',s:{ls:8}}],
+      [{id:'cdg',n:'Coup de Grâce',img:CD+'precision/coupdegrace/coupdegrace.png',s:{}},
+       {id:'cut',n:"Tir d'Achèvement",img:CD+'precision/cutdown/cutdown.png',s:{}},
+       {id:'last',n:"Baroud d'Honneur",img:CD+'sorcery/laststand/laststand.png',s:{}}],
     ]},
-  domination:{ label:'Domination', icon:CD+'7200_domination.png',
+  domination:{label:'Domination',icon:CD+'7200_domination.png',
     keystones:[
-      {id:'electro',n:'Électrocution', img:CD+'domination/electrocute/electrocute.png',s:{}},
-      {id:'dark',  n:'Récolte Noire',  img:CD+'domination/darkharvest/darkharvest.png',s:{}},
-      {id:'hob',   n:'Volée de Lames', img:CD+'domination/hailofblades/hailofblades.png',s:{}},
+      {id:'electro',n:'Électrocution',img:CD+'domination/electrocute/electrocute.png',s:{}},
+      {id:'dark',n:'Récolte Noire',img:CD+'domination/darkharvest/darkharvest.png',s:{}},
+      {id:'hob',n:'Volée de Lames',img:CD+'domination/hailofblades/hailofblades.png',s:{}},
     ],
     rows:[
-      [{id:'cheap',n:'Coup Bas',        img:CD+'domination/cheapshot/cheapshot.png',s:{}},
-       {id:'taste',n:'Goût du Sang',    img:CD+'domination/tasteofblood/greenterror_tasteofblood.png',s:{}},
-       {id:'sudden',n:'Impact Soudain', img:CD+'domination/suddenimpact/suddenimpact.png',s:{leth:7}}],
-      [{id:'sixth',n:'Sixième Sens',    img:CD+'domination/sixthsense/sixthsense.png',s:{}},
+      [{id:'cheap',n:'Coup Bas',img:CD+'domination/cheapshot/cheapshot.png',s:{}},
+       {id:'taste',n:'Goût du Sang',img:CD+'domination/tasteofblood/greenterror_tasteofblood.png',s:{}},
+       {id:'sudden',n:'Impact Soudain',img:CD+'domination/suddenimpact/suddenimpact.png',s:{leth:7}}],
+      [{id:'sixth',n:'Sixième Sens',img:CD+'domination/sixthsense/sixthsense.png',s:{}},
        {id:'grisly',n:'Mementos Macabres',img:CD+'domination/grislymementos/grislymementos.png',s:{}},
-       {id:'deep', n:'Garde Profonde',  img:CD+'domination/deepward/deepward.png',s:{}}],
+       {id:'deep',n:'Garde Profonde',img:CD+'domination/deepward/deepward.png',s:{}}],
       [{id:'treas',n:'Chasseur de Trésors',img:CD+'domination/treasurehunter/treasurehunter.png',s:{}},
        {id:'relent',n:'Chasseur Implacable',img:CD+'domination/relentlesshunter/relentlesshunter.png',s:{ms_flat:0}},
-       {id:'ulth', n:'Chasseur Ultime', img:CD+'domination/ultimatehunter/ultimatehunter.png',s:{uh:18}}],
+       {id:'ulth',n:'Chasseur Ultime',img:CD+'domination/ultimatehunter/ultimatehunter.png',s:{uh:18}}],
     ]},
-  sorcery:{ label:'Sorcellerie', icon:CD+'7202_sorcery.png',
+  sorcery:{label:'Sorcellerie',icon:CD+'7202_sorcery.png',
     keystones:[
-      {id:'aery', n:'Invocation : Aery',img:CD+'sorcery/summonaery/summonaery.png',s:{}},
-      {id:'comet',n:'Comète Arcanique', img:CD+'sorcery/arcanecomet/arcanecomet.png',s:{}},
-      {id:'phase',n:'Saccade',          img:CD+'sorcery/phaserush/phaserush.png',s:{}},
+      {id:'aery',n:'Invocation : Aery',img:CD+'sorcery/summonaery/summonaery.png',s:{}},
+      {id:'comet',n:'Comète Arcanique',img:CD+'sorcery/arcanecomet/arcanecomet.png',s:{}},
+      {id:'phase',n:'Saccade',img:CD+'sorcery/phaserush/phaserush.png',s:{}},
     ],
     rows:[
-      [{id:'axiom',n:'Arcaniste Axiome',img:CD+'sorcerynullifyingorb/axiom_arcanist/axiom_arcanist.png',s:{}},
-       {id:'mana', n:'Bande Flux de Mana',img:CD+'sorcery/manaflowband/manaflowband.png',s:{}},
-       {id:'nimbus',n:'Cape Nimbus',     img:CD+'sorcery/nimbuscloak/6361.png',s:{}}],
-      [{id:'trans',n:'Transcendance',    img:CD+'sorcery/transcendence/transcendence.png',s:{ah:5}},
-       {id:'celer',n:'Célérité',         img:CD+'sorcery/celerity/celeritytemp.png',s:{}},
-       {id:'focus',n:'Concentration Absolue',img:CD+'sorcery/absolutefocus/absolutefocus.png',s:{}}],
-      [{id:'scorch',n:'Carbonisation',   img:CD+'sorcery/scorch/scorch.png',s:{}},
-       {id:'water',n:'Marche sur l\'Eau',img:CD+'sorcery/waterwalking/waterwalking.png',s:{}},
+      [{id:'axiom',n:'Arcaniste Axiome',img:CD+'sorcery/axiom_arcanist.png',s:{}},
+       {id:'mana',n:'Bande Flux de Mana',img:CD+'sorcery/manaflowband/manaflowband.png',s:{}},
+       {id:'nimbus',n:'Cape Nimbus',img:CD+'sorcery/nimbuscloak.png',s:{ms_flat:25}}],
+      [{id:'trans',n:'Transcendance',img:CD+'sorcery/transcendence/transcendence.png',s:{ah:5}},
+       {id:'celer',n:'Célérité',img:CD+'sorcery/celerity.png',s:{}},
+       {id:'tonic',n:'Triple Tonique',img:CD+'sorcery/tripletonic.png',s:{ah:10}}],
+      [{id:'scorch',n:'Carbonisation',img:CD+'sorcery/scorch/scorch.png',s:{}},
+       {id:'water',n:"Marche sur l'Eau",img:CD+'sorcery/waterwalking/waterwalking.png',s:{}},
        {id:'storm',n:'Tempête Imminente',img:CD+'sorcery/gatheringstorm/gatheringstorm.png',s:{ad:24}}],
     ]},
-  resolve:{ label:'Détermination', icon:CD+'7204_resolve.png',
+  resolve:{label:'Détermination',icon:CD+'7204_resolve.png',
     keystones:[
-      {id:'grasp', n:'Poigne de l\'Immortel',img:CD+'resolve/graspoftheundying/graspoftheundying.png',s:{}},
-      {id:'after', n:'Réplique',        img:CD+'resolve/veteranaftershock/veteranaftershock.png',s:{}},
-      {id:'guard', n:'Gardien',         img:CD+'resolve/guardian/guardian.png',s:{}},
+      {id:'grasp',n:"Poigne de l'Immortel",img:CD+'resolve/graspoftheundying/graspoftheundying.png',s:{}},
+      {id:'after',n:'Réplique',img:CD+'resolve/veteranaftershock/veteranaftershock.png',s:{}},
+      {id:'guard',n:'Gardien',img:CD+'resolve/guardian/guardian.png',s:{}},
     ],
     rows:[
-      [{id:'demo', n:'Démolition',      img:CD+'resolve/demolish/demolish.png',s:{}},
-       {id:'font', n:'Source de Vie',   img:CD+'resolve/fontoflife/fontoflife.png',s:{}},
+      [{id:'demo',n:'Démolition',img:CD+'resolve/demolish/demolish.png',s:{}},
+       {id:'font',n:'Source de Vie',img:CD+'resolve/fontoflife/fontoflife.png',s:{}},
        {id:'shield',n:'Coup de Bouclier',img:CD+'resolve/mirrorshell/mirrorshell.png',s:{}}],
-      [{id:'cond', n:'Acclimatation',   img:CD+'resolve/conditioning/conditioning.png',s:{armor:0,mr:0}},
-       {id:'second',n:'Second Souffle', img:CD+'resolve/secondwind/secondwind.png',s:{}},
-       {id:'bone', n:'Armure Osseuse',  img:CD+'resolve/boneplating/boneplating.png',s:{}}],
-      [{id:'revit',n:'Revitalisation',  img:CD+'resolve/revitalize/revitalize.png',s:{}},
-       {id:'unflin',n:'Inébranlable',   img:CD+'sorcery/unflinching/unflinching.png',s:{}},
-       {id:'over', n:'Excroissance',    img:CD+'resolve/overgrowth/overgrowth.png',s:{}}],
+      [{id:'cond',n:'Acclimatation',img:CD+'resolve/conditioning/conditioning.png',s:{armor:8,mr:8}},
+       {id:'second',n:'Second Souffle',img:CD+'resolve/secondwind/secondwind.png',s:{}},
+       {id:'bone',n:'Armure Osseuse',img:CD+'resolve/boneplating/boneplating.png',s:{}}],
+      [{id:'revit',n:'Revitalisation',img:CD+'resolve/revitalize/revitalize.png',s:{}},
+       {id:'unflin',n:'Inébranlable',img:CD+'resolve/unflinching/unflinching.png',s:{}},
+       {id:'over',n:'Excroissance',img:CD+'resolve/overgrowth/overgrowth.png',s:{hp:100}}],
     ]},
-  inspiration:{ label:'Inspiration', icon:CD+'7203_whimsy.png',
+  inspiration:{label:'Inspiration',icon:CD+'7203_whimsy.png',
     keystones:[
-      {id:'first',n:'Tir en Traître',   img:CD+'inspiration/firststrike/firststrike.png',s:{}},
+      {id:'first',n:'Tir en Traître',img:CD+'inspiration/firststrike/firststrike.png',s:{}},
       {id:'glacial',n:'Augment Glacial',img:CD+'inspiration/glacialaugment/glacialaugment.png',s:{}},
-      {id:'unseal',n:'Grimoire Descellé',img:CD+'inspiration/unsealedspellbook/unsealedspellbook.png',s:{}},
+      {id:'unseal',n:'Grimoire Descellé',img:CD+'inspiration/unsealedspellbook/unsealedspellbook.png',s:{ah:10}},
     ],
     rows:[
       [{id:'hexflash',n:'Hextech Flashtraption',img:CD+'inspiration/hextechflashtraption/hextechflashtraption.png',s:{}},
        {id:'magboot',n:'Bottes Magiques',img:CD+'inspiration/magicalfootwear/magicalfootwear.png',s:{}},
-       {id:'cash', n:'Remise',          img:CD+'inspiration/cashback/cashback2.png',s:{}}],
-      [{id:'triple',n:'Triple Tonique', img:CD+'inspiration/perfecttiming/alchemistcabinet.png',s:{}},
+       {id:'cash',n:'Remise',img:CD+'inspiration/cashback/cashback2.png',s:{}}],
+      [{id:'triple',n:'Triple Tonique',img:CD+'inspiration/perfecttiming/alchemistcabinet.png',s:{ah:10}},
        {id:'timew',n:'Tonique Temporel',img:CD+'inspiration/timewarptonic/timewarptonic.png',s:{}},
-       {id:'biscuit',n:'Livraison de Biscuits',img:CD+'inspiration/biscuitdelivery/biscuitdelivery.png',s:{}}],
+       {id:'biscuit',n:'Livraison de Biscuits',img:CD+'inspiration/biscuitdelivery/biscuitdelivery.png',s:{hp:100}}],
       [{id:'cosmic',n:'Intuition Cosmique',img:CD+'inspiration/cosmicinsight/cosmicinsight.png',s:{ah:18}},
-       {id:'approach',n:'Vélocité d\'Approche',img:CD+'resolve/approachvelocity/approachvelocity.png',s:{}},
-       {id:'jack', n:'Touche-à-Tout',   img:CD+'inspiration/jackofalltrades/jackofalltrades2.png',s:{}}],
+       {id:'approach',n:"Vélocité d'Approche",img:CD+'resolve/approachvelocity/approachvelocity.png',s:{}},
+       {id:'jack',n:'Touche-à-Tout',img:CD+'inspiration/jackofalltrades/jackofalltrades2.png',s:{}}],
     ]},
 };
-const TREE_KEYS = Object.keys(TREES);
+const TREE_KEYS=Object.keys(TREES);
 
-/* ---------- FRAGMENTS ---------- */
-const SHARDS = [
-  [{id:'a_force',n:'+9 Force adapt.',img:SM+'statmodsadaptiveforceicon.png',s:{ad:5.4}},
-   {id:'a_as',   n:'+10% AS',        img:SM+'statmodsattackspeedicon.png',  s:{as:0.10}},
-   {id:'a_ah',   n:'+8 AH',          img:SM+'statmodscdrscalingicon.png',   s:{ah:8}}],
-  [{id:'b_force',n:'+9 Force adapt.',img:SM+'statmodsadaptiveforceicon.png',s:{ad:5.4}},
-   {id:'b_ms',   n:'+2% Vitesse',    img:SM+'statmodsmovementspeedicon.png',s:{ms_pct:0.02}},
-   {id:'b_hp',   n:'+10-180 PV',     img:SM+'statmodshealthscalingicon.png',s:{hp:'scale'}}],
-  [{id:'c_hp',   n:'+65 PV',         img:SM+'statmodshealthplusicon.png',   s:{hp:65}},
-   {id:'c_ten',  n:'+10% Tenacité',  img:SM+'statmodstenacityicon.png',     s:{ten:10}},
-   {id:'c_hps',  n:'+10-180 PV',     img:SM+'statmodshealthscalingicon.png',s:{hp:'scale'}}],
+const SHARDS=[
+  [{id:'a_force',n:'+5.4 AD',img:SM+'statmodsadaptiveforceicon.png',s:{ad:5.4}},
+   {id:'a_as',n:'+10% AS',img:SM+'statmodsattackspeedicon.png',s:{as:0.10}},
+   {id:'a_ah',n:'+8 AH',img:SM+'statmodscdrscalingicon.png',s:{ah:8}}],
+  [{id:'b_force',n:'+5.4 AD',img:SM+'statmodsadaptiveforceicon.png',s:{ad:5.4}},
+   {id:'b_ms',n:'+2.5% MS',img:SM+'statmodsmovementspeedicon.png',s:{ms_pct:0.025}},
+   {id:'b_hp',n:'+10-200 PV',img:SM+'statmodshealthscalingicon.png',s:{hp:'scale'}}],
+  [{id:'c_hp',n:'+65 PV',img:SM+'statmodshealthplusicon.png',s:{hp:65}},
+   {id:'c_ten',n:'+15% Tenacité',img:SM+'statmodstenacityicon.png',s:{ten:15}},
+   {id:'c_hps',n:'+10-200 PV',img:SM+'statmodshealthscalingicon.png',s:{hp:'scale'}}],
 ];
-function shardScaleHP(l){ return Math.round(10 + (170/17)*Math.min(Math.max(l-1,0),17)); }
+function shardScaleHP(l){return Math.round(10+(190/17)*Math.min(Math.max(l-1,0),17));}
 
-/* ---------- ÉTAT ---------- */
-const S = {
-  lvl:9,
-  items:[null,null,null,null,null,null,null], // 7e = potion
-  priTree:'precision', secTree:'inspiration',
-  keystone:'pta', pri:[null,null,null], sec:[null,null],
-  shards:['a_force','b_force','c_hps'],
-  slot:null,
+const S={
+  lvl:9,items:[null,null,null,null,null,null,null],
+  priTree:'precision',secTree:'inspiration',
+  keystone:'pta',pri:[null,null,null],sec:[null,null],
+  shards:['a_force','b_force','c_hps'],slot:null,
 };
 
-/* ---------- BASES D'URGOT (chargées depuis DDragon, fallback codé) ---------- */
-let BASE = {
-  hp:655, hpPerLvl:88, hpReg:6.25, hpRegPerLvl:0.7,
-  mp:340, mpPerLvl:40,
-  ad:63, adPerLvl:4,
-  armor:36, armorPerLvl:5,
-  mr:32, mrPerLvl:1.25,
-  asBase:0.625, asPerLvl:2.7,
-  ms:330,
-};
-// Formule officielle Riot pour la croissance par niveau (courbe)
-function grow(base, perLvl, lvl){
-  if(lvl<=1) return base;
-  const n = lvl - 1;
-  return base + perLvl * n * (0.7025 + 0.0175*n);
-}
-function growAS(lvl){
-  const n = lvl - 1;
-  return BASE.asBase * (1 + (BASE.asPerLvl/100) * n * (0.7025 + 0.0175*n));
+let BASE={hp:655,hpPerLvl:88,hpReg:6.25,hpRegPerLvl:0.7,mp:340,mpPerLvl:40,ad:63,adPerLvl:4,armor:36,armorPerLvl:5,mr:32,mrPerLvl:1.25,asBase:0.625,asPerLvl:2.7,ms:330};
+function grow(base,perLvl,lvl){if(lvl<=1)return base;const n=lvl-1;return base+perLvl*n*(0.7025+0.0175*n);}
+function growAS(lvl){const n=lvl-1;return BASE.asBase*(1+(BASE.asPerLvl/100)*n*(0.7025+0.0175*n));}
+
+let ALL_ITEMS=[],activeCat='all';
+
+function setLoadStatus(txt,kind){
+  const el=document.getElementById('ddv');if(el)el.textContent=txt;
+  const tag=el&&el.closest?el.closest('.pbadge'):null;
+  if(tag)tag.style.borderColor=kind==='ok'?'var(--acid-d)':kind==='warn'?'var(--rust-d)':'var(--blood)';
 }
 
-/* ---------- CHARGEMENT DE DONNÉES (robuste) ---------- */
-let ALL_ITEMS = [];
-let activeCat = 'all';
-
-// Affiche un état de chargement visible (au lieu d'un simple warning console)
-function setLoadStatus(txt, kind){
-  const el = document.getElementById('ddv');
-  if(el) el.textContent = txt;
-  const tag = (el && typeof el.closest==='function') ? el.closest('.patchtag') : null;
-  if(tag){
-    tag.style.borderColor = kind==='ok' ? 'var(--acid-d)' : kind==='warn' ? 'var(--rust-d)' : 'var(--blood)';
-  }
-}
-
-/* Essaie plusieurs URLs en cascade, puis un proxy CORS en dernier recours.
-   Renvoie l'objet JSON, ou null si tout échoue. */
 async function fetchJSON(urls){
-  const list = Array.isArray(urls) ? urls : [urls];
-  for(const url of list){
-    // tentative directe
-    try{
-      const r = await fetch(url, {mode:'cors'});
-      if(r.ok) return await r.json();
-    }catch(e){ /* on essaie l'URL suivante */ }
-  }
-  // dernier recours : proxy CORS (utile si le CDN ne renvoie pas les en-têtes CORS)
-  const proxies = [
-    u => 'https://corsproxy.io/?url=' + encodeURIComponent(u),
-    u => 'https://api.allorigins.win/raw?url=' + encodeURIComponent(u),
-  ];
-  for(const url of list){
-    for(const mk of proxies){
-      try{
-        const r = await fetch(mk(url));
-        if(r.ok) return await r.json();
-      }catch(e){ /* proxy suivant */ }
-    }
-  }
+  const list=Array.isArray(urls)?urls:[urls];
+  for(const url of list){try{const r=await fetch(url,{mode:'cors'});if(r.ok)return await r.json();}catch(e){}}
+  const proxies=[u=>'https://corsproxy.io/?url='+encodeURIComponent(u),u=>'https://api.allorigins.win/raw?url='+encodeURIComponent(u)];
+  for(const url of list){for(const mk of proxies){try{const r=await fetch(mk(url));if(r.ok)return await r.json();}catch(e){}}}
   return null;
 }
 
-async function resolveVersion(){
-  const v = await fetchJSON('https://ddragon.leagueoflegends.com/api/versions.json');
-  if(Array.isArray(v) && v.length) DDV = v[0];
-  setLoadStatus(DDV, 'ok');
-}
+async function resolveVersion(){const v=await fetchJSON('https://ddragon.leagueoflegends.com/api/versions.json');if(Array.isArray(v)&&v.length)DDV=v[0];setLoadStatus(DDV,'ok');}
 
 async function loadUrgotBase(){
-  // FR puis EN (selon dispo), via fetchJSON robuste
-  const d = await fetchJSON([
-    `https://ddragon.leagueoflegends.com/cdn/${DDV}/data/fr_FR/champion/Urgot.json`,
-    `https://ddragon.leagueoflegends.com/cdn/${DDV}/data/en_US/champion/Urgot.json`,
-  ]);
-  if(d && d.data && d.data.Urgot){
-    const st = d.data.Urgot.stats;
-    BASE = {
-      hp:st.hp, hpPerLvl:st.hpperlevel, hpReg:st.hpregen, hpRegPerLvl:st.hpregenperlevel,
-      mp:st.mp, mpPerLvl:st.mpperlevel,
-      ad:st.attackdamage, adPerLvl:st.attackdamageperlevel,
-      armor:st.armor, armorPerLvl:st.armorperlevel,
-      mr:st.spellblock, mrPerLvl:st.spellblockperlevel,
-      asBase:st.attackspeed, asPerLvl:st.attackspeedperlevel,
-      ms:st.movespeed,
-    };
-  } else {
-    console.warn('Bases Urgot : fallback utilisé (fetch impossible)');
-    setLoadStatus('hors-ligne · bases par défaut', 'err');
-  }
+  const d=await fetchJSON([`https://ddragon.leagueoflegends.com/cdn/${DDV}/data/fr_FR/champion/Urgot.json`,`https://ddragon.leagueoflegends.com/cdn/${DDV}/data/en_US/champion/Urgot.json`]);
+  if(d&&d.data&&d.data.Urgot){const st=d.data.Urgot.stats;BASE={hp:st.hp,hpPerLvl:st.hpperlevel,hpReg:st.hpregen,hpRegPerLvl:st.hpregenperlevel,mp:st.mp,mpPerLvl:st.mpperlevel,ad:st.attackdamage,adPerLvl:st.attackdamageperlevel,armor:st.armor,armorPerLvl:st.armorperlevel,mr:st.spellblock,mrPerLvl:st.spellblockperlevel,asBase:st.attackspeed,asPerLvl:st.attackspeedperlevel,ms:st.movespeed};}
+  else setLoadStatus('hors-ligne · bases par défaut','err');
 }
-/* ============================================================
-   PARTIE 2 — ITEMS : catégories, stats, chargement, rendu UI
-   ============================================================ */
 
-/* ---------- CATÉGORIES (couleur + libellé FR) ---------- */
-const CATS = {
-  all:      {fr:'Tout',        col:'#9fe870'},
-  fighter:  {fr:'Combattant',  col:'#c8632b'},
-  tank:     {fr:'Tank',        col:'#4f93e0'},
-  marksman: {fr:'Tireur',      col:'#e0c14f'},
-  mage:     {fr:'Mage',        col:'#9b6fe0'},
-  assassin: {fr:'Assassin',    col:'#e04f6f'},
-  boots:    {fr:'Bottes',      col:'#7d8a83'},
-  support:  {fr:'Support',     col:'#4fd0b0'},
-  jungle:   {fr:'Jungle',      col:'#6fb53f'},
-  starter:  {fr:'Départ',      col:'#a88'},
-  consumable:{fr:'Consommable',col:'#c84b4b'},
-  component:{fr:'Composant',   col:'#56615b'},
+const CATS={all:{fr:'Tout',col:'#9fe870'},fighter:{fr:'Combattant',col:'#c8632b'},tank:{fr:'Tank',col:'#4f93e0'},marksman:{fr:'Tireur',col:'#e0c14f'},mage:{fr:'Mage',col:'#9b6fe0'},assassin:{fr:'Assassin',col:'#e04f6f'},boots:{fr:'Bottes',col:'#7d8a83'},support:{fr:'Support',col:'#4fd0b0'},jungle:{fr:'Jungle',col:'#6fb53f'},starter:{fr:'Départ',col:'#a88'},consumable:{fr:'Consommable',col:'#c84b4b'},component:{fr:'Composant',col:'#56615b'}};
+const CAT_ORDER=['all','fighter','tank','marksman','mage','assassin','boots','support','jungle','starter','consumable','component'];
+
+function classifyItem(it){const tags=it.tags||[],total=(it.gold&&it.gold.total)||0,has=t=>tags.includes(t);if(has('Consumable')||has('Potion'))return 'consumable';if(has('Boots'))return 'boots';if(has('Jungle'))return 'jungle';if(has('GoldPer'))return 'support';if(total>0&&total<=500)return 'starter';if(total>500&&total<1100&&!has('Lane'))return 'component';if(has('CriticalStrike'))return 'marksman';if(has('Lethality'))return 'assassin';if(has('SpellDamage')&&!has('Damage'))return 'mage';if((has('Armor')||has('SpellBlock'))&&!has('Damage'))return 'tank';if(has('Damage')&&(has('Health')||has('LifeSteal')))return 'fighter';if(has('Damage'))return 'fighter';if(has('Health'))return 'tank';if(total<1100)return 'component';return 'fighter';}
+
+const MERAKI_URL='https://cdn.merakianalytics.com/riot/lol/resources/latest/en-US/items.json';
+const mflat=(s,k)=>(s&&s[k]&&typeof s[k].flat==='number')?s[k].flat:0;
+const mpct=(s,k)=>(s&&s[k]&&typeof s[k].percent==='number')?s[k].percent:0;
+
+const AH_BY_NAME={"Abyssal Mask":15,"Archangel's Staff":25,"Axiom Arc":25,"Black Cleaver":20,"Bloodletter's Curse":15,"Caulfield's Warhammer":10,"Chempunk Chainsword":15,"Cosmic Drive":30,"Cryptbloom":20,"Death's Dance":15,"Echoes of Helia":20,"Eclipse":15,"Essence Reaver":25,"Fiendish Codex":10,"Fimbulwinter":20,"Frozen Heart":20,"Glacial Buckler":10,"Hextech Rocketbelt":15,"Horizon Focus":25,"Hubris":15,"Iceborn Gauntlet":15,"Imperial Mandate":25,"Ionian Boots of Lucidity":12,"Kindlegem":10,"Knight's Vow":10,"Lich Bane":10,"Locket of the Iron Solari":15,"Lost Chapter":10,"Luden's Companion":10,"Malignance":25,"Manamune":15,"Maw of Malmortius":15,"Moonstone Renewer":15,"Morellonomicon":15,"Muramana":15,"Nashor's Tooth":15,"Profane Hydra":18,"Ravenous Hydra":20,"Redemption":10,"Riftmaker":15,"Seraph's Embrace":25,"Serylda's Grudge":15,"Shurelya's Battlesong":15,"Spirit Visage":10,"Sundered Sky":20,"Sunfire Aegis":15,"Trinity Force":20,"Umbral Glaive":15,"Voltaic Cyclosword":10,"Winter's Approach":20,"Zeke's Convergence":20,"Liandry's Torment":20,"Mejai's Soulstealer":10,"Banshee's Veil":10,"Spear of Shojin":25,"Experimental Hexplate":30,"Titanic Hydra":20,"Sterak's Gage":0};
+let FR_NAMES={};
+function norm(str){return String(str||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[''`]/g,'').replace(/[^a-z0-9]/g,'');}
+function buildNormIndex(obj){const m={};for(const k in obj)m[norm(k)]=obj[k];return m;}
+const AH_NORM=buildNormIndex(AH_BY_NAME);
+function lookupNorm(idx,name){if(!name)return undefined;return idx[norm(name)];}
+function readAH(s,name){let v=mflat(s,'abilityHaste');if(!v)v=mflat(s,'cooldownReduction');if(!v)v=lookupNorm(AH_NORM,name)||0;return v||0;}
+
+const ITEM_PASSIVES={
+  "Sterak's Gage":{note:"Gage de Sterak : +50% de l'AD de base.",applyStats:(A)=>{A.ad+=A.baseAD*0.45;A._sterak=A.baseAD*0.50;}},
+  "Black Cleaver":{special:'cleaver',note:"Black Cleaver : réduit jusqu'à 30% de l'armure (6 stacks).",applyStats:(A)=>{A.armorShred=Math.max(A.armorShred||0,0.30);}},
+  "Serylda's Grudge":{special:'serylda',note:"Rancune de Serylda : +35% pénétration d'armure.",applyStats:(A)=>{A.armPenPct+=0.35;}},
+  "Eclipse":{special:'eclipse',note:"Éclipse : dégâts bonus en % des PV max (non simulé)."},
+  "Blade of the Ruined King":{onHitPctHP:0.06,note:"Lame du Roi Déchu : on-hit ≈ 6% des PV de la cible."},
+  "Ravenous Hydra":{note:"Hydre Sanguinaire : dégâts de zone sur autos + omnivamp."},
+  "Titanic Hydra":{note:"Hydre Titanesque : dégâts bonus en % PV max d'Urgot (non simulé)."},
+  "The Collector":{note:"Le Collectionneur : exécute les cibles sous 5% PV."},
 };
-const CAT_ORDER = ['all','fighter','tank','marksman','mage','assassin','boots','support','jungle','starter','consumable','component'];
+const PASSIVE_NORM=buildNormIndex(ITEM_PASSIVES);
+function findPassive(name){return lookupNorm(PASSIVE_NORM,name)||null;}
 
-function classifyItem(it){
-  const tags = it.tags||[];
-  const total = (it.gold&&it.gold.total)||0;
-  const has = t => tags.includes(t);
-  if(has('Consumable') || has('Potion')) return 'consumable';
-  if(has('Boots')) return 'boots';
-  if(has('Jungle')) return 'jungle';
-  if(has('GoldPer') || has('Vision') && total<1000) return 'support';
-  // Starter : pas cher, premier achat
-  if(total>0 && total<=500) return 'starter';
-  if(total>500 && total<1100 && !has('Lane')) return 'component';
-  // Légendaires / épiques par profil
-  if(has('CriticalStrike')) return 'marksman';
-  if(has('Lethality')) return 'assassin';
-  if(has('SpellDamage') && !has('Damage')) return 'mage';
-  if((has('Armor')||has('SpellBlock')) && !has('Damage')) return 'tank';
-  if(has('Health') && (has('Armor')||has('SpellBlock')) && !has('Damage')) return 'tank';
-  if(has('Damage') && (has('Health')||has('LifeSteal')||has('SpellVamp'))) return 'fighter';
-  if(has('Damage')) return 'fighter';
-  if(has('Health')) return 'tank';
-  if(has('SpellDamage')) return 'mage';
-  if(total<1100) return 'component';
-  return 'fighter';
-}
-
-/* ============================================================
-   STATS COMPLÈTES VIA MERAKI ANALYTICS
-   DDragon n'expose qu'une fraction des stats (bug Riot connu :
-   AD/AH/léthalité/pen des items récents manquants). Meraki fournit
-   un JSON complet et structuré, idéal pour un calculateur de build.
-   Source : cdn.merakianalytics.com/riot/lol/resources/latest/en-US/items.json
-   ============================================================ */
-const MERAKI_URL = 'https://cdn.merakianalytics.com/riot/lol/resources/latest/en-US/items.json';
-
-// Récupère une valeur de stat Meraki en toute sécurité (flat/percent)
-const mflat = (s,k)=> (s && s[k] && typeof s[k].flat==='number') ? s[k].flat : 0;
-const mpct  = (s,k)=> (s && s[k] && typeof s[k].percent==='number') ? s[k].percent : 0;
-
-/* ---------- ABILITY HASTE PAR NOM (repli si Meraki ne le fournit pas) ----------
-   Le champ AH de Meraki est parfois vide selon la version du dump.
-   On garde donc un mapping de secours par nom d'item (EN), robuste aux IDs. */
-const AH_BY_NAME = {
-  "Abyssal Mask":15,"Archangel's Staff":25,"Axiom Arc":25,"Black Cleaver":20,"Blackfire Torch":20,
-  "Bloodletter's Curse":15,"Caulfield's Warhammer":10,"Chempunk Chainsword":15,"Cosmic Drive":30,
-  "Cryptbloom":20,"Death's Dance":15,"Dawncore":15,"Echoes of Helia":20,"Eclipse":15,"Essence Reaver":25,
-  "Fiendish Codex":10,"Fimbulwinter":20,"Frozen Heart":20,"Glacial Buckler":10,"Hextech Rocketbelt":15,
-  "Hollow Radiance":10,"Horizon Focus":25,"Hubris":15,"Iceborn Gauntlet":15,"Imperial Mandate":25,
-  "Ionian Boots of Lucidity":12,"Kindlegem":10,"Knight's Vow":10,"Lich Bane":10,"Locket of the Iron Solari":15,
-  "Lost Chapter":10,"Luden's Companion":10,"Malignance":25,"Manamune":15,"Maw of Malmortius":15,
-  "Mikael's Blessing":15,"Moonstone Renewer":15,"Morellonomicon":15,"Muramana":15,"Nashor's Tooth":15,
-  "Profane Hydra":18,"Ravenous Hydra":20,"Redemption":10,"Riftmaker":15,"Seraph's Embrace":25,
-  "Serylda's Grudge":15,"Shurelya's Battlesong":15,"Spirit Visage":10,"Staff of Flowing Water":15,
-  "Sundered Sky":20,"Sunfire Aegis":15,"Trinity Force":20,"Umbral Glaive":15,"Unending Despair":15,
-  "Voltaic Cyclosword":10,"Winter's Approach":20,"Zeke's Convergence":20,"Liandry's Torment":20,
-  "Mejai's Soulstealer":10,"Banshee's Veil":10,"Cosmic Drive":30,"Spear of Shojin":25,
-  "Experimental Hexplate":30,
-};
-// Lit l'AH depuis Meraki (plusieurs noms de clés possibles), sinon repli par nom normalisé.
-function readAH(s, name){
-  let v = mflat(s,'abilityHaste');
-  if(!v) v = mflat(s,'cooldownReduction');   // ancien nom Meraki
-  if(!v) v = mflat(s,'CooldownReduction');
-  if(!v) v = lookupNorm(AH_NORM, name) || 0;
-  return v||0;
-}
-
-/* ---------- NORMALISATION DES NOMS ----------
-   Permet de matcher quelle que soit la langue/apostrophe/accent.
-   "Lame noire" / "Black Cleaver" / "Black Cleaver'" → comparaison robuste.
-   Comme les noms FR ≠ EN, on indexe aussi le mapping par ID DDragon EN. */
-let FR_NAMES = {};        // id -> libellé français (affichage)
-function norm(str){
-  return String(str||'')
-    .toLowerCase()
-    .normalize('NFD').replace(/[\u0300-\u036f]/g,'') // enlève accents
-    .replace(/['’`]/g,'')                            // apostrophes
-    .replace(/[^a-z0-9]/g,'');                       // ponctuation/espaces
-}
-// Construit une fois un index normalisé { nomNormalisé -> valeur } à partir d'un objet { nomEN -> valeur }
-function buildNormIndex(obj){
-  const m = {};
-  for(const k in obj) m[norm(k)] = obj[k];
-  return m;
-}
-const AH_NORM = buildNormIndex(AH_BY_NAME);
-// Recherche dans un index normalisé en testant plusieurs variantes du nom
-function lookupNorm(idx, name){
-  if(!name) return undefined;
-  return idx[norm(name)];
-}
-
-/* ---------- PASSIFS D'ITEMS (effets conditionnels, par nom) ----------
-   Meraki donne les stats mais pas l'application des passifs dynamiques.
-   On code ici les passifs qui changent réellement les stats/dégâts d'Urgot.
-   Chaque entrée peut définir :
-     - applyStats(A)  : modifie l'objet stats agrégé (ex: Sterak +50% base AD)
-     - special        : drapeau pour le mannequin (cleaver, serylda…)
-     - onHitPctHP     : on-hit en % PV cible (BotRK) pour le mannequin
-     - note           : texte affiché dans les notes de build  */
-const ITEM_PASSIVES = {
-  "Sterak's Gage": {
-    note:"Gage de Sterak : +50% de l'AD de base.",
-    applyStats:(A)=>{ A.ad += A.baseAD * 0.45; A._sterak = A.baseAD*0.50; }
-  },
-  "Black Cleaver": {
-    special:'cleaver',
-    note:"Black Cleaver : réduit jusqu'à 30% de l'armure de la cible (6 stacks).",
-    applyStats:(A)=>{ A.armorShred = Math.max(A.armorShred||0, 0.30); }
-  },
-  "Serylda's Grudge": {
-    special:'serylda',
-    note:"Rancune de Serylda : pénétration d'armure en %, appliquée après la léthalité.",
-    applyStats:(A)=>{ A.armPenPct += 0.35; }
-  },
-  "Eclipse": {
-    special:'eclipse',
-    note:"Éclipse : dégâts bonus en % des PV max sur 2 attaques (non simulé)."
-  },
-  "Blade of the Ruined King": {
-    onHitPctHP:0.06,                 // 6% PV courant en on-hit (mêlée)
-    note:"Lame du Roi Déchu : on-hit ≈ 6% des PV de la cible (compté dans auto/W)."
-  },
-  "Ravenous Hydra": {
-    note:"Hydre Sanguinaire : dégâts de zone (cleave) sur les autos + omnivamp."
-  },
-  "Titanic Hydra": {
-    note:"Hydre Titanesque : dégâts bonus en % PV max d'Urgot sur les autos (non simulé)."
-  },
-  "Manamune": {
-    note:"Manamune/Muramana : AD bonus selon le mana (évolutif, non simulé en direct)."
-  },
-  "The Collector": {
-    note:"Le Collectionneur : exécute les cibles sous 5% PV."
-  },
-};
-// Index normalisé pour retrouver un passif quel que soit la langue/apostrophe
-const PASSIVE_NORM = buildNormIndex(ITEM_PASSIVES);
-function findPassive(name){ return lookupNorm(PASSIVE_NORM, name) || null; }
-
-/* ---------- CONSOMMABLES / POTIONS (slot potion) ----------
-   Les élixirs donnent de vraies stats temporaires → on les applique.
-   Les potions/biscuits régénèrent des PV → affichés comme bonus de regen.
-   Clés possibles (selon langue de chargement) gérées par regex sur le nom. */
-const CONSUMABLE_EFFECTS = [
-  { test:/Elixir of Wrath|Élixir de [Ff]orce|Elixir of Force/i,
-    stats:{ ad:30 }, note:"Élixir de Force : +30 AD + dégâts bonus en %PV (Cleave)." },
-  { test:/Elixir of Iron|Élixir de [Ff]er/i,
-    stats:{ hp:0, ten:25 }, hpFlat:300, note:"Élixir de Fer : +300 PV, +taille, +25% tenacité, ralentissements réduits." },
-  { test:/Elixir of Sorcery|Élixir de [Ss]orcellerie/i,
-    stats:{ }, note:"Élixir de Sorcellerie : +50 AP, dégâts de sort bonus (peu utile sur Urgot AD)." },
-  { test:/Elixir of Avarice|Élixir d'[Aa]varice/i,
-    stats:{ }, note:"Élixir d'Avarice : or bonus sur les éliminations." },
-  { test:/Health Potion|Potion de [Ss]oin(?! [Rr])/i,
-    regen:120, note:"Potion de soin : régénère 120 PV sur 15s." },
-  { test:/Refillable Potion|Potion .*[Rr]echargeable|Potion de soin [Rr]/i,
-    regen:125, note:"Potion rechargeable : régénère 125 PV sur 12s, se recharge en base." },
-  { test:/Corrupting Potion|Potion [Cc]orromp/i,
-    regen:125, note:"Potion corrompue : régénère PV+mana et inflige des dégâts brûlants." },
-  { test:/Biscuit/i,
-    regen:90, note:"Biscuit : régénère ~90 PV et mana, augmente le mana max." },
-  { test:/Total Biscuit|Stealth Ward|Control Ward/i,
-    note:"Objet utilitaire (pas de stat de combat)." },
+const CONSUMABLE_EFFECTS=[
+  {test:/Elixir of Wrath|Élixir de [Ff]orce/i,stats:{ad:30},note:"Élixir de Force : +30 AD."},
+  {test:/Elixir of Iron|Élixir de [Ff]er/i,stats:{ten:25},hpFlat:300,note:"Élixir de Fer : +300 PV, +25% tenacité."},
+  {test:/Health Potion|Potion de [Ss]oin/i,regen:120,note:"Potion de soin : régénère 120 PV."},
+  {test:/Refillable Potion|Potion .*[Rr]echargeable/i,regen:125,note:"Potion rechargeable."},
+  {test:/Corrupting Potion|Potion [Cc]orromp/i,regen:125,note:"Potion corrompue."},
+  {test:/Biscuit/i,regen:90,note:"Biscuit : régénère ~90 PV et mana."},
 ];
-function consumableEffect(name){
-  if(!name) return null;
-  for(const c of CONSUMABLE_EFFECTS) if(c.test.test(name)) return c;
-  return null;
-}
+function consumableEffect(name){if(!name)return null;for(const c of CONSUMABLE_EFFECTS)if(c.test.test(name))return c;return null;}
 
 async function loadItems(){
-  document.getElementById('mgrid').innerHTML =
-    '<div class="modal-loading">Chargement de l\'arsenal…</div>';
-
-  // Data Dragon EN = source des NOMS pour le matching (AH, passifs) + filtre SR + fallback stats
-  const ddEN = await fetchJSON([
-    `https://ddragon.leagueoflegends.com/cdn/${DDV}/data/en_US/item.json`,
-  ]);
-  // Data Dragon FR = uniquement pour les libellés affichés (mappés par ID)
-  const ddFR = await fetchJSON([
-    `https://ddragon.leagueoflegends.com/cdn/${DDV}/data/fr_FR/item.json`,
-  ]);
-  // Dictionnaire ID -> nom français pour l'affichage
-  FR_NAMES = {};
-  if(ddFR && ddFR.data){
-    for(const [id,it] of Object.entries(ddFR.data)) FR_NAMES[+id] = it.name;
-  }
-
-  // Meraki (stats complètes, noms EN) — peut échouer par CORS, d'où fetchJSON + proxy
-  const meraki = await fetchJSON([MERAKI_URL]);
-
-  if(meraki){
-    buildFromMeraki(meraki, ddEN);
-    setLoadStatus(DDV+' · stats complètes', 'ok');
-  } else if(ddEN){
-    buildFromDDragon(ddEN);   // fallback : stats partielles + AH par nom (EN)
-    setLoadStatus(DDV+' · stats partielles (Meraki bloqué)', 'warn');
-  } else {
-    document.getElementById('mgrid').innerHTML =
-      '<div class="modal-loading">Impossible de charger les items.<br>Vérifie ta connexion réseau.</div>';
-    setLoadStatus('hors-ligne', 'err');
-    return;
-  }
+  document.getElementById('mgrid').innerHTML='<div class="modal-loading">Chargement de l\'arsenal…</div>';
+  const ddEN=await fetchJSON([`https://ddragon.leagueoflegends.com/cdn/${DDV}/data/en_US/item.json`]);
+  const ddFR=await fetchJSON([`https://ddragon.leagueoflegends.com/cdn/${DDV}/data/fr_FR/item.json`]);
+  FR_NAMES={};
+  if(ddFR&&ddFR.data){for(const[id,it]of Object.entries(ddFR.data))FR_NAMES[+id]=it.name;}
+  const meraki=await fetchJSON([MERAKI_URL]);
+  if(meraki){buildFromMeraki(meraki,ddEN);setLoadStatus(DDV+' · stats complètes','ok');}
+  else if(ddEN){buildFromDDragon(ddEN);setLoadStatus(DDV+' · stats partielles','warn');}
+  else{document.getElementById('mgrid').innerHTML='<div class="modal-loading">Impossible de charger les items.</div>';setLoadStatus('hors-ligne','err');return;}
   renderItems();
 }
 
-/* ---- Construction depuis Meraki (chemin principal, stats complètes) ---- */
-function buildFromMeraki(meraki, dd){
-  const ddData = (dd && dd.data) || {};
-  ALL_ITEMS = Object.values(meraki).filter(it=>{
-    if(!it || !it.id) return false;
-    const maps = it.maps || {};
-    if(maps['11'] === false) return false;            // exclut hors SR
-    const shop = it.shop || {};
-    if(shop.purchasable === false) return false;
-    if(it.requiredChampion) return false;             // items spécifiques (Viktor…)
-    const tier = it.tier;
-    const total = (shop.prices && shop.prices.total) || 0;
-    // garde consommables + tout ce qui a un prix
-    const isConsumable = (it.type && it.type.includes && it.type.includes('CONSUMABLE')) ||
-                         /Potion|Biscuit|Elixir|Cookie/i.test(it.name||'');
-    if(!isConsumable && total<=0) return false;
-    if(/Trinket|Ward|Oracle|Stealth Ward|Farsight/i.test(it.name||'')) return false;
+function buildFromMeraki(meraki,dd){
+  ALL_ITEMS=Object.values(meraki).filter(it=>{
+    if(!it||!it.id)return false;
+    const maps=it.maps||{};if(maps['11']===false)return false;
+    const shop=it.shop||{};if(shop.purchasable===false)return false;
+    if(it.requiredChampion)return false;
+    const total=(shop.prices&&shop.prices.total)||0;
+    const isCons=(/Potion|Biscuit|Elixir|Cookie/i.test(it.name||''));
+    if(!isCons&&total<=0)return false;
+    if(/Trinket|Ward|Oracle|Stealth Ward|Farsight/i.test(it.name||''))return false;
     return true;
   }).map(it=>{
-    const s = it.stats || {};
-    const nameEN = it.name;                         // nom anglais (matching)
-    const ddId = it.id;
-    const displayName = FR_NAMES[ddId] || nameEN;   // libellé affiché (FR si dispo)
-    const passive = findPassive(nameEN);
-    // Léthalité : Meraki la met dans stats.lethality.flat
-    const lethality = mflat(s,'lethality');
-    const armPenPct = mpct(s,'armorPenetration');
-    return {
-      id: ddId, name: displayName, nameEN,
-      cat: classifyMeraki(it),
-      gold: (it.shop && it.shop.prices && it.shop.prices.total) || 0,
-      img: `https://ddragon.leagueoflegends.com/cdn/${DDV}/img/item/${ddId}.png`,
-      hp:    mflat(s,'health'),
-      ad:    mflat(s,'attackDamage'),
-      armor: mflat(s,'armor'),
-      mr:    mflat(s,'magicResistance'),
-      ah:    readAH(s, nameEN),
-      as:    mpct(s,'attackSpeed')/100,      // percent → décimal pour as_*(1+as)
-      crit:  Math.round(mpct(s,'criticalStrikeChance')),
-      ls:    Math.round(mpct(s,'lifesteal')),
-      omni:  Math.round(mpct(s,'omnivamp')),
-      ms_flat: mflat(s,'movespeed'),
-      ms_pct:  mpct(s,'movespeed')/100,      // percent → décimal pour ms*(1+ms_pct)
-      leth:  lethality,
-      apen:  Math.round(armPenPct),
-      bah:0, uh:0,
-      passiveKey: passive ? nameEN : null,   // clé EN pour retrouver le passif dans aggregate
-      special: passive && passive.special ? passive.special : null,
-      onHitPctHP: passive && passive.onHitPctHP ? passive.onHitPctHP : 0,
-      note: passive ? passive.note : null,
-      consumable: consumableEffect(nameEN),
-    };
-  }).sort((a,b)=> a.gold-b.gold || a.name.localeCompare(b.name));
+    const s=it.stats||{},nameEN=it.name,ddId=it.id,displayName=FR_NAMES[ddId]||nameEN,passive=findPassive(nameEN);
+    return{id:ddId,name:displayName,nameEN,cat:classifyMeraki(it),gold:(it.shop&&it.shop.prices&&it.shop.prices.total)||0,img:`https://ddragon.leagueoflegends.com/cdn/${DDV}/img/item/${ddId}.png`,hp:mflat(s,'health'),ad:mflat(s,'attackDamage'),armor:mflat(s,'armor'),mr:mflat(s,'magicResistance'),ah:readAH(s,nameEN),as:mpct(s,'attackSpeed')/100,crit:Math.round(mpct(s,'criticalStrikeChance')),ls:Math.round(mpct(s,'lifesteal')),omni:Math.round(mpct(s,'omnivamp')),ms_flat:mflat(s,'movespeed'),ms_pct:mpct(s,'movespeed')/100,leth:mflat(s,'lethality'),apen:Math.round(mpct(s,'armorPenetration')),bah:0,uh:0,passiveKey:passive?nameEN:null,special:passive&&passive.special?passive.special:null,onHitPctHP:passive&&passive.onHitPctHP?passive.onHitPctHP:0,note:passive?passive.note:null,consumable:consumableEffect(nameEN)};
+  }).sort((a,b)=>a.gold-b.gold||a.name.localeCompare(b.name));
 }
 
-/* ---- Catégorisation depuis Meraki (tags shop) ---- */
 function classifyMeraki(it){
-  const name = it.name||'';
-  const shop = it.shop||{};
-  const tags = (shop.tags||[]).map(t=>String(t).toLowerCase());
-  const total = (shop.prices&&shop.prices.total)||0;
-  const s = it.stats||{};
-  const has = t => tags.includes(t);
-  if(/Potion|Biscuit|Elixir|Cookie|Refillable/i.test(name)) return 'consumable';
-  if(/Boots|Greaves|Treads|Steelcaps|Sorcerer|Swiftness|Mobility|Lucidity/i.test(name) && total<2000) return 'boots';
-  if(/Jungle|Mosstomper|Gustwalker|Scorchclaw|Smite/i.test(name)) return 'jungle';
-  if(has('lane') || /Relic Shield|Steel Shoulderguards|Spectral Sickle|Spellthief|World Atlas|Runic Compass|Bloodsong|Celestial|Dream Maker|Zaz'Zak|Bountiful/i.test(name)) return 'support';
-  if(total>0 && total<=500) return 'starter';
-  if(mflat(s,'criticalStrikeChance')>0 || mpct(s,'criticalStrikeChance')>0) return 'marksman';
-  if(mflat(s,'lethality')>0) return 'assassin';
-  if(mflat(s,'abilityPower')>0 && mflat(s,'attackDamage')===0) return 'mage';
-  const ad=mflat(s,'attackDamage'), hp=mflat(s,'health'), arm=mflat(s,'armor'), mr=mflat(s,'magicResistance');
-  if((arm>0||mr>0) && ad===0) return 'tank';
-  if(ad>0 && (hp>0 || mpct(s,'lifesteal')>0)) return 'fighter';
-  if(ad>0) return 'fighter';
-  if(hp>0 && (arm>0||mr>0)) return 'tank';
-  if(total>0 && total<1100) return 'component';
+  const name=it.name||'',shop=it.shop||{},s=it.stats||{},total=(shop.prices&&shop.prices.total)||0;
+  if(/Potion|Biscuit|Elixir|Cookie|Refillable/i.test(name))return 'consumable';
+  if(/Boots|Greaves|Treads|Steelcaps|Sorcerer|Swiftness|Mobility|Lucidity/i.test(name)&&total<2000)return 'boots';
+  if(/Jungle|Mosstomper|Gustwalker|Scorchclaw|Smite/i.test(name))return 'jungle';
+  if(/Relic Shield|Steel Shoulderguards|Spectral Sickle|Spellthief|World Atlas|Runic Compass/i.test(name))return 'support';
+  if(total>0&&total<=500)return 'starter';
+  if(mflat(s,'criticalStrikeChance')>0||mpct(s,'criticalStrikeChance')>0)return 'marksman';
+  if(mflat(s,'lethality')>0)return 'assassin';
+  if(mflat(s,'abilityPower')>0&&mflat(s,'attackDamage')===0)return 'mage';
+  const ad=mflat(s,'attackDamage'),hp=mflat(s,'health'),arm=mflat(s,'armor'),mr=mflat(s,'magicResistance');
+  if((arm>0||mr>0)&&ad===0)return 'tank';
+  if(ad>0&&(hp>0||mpct(s,'lifesteal')>0))return 'fighter';
+  if(ad>0)return 'fighter';
+  if(hp>0&&(arm>0||mr>0))return 'tank';
+  if(total>0&&total<1100)return 'component';
   return 'fighter';
 }
 
-/* ---- Fallback DDragon (si Meraki indisponible) ---- */
 function buildFromDDragon(d){
-  ALL_ITEMS = Object.entries(d.data).filter(([id,it])=>{
-    const maps = it.maps||{};
-    if(!maps['11']) return false;
-    const g = it.gold||{};
-    if(!g.purchasable) return false;
-    if(it.requiredChampion) return false;
-    const tags = it.tags||[];
-    if(tags.includes('Trinket')) return false;
-    return true;
-  }).map(([id,it])=>{
-    const st = it.stats||{};
-    const nameEN = it.name;
-    const passive = findPassive(nameEN);
-    return {
-      id:+id, name: FR_NAMES[+id] || nameEN, nameEN, cat:classifyItem(it),
-      gold:(it.gold&&it.gold.total)||0,
-      img:`https://ddragon.leagueoflegends.com/cdn/${DDV}/img/item/${id}.png`,
-      hp:st.FlatHPPoolMod||0, ad:st.FlatPhysicalDamageMod||0,
-      armor:st.FlatArmorMod||0, mr:st.FlatSpellBlockMod||0,
-      as:st.PercentAttackSpeedMod||0,
-      crit:Math.round((st.FlatCritChanceMod||0)*100),
-      ls:Math.round((st.PercentLifeStealMod||0)*100),
-      ms_flat:st.FlatMovementSpeedMod||0, ms_pct:st.PercentMovementSpeedMod||0,
-      ah:lookupNorm(AH_NORM, nameEN)||0, omni:0, leth:0, apen:0, bah:0, uh:0,
-      passiveKey: passive ? nameEN : null,
-      special: passive && passive.special || null,
-      onHitPctHP: passive && passive.onHitPctHP || 0,
-      note: passive && passive.note || null,
-      consumable: consumableEffect(nameEN),
-    };
-  }).sort((a,b)=> a.gold-b.gold || a.name.localeCompare(b.name));
+  ALL_ITEMS=Object.entries(d.data).filter(([id,it])=>{const maps=it.maps||{};if(!maps['11'])return false;const g=it.gold||{};if(!g.purchasable)return false;if(it.requiredChampion)return false;const tags=it.tags||[];if(tags.includes('Trinket'))return false;return true;}).map(([id,it])=>{const st=it.stats||{},nameEN=it.name,passive=findPassive(nameEN);return{id:+id,name:FR_NAMES[+id]||nameEN,nameEN,cat:classifyItem(it),gold:(it.gold&&it.gold.total)||0,img:`https://ddragon.leagueoflegends.com/cdn/${DDV}/img/item/${id}.png`,hp:st.FlatHPPoolMod||0,ad:st.FlatPhysicalDamageMod||0,armor:st.FlatArmorMod||0,mr:st.FlatSpellBlockMod||0,as:st.PercentAttackSpeedMod||0,crit:Math.round((st.FlatCritChanceMod||0)*100),ls:Math.round((st.PercentLifeStealMod||0)*100),ms_flat:st.FlatMovementSpeedMod||0,ms_pct:st.PercentMovementSpeedMod||0,ah:lookupNorm(AH_NORM,nameEN)||0,omni:0,leth:0,apen:0,bah:0,uh:0,passiveKey:passive?nameEN:null,special:passive&&passive.special||null,onHitPctHP:passive&&passive.onHitPctHP||0,note:passive&&passive.note||null,consumable:consumableEffect(nameEN)};}).sort((a,b)=>a.gold-b.gold||a.name.localeCompare(b.name));
 }
 
-/* ============================================================
-   RENDU — SLOTS
-   ============================================================ */
 function renderSlots(){
-  const g = document.getElementById('slots'); g.innerHTML='';
-  for(let i=0;i<7;i++){
-    const isPotion = i===6;
-    const it = S.items[i];
-    const d = document.createElement('div');
-    d.className = 'slot' + (isPotion?' potion':'');
-    if(it){
-      d.innerHTML = `<img src="${it.img}" alt="${it.name}" title="${it.name}"><div class="rm">✕</div>`;
-      d.querySelector('.rm').onclick = e=>{ e.stopPropagation(); S.items[i]=null; renderSlots(); recompute(); };
-    } else {
-      d.innerHTML = isPotion
-        ? `<div class="ph">⚗<small>Potion</small></div>`
-        : `<div class="ph">+<small>Slot ${i+1}</small></div>`;
-    }
-    d.onclick = ()=> openModal(i, isPotion);
-    g.appendChild(d);
-  }
+  const g=document.getElementById('slots');g.innerHTML='';
+  for(let i=0;i<7;i++){const isPotion=i===6,it=S.items[i];const d=document.createElement('div');d.className='slot'+(isPotion?' potion':'');if(it){d.innerHTML=`<img src="${it.img}" alt="${it.name}" title="${it.name}"><div class="rm">✕</div>`;d.querySelector('.rm').onclick=e=>{e.stopPropagation();S.items[i]=null;renderSlots();recompute();};}else d.innerHTML=isPotion?`<div class="ph">⚗<small>Potion</small></div>`:`<div class="ph">+<small>Slot ${i+1}</small></div>`;d.onclick=()=>openModal(i,isPotion);g.appendChild(d);}
 }
 
-/* ============================================================
-   RENDU — MODAL ITEMS
-   ============================================================ */
-let modalPotionMode = false;
-function openModal(i, potion){
-  S.slot = i; modalPotionMode = !!potion;
-  activeCat = potion ? 'consumable' : 'all';
-  document.getElementById('modal').classList.add('open');
-  document.getElementById('msearch').value='';
-  renderCats(); renderItems();
-  setTimeout(()=>document.getElementById('msearch').focus(),40);
-}
-function closeModal(){ document.getElementById('modal').classList.remove('open'); S.slot=null; }
+let modalPotionMode=false;
+function openModal(i,potion){S.slot=i;modalPotionMode=!!potion;activeCat=potion?'consumable':'all';document.getElementById('modal').classList.add('open');document.getElementById('msearch').value='';renderCats();renderItems();setTimeout(()=>document.getElementById('msearch').focus(),40);}
+function closeModal(){document.getElementById('modal').classList.remove('open');S.slot=null;}
 
-function renderCats(){
-  const c = document.getElementById('mcats'); c.innerHTML='';
-  CAT_ORDER.forEach(cat=>{
-    const meta = CATS[cat];
-    const b = document.createElement('button');
-    b.className = 'mcat'+(activeCat===cat?' on':'');
-    b.innerHTML = `<span class="dot" style="background:${meta.col}"></span>${meta.fr}`;
-    b.onclick = ()=>{ activeCat=cat; renderCats(); renderItems(); };
-    c.appendChild(b);
-  });
-}
+function renderCats(){const c=document.getElementById('mcats');c.innerHTML='';CAT_ORDER.forEach(cat=>{const meta=CATS[cat];const b=document.createElement('button');b.className='mcat'+(activeCat===cat?' on':'');b.innerHTML=`<span class="dot" style="background:${meta.col}"></span>${meta.fr}`;b.onclick=()=>{activeCat=cat;renderCats();renderItems();};c.appendChild(b);});}
+
 function renderItems(){
-  const g = document.getElementById('mgrid');
-  if(!ALL_ITEMS.length){ g.innerHTML='<div class="modal-loading">Chargement de l\'arsenal…</div>'; return; }
-  g.innerHTML='';
-  const q = (document.getElementById('msearch').value||'').toLowerCase().trim();
-  let list = ALL_ITEMS.filter(it=>{
-    if(activeCat!=='all' && it.cat!==activeCat) return false;
-    if(q){
-      const inFR = it.name.toLowerCase().includes(q);
-      const inEN = it.nameEN && it.nameEN.toLowerCase().includes(q);
-      if(!inFR && !inEN) return false;
-    }
-    return true;
-  });
-  if(!list.length){ g.innerHTML='<div class="modal-loading">Aucun item trouvé.</div>'; return; }
-  list.forEach(it=>{
-    const d = document.createElement('div');
-    d.className='iitem';
-    d.innerHTML = `<img src="${it.img}" alt=""><span class="nm">${it.name}</span><span class="gp">${it.gold||0} po</span>`;
-    d.onclick = ()=>{ if(S.slot!==null){ S.items[S.slot]=it; closeModal(); renderSlots(); recompute(); } };
-    g.appendChild(d);
-  });
+  const g=document.getElementById('mgrid');
+  if(!ALL_ITEMS.length){g.innerHTML='<div class="modal-loading">Chargement de l\'arsenal…</div>';return;}
+  g.innerHTML='';const q=(document.getElementById('msearch').value||'').toLowerCase().trim();
+  let list=ALL_ITEMS.filter(it=>{if(activeCat!=='all'&&it.cat!==activeCat)return false;if(q){const inFR=it.name.toLowerCase().includes(q),inEN=it.nameEN&&it.nameEN.toLowerCase().includes(q);if(!inFR&&!inEN)return false;}return true;});
+  if(!list.length){g.innerHTML='<div class="modal-loading">Aucun item trouvé.</div>';return;}
+  list.forEach(it=>{const d=document.createElement('div');d.className='iitem';d.innerHTML=`<img src="${it.img}" alt=""><span class="nm">${it.name}</span><span class="gp">${it.gold||0} po</span>`;d.onclick=()=>{if(S.slot!==null){S.items[S.slot]=it;closeModal();renderSlots();recompute();}};g.appendChild(d);});
 }
 
-/* ============================================================
-   RENDU — RUNES
-   ============================================================ */
-function findRune(id){
-  if(!id) return null;
-  for(const k of TREE_KEYS){
-    const t = TREES[k];
-    for(const ks of t.keystones) if(ks.id===id) return ks;
-    for(const row of t.rows) for(const r of row) if(r.id===id) return r;
-  }
-  for(const slot of SHARDS) for(const sh of slot) if(sh.id===id) return sh;
-  return null;
-}
+function findRune(id){if(!id)return null;for(const k of TREE_KEYS){const t=TREES[k];for(const ks of t.keystones)if(ks.id===id)return ks;for(const row of t.rows)for(const r of row)if(r.id===id)return r;}for(const slot of SHARDS)for(const sh of slot)if(sh.id===id)return sh;return null;}
 
-function mkRune(rune, on, kind, onClick){
-  const b=document.createElement('button');
-  b.className='rbtn'+(on?(kind==='sec'?' on-sec':' on-pri'):'');
-  b.title=rune.n;
-  b.innerHTML=`<img src="${rune.img}" onerror="this.style.opacity=.2" alt=""><span class="rn">${rune.n}</span>`;
-  b.onclick=onClick;
-  return b;
-}
+function mkRune(rune,on,kind,onClick){const b=document.createElement('button');b.className='rbtn'+(on?(kind==='sec'?' on-sec':' on-pri'):'');b.title=rune.n;b.innerHTML=`<img src="${rune.img}" onerror="this.style.opacity=.2" alt=""><span class="rn">${rune.n}</span>`;b.onclick=onClick;return b;}
 
-function renderRunes(){
-  renderPrimary();
-  renderSecondary();
-  renderShards();
-}
+function renderRunes(){renderPrimary();renderSecondary();renderShardsUI();}
 
 function renderPrimary(){
-  const t = TREES[S.priTree];
-  const wrap = document.getElementById('priTree');
-  wrap.innerHTML = `<div class="tree-head"><img src="${t.icon}" onerror="this.style.display='none'"> Arbre primaire — ${t.label}</div>`;
-
-  // onglets d'arbres
-  const tabs=document.createElement('div'); tabs.className='tree-tabs';
-  TREE_KEYS.forEach(k=>{
-    const tt=document.createElement('button');
-    tt.className='ttab'+(S.priTree===k?' on-pri':'');
-    tt.title=TREES[k].label;
-    tt.innerHTML=`<img src="${TREES[k].icon}" onerror="this.style.display='none'">`;
-    tt.onclick=()=>{
-      if(S.priTree===k) return;
-      S.priTree=k; S.keystone=null; S.pri=[null,null,null];
-      if(S.secTree===k) S.secTree = TREE_KEYS.find(x=>x!==k);
-      S.sec=[null,null];
-      renderRunes(); recompute();
-    };
-    tabs.appendChild(tt);
-  });
+  const t=TREES[S.priTree],wrap=document.getElementById('priTree');
+  wrap.innerHTML=`<div class="tree-head"><img src="${t.icon}" onerror="this.style.display='none'"> Arbre primaire — ${t.label}</div>`;
+  const tabs=document.createElement('div');tabs.className='tree-tabs';
+  TREE_KEYS.forEach(k=>{const tt=document.createElement('button');tt.className='ttab'+(S.priTree===k?' on-pri':'');tt.title=TREES[k].label;tt.innerHTML=`<img src="${TREES[k].icon}" onerror="this.style.display='none'">`;tt.onclick=()=>{if(S.priTree===k)return;S.priTree=k;S.keystone=null;S.pri=[null,null,null];if(S.secTree===k)S.secTree=TREE_KEYS.find(x=>x!==k);S.sec=[null,null];renderRunes();recompute();};tabs.appendChild(tt);});
   wrap.appendChild(tabs);
-
-  // keystone
-  const kl=document.createElement('div'); kl.className='rrow-lbl'; kl.textContent='Pierre angulaire';
-  wrap.appendChild(kl);
-  const kg=document.createElement('div'); kg.className='kstone-grid';
-  t.keystones.forEach(ks=>{
-    kg.appendChild(mkRune(ks, S.keystone===ks.id, 'pri', ()=>{
-      S.keystone = S.keystone===ks.id ? null : ks.id; renderRunes(); recompute();
-    }));
-  });
+  const kl=document.createElement('div');kl.className='rrow-lbl';kl.textContent='Pierre angulaire';wrap.appendChild(kl);
+  const kg=document.createElement('div');kg.className='kstone-grid';
+  t.keystones.forEach(ks=>{kg.appendChild(mkRune(ks,S.keystone===ks.id,'pri',()=>{S.keystone=S.keystone===ks.id?null:ks.id;renderRunes();recompute();}));});
   wrap.appendChild(kg);
-
-  // 3 lignes
-  t.rows.forEach((row,i)=>{
-    const l=document.createElement('div'); l.className='rrow-lbl'; l.textContent='Ligne '+(i+1);
-    wrap.appendChild(l);
-    const rg=document.createElement('div'); rg.className='rune-grid';
-    row.forEach(r=>{
-      rg.appendChild(mkRune(r, S.pri[i]===r.id, 'pri', ()=>{
-        S.pri[i] = S.pri[i]===r.id ? null : r.id; renderRunes(); recompute();
-      }));
-    });
-    wrap.appendChild(rg);
-  });
+  t.rows.forEach((row,i)=>{const l=document.createElement('div');l.className='rrow-lbl';l.textContent='Ligne '+(i+1);wrap.appendChild(l);const rg=document.createElement('div');rg.className='rune-grid';row.forEach(r=>{rg.appendChild(mkRune(r,S.pri[i]===r.id,'pri',()=>{S.pri[i]=S.pri[i]===r.id?null:r.id;renderRunes();recompute();}));});wrap.appendChild(rg);});
 }
 
 function renderSecondary(){
-  const t = TREES[S.secTree];
-  const wrap = document.getElementById('secTree');
-  wrap.innerHTML = `<div class="tree-head sec"><img src="${t.icon}" onerror="this.style.display='none'"> Arbre secondaire — ${t.label}</div>`;
-
-  const tabs=document.createElement('div'); tabs.className='tree-tabs';
-  TREE_KEYS.forEach(k=>{
-    const tt=document.createElement('button');
-    const disabled = (k===S.priTree);
-    tt.className='ttab'+(S.secTree===k?' on-sec':'')+(disabled?' disabled':'');
-    tt.title=TREES[k].label;
-    tt.innerHTML=`<img src="${TREES[k].icon}" onerror="this.style.display='none'">`;
-    if(!disabled) tt.onclick=()=>{ if(S.secTree===k) return; S.secTree=k; S.sec=[null,null]; renderRunes(); recompute(); };
-    tabs.appendChild(tt);
-  });
+  const t=TREES[S.secTree],wrap=document.getElementById('secTree');
+  wrap.innerHTML=`<div class="tree-head sec"><img src="${t.icon}" onerror="this.style.display='none'"> Arbre secondaire — ${t.label}</div>`;
+  const tabs=document.createElement('div');tabs.className='tree-tabs';
+  TREE_KEYS.forEach(k=>{const disabled=(k===S.priTree);const tt=document.createElement('button');tt.className='ttab'+(S.secTree===k?' on-sec':'')+(disabled?' disabled':'');tt.title=TREES[k].label;tt.innerHTML=`<img src="${TREES[k].icon}" onerror="this.style.display='none'">`;if(!disabled)tt.onclick=()=>{if(S.secTree===k)return;S.secTree=k;S.sec=[null,null];renderRunes();recompute();};tabs.appendChild(tt);});
   wrap.appendChild(tabs);
-
-  // En secondaire : on choisit 2 runes parmi les 9, mais 1 par ligne max (comme le jeu).
-  const l=document.createElement('div'); l.className='rrow-lbl'; l.textContent='Choisir 2 runes (1 par ligne max)';
-  wrap.appendChild(l);
-
-  t.rows.forEach((row,ri)=>{
-    const rg=document.createElement('div'); rg.className='rune-grid';
-    row.forEach(r=>{
-      const on = S.sec.includes(r.id);
-      // verrouillé si : 2 déjà choisies (et pas celle-ci) OU une autre rune de cette ligne est déjà prise
-      const otherInRow = row.some(x=> x.id!==r.id && S.sec.includes(x.id));
-      const full = S.sec.filter(Boolean).length>=2;
-      const locked = !on && (otherInRow || full);
-      const b = mkRune(r, on, 'sec', ()=>{
-        if(on){ S.sec = S.sec.map(x=> x===r.id ? null : x); }
-        else {
-          const empty = S.sec.indexOf(null);
-          if(empty>=0) S.sec[empty]=r.id;
-        }
-        renderRunes(); recompute();
-      });
-      if(locked) b.classList.add('locked');
-      rg.appendChild(b);
-    });
-    wrap.appendChild(rg);
-  });
+  const l=document.createElement('div');l.className='rrow-lbl';l.textContent='Choisir 2 runes (1 par ligne max)';wrap.appendChild(l);
+  t.rows.forEach(row=>{const rg=document.createElement('div');rg.className='rune-grid';row.forEach(r=>{const on=S.sec.includes(r.id);const otherInRow=row.some(x=>x.id!==r.id&&S.sec.includes(x.id));const full=S.sec.filter(Boolean).length>=2;const locked=!on&&(otherInRow||full);const b=mkRune(r,on,'sec',()=>{if(on){S.sec=S.sec.map(x=>x===r.id?null:x);}else{const empty=S.sec.indexOf(null);if(empty>=0)S.sec[empty]=r.id;}renderRunes();recompute();});if(locked)b.classList.add('locked');rg.appendChild(b);});wrap.appendChild(rg);});
 }
 
-function renderShards(){
-  const g=document.getElementById('shards'); g.innerHTML='';
+function renderShardsUI(){
+  const g=document.getElementById('shards');g.innerHTML='';
   const labels=['Offensif','Flexible','Défensif'];
-  SHARDS.forEach((opts,i)=>{
-    const row=document.createElement('div'); row.className='shard-row';
-    row.innerHTML=`<span class="sl">${labels[i]}</span>`;
-    const wrap=document.createElement('div'); wrap.className='shard-opts';
-    opts.forEach(sh=>{
-      const b=document.createElement('button');
-      b.className='sbtn'+(S.shards[i]===sh.id?' on':'');
-      b.innerHTML=`<img src="${sh.img}" onerror="this.style.display='none'">${sh.n}`;
-      b.onclick=()=>{ S.shards[i]=sh.id; renderShards(); recompute(); };
-      wrap.appendChild(b);
-    });
-    row.appendChild(wrap);
-    g.appendChild(row);
-  });
+  SHARDS.forEach((opts,i)=>{const row=document.createElement('div');row.className='shard-row';row.innerHTML=`<span class="sl">${labels[i]}</span>`;const wrap=document.createElement('div');wrap.className='shard-opts';opts.forEach(sh=>{const b=document.createElement('button');b.className='sbtn'+(S.shards[i]===sh.id?' on':'');b.innerHTML=`<img src="${sh.img}" onerror="this.style.display='none'">${sh.n}`;b.onclick=()=>{S.shards[i]=sh.id;renderShardsUI();recompute();};wrap.appendChild(b);});row.appendChild(wrap);g.appendChild(row);});
 }
-/* ============================================================
-   PARTIE 3 — CALCULS : stats agrégées, sorts, passif, mannequin
-   ============================================================ */
 
-/* Agrège toutes les stats (base + niveau + items + runes + fragments).
-   Retourne un objet complet réutilisé par stats, sorts ET mannequin. */
 function aggregate(){
-  const l = S.lvl;
-
-  // --- Base + croissance ---
-  const baseHP = grow(BASE.hp, BASE.hpPerLvl, l);
-  const baseAD = grow(BASE.ad, BASE.adPerLvl, l);
-  const baseArmor = grow(BASE.armor, BASE.armorPerLvl, l);
-  const baseMR = grow(BASE.mr, BASE.mrPerLvl, l);
-
-  let hp=baseHP, ad=baseAD, armor=baseArmor, mr=baseMR;
-  let as_ = growAS(l);
-  let hp5 = grow(BASE.hpReg, BASE.hpRegPerLvl, l) * 5;
-  let ms = BASE.ms;
-  let crit=0, ls=0, omni=0, ah=0, bah=0, uh=0, leth=0, apen=0, ten=0, ms_pct=0;
-
-  // --- Runes & fragments (stats passives) ---
-  const runeIds = [S.keystone, ...S.pri, ...S.sec, ...S.shards];
-  runeIds.forEach(id=>{
-    const r = findRune(id); if(!r || !r.s) return;
-    const s = r.s;
-    if(s.hp === 'scale') hp += shardScaleHP(l);
-    else if(s.hp) hp += s.hp;
-    if(s.ad) ad += s.ad;
-    if(s.armor) armor += s.armor;
-    if(s.mr) mr += s.mr;
-    if(s.as) as_ = as_ * (1 + s.as);
-    if(s.ls) ls += s.ls;
-    if(s.ah) ah += s.ah;
-    if(s.bah) bah += s.bah;
-    if(s.uh) uh += s.uh;
-    if(s.ms_flat) ms += s.ms_flat;
-    if(s.ms_pct) ms_pct += s.ms_pct;
-    if(s.ten) ten += s.ten;
-  });
-
-  // --- Items ---
-  let special = { cleaver:false, serylda:false, eclipse:false };
-  let itemNotes = [];
-  let onHitPctHP = 0;
-  let bonusRegen = 0;
-  S.items.forEach(it=>{
-    if(!it) return;
-    hp+=it.hp; ad+=it.ad; armor+=it.armor; mr+=it.mr;
-    crit+=it.crit; ls+=it.ls; omni+=it.omni;
-    ah+=it.ah; bah+=it.bah||0; uh+=it.uh||0;
-    leth+=it.leth; apen+=it.apen;
-    ms+=it.ms_flat; if(it.ms_pct) ms_pct+=it.ms_pct;
-    if(it.as) as_ = as_ * (1 + it.as);
-    if(it.special && special.hasOwnProperty(it.special)) special[it.special]=true;
-    if(it.onHitPctHP) onHitPctHP += it.onHitPctHP;
-    if(it.note) itemNotes.push(it.note);
-    // Consommables / potions / élixirs
-    if(it.consumable){
-      const c = it.consumable;
-      if(c.stats){
-        if(c.stats.ad) ad += c.stats.ad;
-        if(c.stats.ten) ten += c.stats.ten;
-        if(c.stats.armor) armor += c.stats.armor;
-        if(c.stats.mr) mr += c.stats.mr;
-        if(c.stats.hp) hp += c.stats.hp;
-      }
-      if(c.hpFlat) hp += c.hpFlat;
-      if(c.regen) bonusRegen += c.regen;
-      if(c.note) itemNotes.push(c.note);
-    }
-  });
-
-  // Vitesse % appliquée en dernier ; AS plafonnée à 2.5
-  if(ms_pct) ms = Math.floor(ms * (1 + ms_pct));
-  as_ = Math.min(as_, 2.5);
-  crit = Math.min(crit, 100);
-
-  const baseADval = baseAD;
-  // Objet de travail pour les passifs (Sterak ↑AD ; Serylda ↑armPenPct ; Cleaver ↑armorShred)
-  const work = { ad, baseAD:baseADval, _sterak:0, armPenPct:0, armorShred:0 };
-  S.items.forEach(it=>{
-    if(!it || !it.passiveKey) return;
-    const p = ITEM_PASSIVES[it.passiveKey];
-    if(p && typeof p.applyStats==='function') p.applyStats(work);
-  });
-  ad = work.ad;
-  const sterakBonus = work._sterak || 0;
-  const armorShred = work.armorShred || 0;                 // réduction d'armure (Cleaver)
-  // Pénétration % (Serylda) cumulée à l'apen plat des items Meraki
-  apen = Math.min(100, apen + Math.round((work.armPenPct||0) * 100));
-
-  const bonusAD = ad - baseAD;
-  const bonusHP = hp - baseHP;
-
-  return {
-    l, baseHP, baseAD, baseArmor, baseMR,
-    hp, ad, armor, mr, as_, hp5, ms,
-    crit, ls, omni, ah, bah, uh, leth, apen, ten, ms_pct,
-    bonusAD, bonusHP, special, sterakBonus, onHitPctHP,
-    itemNotes, bonusRegen, armorShred,
-  };
+  const l=S.lvl;
+  const baseHP=grow(BASE.hp,BASE.hpPerLvl,l),baseAD=grow(BASE.ad,BASE.adPerLvl,l),baseArmor=grow(BASE.armor,BASE.armorPerLvl,l),baseMR=grow(BASE.mr,BASE.mrPerLvl,l);
+  let hp=baseHP,ad=baseAD,armor=baseArmor,mr=baseMR,as_=growAS(l),hp5=grow(BASE.hpReg,BASE.hpRegPerLvl,l)*5,ms=BASE.ms;
+  let crit=0,ls=0,omni=0,ah=0,bah=0,uh=0,leth=0,apen=0,ten=0,ms_pct=0;
+  const runeIds=[S.keystone,...S.pri,...S.sec,...S.shards];
+  runeIds.forEach(id=>{const r=findRune(id);if(!r||!r.s)return;const s=r.s;if(s.hp==='scale')hp+=shardScaleHP(l);else if(s.hp)hp+=s.hp;if(s.ad)ad+=s.ad;if(s.armor)armor+=s.armor;if(s.mr)mr+=s.mr;if(s.as)as_=as_*(1+s.as);if(s.ls)ls+=s.ls;if(s.ah)ah+=s.ah;if(s.bah)bah+=s.bah;if(s.uh)uh+=s.uh;if(s.ms_flat)ms+=s.ms_flat;if(s.ms_pct)ms_pct+=s.ms_pct;if(s.ten)ten+=s.ten;});
+  let special={cleaver:false,serylda:false,eclipse:false},itemNotes=[],onHitPctHP=0,bonusRegen=0;
+  S.items.forEach(it=>{if(!it)return;hp+=it.hp;ad+=it.ad;armor+=it.armor;mr+=it.mr;crit+=it.crit;ls+=it.ls;omni+=it.omni;ah+=it.ah;bah+=it.bah||0;uh+=it.uh||0;leth+=it.leth;apen+=it.apen;ms+=it.ms_flat;if(it.ms_pct)ms_pct+=it.ms_pct;if(it.as)as_=as_*(1+it.as);if(it.special&&special.hasOwnProperty(it.special))special[it.special]=true;if(it.onHitPctHP)onHitPctHP+=it.onHitPctHP;if(it.note)itemNotes.push(it.note);if(it.consumable){const c=it.consumable;if(c.stats){if(c.stats.ad)ad+=c.stats.ad;if(c.stats.ten)ten+=c.stats.ten;if(c.stats.hp)hp+=c.stats.hp;}if(c.hpFlat)hp+=c.hpFlat;if(c.regen)bonusRegen+=c.regen;if(c.note)itemNotes.push(c.note);}});
+  if(ms_pct)ms=Math.floor(ms*(1+ms_pct));as_=Math.min(as_,2.5);crit=Math.min(crit,100);
+  const work={ad,baseAD,_sterak:0,armPenPct:0,armorShred:0};
+  S.items.forEach(it=>{if(!it||!it.passiveKey)return;const p=ITEM_PASSIVES[it.passiveKey];if(p&&typeof p.applyStats==='function')p.applyStats(work);});
+  ad=work.ad;apen=Math.min(100,apen+Math.round((work.armPenPct||0)*100));
+  return{l,baseHP,baseAD,baseArmor,baseMR,hp,ad,armor,mr,as_,hp5,ms,crit,ls,omni,ah,bah,uh,leth,apen,ten,ms_pct,bonusAD:ad-baseAD,bonusHP:hp-baseHP,special,sterakBonus:work._sterak||0,onHitPctHP,itemNotes,bonusRegen,armorShred:work.armorShred||0};
 }
 
-// CD réel = base * 100/(100+haste)
-const cdWith = (base, haste) => base * (100/(100+haste));
+const cdWith=(base,haste)=>base*(100/(100+haste));
 
-/* ============================================================
-   RENDU — STATISTIQUES
-   ============================================================ */
 function renderStats(A){
-  const g = document.getElementById('stats');
-  const cell = (icon,name,val,bonus,dual)=>{
-    const b = (bonus!==undefined && bonus>0)
-      ? `<div class="sb${dual?' rust':''}">+${typeof bonus==='number'?Math.round(bonus):bonus}</div>` : '';
-    return `<div class="stat${dual?' dual':''}"><div class="sn">${icon} ${name}</div><div class="sv">${val}</div>${b}</div>`;
-  };
-  let html =
-    cell('❤','PV', Math.round(A.hp), A.bonusHP) +
-    cell('⚔','Dégâts d\'attaque', Math.round(A.ad), A.bonusAD) +
-    cell('💨','Vitesse de dépl.', Math.round(A.ms)) +
-    cell('⚡','Vitesse d\'attaque', A.as_.toFixed(3)) +
-    cell('🛡','Armure', Math.round(A.armor), A.armor-A.baseArmor) +
-    cell('🔮','Résist. magique', Math.round(A.mr), A.mr-A.baseMR) +
-    cell('🩸','Vol de vie', A.ls+'%') +
-    cell('⏱','Accél. de compétence', Math.round(A.ah)) +
-    cell('💊','Omnivampirisme', A.omni+'%');
-
-  if(A.crit>0) html += cell('🎯','Chance de critique', A.crit+'%');
-  if(A.bonusRegen>0) html += cell('🧪','Soin potion', A.bonusRegen+' PV');
-
-  // Léthalité + Armor Pen% dans la MÊME case
-  if(A.leth>0 || A.apen>0){
-    const lethTxt = A.leth>0 ? `${Math.round(A.leth)}` : '0';
-    const apenTxt = A.apen>0 ? `${A.apen}%` : '—';
-    html += `<div class="stat dual"><div class="sn">🔪 Léthalité / Pén. armure</div>
-      <div class="sv">${lethTxt} <span style="font-size:14px;color:var(--txt2)">/</span> ${apenTxt}</div>
-      <div class="sb rust">${A.leth>0?'+'+Math.round(armorPenFromLeth(A.leth,A.l))+' pen plate':''}</div></div>`;
-  }
-  if(A.bah>0) html += cell('🟢','Accél. de base (Q/W/E)', Math.round(A.bah));
-  if(A.uh>0)  html += cell('🔴','Accél. d\'ultime (R)', Math.round(A.uh));
-  if(A.ten>0) html += cell('🧊','Tenacité', A.ten+'%');
-
-  g.innerHTML = html;
+  const g=document.getElementById('stats');
+  const cell=(icon,name,val,bonus,dual)=>{const b=(bonus!==undefined&&bonus>0)?`<div class="sb${dual?' rust':''}">${typeof bonus==='number'?'+'+Math.round(bonus):bonus}</div>`:'';return `<div class="stat${dual?' dual':''}"><div class="sn">${icon} ${name}</div><div class="sv">${val}</div>${b}</div>`;};
+  let html=cell('❤','PV',Math.round(A.hp),A.bonusHP)+cell('⚔','Dégâts d\'attaque',Math.round(A.ad),A.bonusAD)+cell('💨','Vitesse de dépl.',Math.round(A.ms))+cell('⚡','Vitesse d\'attaque',A.as_.toFixed(3))+cell('🛡','Armure',Math.round(A.armor),A.armor-A.baseArmor)+cell('🔮','Résist. magique',Math.round(A.mr),A.mr-A.baseMR)+cell('🩸','Vol de vie',A.ls+'%')+cell('⏱','Accél. de compétence',Math.round(A.ah))+cell('💊','Omnivampirisme',A.omni+'%');
+  if(A.crit>0)html+=cell('🎯','Critique',A.crit+'%');
+  if(A.bonusRegen>0)html+=cell('🧪','Soin potion',A.bonusRegen+' PV');
+  if(A.leth>0||A.apen>0)html+=`<div class="stat dual"><div class="sn">🔪 Léthalité / Pén. armure</div><div class="sv">${A.leth>0?Math.round(A.leth):'0'} <span style="font-size:14px;color:var(--txt2)">/</span> ${A.apen>0?A.apen+'%':'—'}</div></div>`;
+  if(A.bah>0)html+=cell('🟢','Accél. base (Q/W/E)',Math.round(A.bah));
+  if(A.uh>0)html+=cell('🔴','Accél. ultime (R)',Math.round(A.uh));
+  if(A.ten>0)html+=cell('🧊','Tenacité',A.ten+'%');
+  g.innerHTML=html;
 }
 
-// Léthalité -> pénétration plate effective selon niveau (formule Riot)
-function armorPenFromLeth(leth, l){ return leth; } // léthalité = pen plate au niveau actuel (déjà flat)
-
-/* ============================================================
-   RENDU — SORTS & PASSIF
-   ============================================================ */
 function skillRanks(l){
-  // R aux niveaux 6/11/16
-  const rPts = l>=16?3 : l>=11?2 : l>=6?1 : 0;
-  let pts = l - rPts;                 // points à répartir entre Q/W/E
-  const cap = {Q:0, W:0, E:0};
-  // 1 point dans chaque sort dès que possible (ordre d'apprentissage Q,W,E)
-  for(const k of ['E',"Q","W"]){ if(pts>0){ cap[k]=1; pts--; } }
-  // puis on maxe W, ensuite E, ensuite Q (ordre de max classique d'Urgot)
-  for(const k of ['W','E','Q']){ while(pts>0 && cap[k]<5){ cap[k]++; pts--; } }
-  return { Q:cap.Q, W:cap.W, E:cap.E, R:rPts, rLearned:rPts>0 };
+  const rPts=l>=16?3:l>=11?2:l>=6?1:0;let pts=l-rPts;
+  const cap={Q:0,W:0,E:0};
+  for(const k of ['E','Q','W']){if(pts>0){cap[k]=1;pts--;}}
+  for(const k of ['W','E','Q']){while(pts>0&&cap[k]<5){cap[k]++;pts--;}}
+  return{Q:cap.Q,W:cap.W,E:cap.E,R:rPts,rLearned:rPts>0};
 }
 
 function renderAbilities(A){
-  const ranks = skillRanks(A.l);
-  const basicHaste = A.ah + A.bah;   // Q/W/E
-  const ultHaste   = A.ah + A.uh;    // R
-  document.getElementById('ahHint').textContent =
-    `AH ${Math.round(A.ah)}  ·  base +${Math.round(A.bah)}  ·  ult +${Math.round(A.uh)}`;
-
-  const abilDmg = (sp, rank)=>{
-    const r = Math.max(1, rank) - 1;
-    const base = sp.base[r];
-    const adComp = sp.ratioType==='bonus' ? A.bonusAD*sp.adRatio : A.ad*sp.adRatio;
-    return base + adComp;
-  };
-
-  function card(key, sp, rank, haste, ult){
-    const learned = rank>=1 && !(ult && !ranks.rLearned);
-    if(!learned){
-      const avail = ult ? 'Niveau 6' : (key==='W'?'Niveau 2':key==='E'?'Niveau 3':'Niveau 1');
-      return `<div class="abil" style="opacity:.55">
-        <div class="abil-top">
-          <div class="abil-key${ult?' ult':''}">${key}</div>
-          <div class="abil-name">${sp.name}<small>Non appris</small></div>
-        </div>
-        <div class="abil-body">
-          <div class="abil-dmg" style="color:var(--txt3)">—</div>
-          <div class="abil-meta"><span>Disponible</span><span>${avail}</span></div>
-          <div class="abil-sub">Pas encore débloqué à ce niveau.</div>
-        </div></div>`;
-    }
-    const dmg = abilDmg(sp, rank);
-    let cdTxt, dmgTxt, sub;
-    if(key==='W'){
-      const r = rank;
-      const perShot = dmg;
-      const toggle = (r===5);
-      cdTxt = toggle ? 'Toggle ∞' : cdWith(sp.cd[r-1], haste).toFixed(1)+'s';
-      dmgTxt = Math.round(perShot);
-      sub = `Par tir · ~${sp.ticksPerSec} tirs/s → <b style="color:var(--acid)">${Math.round(perShot*sp.ticksPerSec)}/s</b>${toggle?' · durée infinie':''}`;
-    } else if(key==='R'){
-      cdTxt = cdWith(sp.cd[rank-1], haste).toFixed(1)+'s'; dmgTxt=Math.round(dmg);
-      sub='Impact direct · puis <b style="color:var(--rust)">exécute sous 25% PV</b>';
-    } else {
-      cdTxt = cdWith(sp.cd[rank-1], haste).toFixed(1)+'s';
-      dmgTxt = Math.round(dmg);
-      sub = key==='Q' ? 'Zone + ralentissement' : 'Charge + étourdissement + bouclier';
-    }
-    const rankTxt = key==='R' ? `Rang ${rank}/3` : `Rang ${rank}/5`;
-    return `<div class="abil">
-      <div class="abil-top">
-        <div class="abil-key${ult?' ult':''}">${key}</div>
-        <div class="abil-name">${sp.name}<small>${rankTxt}</small></div>
-      </div>
-      <div class="abil-body">
-        <div class="abil-dmg phys">${dmgTxt}<span style="font-size:13px;color:var(--txt2)"> phys</span></div>
-        <div class="abil-meta"><span>CD <span class="cd">${cdTxt}</span></span><span>${sp.ratioType==='bonus'?Math.round(sp.adRatio*100)+'% AD bonus':Math.round(sp.adRatio*100)+'% AD'}</span></div>
-        <div class="abil-sub">${sub}</div>
-      </div></div>`;
+  const ranks=skillRanks(A.l),basicHaste=A.ah+A.bah,ultHaste=A.ah+A.uh;
+  document.getElementById('ahHint').textContent=`AH ${Math.round(A.ah)}  ·  base +${Math.round(A.bah)}  ·  ult +${Math.round(A.uh)}`;
+  const abilDmg=(sp,rank)=>{const r=Math.max(1,rank)-1;const base=Array.isArray(sp.base)?sp.base[r]:sp.base;const adComp=sp.ratioType==='bonus'?A.bonusAD*(Array.isArray(sp.adRatio)?sp.adRatio[r]:sp.adRatio):A.ad*(Array.isArray(sp.adRatio)?sp.adRatio[r]:sp.adRatio);return base+adComp;};
+  function card(key,sp,rank,haste,ult){
+    const learned=rank>=1&&!(ult&&!ranks.rLearned);
+    if(!learned){const avail=ult?'Niveau 6':(key==='W'?'Niveau 2':key==='E'?'Niveau 3':'Niveau 1');return `<div class="abil" style="opacity:.55"><div class="abil-top"><div class="abil-key${ult?' ult':''}">${key}</div><div class="abil-name">${sp.name}<small>Non appris</small></div></div><div class="abil-body"><div class="abil-dmg" style="color:var(--txt3)">—</div><div class="abil-meta"><span>Disponible</span><span>${avail}</span></div></div></div>`;}
+    const dmg=abilDmg(sp,rank);let cdTxt,dmgTxt,sub;
+    if(key==='W'){const toggle=(rank===5);cdTxt=toggle?'Toggle ∞':cdWith(sp.cd[rank-1],haste).toFixed(1)+'s';dmgTxt=Math.round(dmg);sub=`Par tir · ~${sp.ticksPerSec} tirs/s → <b style="color:var(--acid)">${Math.round(dmg*sp.ticksPerSec)}/s</b>${toggle?' · durée infinie':''}`;}
+    else if(key==='R'){cdTxt=cdWith(sp.cd[rank-1],haste).toFixed(1)+'s';dmgTxt=Math.round(dmg);sub='Impact direct · puis <b style="color:var(--rust)">exécute sous 25% PV</b>';}
+    else{cdTxt=cdWith(sp.cd[rank-1],haste).toFixed(1)+'s';dmgTxt=Math.round(dmg);sub=key==='Q'?'Zone + ralentissement':'Charge + étourdissement + bouclier';}
+    const ratio=Array.isArray(sp.adRatio)?sp.adRatio[rank-1]:sp.adRatio;
+    return `<div class="abil"><div class="abil-top"><div class="abil-key${ult?' ult':''}">${key}</div><div class="abil-name">${sp.name}<small>Rang ${rank}/${sp.maxRank}</small></div></div><div class="abil-body"><div class="abil-dmg phys">${dmgTxt}<span style="font-size:13px;color:var(--txt2)"> phys</span></div><div class="abil-meta"><span>CD <span class="cd">${cdTxt}</span></span><span>${sp.ratioType==='bonus'?Math.round(ratio*100)+'% AD bonus':Math.round(ratio*100)+'% AD'}</span></div><div class="abil-sub">${sub}</div></div></div>`;
   }
-
-  document.getElementById('abilities').innerHTML =
-    card('Q', SPELLS.Q, ranks.Q, basicHaste, false) +
-    card('W', SPELLS.W, ranks.W, basicHaste, false) +
-    card('E', SPELLS.E, ranks.E, basicHaste, false) +
-    card('R', SPELLS.R, ranks.R, ultHaste, true);
-
-  // ---- Passif ----
-  const adR = passiveADRatio(A.l), hpR = passiveHPRatio(A.l), legCD = passiveLegCD(A.l);
-  const legFlat = A.ad * adR; // composante AD d'une jambe (la part %PV dépend de la cible → mannequin)
-  document.getElementById('passiveBox').innerHTML = `
-    <div class="ph">⚙ Echoing Flames — Niveau ${A.l}</div>
-    <div class="passive-grid">
-      <div class="pstat">Ratio AD/jambe : <b>${Math.round(adR*100)}%</b> → <b>${Math.round(legFlat)} dmg</b></div>
-      <div class="pstat">% PV max cible : <b>${(hpR*100).toFixed(0)}%</b></div>
-      <div class="pstat">CD par jambe : <b>${legCD}s</b></div>
-      <div class="pstat">Jambes : <b>6 cônes</b> (un tour complet)</div>
-    </div>
-    <div class="notes-box" id="buildNotes"></div>`;
-
-  // Notes de build (passifs d'items réellement présents)
-  let notes='';
-  if(A.sterakBonus>0) notes += `<div class="note"><b>Gage de Sterak</b> — +${Math.round(A.sterakBonus)} AD (50% de l'AD de base, déjà inclus ci-dessus).</div>`;
-  const uniqueNotes = [...new Set(A.itemNotes||[])];
-  uniqueNotes.forEach(n=>{
-    // évite de redoubler la note Sterak déjà affichée avec sa valeur
-    if(/Sterak/i.test(n)) return;
-    notes += `<div class="note">${n.replace(/^([^:]+):/, '<b>$1</b> —')}</div>`;
-  });
-  document.getElementById('buildNotes').innerHTML = notes || '<div class="note" style="opacity:.6">Aucun passif d\'item particulier sur ce build.</div>';
+  document.getElementById('abilities').innerHTML=card('Q',SPELLS.Q,ranks.Q,basicHaste,false)+card('W',SPELLS.W,ranks.W,basicHaste,false)+card('E',SPELLS.E,ranks.E,basicHaste,false)+card('R',SPELLS.R,ranks.R,ultHaste,true);
+  const adR=passiveADRatio(A.l),hpR=passiveHPRatio(A.l),legCD=passiveLegCD(A.l),legFlat=A.ad*adR;
+  document.getElementById('passiveBox').innerHTML=`<div class="ph">⚙ Echoing Flames — Niveau ${A.l}</div><div class="passive-grid"><div class="pstat">Ratio AD/jambe : <b>${Math.round(adR*100)}%</b> → <b>${Math.round(legFlat)} dmg</b></div><div class="pstat">% PV max cible : <b>${(hpR*100).toFixed(0)}%</b></div><div class="pstat">CD par jambe : <b>${legCD}s</b></div><div class="pstat">Jambes : <b>6 cônes</b></div></div><div class="notes-box" id="buildNotes"></div>`;
+  let notes='';if(A.sterakBonus>0)notes+=`<div class="note"><b>Gage de Sterak</b> — +${Math.round(A.sterakBonus)} AD (déjà inclus).</div>`;[...new Set(A.itemNotes||[])].forEach(n=>{if(!/Sterak/i.test(n))notes+=`<div class="note">${n.replace(/^([^:]+):/,'<b>$1</b> —')}</div>`;});
+  document.getElementById('buildNotes').innerHTML=notes||'<div class="note" style="opacity:.6">Aucun passif d\'item particulier.</div>';
 }
 
-/* ============================================================
-   MANNEQUIN — calcul des dégâts effectifs + pénétration
-   ============================================================ */
-const DUMMY = { hp:3000, armor:100, passive:'none', custom:0 };
-
-// Réduction de dégâts physiques due aux passifs défensifs (multiplicateur 0..1)
-function passiveDmgMult(p, custom){
-  switch(p){
-    case 'garen':   return 0.40; // -60%
-    case 'garen30': return 0.70; // -30%
-    case 'braum':   return 0.65; // -35%
-    case 'annie':   return 0.50; // -50% (bouclier prochaine source)
-    case 'kassadin':return 1.00; // -15% magique seulement → n'affecte pas le physique
-    case 'amumu':   return 0.75; // -25%
-    case 'malphite':return 0.90; // -10%
-    case 'custom':  return 1 - (custom/100);
-    default:        return 1.00;
-  }
-}
-
-function computeEffectiveArmor(A){
-  let arm = DUMMY.armor;
-  // 1) Réduction d'armure (shred Black Cleaver) — multiplicatif, avant pénétration
-  if(A.armorShred>0) arm = arm * (1 - A.armorShred);
-  // 2) Pénétration d'armure en % (Serylda + items)
-  if(A.apen>0) arm = arm * (1 - A.apen/100);
-  // 3) Léthalité (pénétration plate) en dernier, ne descend pas sous 0
-  arm = Math.max(0, arm - A.leth);
-  return arm;
-}
+const DUMMY={hp:3000,armor:100,passive:'none',custom:0};
+function passiveDmgMult(p,custom){switch(p){case 'garen':return 0.40;case 'garen30':return 0.70;case 'braum':return 0.65;case 'annie':return 0.50;case 'amumu':return 0.75;case 'malphite':return 0.90;case 'custom':return 1-(custom/100);default:return 1.00;}}
+function computeEffectiveArmor(A){let arm=DUMMY.armor;if(A.armorShred>0)arm=arm*(1-A.armorShred);if(A.apen>0)arm=arm*(1-A.apen/100);arm=Math.max(0,arm-A.leth);return arm;}
 
 function renderDummy(){
-  const A = aggregate();
-  const ranks = skillRanks(A.l);
-  const effArmor = computeEffectiveArmor(A);
-  const physMult = (100/(100+effArmor)) * passiveDmgMult(DUMMY.passive, DUMMY.custom);
-  const dHP = DUMMY.hp;
-
-  // Dégâts bruts par source (avant armure & passif) — protège les rangs 0 (sort non appris)
-  const rIdx = k => Math.max(0, ranks[k]-1);
-  // On-hit % PV courant de la cible (BotRK) — physique, s'applique aux autos et tirs de W
-  const onHitFlat = (A.onHitPctHP||0) * dHP;
-  const raw = {};
-  raw.auto = A.ad + onHitFlat;
-  raw.Q = ranks.Q>=1 ? SPELLS.Q.base[rIdx('Q')] + A.ad*SPELLS.Q.adRatio : 0;
-  raw.E = ranks.E>=1 ? SPELLS.E.base[rIdx('E')] + A.bonusAD*SPELLS.E.adRatio : 0;
-  // W applique l'on-hit à 50% d'efficacité par tir
-  raw.Wshot = ranks.W>=1 ? SPELLS.W.base[rIdx('W')] + A.ad*SPELLS.W.adRatio + onHitFlat*0.5 : 0;
-  raw.R = ranks.rLearned ? (SPELLS.R.base[rIdx('R')] + A.bonusAD*SPELLS.R.adRatio) : 0;
-  // Passif : 1 jambe = (adR * AD) + (hpR * PV max cible)
-  const adR = passiveADRatio(A.l), hpR = passiveHPRatio(A.l);
-  raw.leg = A.ad*adR + dHP*hpR;
-
-  // Appliquer armure + passif défensif
-  const out = {};
-  for(const k in raw) out[k] = raw[k] * physMult;
-  const wPerSec = out.Wshot * SPELLS.W.ticksPerSec;
-  const burst6 = out.leg * 6;
-
-  // All-in ~ : E + Q + R + 6 jambes + 2s de W (6 tirs)
-  const allIn = out.E + out.Q + out.R + burst6 + out.Wshot*6;
-  const allInPct = allIn/dHP*100;
-
-  const pct = v => Math.min(100, v/dHP*100);
-  function dcard(label, val, special){
-    const p = pct(val);
-    const over = val>=dHP;
-    return `<div class="dcard${special?' special':''}">
-      <div class="dl">${label}</div>
-      <div class="dv${over?' warn':''}">${Math.round(val)}</div>
-      <div class="dp">${(val/dHP*100).toFixed(1)}% des PV</div>
-      <div class="hpbar"><i class="${over?'over':''}" style="width:${p}%"></i></div>
-    </div>`;
-  }
-  function infocard(label, val, sub){
-    return `<div class="dcard special"><div class="dl">${label}</div>
-      <div class="dv info">${val}</div><div class="dp">${sub||''}</div></div>`;
-  }
-
-  let html = '';
-  html += dcard('Auto-attaque', out.auto);
-  html += dcard('Q — Corrosive', out.Q);
-  html += dcard('E — Disdain', out.E);
-  html += dcard('W — par seconde', wPerSec);
-  html += ranks.rLearned ? dcard('R — Impact', out.R) : infocard('R — Fear', 'Niv. 6', 'pas encore appris');
-  html += dcard('1 jambe (passif)', out.leg);
-  html += dcard('Salve 6 jambes', burst6);
-  html += dcard('All-in (~4s)', allIn, true);
-  html += infocard('Armure effective', Math.round(effArmor), `base ${DUMMY.armor}${A.armorShred>0?' · -'+Math.round(A.armorShred*100)+'% shred':''}${A.apen>0?' · -'+A.apen+'%':''}${A.leth>0?' · -'+Math.round(A.leth)+' plate':''}`);
-  html += infocard('PV effectifs (phys)', Math.round(dHP*(1+effArmor/100)), 'PV × (1 + armure/100)');
-  const reduc = Math.round((1-passiveDmgMult(DUMMY.passive,DUMMY.custom))*100);
-  html += infocard('Réduction passif', reduc+'%', DUMMY.passive==='none'?'aucun':'sur dégâts physiques');
-
-  document.getElementById('dummyResults').innerHTML = html;
-
-  document.getElementById('dummyNotes').innerHTML =
-    `<b>Lecture :</b> les dégâts affichés sont <b>après armure et réduction de passif</b>. ` +
-    `Ordre de pénétration : shred % (Black Cleaver) → pénétration % (Serylda) → léthalité (plate). ` +
-    `Le passif Garen W applique −60% pendant 1.5s puis −30% ; choisis la variante selon le moment du burst.`;
+  const A=aggregate(),ranks=skillRanks(A.l);
+  const effArmor=computeEffectiveArmor(A),physMult=(100/(100+effArmor))*passiveDmgMult(DUMMY.passive,DUMMY.custom),dHP=DUMMY.hp;
+  const rIdx=k=>Math.max(0,ranks[k]-1),onHitFlat=(A.onHitPctHP||0)*dHP;
+  const raw={};
+  raw.auto=A.ad+onHitFlat;
+  raw.Q=ranks.Q>=1?SPELLS.Q.base[rIdx('Q')]+A.ad*SPELLS.Q.adRatio:0;
+  raw.E=ranks.E>=1?SPELLS.E.base[rIdx('E')]+A.bonusAD*SPELLS.E.adRatio:0;
+  const wAdR=Array.isArray(SPELLS.W.adRatio)?SPELLS.W.adRatio[rIdx('W')]:SPELLS.W.adRatio;
+  raw.Wshot=ranks.W>=1?SPELLS.W.base+A.ad*wAdR+onHitFlat*0.5:0;
+  raw.R=ranks.rLearned?(SPELLS.R.base[rIdx('R')]+A.bonusAD*SPELLS.R.adRatio):0;
+  const adR=passiveADRatio(A.l),hpR=passiveHPRatio(A.l);
+  raw.leg=A.ad*adR+dHP*hpR;
+  const out={};for(const k in raw)out[k]=raw[k]*physMult;
+  const wPerSec=out.Wshot*SPELLS.W.ticksPerSec,burst6=out.leg*6,allIn=out.E+out.Q+out.R+burst6+out.Wshot*6;
+  const pct=v=>Math.min(100,v/dHP*100);
+  function dcard(label,val,special){const p=pct(val),over=val>=dHP;return `<div class="dcard${special?' special':''}"><div class="dl">${label}</div><div class="dv${over?' warn':''}">${Math.round(val)}</div><div class="dp">${(val/dHP*100).toFixed(1)}% des PV</div><div class="hpbar"><i class="${over?'over':''}" style="width:${p}%"></i></div></div>`;}
+  function infocard(label,val,sub){return `<div class="dcard special"><div class="dl">${label}</div><div class="dv info">${val}</div><div class="dp">${sub||''}</div></div>`;}
+  let html='';
+  html+=dcard('Auto-attaque',out.auto);html+=dcard('Q — Corrosive',out.Q);html+=dcard('E — Disdain',out.E);html+=dcard('W — par seconde',wPerSec);
+  html+=ranks.rLearned?dcard('R — Impact',out.R):infocard('R — Fear','Niv. 6','pas encore appris');
+  html+=dcard('1 jambe (passif)',out.leg);html+=dcard('Salve 6 jambes',burst6);html+=dcard('All-in (~4s)',allIn,true);
+  html+=infocard('Armure effective',Math.round(effArmor),`base ${DUMMY.armor}${A.armorShred>0?' · -'+Math.round(A.armorShred*100)+'% shred':''}${A.apen>0?' · -'+A.apen+'%':''}${A.leth>0?' · -'+Math.round(A.leth)+' plate':''}`);
+  html+=infocard('PV effectifs (phys)',Math.round(dHP*(1+effArmor/100)),'PV × (1 + armure/100)');
+  html+=infocard('Réduction passif',Math.round((1-passiveDmgMult(DUMMY.passive,DUMMY.custom))*100)+'%',DUMMY.passive==='none'?'aucun':'sur dégâts physiques');
+  document.getElementById('dummyResults').innerHTML=html;
+  document.getElementById('dummyNotes').innerHTML='<b>Lecture :</b> dégâts après armure et réduction de passif. Ordre de pén. : shred % (BC) → pén. % (Serylda) → léthalité (plate).';
 }
 
-/* ============================================================
-   ORCHESTRATION
-   ============================================================ */
-function recompute(){
-  const A = aggregate();
-  renderStats(A);
-  renderAbilities(A);
-  renderDummy();
-}
+function recompute(){const A=aggregate();renderStats(A);renderAbilities(A);renderDummy();}
 
-/* ---------- LEVEL ---------- */
-document.getElementById('lvlSlider').addEventListener('input', e=>{
-  S.lvl = +e.target.value;
-  document.getElementById('lvlNum').textContent = S.lvl;
-  recompute();
-});
+document.getElementById('lvlSlider').addEventListener('input',e=>{S.lvl=+e.target.value;document.getElementById('lvlNum').textContent=S.lvl;recompute();});
+document.getElementById('mclose').onclick=closeModal;
+document.getElementById('modal').onclick=e=>{if(e.target.id==='modal')closeModal();};
+document.getElementById('msearch').addEventListener('input',renderItems);
 
-/* ---------- MODAL events ---------- */
-document.getElementById('mclose').onclick = closeModal;
-document.getElementById('modal').onclick = e=>{ if(e.target.id==='modal') closeModal(); };
-document.getElementById('msearch').addEventListener('input', renderItems);
-
-/* ---------- DUMMY events ---------- */
-function bindDummyPair(stat, sliderId, numId, lblId){
-  const sl=document.getElementById(sliderId), num=document.getElementById(numId), lbl=lblId?document.getElementById(lblId):null;
-  const sync=v=>{ v=+v; DUMMY[stat]=v; sl.value=v; num.value=v; if(lbl) lbl.textContent=v; renderDummy(); };
-  sl.addEventListener('input', ()=>sync(sl.value));
-  num.addEventListener('input', ()=>sync(num.value));
+function bindDummyPair(stat,sliderId,numId,lblId){
+  let _lock=false;
+  const sl=document.getElementById(sliderId),num=document.getElementById(numId),lbl=lblId?document.getElementById(lblId):null;
+  const sync=v=>{if(_lock)return;_lock=true;v=+v;DUMMY[stat]=v;sl.value=v;num.value=v;if(lbl)lbl.textContent=v;_lock=false;renderDummy();};
+  sl.addEventListener('input',()=>sync(sl.value));
+  num.addEventListener('input',()=>sync(num.value));
 }
 bindDummyPair('hp','dHpSlider','dHpNum','dHpLbl');
 bindDummyPair('armor','dArmSlider','dArmNum','dArmLbl');
-document.getElementById('dPassive').addEventListener('change', e=>{
-  DUMMY.passive = e.target.value;
-  document.getElementById('customWrap').style.display = (e.target.value==='custom')?'block':'none';
-  renderDummy();
-});
-(function(){
-  const sl=document.getElementById('dCustomSlider'), num=document.getElementById('dCustomNum'), lbl=document.getElementById('dCustomLbl');
-  const sync=v=>{ v=+v; DUMMY.custom=v; sl.value=v; num.value=v; lbl.textContent=v+'%'; renderDummy(); };
-  sl.addEventListener('input',()=>sync(sl.value));
-  num.addEventListener('input',()=>sync(num.value));
-})();
+document.getElementById('dPassive').addEventListener('change',e=>{DUMMY.passive=e.target.value;document.getElementById('customWrap').style.display=(e.target.value==='custom')?'block':'none';renderDummy();});
+(function(){let _lock=false;const sl=document.getElementById('dCustomSlider'),num=document.getElementById('dCustomNum'),lbl=document.getElementById('dCustomLbl');const sync=v=>{if(_lock)return;_lock=true;v=+v;DUMMY.custom=v;sl.value=v;num.value=v;lbl.textContent=v+'%';_lock=false;renderDummy();};sl.addEventListener('input',()=>sync(sl.value));num.addEventListener('input',()=>sync(num.value));})();
 
-/* ---------- INIT ---------- */
 (async function init(){
-  renderSlots();
-  renderRunes();
-  recompute();                 // affiche tout de suite avec les bases fallback
+  renderSlots();renderRunes();recompute();
   await resolveVersion();
-  await loadUrgotBase();       // remplace les bases par les vraies (DDragon)
-  recompute();                 // recalcule avec les vraies bases
-  loadItems();                 // charge l'arsenal en arrière-plan
+  await loadUrgotBase();
+  recompute();
+  loadItems();
 })();
-
 </script>
 </body>
 </html>
