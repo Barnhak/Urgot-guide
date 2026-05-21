@@ -628,6 +628,34 @@ const MERAKI_URL = 'https://cdn.merakianalytics.com/riot/lol/resources/latest/en
 const mflat = (s,k)=> (s && s[k] && typeof s[k].flat==='number') ? s[k].flat : 0;
 const mpct  = (s,k)=> (s && s[k] && typeof s[k].percent==='number') ? s[k].percent : 0;
 
+/* ---------- ABILITY HASTE PAR NOM (repli si Meraki ne le fournit pas) ----------
+   Le champ AH de Meraki est parfois vide selon la version du dump.
+   On garde donc un mapping de secours par nom d'item, robuste aux IDs. */
+const AH_BY_NAME = {
+  "Abyssal Mask":15,"Archangel's Staff":25,"Axiom Arc":25,"Black Cleaver":20,"Blackfire Torch":20,
+  "Bloodletter's Curse":15,"Caulfield's Warhammer":10,"Chempunk Chainsword":15,"Cosmic Drive":30,
+  "Cryptbloom":20,"Death's Dance":15,"Dawncore":15,"Echoes of Helia":20,"Eclipse":15,"Essence Reaver":25,
+  "Fiendish Codex":10,"Fimbulwinter":20,"Frozen Heart":20,"Glacial Buckler":10,"Hextech Rocketbelt":15,
+  "Hollow Radiance":10,"Horizon Focus":25,"Hubris":15,"Iceborn Gauntlet":15,"Imperial Mandate":25,
+  "Ionian Boots of Lucidity":12,"Kindlegem":10,"Knight's Vow":10,"Lich Bane":10,"Locket of the Iron Solari":15,
+  "Lost Chapter":10,"Luden's Companion":10,"Malignance":25,"Manamune":15,"Maw of Malmortius":15,
+  "Mikael's Blessing":15,"Moonstone Renewer":15,"Morellonomicon":15,"Muramana":15,"Nashor's Tooth":15,
+  "Profane Hydra":18,"Ravenous Hydra":20,"Redemption":10,"Riftmaker":15,"Seraph's Embrace":25,
+  "Serylda's Grudge":15,"Shurelya's Battlesong":15,"Spirit Visage":10,"Staff of Flowing Water":15,
+  "Sundered Sky":20,"Sunfire Aegis":15,"Trinity Force":20,"Umbral Glaive":15,"Unending Despair":15,
+  "Voltaic Cyclosword":10,"Winter's Approach":20,"Zeke's Convergence":20,"Liandry's Torment":20,
+  "Mejai's Soulstealer":10,"Banshee's Veil":10,"Cosmic Drive":30,"Spear of Shojin":25,
+  "Experimental Hexplate":30,
+};
+// Lit l'AH depuis Meraki (plusieurs noms de clés possibles), sinon repli par nom.
+function readAH(s, name){
+  let v = mflat(s,'abilityHaste');
+  if(!v) v = mflat(s,'cooldownReduction');   // ancien nom Meraki
+  if(!v) v = mflat(s,'CooldownReduction');
+  if(!v && AH_BY_NAME[name]) v = AH_BY_NAME[name];
+  return v||0;
+}
+
 /* ---------- PASSIFS D'ITEMS (effets conditionnels, par nom) ----------
    Meraki donne les stats mais pas l'application des passifs dynamiques.
    On code ici les passifs qui changent réellement les stats/dégâts d'Urgot.
@@ -644,7 +672,7 @@ const ITEM_PASSIVES = {
   "Black Cleaver": {
     special:'cleaver',
     note:"Black Cleaver : réduit jusqu'à 30% de l'armure de la cible (6 stacks).",
-    applyStats:(A)=>{ A.armPenPct += 0.30; }
+    applyStats:(A)=>{ A.armorShred = Math.max(A.armorShred||0, 0.30); }
   },
   "Serylda's Grudge": {
     special:'serylda',
@@ -672,6 +700,36 @@ const ITEM_PASSIVES = {
     note:"Le Collectionneur : exécute les cibles sous 5% PV."
   },
 };
+
+/* ---------- CONSOMMABLES / POTIONS (slot potion) ----------
+   Les élixirs donnent de vraies stats temporaires → on les applique.
+   Les potions/biscuits régénèrent des PV → affichés comme bonus de regen.
+   Clés possibles (selon langue de chargement) gérées par regex sur le nom. */
+const CONSUMABLE_EFFECTS = [
+  { test:/Elixir of Wrath|Élixir de [Ff]orce|Elixir of Force/i,
+    stats:{ ad:30 }, note:"Élixir de Force : +30 AD + dégâts bonus en %PV (Cleave)." },
+  { test:/Elixir of Iron|Élixir de [Ff]er/i,
+    stats:{ hp:0, ten:25 }, hpFlat:300, note:"Élixir de Fer : +300 PV, +taille, +25% tenacité, ralentissements réduits." },
+  { test:/Elixir of Sorcery|Élixir de [Ss]orcellerie/i,
+    stats:{ }, note:"Élixir de Sorcellerie : +50 AP, dégâts de sort bonus (peu utile sur Urgot AD)." },
+  { test:/Elixir of Avarice|Élixir d'[Aa]varice/i,
+    stats:{ }, note:"Élixir d'Avarice : or bonus sur les éliminations." },
+  { test:/Health Potion|Potion de [Ss]oin(?! [Rr])/i,
+    regen:120, note:"Potion de soin : régénère 120 PV sur 15s." },
+  { test:/Refillable Potion|Potion .*[Rr]echargeable|Potion de soin [Rr]/i,
+    regen:125, note:"Potion rechargeable : régénère 125 PV sur 12s, se recharge en base." },
+  { test:/Corrupting Potion|Potion [Cc]orromp/i,
+    regen:125, note:"Potion corrompue : régénère PV+mana et inflige des dégâts brûlants." },
+  { test:/Biscuit/i,
+    regen:90, note:"Biscuit : régénère ~90 PV et mana, augmente le mana max." },
+  { test:/Total Biscuit|Stealth Ward|Control Ward/i,
+    note:"Objet utilitaire (pas de stat de combat)." },
+];
+function consumableEffect(name){
+  if(!name) return null;
+  for(const c of CONSUMABLE_EFFECTS) if(c.test.test(name)) return c;
+  return null;
+}
 
 async function loadItems(){
   // Charge en parallèle : Meraki (stats complètes) + DDragon (images & filtre SR)
@@ -731,7 +789,7 @@ function buildFromMeraki(meraki, dd){
       ad:    mflat(s,'attackDamage'),
       armor: mflat(s,'armor'),
       mr:    mflat(s,'magicResistance'),
-      ah:    mflat(s,'abilityhaste'),
+      ah:    readAH(s, name),
       as:    mpct(s,'attackSpeed')/100,      // percent → décimal pour as_*(1+as)
       crit:  Math.round(mpct(s,'criticalStrikeChance')),
       ls:    Math.round(mpct(s,'lifesteal')),
@@ -745,6 +803,7 @@ function buildFromMeraki(meraki, dd){
       special: passive && passive.special ? passive.special : null,
       onHitPctHP: passive && passive.onHitPctHP ? passive.onHitPctHP : 0,
       note: passive ? passive.note : null,
+      consumable: consumableEffect(name),
     };
   }).sort((a,b)=> a.gold-b.gold || a.name.localeCompare(b.name));
 }
@@ -797,11 +856,12 @@ function buildFromDDragon(d){
       crit:Math.round((st.FlatCritChanceMod||0)*100),
       ls:Math.round((st.PercentLifeStealMod||0)*100),
       ms_flat:st.FlatMovementSpeedMod||0, ms_pct:st.PercentMovementSpeedMod||0,
-      ah:0, omni:0, leth:0, apen:0, bah:0, uh:0,
+      ah:AH_BY_NAME[it.name]||0, omni:0, leth:0, apen:0, bah:0, uh:0,
       passiveKey: ITEM_PASSIVES[it.name]?it.name:null,
       special: ITEM_PASSIVES[it.name]&&ITEM_PASSIVES[it.name].special || null,
       onHitPctHP: ITEM_PASSIVES[it.name]&&ITEM_PASSIVES[it.name].onHitPctHP || 0,
       note: ITEM_PASSIVES[it.name]&&ITEM_PASSIVES[it.name].note || null,
+      consumable: consumableEffect(it.name),
     };
   }).sort((a,b)=> a.gold-b.gold || a.name.localeCompare(b.name));
 }
@@ -1058,6 +1118,7 @@ function aggregate(){
   let special = { cleaver:false, serylda:false, eclipse:false };
   let itemNotes = [];
   let onHitPctHP = 0;
+  let bonusRegen = 0;
   S.items.forEach(it=>{
     if(!it) return;
     hp+=it.hp; ad+=it.ad; armor+=it.armor; mr+=it.mr;
@@ -1069,6 +1130,20 @@ function aggregate(){
     if(it.special && special.hasOwnProperty(it.special)) special[it.special]=true;
     if(it.onHitPctHP) onHitPctHP += it.onHitPctHP;
     if(it.note) itemNotes.push(it.note);
+    // Consommables / potions / élixirs
+    if(it.consumable){
+      const c = it.consumable;
+      if(c.stats){
+        if(c.stats.ad) ad += c.stats.ad;
+        if(c.stats.ten) ten += c.stats.ten;
+        if(c.stats.armor) armor += c.stats.armor;
+        if(c.stats.mr) mr += c.stats.mr;
+        if(c.stats.hp) hp += c.stats.hp;
+      }
+      if(c.hpFlat) hp += c.hpFlat;
+      if(c.regen) bonusRegen += c.regen;
+      if(c.note) itemNotes.push(c.note);
+    }
   });
 
   // Vitesse % appliquée en dernier ; AS plafonnée à 2.5
@@ -1077,8 +1152,8 @@ function aggregate(){
   crit = Math.min(crit, 100);
 
   const baseADval = baseAD;
-  // Objet de travail pour les passifs (Sterak modifie ad à partir de baseAD)
-  const work = { ad, baseAD:baseADval, _sterak:0 };
+  // Objet de travail pour les passifs (Sterak ↑AD ; Serylda ↑armPenPct ; Cleaver ↑armorShred)
+  const work = { ad, baseAD:baseADval, _sterak:0, armPenPct:0, armorShred:0 };
   S.items.forEach(it=>{
     if(!it || !it.passiveKey) return;
     const p = ITEM_PASSIVES[it.passiveKey];
@@ -1086,6 +1161,9 @@ function aggregate(){
   });
   ad = work.ad;
   const sterakBonus = work._sterak || 0;
+  const armorShred = work.armorShred || 0;                 // réduction d'armure (Cleaver)
+  // Pénétration % (Serylda) cumulée à l'apen plat des items Meraki
+  apen = Math.min(100, apen + Math.round((work.armPenPct||0) * 100));
 
   const bonusAD = ad - baseAD;
   const bonusHP = hp - baseHP;
@@ -1095,7 +1173,7 @@ function aggregate(){
     hp, ad, armor, mr, as_, hp5, ms,
     crit, ls, omni, ah, bah, uh, leth, apen, ten, ms_pct,
     bonusAD, bonusHP, special, sterakBonus, onHitPctHP,
-    itemNotes,
+    itemNotes, bonusRegen, armorShred,
   };
 }
 
@@ -1124,6 +1202,7 @@ function renderStats(A){
     cell('💊','Omnivampirisme', A.omni+'%');
 
   if(A.crit>0) html += cell('🎯','Chance de critique', A.crit+'%');
+  if(A.bonusRegen>0) html += cell('🧪','Soin potion', A.bonusRegen+' PV');
 
   // Léthalité + Armor Pen% dans la MÊME case
   if(A.leth>0 || A.apen>0){
@@ -1151,7 +1230,7 @@ function skillRanks(l){
   const rPts = l>=16?3 : l>=11?2 : l>=6?1 : 0;
   let pts = l - rPts;                 // points à répartir entre Q/W/E
   const cap = {Q:0, W:0, E:0};
-  // 1 point dans chaque sort dès que possible (ordre d'apprentissage E,Q,W)
+  // 1 point dans chaque sort dès que possible (ordre d'apprentissage Q,W,E)
   for(const k of ['E',"Q","W"]){ if(pts>0){ cap[k]=1; pts--; } }
   // puis on maxe W, ensuite E, ensuite Q (ordre de max classique d'Urgot)
   for(const k of ['W','E','Q']){ while(pts>0 && cap[k]<5){ cap[k]++; pts--; } }
@@ -1270,9 +1349,9 @@ function passiveDmgMult(p, custom){
 
 function computeEffectiveArmor(A){
   let arm = DUMMY.armor;
-  // 1) Black Cleaver : shred % d'abord (réduction d'armure, multiplicatif sur l'armure)
-  if(A.special.cleaver) arm = arm * (1 - 0.30);
-  // 2) Pénétration % d'armure (Serylda etc.)
+  // 1) Réduction d'armure (shred Black Cleaver) — multiplicatif, avant pénétration
+  if(A.armorShred>0) arm = arm * (1 - A.armorShred);
+  // 2) Pénétration d'armure en % (Serylda + items)
   if(A.apen>0) arm = arm * (1 - A.apen/100);
   // 3) Léthalité (pénétration plate) en dernier, ne descend pas sous 0
   arm = Math.max(0, arm - A.leth);
@@ -1336,7 +1415,7 @@ function renderDummy(){
   html += dcard('1 jambe (passif)', out.leg);
   html += dcard('Salve 6 jambes', burst6);
   html += dcard('All-in (~4s)', allIn, true);
-  html += infocard('Armure effective', Math.round(effArmor), `base ${DUMMY.armor}${A.special.cleaver?' · -30% Cleaver':''}${A.apen>0?' · -'+A.apen+'%':''}${A.leth>0?' · -'+Math.round(A.leth)+' plate':''}`);
+  html += infocard('Armure effective', Math.round(effArmor), `base ${DUMMY.armor}${A.armorShred>0?' · -'+Math.round(A.armorShred*100)+'% shred':''}${A.apen>0?' · -'+A.apen+'%':''}${A.leth>0?' · -'+Math.round(A.leth)+' plate':''}`);
   html += infocard('PV effectifs (phys)', Math.round(dHP*(1+effArmor/100)), 'PV × (1 + armure/100)');
   const reduc = Math.round((1-passiveDmgMult(DUMMY.passive,DUMMY.custom))*100);
   html += infocard('Réduction passif', reduc+'%', DUMMY.passive==='none'?'aucun':'sur dégâts physiques');
