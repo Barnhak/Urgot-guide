@@ -529,7 +529,7 @@ function lookupNorm(idx,name){if(!name)return undefined;return idx[norm(name)];}
 function readAH(s,name){let v=mflat(s,'abilityHaste');if(!v)v=mflat(s,'cooldownReduction');if(!v)v=lookupNorm(AH_NORM,name)||0;return v||0;}
 
 const ITEM_PASSIVES={
-  "Sterak's Gage":{note:"Gage de Sterak : +50% de l'AD de base.",applyStats:(A)=>{A.ad+=A.baseAD*0.45;A._sterak=A.baseAD*0.50;}},
+  "Sterak's Gage":{note:"Gage de Sterak : +50% de l'AD de base.",applyStats:(A)=>{A.ad+=A.baseAD*0.50;A._sterak=A.baseAD*0.50;}},
   "Black Cleaver":{special:'cleaver',note:"Black Cleaver : réduit jusqu'à 30% de l'armure (6 stacks).",applyStats:(A)=>{A.armorShred=Math.max(A.armorShred||0,0.30);}},
   "Serylda's Grudge":{special:'serylda',note:"Rancune de Serylda : +35% pénétration d'armure.",applyStats:(A)=>{A.armPenPct+=0.35;}},
   "Eclipse":{special:'eclipse',note:"Éclipse : dégâts bonus en % des PV max (non simulé)."},
