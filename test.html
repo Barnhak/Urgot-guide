@@ -540,23 +540,60 @@ function growAS(lvl){
   return BASE.asBase * (1 + (BASE.asPerLvl/100) * n * (0.7025 + 0.0175*n));
 }
 
-/* ---------- CHARGEMENT DATA DRAGON ---------- */
+/* ---------- CHARGEMENT DE DONNÉES (robuste) ---------- */
 let ALL_ITEMS = [];
 let activeCat = 'all';
 
+// Affiche un état de chargement visible (au lieu d'un simple warning console)
+function setLoadStatus(txt, kind){
+  const el = document.getElementById('ddv');
+  if(el) el.textContent = txt;
+  const tag = (el && typeof el.closest==='function') ? el.closest('.patchtag') : null;
+  if(tag){
+    tag.style.borderColor = kind==='ok' ? 'var(--acid-d)' : kind==='warn' ? 'var(--rust-d)' : 'var(--blood)';
+  }
+}
+
+/* Essaie plusieurs URLs en cascade, puis un proxy CORS en dernier recours.
+   Renvoie l'objet JSON, ou null si tout échoue. */
+async function fetchJSON(urls){
+  const list = Array.isArray(urls) ? urls : [urls];
+  for(const url of list){
+    // tentative directe
+    try{
+      const r = await fetch(url, {mode:'cors'});
+      if(r.ok) return await r.json();
+    }catch(e){ /* on essaie l'URL suivante */ }
+  }
+  // dernier recours : proxy CORS (utile si le CDN ne renvoie pas les en-têtes CORS)
+  const proxies = [
+    u => 'https://corsproxy.io/?url=' + encodeURIComponent(u),
+    u => 'https://api.allorigins.win/raw?url=' + encodeURIComponent(u),
+  ];
+  for(const url of list){
+    for(const mk of proxies){
+      try{
+        const r = await fetch(mk(url));
+        if(r.ok) return await r.json();
+      }catch(e){ /* proxy suivant */ }
+    }
+  }
+  return null;
+}
+
 async function resolveVersion(){
-  try{
-    const r = await fetch('https://ddragon.leagueoflegends.com/api/versions.json');
-    const v = await r.json();
-    if(Array.isArray(v) && v.length) DDV = v[0];
-  }catch(e){ /* garde le fallback */ }
-  const el = document.getElementById('ddv'); if(el) el.textContent = DDV;
+  const v = await fetchJSON('https://ddragon.leagueoflegends.com/api/versions.json');
+  if(Array.isArray(v) && v.length) DDV = v[0];
+  setLoadStatus(DDV, 'ok');
 }
 
 async function loadUrgotBase(){
-  try{
-    const r = await fetch(`https://ddragon.leagueoflegends.com/cdn/${DDV}/data/fr_FR/champion/Urgot.json`);
-    const d = await r.json();
+  // FR puis EN (selon dispo), via fetchJSON robuste
+  const d = await fetchJSON([
+    `https://ddragon.leagueoflegends.com/cdn/${DDV}/data/fr_FR/champion/Urgot.json`,
+    `https://ddragon.leagueoflegends.com/cdn/${DDV}/data/en_US/champion/Urgot.json`,
+  ]);
+  if(d && d.data && d.data.Urgot){
     const st = d.data.Urgot.stats;
     BASE = {
       hp:st.hp, hpPerLvl:st.hpperlevel, hpReg:st.hpregen, hpRegPerLvl:st.hpregenperlevel,
@@ -567,7 +604,10 @@ async function loadUrgotBase(){
       asBase:st.attackspeed, asPerLvl:st.attackspeedperlevel,
       ms:st.movespeed,
     };
-  }catch(e){ console.warn('Bases Urgot : fallback utilisé', e); }
+  } else {
+    console.warn('Bases Urgot : fallback utilisé (fetch impossible)');
+    setLoadStatus('hors-ligne · bases par défaut', 'err');
+  }
 }
 /* ============================================================
    PARTIE 2 — ITEMS : catégories, stats, chargement, rendu UI
@@ -630,7 +670,7 @@ const mpct  = (s,k)=> (s && s[k] && typeof s[k].percent==='number') ? s[k].perce
 
 /* ---------- ABILITY HASTE PAR NOM (repli si Meraki ne le fournit pas) ----------
    Le champ AH de Meraki est parfois vide selon la version du dump.
-   On garde donc un mapping de secours par nom d'item, robuste aux IDs. */
+   On garde donc un mapping de secours par nom d'item (EN), robuste aux IDs. */
 const AH_BY_NAME = {
   "Abyssal Mask":15,"Archangel's Staff":25,"Axiom Arc":25,"Black Cleaver":20,"Blackfire Torch":20,
   "Bloodletter's Curse":15,"Caulfield's Warhammer":10,"Chempunk Chainsword":15,"Cosmic Drive":30,
@@ -647,13 +687,38 @@ const AH_BY_NAME = {
   "Mejai's Soulstealer":10,"Banshee's Veil":10,"Cosmic Drive":30,"Spear of Shojin":25,
   "Experimental Hexplate":30,
 };
-// Lit l'AH depuis Meraki (plusieurs noms de clés possibles), sinon repli par nom.
+// Lit l'AH depuis Meraki (plusieurs noms de clés possibles), sinon repli par nom normalisé.
 function readAH(s, name){
   let v = mflat(s,'abilityHaste');
   if(!v) v = mflat(s,'cooldownReduction');   // ancien nom Meraki
   if(!v) v = mflat(s,'CooldownReduction');
-  if(!v && AH_BY_NAME[name]) v = AH_BY_NAME[name];
+  if(!v) v = lookupNorm(AH_NORM, name) || 0;
   return v||0;
+}
+
+/* ---------- NORMALISATION DES NOMS ----------
+   Permet de matcher quelle que soit la langue/apostrophe/accent.
+   "Lame noire" / "Black Cleaver" / "Black Cleaver'" → comparaison robuste.
+   Comme les noms FR ≠ EN, on indexe aussi le mapping par ID DDragon EN. */
+let FR_NAMES = {};        // id -> libellé français (affichage)
+function norm(str){
+  return String(str||'')
+    .toLowerCase()
+    .normalize('NFD').replace(/[\u0300-\u036f]/g,'') // enlève accents
+    .replace(/['’`]/g,'')                            // apostrophes
+    .replace(/[^a-z0-9]/g,'');                       // ponctuation/espaces
+}
+// Construit une fois un index normalisé { nomNormalisé -> valeur } à partir d'un objet { nomEN -> valeur }
+function buildNormIndex(obj){
+  const m = {};
+  for(const k in obj) m[norm(k)] = obj[k];
+  return m;
+}
+const AH_NORM = buildNormIndex(AH_BY_NAME);
+// Recherche dans un index normalisé en testant plusieurs variantes du nom
+function lookupNorm(idx, name){
+  if(!name) return undefined;
+  return idx[norm(name)];
 }
 
 /* ---------- PASSIFS D'ITEMS (effets conditionnels, par nom) ----------
@@ -700,6 +765,9 @@ const ITEM_PASSIVES = {
     note:"Le Collectionneur : exécute les cibles sous 5% PV."
   },
 };
+// Index normalisé pour retrouver un passif quel que soit la langue/apostrophe
+const PASSIVE_NORM = buildNormIndex(ITEM_PASSIVES);
+function findPassive(name){ return lookupNorm(PASSIVE_NORM, name) || null; }
 
 /* ---------- CONSOMMABLES / POTIONS (slot potion) ----------
    Les élixirs donnent de vraies stats temporaires → on les applique.
@@ -732,23 +800,36 @@ function consumableEffect(name){
 }
 
 async function loadItems(){
-  // Charge en parallèle : Meraki (stats complètes) + DDragon (images & filtre SR)
-  let meraki=null, dd=null;
-  try{
-    const [mr, dr] = await Promise.all([
-      fetch(MERAKI_URL).then(r=>r.json()).catch(()=>null),
-      fetch(`https://ddragon.leagueoflegends.com/cdn/${DDV}/data/fr_FR/item.json`).then(r=>r.json()).catch(()=>null),
-    ]);
-    meraki = mr; dd = dr;
-  }catch(e){ console.warn('Chargement items partiel', e); }
+  document.getElementById('mgrid').innerHTML =
+    '<div class="modal-loading">Chargement de l\'arsenal…</div>';
+
+  // Data Dragon EN = source des NOMS pour le matching (AH, passifs) + filtre SR + fallback stats
+  const ddEN = await fetchJSON([
+    `https://ddragon.leagueoflegends.com/cdn/${DDV}/data/en_US/item.json`,
+  ]);
+  // Data Dragon FR = uniquement pour les libellés affichés (mappés par ID)
+  const ddFR = await fetchJSON([
+    `https://ddragon.leagueoflegends.com/cdn/${DDV}/data/fr_FR/item.json`,
+  ]);
+  // Dictionnaire ID -> nom français pour l'affichage
+  FR_NAMES = {};
+  if(ddFR && ddFR.data){
+    for(const [id,it] of Object.entries(ddFR.data)) FR_NAMES[+id] = it.name;
+  }
+
+  // Meraki (stats complètes, noms EN) — peut échouer par CORS, d'où fetchJSON + proxy
+  const meraki = await fetchJSON([MERAKI_URL]);
 
   if(meraki){
-    buildFromMeraki(meraki, dd);
-  } else if(dd){
-    buildFromDDragon(dd);   // fallback dégradé
+    buildFromMeraki(meraki, ddEN);
+    setLoadStatus(DDV+' · stats complètes', 'ok');
+  } else if(ddEN){
+    buildFromDDragon(ddEN);   // fallback : stats partielles + AH par nom (EN)
+    setLoadStatus(DDV+' · stats partielles (Meraki bloqué)', 'warn');
   } else {
     document.getElementById('mgrid').innerHTML =
-      '<div class="modal-loading">Impossible de charger les items (réseau/API indisponible).</div>';
+      '<div class="modal-loading">Impossible de charger les items.<br>Vérifie ta connexion réseau.</div>';
+    setLoadStatus('hors-ligne', 'err');
     return;
   }
   renderItems();
@@ -774,14 +855,15 @@ function buildFromMeraki(meraki, dd){
     return true;
   }).map(it=>{
     const s = it.stats || {};
-    const name = it.name;
+    const nameEN = it.name;                         // nom anglais (matching)
     const ddId = it.id;
-    const passive = ITEM_PASSIVES[name] || null;
+    const displayName = FR_NAMES[ddId] || nameEN;   // libellé affiché (FR si dispo)
+    const passive = findPassive(nameEN);
     // Léthalité : Meraki la met dans stats.lethality.flat
     const lethality = mflat(s,'lethality');
     const armPenPct = mpct(s,'armorPenetration');
     return {
-      id: ddId, name,
+      id: ddId, name: displayName, nameEN,
       cat: classifyMeraki(it),
       gold: (it.shop && it.shop.prices && it.shop.prices.total) || 0,
       img: `https://ddragon.leagueoflegends.com/cdn/${DDV}/img/item/${ddId}.png`,
@@ -789,7 +871,7 @@ function buildFromMeraki(meraki, dd){
       ad:    mflat(s,'attackDamage'),
       armor: mflat(s,'armor'),
       mr:    mflat(s,'magicResistance'),
-      ah:    readAH(s, name),
+      ah:    readAH(s, nameEN),
       as:    mpct(s,'attackSpeed')/100,      // percent → décimal pour as_*(1+as)
       crit:  Math.round(mpct(s,'criticalStrikeChance')),
       ls:    Math.round(mpct(s,'lifesteal')),
@@ -799,11 +881,11 @@ function buildFromMeraki(meraki, dd){
       leth:  lethality,
       apen:  Math.round(armPenPct),
       bah:0, uh:0,
-      passiveKey: passive ? name : null,
+      passiveKey: passive ? nameEN : null,   // clé EN pour retrouver le passif dans aggregate
       special: passive && passive.special ? passive.special : null,
       onHitPctHP: passive && passive.onHitPctHP ? passive.onHitPctHP : 0,
       note: passive ? passive.note : null,
-      consumable: consumableEffect(name),
+      consumable: consumableEffect(nameEN),
     };
   }).sort((a,b)=> a.gold-b.gold || a.name.localeCompare(b.name));
 }
@@ -846,8 +928,10 @@ function buildFromDDragon(d){
     return true;
   }).map(([id,it])=>{
     const st = it.stats||{};
+    const nameEN = it.name;
+    const passive = findPassive(nameEN);
     return {
-      id:+id, name:it.name, cat:classifyItem(it),
+      id:+id, name: FR_NAMES[+id] || nameEN, nameEN, cat:classifyItem(it),
       gold:(it.gold&&it.gold.total)||0,
       img:`https://ddragon.leagueoflegends.com/cdn/${DDV}/img/item/${id}.png`,
       hp:st.FlatHPPoolMod||0, ad:st.FlatPhysicalDamageMod||0,
@@ -856,12 +940,12 @@ function buildFromDDragon(d){
       crit:Math.round((st.FlatCritChanceMod||0)*100),
       ls:Math.round((st.PercentLifeStealMod||0)*100),
       ms_flat:st.FlatMovementSpeedMod||0, ms_pct:st.PercentMovementSpeedMod||0,
-      ah:AH_BY_NAME[it.name]||0, omni:0, leth:0, apen:0, bah:0, uh:0,
-      passiveKey: ITEM_PASSIVES[it.name]?it.name:null,
-      special: ITEM_PASSIVES[it.name]&&ITEM_PASSIVES[it.name].special || null,
-      onHitPctHP: ITEM_PASSIVES[it.name]&&ITEM_PASSIVES[it.name].onHitPctHP || 0,
-      note: ITEM_PASSIVES[it.name]&&ITEM_PASSIVES[it.name].note || null,
-      consumable: consumableEffect(it.name),
+      ah:lookupNorm(AH_NORM, nameEN)||0, omni:0, leth:0, apen:0, bah:0, uh:0,
+      passiveKey: passive ? nameEN : null,
+      special: passive && passive.special || null,
+      onHitPctHP: passive && passive.onHitPctHP || 0,
+      note: passive && passive.note || null,
+      consumable: consumableEffect(nameEN),
     };
   }).sort((a,b)=> a.gold-b.gold || a.name.localeCompare(b.name));
 }
@@ -921,7 +1005,11 @@ function renderItems(){
   const q = (document.getElementById('msearch').value||'').toLowerCase().trim();
   let list = ALL_ITEMS.filter(it=>{
     if(activeCat!=='all' && it.cat!==activeCat) return false;
-    if(q && !it.name.toLowerCase().includes(q)) return false;
+    if(q){
+      const inFR = it.name.toLowerCase().includes(q);
+      const inEN = it.nameEN && it.nameEN.toLowerCase().includes(q);
+      if(!inFR && !inEN) return false;
+    }
     return true;
   });
   if(!list.length){ g.innerHTML='<div class="modal-loading">Aucun item trouvé.</div>'; return; }
