@@ -613,6 +613,7 @@ const MANUAL_STATS={
   "Banshee's Veil":      {mr:45,ah:10},
   "Cosmic Drive":        {hp:200,ms_flat:10,ah:30},
   "Warmog's Armor":      {hp:800},
+  "Rookern":             {hp:400,mr:60},
   "Heartsteel":          {hp:1000,ah:0},
   "Jak'Sho, The Protean":{hp:400,armor:30,mr:30,ah:15},
   "Randuin's Omen":      {hp:400,armor:80},
@@ -867,7 +868,7 @@ _wl([_T],                    'randuin',"randuin's omen",'randuins omen');
 _wl([_T],                    'immolation du vide','hollow radiance');
 _wl([_T],                    'désespoir infini','desespoir infini','unending despair');
 _wl([_T],                    'force de la nature');
-_wl([_T],                    'rookern',"rookern",'riftmaker');
+_wl([_T],                    'rookern',"rookern",'6698');
 _wl([_T],                    "cœur d'acier","coeur dacier","coeur d acier",'heartsteel');
 _wl([_T],                    'warmog',"warmog's armor",'warmogs armor');
 _wl([_T],                    "jak'sho",'jaksho',"jak'sho, the protean",'jaksho the protean');
@@ -902,12 +903,16 @@ _wl([_B],
   "archlight momentum","glorious momentum","tempered fate","lich bane enchant"
 );
 
-function getItemCats(nameEN, nameFR){
+function getItemCats(nameEN, nameFR, itemId){
   // Consommables (slot potion)
   if(/potion|biscuit|elixir|cookie|refillable/i.test(nameEN||'')) return ['consumable'];
-  // Bottes
-  if(/boots|greaves|treads|steelcaps|sorcerer|swiftness|lucidity|berserker|momentum|crystalline reflector|symbiotic|synchronized|boomerang blade|archlight|glorious|tempered fate/i.test(nameEN||'')||
+  // Bottes — by name OR by known DDragon ID
+  const BOOT_IDS=new Set([1001,3006,3009,3020,3047,3111,3158]);
+  if(BOOT_IDS.has(+itemId)) return ['boots'];
+  if(/boots|greaves|treads|steelcaps|sorcerer's shoes|swiftness|lucidity|berserker/i.test(nameEN||'')||
      /bottes/i.test(nameFR||'')) return ['boots'];
+  // Rookern by ID
+  if(+itemId===6698 || /rookern/i.test(nameEN||'')) return [_T];
   // Whitelist
   const cats = WL[norm(nameEN||'')] || WL[norm(nameFR||'')];
   return cats && cats.length ? [...cats] : null;
@@ -919,10 +924,13 @@ async function loadItems(){
   const ddFR=await fetchJSON([`https://ddragon.leagueoflegends.com/cdn/${DDV}/data/fr_FR/item.json`]);
   FR_NAMES={};if(ddFR&&ddFR.data)for(const[id,it]of Object.entries(ddFR.data))FR_NAMES[+id]=it.name;
   const meraki=await fetchJSON(['https://cdn.merakianalytics.com/riot/lol/resources/latest/en-US/items.json']);
+  // Known SR item IDs guaranteed to be included (boots + rookern + items Meraki may misflag)
+  const SR_FORCE_IDS=new Set([1001,3006,3009,3020,3047,3111,3158,6698,4005,222504,3742,3143]);
   const seen=new Set();
   if(meraki){
     ALL_ITEMS=Object.values(meraki).filter(it=>{
       if(!it||!it.id)return false;
+      if(SR_FORCE_IDS.has(+it.id)) return true; // always include forced IDs
       const maps=it.maps||{};if(maps['11']===false)return false;
       const shop=it.shop||{};if(shop.purchasable===false)return false;
       if(it.requiredChampion)return false;
@@ -934,11 +942,11 @@ async function loadItems(){
     }).map(it=>{
       const nameEN=it.name, ddId=it.id;
       const nameFR=FR_NAMES[ddId]||nameEN;
-      const cats=getItemCats(nameEN,nameFR);
+      const cats=getItemCats(nameEN,nameFR,ddId);
       if(!cats) return null;
       const k=norm(nameEN);if(seen.has(k))return null;seen.add(k);
       const s=it.stats||{},passive=findPassive(nameEN);
-      return{id:ddId,name:nameFR,nameEN,cats,gold:(it.shop&&it.shop.prices&&it.shop.prices.total)||0,
+      return{id:ddId,name:nameEN,nameFR,cats,gold:(it.shop&&it.shop.prices&&it.shop.prices.total)||0,
         img:`https://ddragon.leagueoflegends.com/cdn/${DDV}/img/item/${ddId}.png`,
         hp:mflat(s,'health'),ad:mflat(s,'attackDamage'),armor:mflat(s,'armor'),mr:mflat(s,'magicResistance'),
         ah:readAH(s,nameEN),as:mpct(s,'attackSpeed')/100,crit:Math.round(mpct(s,'criticalStrikeChance')),
@@ -951,16 +959,17 @@ async function loadItems(){
     setLoadStatus(DDV+' · Meraki','ok');
   } else if(ddEN){
     ALL_ITEMS=Object.entries(ddEN.data).filter(([id,it])=>{
+      if(SR_FORCE_IDS.has(+id)) return true;
       const maps=it.maps||{};if(!maps['11'])return false;const g=it.gold||{};if(!g.purchasable)return false;
       if(it.requiredChampion)return false;const tags=it.tags||[];if(tags.includes('Trinket'))return false;
       return true;
     }).map(([id,it])=>{
       const nameEN=it.name,nameFR=FR_NAMES[+id]||nameEN;
-      const cats=getItemCats(nameEN,nameFR);
+      const cats=getItemCats(nameEN,nameFR,+id);
       if(!cats)return null;
       const k=norm(nameEN);if(seen.has(k))return null;seen.add(k);
       const st=it.stats||{},passive=findPassive(nameEN);
-      return{id:+id,name:nameFR,nameEN,cats,gold:(it.gold&&it.gold.total)||0,
+      return{id:+id,name:nameEN,nameFR,cats,gold:(it.gold&&it.gold.total)||0,
         img:`https://ddragon.leagueoflegends.com/cdn/${DDV}/img/item/${id}.png`,
         hp:st.FlatHPPoolMod||0,ad:st.FlatPhysicalDamageMod||0,armor:st.FlatArmorMod||0,mr:st.FlatSpellBlockMod||0,
         as:st.PercentAttackSpeedMod||0,crit:Math.round((st.FlatCritChanceMod||0)*100),
@@ -1015,7 +1024,7 @@ function renderShop(){
   if(!ALL_ITEMS.length){g.innerHTML='<div class="shop-loading">Loading items…</div>';return;}
   g.innerHTML='';
   const q=(document.getElementById('shopSearch').value||'').toLowerCase().trim();
-  const list=ALL_ITEMS.filter(it=>(activeCat==='all'||it.cats.includes(activeCat))&&(!q||it.name.toLowerCase().includes(q)||(it.nameEN&&it.nameEN.toLowerCase().includes(q))));
+  const list=ALL_ITEMS.filter(it=>(activeCat==='all'||it.cats.includes(activeCat))&&(!q||it.name.toLowerCase().includes(q)||(it.nameFR&&it.nameFR.toLowerCase().includes(q))));
   if(!list.length){g.innerHTML='<div class="shop-empty">No items found</div>';return;}
   list.forEach(it=>{
     const d=document.createElement('div');d.className='icard';
