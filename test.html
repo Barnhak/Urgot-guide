@@ -545,8 +545,18 @@ async function loadUrgotBase(){
 }
 
 /* ═══ ITEMS ═══ */
-const CATS={all:{fr:'Tout',col:'#4ADE80'},fighter:{fr:'Combattant',col:'#c8632b'},tank:{fr:'Tank',col:'#4f93e0'},marksman:{fr:'Tireur',col:'#e0c14f'},mage:{fr:'Mage',col:'#9b6fe0'},assassin:{fr:'Assassin',col:'#e04f6f'},boots:{fr:'Bottes',col:'#7d8a83'},support:{fr:'Support',col:'#4fd0b0'},jungle:{fr:'Jungle',col:'#6fb53f'},starter:{fr:'Départ',col:'#a88'},consumable:{fr:'Consommable',col:'#c84b4b'},component:{fr:'Composant',col:'#56615b'}};
-const CAT_ORDER=['all','fighter','tank','marksman','mage','assassin','boots','support','jungle','starter','consumable','component'];
+const CATS={
+  all:      {fr:'Tout',        col:'#4ADE80'},
+  fighter:  {fr:'Combattant',  col:'#c8632b'},
+  marksman: {fr:'Tireur',      col:'#e0c14f'},
+  assassin: {fr:'Assassin',    col:'#e04f6f'},
+  mage:     {fr:'Mage',        col:'#9b6fe0'},
+  tank:     {fr:'Tank',        col:'#4f93e0'},
+  support:  {fr:'Support',     col:'#4fd0b0'},
+  boots:    {fr:'Bottes',      col:'#7d8a83'},
+  consumable:{fr:'Consommable',col:'#c84b4b'},
+};
+const CAT_ORDER=['all','fighter','marksman','assassin','mage','tank','support','boots','consumable'];
 let activeCat='all';
 
 const AH_BY_NAME={"Abyssal Mask":15,"Archangel's Staff":25,"Axiom Arc":25,"Black Cleaver":20,"Bloodletter's Curse":15,"Caulfield's Warhammer":10,"Chempunk Chainsword":15,"Cosmic Drive":30,"Cryptbloom":20,"Death's Dance":15,"Echoes of Helia":20,"Eclipse":15,"Essence Reaver":25,"Fiendish Codex":10,"Fimbulwinter":20,"Frozen Heart":20,"Glacial Buckler":10,"Hextech Rocketbelt":15,"Horizon Focus":25,"Hubris":15,"Iceborn Gauntlet":15,"Imperial Mandate":25,"Ionian Boots of Lucidity":12,"Kindlegem":10,"Knight's Vow":10,"Lich Bane":10,"Locket of the Iron Solari":15,"Lost Chapter":10,"Luden's Companion":10,"Malignance":25,"Manamune":15,"Maw of Malmortius":15,"Moonstone Renewer":15,"Morellonomicon":15,"Muramana":15,"Profane Hydra":18,"Ravenous Hydra":20,"Redemption":10,"Seraph's Embrace":25,"Serylda's Grudge":15,"Shurelya's Battlesong":15,"Spirit Visage":10,"Sundered Sky":20,"Sunfire Aegis":15,"Trinity Force":20,"Umbral Glaive":15,"Voltaic Cyclosword":10,"Winter's Approach":20,"Zeke's Convergence":20,"Liandry's Torment":20,"Spear of Shojin":25,"Experimental Hexplate":30,"Titanic Hydra":20,"Sterak's Gage":0};
@@ -583,54 +593,229 @@ function consumableEffect(name){if(!name)return null;for(const c of CONSUMABLE_E
 
 let ALL_ITEMS=[];
 
-function classifyMeraki(it){
-  const name=it.name||'',shop=it.shop||{},s=it.stats||{},total=(shop.prices&&shop.prices.total)||0;
-  if(/Potion|Biscuit|Elixir|Cookie|Refillable/i.test(name))return 'consumable';
-  if(/Boots|Greaves|Treads|Steelcaps|Sorcerer|Swiftness|Mobility|Lucidity/i.test(name)&&total<2000)return 'boots';
-  if(/Jungle|Mosstomper|Gustwalker|Scorchclaw|Smite/i.test(name))return 'jungle';
-  if(/Relic Shield|Steel Shoulderguards|Spectral Sickle|Spellthief|World Atlas|Runic Compass/i.test(name))return 'support';
-  if(total>0&&total<=500)return 'starter';
-  if(mflat(s,'criticalStrikeChance')>0||mpct(s,'criticalStrikeChance')>0)return 'marksman';
-  if(mflat(s,'lethality')>0)return 'assassin';
-  if(mflat(s,'abilityPower')>0&&mflat(s,'attackDamage')===0)return 'mage';
-  const ad=mflat(s,'attackDamage'),hp=mflat(s,'health'),arm=mflat(s,'armor'),mr2=mflat(s,'magicResistance');
-  if((arm>0||mr2>0)&&ad===0)return 'tank';
-  if(ad>0&&(hp>0||mpct(s,'lifesteal')>0))return 'fighter';
-  if(ad>0)return 'fighter';
-  if(hp>0&&(arm>0||mr2>0))return 'tank';
-  if(total>0&&total<1100)return 'component';
-  return 'fighter';
+/* ═══════════════════════════════════════════════
+   WHITELIST — seuls les items de la liste sont
+   affichés, avec leurs catégories exactes
+   ═══════════════════════════════════════════════ */
+const WL={};
+const _F='fighter',_M='marksman',_A='assassin',_G='mage',_T='tank',_S='support',_B='boots';
+
+function _wl(cats){
+  const names=[...arguments].slice(1);
+  for(const n of names){
+    const k=norm(n);
+    if(!WL[k]) WL[k]=[];
+    cats.forEach(c=>{if(!WL[k].includes(c)) WL[k].push(c);});
+  }
 }
 
-function classifyDD(it){
-  const tags=it.tags||[],total=(it.gold&&it.gold.total)||0,has=t=>tags.includes(t);
-  if(has('Consumable')||has('Potion'))return 'consumable';if(has('Boots'))return 'boots';if(has('Jungle'))return 'jungle';
-  if(has('GoldPer'))return 'support';if(total>0&&total<=500)return 'starter';if(total>500&&total<1100)return 'component';
-  if(has('CriticalStrike'))return 'marksman';if(has('Lethality'))return 'assassin';
-  if(has('SpellDamage')&&!has('Damage'))return 'mage';if((has('Armor')||has('SpellBlock'))&&!has('Damage'))return 'tank';
-  if(has('Damage')&&has('Health'))return 'fighter';if(has('Damage'))return 'fighter';if(has('Health'))return 'tank';
-  return 'component';
+// ─── Composants ───
+_wl([_F,_M,_A],              'dague','dagger');
+_wl([_F,_M,_A,_G,_T,_S],    'poussière luisante','poussiere luisante');
+_wl([_F,_M,_A,_G,_T,_S],    "armure d'étoffe","armure detoffe","armure d etoffe",'cloth armor');
+_wl([_F,_M,_A],              'épée longue','epee longue','long sword');
+_wl([_F,_M,_A,_G,_T,_S],    'cape du néant','cape du neant','null-magic mantle','nullmagic mantle');
+_wl([_F,_M,_A,_G,_T,_S],    'cristal de rubis','crystal de rubis','ruby crystal');
+_wl([_F,_M,_A],              'pioche','pickaxe');
+_wl([_F,_M,_A],              'glaive BF','glaive bf','b.f. sword','bf sword');
+_wl([_M],                    "cape de l'éclaireur","cape de leclareur");
+_wl([_G,_S],                 "tome d'amplification","tome damplification",'amplifying tome');
+_wl([_G,_T,_S],              'cristal de mana','crystal de mana','sapphire crystal');
+_wl([_T,_S],                 'collier rafraîchissement','collier rafraichissement','rejuvenation bead');
+_wl([_G],                    'baguette trop grosse','needlessly large rod');
+_wl([_G],                    'baguette explosive','blasting wand');
+_wl([_S],                    'charme féérique','charme ferique','faerie charm');
+// ─── Épiques ───
+_wl([_F,_M],                 'arc courbé','arc courbe','recurve bow');
+_wl([_F,_M,_A],              'marque du bourreau','noonquiver');
+_wl([_F,_T,_S],              'gemme exaltante','gemme exaltee','kindlegem');
+_wl([_F,_M,_T,_S],          'manteau de négatron','manteau de negatron','negatron cloak');
+_wl([_F,_M,_T],             'cotte de mailles','chain vest');
+_wl([_F,_M,_T],             'brillance','sheen');
+_wl([_F,_M],                 'sceptre vampirique','vampiric scepter');
+_wl([_F,_T,_G],             "ceinture du géant","ceinture du geant","giant's belt",'giants belt');
+_wl([_F,_A],                 'marteau de Caulfield','marteau de caufield',"caulfield's warhammer",'caulfields warhammer');
+_wl([_F],                    'phage');
+_wl([_F,_A],                 "sceau d'acier","sceau dacier");
+_wl([_F,_A,_T],             'tiamat');
+_wl([_F,_M],                 "hache d'hatrinsèque","hace datrinseque","hache datrinseque",'hearthbound axe');
+_wl([_F],                    'hexterminateur');
+_wl([_F,_M],                 'ceinture de mercure','quicksilver sash');
+_wl([_F,_A],                 'brutaliseur','brutalizer');
+_wl([_F,_A,_T],             'foreuse');
+_wl([_F,_T,_S],             'plaque de lune ailée','plaque de lune ailee','winged moonplate');
+_wl([_M,_A],                 'dernier souffle','last whisper');
+_wl([_M],                    'exterminateur',"executioner's calling",'executioners calling');
+_wl([_M],                    'zèle','zele','zeal');
+_wl([_M],                    'carquois zénithien','carquois zenithien','noonquiver');
+_wl([_M],                    "fronde de l'éclaireur","fronde de leclareur");
+_wl([_M,_A],                 'dague dentelée','dague dentelee','serrated dirk');
+_wl([_M,_A],                 'rectrix');
+_wl([_G,_S],                 "orbe de l'oubli","orbe de loubli",'oblivion orb');
+_wl([_G],                    'codex méphitique','codex mephitique','fiendish codex');
+_wl([_G],                    'feu follet éthéré','feu follet ethere','hextech alternator');
+_wl([_G],                    'cendre fatidique','haunting guise');
+_wl([_G],                    'alternateur hextech','hextech alternator');
+_wl([_G],                    'joyaux putréfiant','joyaux putrefiant','blasting wand');
+_wl([_G],                    'chapitre perdu','lost chapter');
+_wl([_G],                    'déguisement hanté','deguisement hante');
+_wl([_G],                    "catalyseur de l'éternité","catalyseur de leternite",'catalyst of aeons');
+_wl([_G],                    'protège-bras du savant','protege bras du savant',"seeker's armguard",'seekers armguard');
+_wl([_G,_S],                 'barrière verdoyante','barriere verdoyante','verdant barrier');
+_wl([_T],                    'armure roncière','armure ronciere','bramble vest');
+_wl([_T,_S],                 'bracelet crystalin','bracelet cristallin','crystalline bracer');
+_wl([_T],                    'cendre de brami');
+_wl([_T],                    'bouclier glacial','glacial buckler');
+_wl([_T],                    'mailles du gardien',"warden's mail",'wardens mail');
+_wl([_T],                    'manteau de spectre',"spectre's cowl",'spectres cowl');
+_wl([_S],                    'bouclier givrant');
+_wl([_S],                    'idole interdit','idole interdite','forbidden idol');
+_wl([_S],                    'miroir en verre de bandle');
+// ─── Légendaires ───
+_wl([_F,_T],                 'trinité','trinite','trinity force');
+_wl([_F,_T],                 'armure sanguinaire','armure sanguine','bloodmail');
+_wl([_F],                    'hydre vorace','ravenous hydra');
+_wl([_F,_T],                 'hydre titanesque','titanic hydra');
+_wl([_F],                    'danse de la mort',"death's dance",'deaths dance');
+_wl([_F,_M,_A],             'ange gardien','guardian angel');
+_wl([_F],                    'sterak',"sterak's gage",'steraks gage');
+_wl([_F,_M],                 'épée du roi déchu','epee du roi dechu','lame du roi dechu','blade of the ruined king');
+_wl([_F,_M],                 'faim insatiable','bloodthrister','bloodthirster');
+_wl([_F],                    'hexplate','experimental hexplate');
+_wl([_F],                    'ciel éventré','ciel eventre','sundered sky');
+_wl([_F],                    'lance de shojin','spear of shojin');
+_wl([_F,_M],                 'cimeterre mercuriel','mercurial scimitar');
+_wl([_F],                    'estropieur');
+_wl([_F],                    'couperet noir','black cleaver');
+_wl([_F],                    'brise coque','hullbreaker');
+_wl([_F,_M,_A,_G,_T],       'terminus');
+_wl([_F,_A],                 'chempunk chainsword');
+_wl([_F,_M,_A],             'serylda',"serylda's grudge",'seryldas grudge');
+_wl([_F,_M,_A],             'malmortius','maw of malmortius');
+_wl([_F,_T],                 'deadman plate','dead man plate',"dead man's plate",'dead mans plate');
+_wl([_F],                    'eclipse');
+_wl([_F,_M,_A],             'au bout du rouleau');
+_wl([_F,_M,_A],             'muramana');
+_wl([_F,_T],                 'gantelet givrant','iceborn gauntlet');
+_wl([_M],                    'infinity edge');
+_wl([_M],                    'dominique',"lord dominik's regards",'lord dominiks regards');
+_wl([_M],                    'yun tal','yun tal wildarrows');
+_wl([_M],                    'lame tempête','lame tempete','stormrazor');
+_wl([_M],                    'faux spectral');
+_wl([_M],                    'rappel mortel','mortal reminder');
+_wl([_M],                    'lunettes hextech');
+_wl([_M],                    'navori','navori flickerblade','navori quickblades');
+_wl([_M],                    'chasseur de monstre','kraken slayer');
+_wl([_M],                    'canon ultra rapide','rapid firecannon');
+_wl([_M],                    'danseur fantôme','danseur fantome','phantom dancer');
+_wl([_M],                    'runaan',"runaan's hurricane",'runaans hurricane');
+_wl([_M],                    'percepteur','the collector');
+_wl([_M],                    'arc bouclier immortel','immortal shieldbow');
+_wl([_M,_G],                 'dent de nashor',"nashor's tooth",'nashors tooth');
+_wl([_M],                    'kraken','kraken slayer');
+_wl([_M],                    'sguinsoo',"guinsoo's rageblade",'guinsoos rageblade');
+_wl([_M],                    'statikk','statikk shiv');
+_wl([_A],                    "serpent fang","serpent's fang",'serpents fang');
+_wl([_A],                    'axiom arc');
+_wl([_A],                    'hubris');
+_wl([_A],                    "glavie d'ombre",'umbral glaive');
+_wl([_A],                    'youmuu',"youmuu's ghostblade",'youmuus ghostblade');
+_wl([_A],                    'hydre profane','profane hydra');
+_wl([_A],                    'bastionbreaker');
+_wl([_A,_G],                "pistolame hextech",'hextech gunblade');
+_wl([_A,_M],                'collector','the collector');
+_wl([_A],                    'night edge',"night's edge",'nights edge');
+_wl([_A],                    'cyclosword','voltaic cyclosword');
+_wl([_G],                    'mejai',"mejai's soulstealer",'mejais soulstealer');
+_wl([_G],                    'rode of ages','rod of ages');
+_wl([_G],                    'rylai',"rylai's crystal scepter",'rylais crystal scepter');
+_wl([_G],                    'ceinture hextech','hextech rocketbelt');
+_wl([_G],                    'malfaisance','malignance');
+_wl([_G],                    'concentration lointaine','horizon focus');
+_wl([_G],                    'luden',"luden's companion",'ludens companion');
+_wl([_G],                    'torche noire','blackfire torch');
+_wl([_G],                    'actualisateur','riftmaker');
+_wl([_G],                    'stormsurge');
+_wl([_G,_T,_S],             'morellonomicon');
+_wl([_G],                    "bâton de l'archange","baton de larchange","archangel's staff",'archangels staff');
+_wl([_G],                    'fléau de liche','fleau de liche','lich bane');
+_wl([_G],                    'malédiction de sanguinaire','malediction de sanguinaire',"bloodletter's curse",'bloodletters curse');
+_wl([_G,_T],                "banshee","banshee's veil",'banshees veil');
+_wl([_G],                    'bâton du vide','baton du vide','void staff');
+_wl([_G],                    'fleur de crypte','cryptbloom');
+_wl([_G],                    'volonté cosmique','volonte cosmique','cosmic drive');
+_wl([_G],                    'liandry',"liandry's torment",'liandrys torment');
+_wl([_G],                    'créateur de faille','createur de faille','riftmaker');
+_wl([_G],                    'aube et crépuscule','aube et crepuscule','dawncore');
+_wl([_G],                    'shadowflame');
+_wl([_G],                    'zhonya',"zhonya's hourglass",'zhonyas hourglass');
+_wl([_G],                    'rabadon',"rabadon's deathcap",'rabadons deathcap');
+_wl([_T,_S],                "zeke","zeke's convergence",'zekes convergence');
+_wl([_T,_S],                'solari','locket of the iron solari');
+_wl([_T,_S],                'vœu du chevalier','voeu du chevalier',"knight's vow",'knights vow');
+_wl([_T],                    'fimblewinter','fimbulwinter');
+_wl([_T,_S],                'cote épineuse','cote epineuse','thornmail');
+_wl([_T,_S],                'cœur gelé','coeur gele','frozen heart');
+_wl([_T,_S],                'masque abyssal','abyssal mask');
+_wl([_T],                    'visage spirituel','spirit visage');
+_wl([_T],                    'égide solaire','egide solaire','sunfire aegis');
+_wl([_T],                    'randuin',"randuin's omen",'randuins omen');
+_wl([_T],                    'immolation du vide','hollow radiance');
+_wl([_T],                    'désespoir infini','desespoir infini','unending despair');
+_wl([_T],                    'force de la nature');
+_wl([_T],                    'rookern');
+_wl([_T],                    "cœur d'acier","coeur dacier","coeur d acier",'heartsteel');
+_wl([_T],                    'warmog',"warmog's armor",'warmogs armor');
+_wl([_T],                    "jak'sho",'jaksho',"jak'sho, the protean",'jaksho the protean');
+_wl([_S],                    "cœur de l'aube","coeur de laube");
+_wl([_S],                    "écho d'helia","echo d'helia","echo dhelia",'echoes of helia');
+_wl([_S],                    'shurelya',"shurelya's battlesong",'shurelyas battlesong');
+_wl([_S],                    'bénédiction de mikael','benediction de mikael',"mikael's blessing",'mikaels blessing');
+_wl([_S],                    'rédemption','redemption');
+_wl([_S],                    'mandat impérial','mandat imperial','imperial mandate');
+_wl([_S],                    'bâton des flots','baton des flots','staff of flowing water');
+_wl([_S],                    'générateur de pierre de lune','generateur de pierre de lune','moonstone renewer');
+_wl([_S],                    'diadème des murmures','diademe des murmures');
+_wl([_S],                    'cendre ardente','ardent censer');
+_wl([_S],                    'flûte de bandle','flute de bandle');
+
+function getItemCats(nameEN, nameFR){
+  // Consommables (slot potion)
+  if(/potion|biscuit|elixir|cookie|refillable/i.test(nameEN||'')) return ['consumable'];
+  // Bottes
+  if(/boots|greaves|treads|steelcaps|sorcerer|swiftness|mobility|lucidity/i.test(nameEN||'')||
+     /bottes/i.test(nameFR||'')) return ['boots'];
+  // Whitelist
+  const cats = WL[norm(nameEN||'')] || WL[norm(nameFR||'')];
+  return cats && cats.length ? [...cats] : null;
 }
 
 async function loadItems(){
+  document.getElementById('shopGrid').innerHTML='<div class="shop-loading">Chargement…</div>';
   const ddEN=await fetchJSON([`https://ddragon.leagueoflegends.com/cdn/${DDV}/data/en_US/item.json`]);
   const ddFR=await fetchJSON([`https://ddragon.leagueoflegends.com/cdn/${DDV}/data/fr_FR/item.json`]);
   FR_NAMES={};if(ddFR&&ddFR.data)for(const[id,it]of Object.entries(ddFR.data))FR_NAMES[+id]=it.name;
   const meraki=await fetchJSON(['https://cdn.merakianalytics.com/riot/lol/resources/latest/en-US/items.json']);
+  const seen=new Set();
   if(meraki){
-    const raw=Object.values(meraki).filter(it=>{
+    ALL_ITEMS=Object.values(meraki).filter(it=>{
       if(!it||!it.id)return false;
       const maps=it.maps||{};if(maps['11']===false)return false;
       const shop=it.shop||{};if(shop.purchasable===false)return false;
       if(it.requiredChampion)return false;
+      if(/Trinket|Ward|Oracle|Stealth Ward|Farsight/i.test(it.name||''))return false;
       const total=(shop.prices&&shop.prices.total)||0;
       const isCons=/Potion|Biscuit|Elixir|Cookie/i.test(it.name||'');
       if(!isCons&&total<=0)return false;
-      if(/Trinket|Ward|Oracle|Stealth Ward|Farsight/i.test(it.name||''))return false;
       return true;
     }).map(it=>{
-      const s=it.stats||{},nameEN=it.name,ddId=it.id,displayName=FR_NAMES[ddId]||nameEN,passive=findPassive(nameEN);
-      return{id:ddId,name:displayName,nameEN,cat:classifyMeraki(it),gold:(it.shop&&it.shop.prices&&it.shop.prices.total)||0,
+      const nameEN=it.name, ddId=it.id;
+      const nameFR=FR_NAMES[ddId]||nameEN;
+      const cats=getItemCats(nameEN,nameFR);
+      if(!cats) return null;
+      const k=norm(nameEN);if(seen.has(k))return null;seen.add(k);
+      const s=it.stats||{},passive=findPassive(nameEN);
+      return{id:ddId,name:nameFR,nameEN,cats,gold:(it.shop&&it.shop.prices&&it.shop.prices.total)||0,
         img:`https://ddragon.leagueoflegends.com/cdn/${DDV}/img/item/${ddId}.png`,
         hp:mflat(s,'health'),ad:mflat(s,'attackDamage'),armor:mflat(s,'armor'),mr:mflat(s,'magicResistance'),
         ah:readAH(s,nameEN),as:mpct(s,'attackSpeed')/100,crit:Math.round(mpct(s,'criticalStrikeChance')),
@@ -639,29 +824,28 @@ async function loadItems(){
         leth:mflat(s,'lethality'),apen:Math.round(mpct(s,'armorPenetration')),
         bah:0,uh:0,passiveKey:passive?nameEN:null,special:passive&&passive.special?passive.special:null,
         onHitPctHP:passive&&passive.onHitPctHP||0,note:passive?passive.note:null,consumable:consumableEffect(nameEN)};
-    });
-    // DÉDOUBLONNAGE par nom normalisé (garde le premier = prix le plus bas)
-    const seen=new Set();
-    ALL_ITEMS=raw.filter(it=>{const k=norm(it.nameEN||it.name);if(seen.has(k))return false;seen.add(k);return true;})
-      .sort((a,b)=>a.gold-b.gold||a.name.localeCompare(b.name));
+    }).filter(x=>x!==null).sort((a,b)=>a.gold-b.gold||a.name.localeCompare(b.name));
     setLoadStatus(DDV+' · Meraki','ok');
   } else if(ddEN){
-    const seen=new Set();
     ALL_ITEMS=Object.entries(ddEN.data).filter(([id,it])=>{
       const maps=it.maps||{};if(!maps['11'])return false;const g=it.gold||{};if(!g.purchasable)return false;
       if(it.requiredChampion)return false;const tags=it.tags||[];if(tags.includes('Trinket'))return false;
-      const k=norm(it.name);if(seen.has(k))return false;seen.add(k);return true;
+      return true;
     }).map(([id,it])=>{
-      const st=it.stats||{},nameEN=it.name,passive=findPassive(nameEN);
-      return{id:+id,name:FR_NAMES[+id]||nameEN,nameEN,cat:classifyDD(it),gold:(it.gold&&it.gold.total)||0,
+      const nameEN=it.name,nameFR=FR_NAMES[+id]||nameEN;
+      const cats=getItemCats(nameEN,nameFR);
+      if(!cats)return null;
+      const k=norm(nameEN);if(seen.has(k))return null;seen.add(k);
+      const st=it.stats||{},passive=findPassive(nameEN);
+      return{id:+id,name:nameFR,nameEN,cats,gold:(it.gold&&it.gold.total)||0,
         img:`https://ddragon.leagueoflegends.com/cdn/${DDV}/img/item/${id}.png`,
         hp:st.FlatHPPoolMod||0,ad:st.FlatPhysicalDamageMod||0,armor:st.FlatArmorMod||0,mr:st.FlatSpellBlockMod||0,
-        as:st.PercentAttackSpeedMod||0,crit:Math.round((st.FlatCritChanceMod||0)*100),ls:Math.round((st.PercentLifeStealMod||0)*100),
-        ms_flat:st.FlatMovementSpeedMod||0,ms_pct:st.PercentMovementSpeedMod||0,
-        ah:lookupN(AH_IDX,nameEN)||0,omni:0,leth:0,apen:0,bah:0,uh:0,
+        as:st.PercentAttackSpeedMod||0,crit:Math.round((st.FlatCritChanceMod||0)*100),
+        ls:Math.round((st.PercentLifeStealMod||0)*100),ms_flat:st.FlatMovementSpeedMod||0,
+        ms_pct:st.PercentMovementSpeedMod||0,ah:lookupN(AH_IDX,nameEN)||0,omni:0,leth:0,apen:0,bah:0,uh:0,
         passiveKey:passive?nameEN:null,special:passive&&passive.special||null,
         onHitPctHP:passive&&passive.onHitPctHP||0,note:passive&&passive.note||null,consumable:consumableEffect(nameEN)};
-    }).sort((a,b)=>a.gold-b.gold||a.name.localeCompare(b.name));
+    }).filter(x=>x!==null).sort((a,b)=>a.gold-b.gold||a.name.localeCompare(b.name));
     setLoadStatus(DDV+' · DDragon','warn');
   } else {
     document.getElementById('shopGrid').innerHTML='<div class="shop-empty">Impossible de charger les items.</div>';
@@ -708,7 +892,7 @@ function renderShop(){
   if(!ALL_ITEMS.length){g.innerHTML='<div class="shop-loading">Chargement…</div>';return;}
   g.innerHTML='';
   const q=(document.getElementById('shopSearch').value||'').toLowerCase().trim();
-  const list=ALL_ITEMS.filter(it=>(activeCat==='all'||it.cat===activeCat)&&(!q||it.name.toLowerCase().includes(q)||(it.nameEN&&it.nameEN.toLowerCase().includes(q))));
+  const list=ALL_ITEMS.filter(it=>(activeCat==='all'||it.cats.includes(activeCat))&&(!q||it.name.toLowerCase().includes(q)||(it.nameEN&&it.nameEN.toLowerCase().includes(q))));
   if(!list.length){g.innerHTML='<div class="shop-empty">Aucun item</div>';return;}
   list.forEach(it=>{
     const d=document.createElement('div');d.className='icard';
