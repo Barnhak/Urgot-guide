@@ -262,8 +262,8 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;heigh
   <div class="hero-ct">
     <p class="hero-ey">Urgot Guide</p>
     <h1 class="hero-ti">FORGE DE <b>BUILD</b></h1>
-    <p class="hero-su">Stats · Items · Runes · Mannequin</p>
-    <div class="pbadge">Données live · <b id="ddv">DDragon</b></div>
+    <p class="hero-su">Stats · Items · Runes · Dummy</p>
+    <div class="pbadge">Live data · <b id="ddv">DDragon</b></div>
   </div>
 </div>
 
@@ -282,7 +282,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;heigh
 
     <!-- LEVEL -->
     <div class="panel">
-      <div class="ph"><span class="ph-tick"></span><h2>Niveau</h2><span class="hint">1 → 20</span></div>
+      <div class="ph"><span class="ph-tick"></span><h2>Level</h2><span class="hint">1 → 20</span></div>
       <div class="pb">
         <div class="lvl-row">
           <div class="lvl-badge"><span class="lbl">Niveau</span><span class="num" id="lvlNum">9</span></div>
@@ -296,16 +296,16 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;heigh
 
     <!-- ITEMS SLOTS -->
     <div class="panel">
-      <div class="ph"><span class="ph-tick"></span><h2>Items &amp; Potion</h2><span class="hint">Cliquer un slot puis un item</span></div>
+      <div class="ph"><span class="ph-tick"></span><h2>Items &amp; Potion</h2><span class="hint">Click a slot then an item</span></div>
       <div class="pb">
         <div class="slots-row" id="slots"></div>
-        <div class="slot-hint">Cliquer un slot pour le sélectionner · <b>slot 7 = potion/élixir</b></div>
+        <div class="slot-hint">Click a slot to select it · <b>slot 7 = potion/elixir</b></div>
       </div>
     </div>
 
     <!-- RUNES -->
     <div class="panel">
-      <div class="ph"><span class="ph-tick"></span><h2>Runes</h2><span class="hint">Primaire + Secondaire + Fragments</span></div>
+      <div class="ph"><span class="ph-tick"></span><h2>Runes</h2><span class="hint">Primary + Secondary + Shards</span></div>
       <div class="pb">
         <div class="cols2">
           <div class="rune-tree" id="priTree"></div>
@@ -320,13 +320,13 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;heigh
 
     <!-- STATS -->
     <div class="panel">
-      <div class="ph"><span class="ph-tick"></span><h2>Statistiques</h2></div>
+      <div class="ph"><span class="ph-tick"></span><h2>Stats</h2></div>
       <div class="pb"><div class="stat-grid" id="stats"></div></div>
     </div>
 
     <!-- ABILITIES -->
     <div class="panel">
-      <div class="ph"><span class="ph-tick"></span><h2>Dégâts &amp; Cooldowns</h2><span class="hint" id="ahHint"></span></div>
+      <div class="ph"><span class="ph-tick"></span><h2>Damage &amp; Cooldowns</h2><span class="hint" id="ahHint"></span></div>
       <div class="pb">
         <div class="abil-grid" id="abilities"></div>
         <div class="passive-box" id="passiveBox"></div>
@@ -335,37 +335,37 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;heigh
 
     <!-- DUMMY -->
     <div class="panel">
-      <div class="ph"><span class="ph-tick"></span><h2>Mannequin d'entraînement</h2><span class="hint">Pénétration &amp; dégâts réels</span></div>
+      <div class="ph"><span class="ph-tick"></span><h2>Training Dummy</h2><span class="hint">Penetration &amp; real damage</span></div>
       <div class="pb">
         <div class="dummy-ctrls">
           <div class="dctl">
-            <div class="dlbl"><span>PV mannequin</span><b id="dHpLbl">3000</b></div>
+            <div class="dlbl"><span>Dummy HP</span><b id="dHpLbl">3000</b></div>
             <div class="dctl-row">
               <input type="range" min="100" max="12000" step="50" value="3000" id="dHpSlider" style="flex:1"/>
               <input type="number" min="100" max="12000" step="50" value="3000" id="dHpNum" class="dnum"/>
             </div>
           </div>
           <div class="dctl">
-            <div class="dlbl"><span>Armure mannequin</span><b id="dArmLbl">100</b></div>
+            <div class="dlbl"><span>Dummy Armor</span><b id="dArmLbl">100</b></div>
             <div class="dctl-row">
               <input type="range" min="0" max="600" step="5" value="100" id="dArmSlider" style="flex:1"/>
               <input type="number" min="0" max="600" step="5" value="100" id="dArmNum" class="dnum"/>
             </div>
           </div>
           <div class="dctl">
-            <div class="dlbl"><span>Passif défensif ennemi</span></div>
+            <div class="dlbl"><span>Enemy Defensive Passive</span></div>
             <select id="dPassive" class="dsel">
               <option value="none">Aucun</option>
-              <option value="garen">Garen W — −60% dégâts (1.5s)</option>
-              <option value="garen30">Garen W — −30% (résidu)</option>
-              <option value="braum">Braum E — −35% dégâts</option>
-              <option value="annie">Bouclier — −50% prochaine source</option>
+              <option value="garen">Garen W — −60% dmg (1.5s)</option>
+              <option value="garen30">Garen W — −30% (residual)</option>
+              <option value="braum">Braum E − 35% dmg</option>
+              <option value="annie">Shield — −50% next source</option>
               <option value="amumu">Aftershock-like — −25%</option>
-              <option value="malphite">Réduction générique −10%</option>
-              <option value="custom">Personnalisé…</option>
+              <option value="malphite">Generic reduction −10%</option>
+              <option value="custom">Custom…</option>
             </select>
             <div id="customWrap" style="display:none;margin-top:8px">
-              <div class="dlbl"><span>Réduction perso</span><b id="dCustomLbl">0%</b></div>
+              <div class="dlbl"><span>Custom reduction</span><b id="dCustomLbl">0%</b></div>
               <div class="dctl-row">
                 <input type="range" min="0" max="90" step="5" value="0" id="dCustomSlider" style="flex:1"/>
                 <input type="number" min="0" max="90" step="5" value="0" id="dCustomNum" class="dnum"/>
@@ -382,8 +382,8 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;heigh
 
   <!-- BOUTIQUE — toujours ouverte -->
   <div class="panel shop-panel">
-    <div class="ph"><span class="ph-tick"></span><h2>Boutique</h2></div>
-    <div class="active-slot-hint" id="slotHint">Slot ? sélectionné — cliquer un item</div>
+    <div class="ph"><span class="ph-tick"></span><h2>Shop</h2></div>
+    <div class="active-slot-hint" id="slotHint">Slot — click an item to equip</div>
     <div class="shop-search-wrap">
       <input class="shop-search" id="shopSearch" placeholder="Rechercher un item…" oninput="filterShop()"/>
     </div>
@@ -412,91 +412,91 @@ function passiveHPRatio(l){return l>=16?.05:l>=11?.04:l>=6?.03:.02;}
 function passiveLegCD(l){return l>=16?2.5:l>=11?5:l>=7?10:l>=4?20:30;}
 
 const TREES={
-  precision:{label:'Précision',icon:CD+'7201_precision.png',
+  precision:{label:'Precision',icon:CD+'7201_precision.png',
     keystones:[
-      {id:'pta',n:'Frappe Assidue',img:CD+'precision/presstheattack/presstheattack.png',s:{}},
-      {id:'lt',n:'Tempo Mortel',img:CD+'precision/lethaltempo/lethaltempotemp.png',s:{}},
-      {id:'fleet',n:'Pieds Lestes',img:CD+'precision/fleetfootwork/fleetfootwork.png',s:{}},
-      {id:'conq',n:'Conquérant',img:CD+'precision/conqueror/conqueror.png',s:{}},
+      {id:'pta',n:'Press the Attack',img:CD+'precision/presstheattack/presstheattack.png',s:{}},
+      {id:'lt',n:'Lethal Tempo',img:CD+'precision/lethaltempo/lethaltempotemp.png',s:{}},
+      {id:'fleet',n:'Fleet Footwork',img:CD+'precision/fleetfootwork/fleetfootwork.png',s:{}},
+      {id:'conq',n:'Conqueror',img:CD+'precision/conqueror/conqueror.png',s:{}},
     ],
     rows:[
-      [{id:'absorb',n:'Absorption Vie',img:CD+'precision/absorblife/absorblife.png',s:{}},
-       {id:'triumph',n:'Triomphe',img:CD+'precision/triumph.png',s:{}},
-       {id:'pom',n:"Présence d'Esprit",img:CD+'precision/presenceofmind/presenceofmind.png',s:{}}],
-      [{id:'alac',n:'Légende : Célérité',img:CD+'precision/legendalacrity/legendalacrity.png',s:{as:0.18}},
-       {id:'haste',n:'Légende : Hâte',img:CD+'precision/legendhaste/legendhaste.png',s:{bah:15}},
-       {id:'blood',n:'Légende : Lignée',img:CD+'precision/legendbloodline/legendbloodline.png',s:{ls:8}}],
-      [{id:'cdg',n:'Coup de Grâce',img:CD+'precision/coupdegrace/coupdegrace.png',s:{}},
-       {id:'cut',n:"Tir d'Achèvement",img:CD+'precision/cutdown/cutdown.png',s:{}},
-       {id:'last',n:"Baroud d'Honneur",img:CD+'sorcery/laststand/laststand.png',s:{}}],
+      [{id:'absorb',n:'Absorb Life',img:CD+'precision/absorblife/absorblife.png',s:{}},
+       {id:'triumph',n:'Triumph',img:CD+'precision/triumph.png',s:{}},
+       {id:'pom',n:"Presence of Mind",img:CD+'precision/presenceofmind/presenceofmind.png',s:{}}],
+      [{id:'alac',n:'Legend: Alacrity',img:CD+'precision/legendalacrity/legendalacrity.png',s:{as:0.18}},
+       {id:'haste',n:'Legend: Haste',img:CD+'precision/legendhaste/legendhaste.png',s:{bah:15}},
+       {id:'blood',n:'Legend: Bloodline',img:CD+'precision/legendbloodline/legendbloodline.png',s:{ls:8}}],
+      [{id:'cdg',n:'Coup de Grace',img:CD+'precision/coupdegrace/coupdegrace.png',s:{}},
+       {id:'cut',n:'Cut Down',img:CD+'precision/cutdown/cutdown.png',s:{}},
+       {id:'last',n:'Last Stand',img:CD+'sorcery/laststand/laststand.png',s:{}}],
     ]},
   domination:{label:'Domination',icon:CD+'7200_domination.png',
     keystones:[
-      {id:'electro',n:'Électrocution',img:CD+'domination/electrocute/electrocute.png',s:{}},
-      {id:'dark',n:'Récolte Noire',img:CD+'domination/darkharvest/darkharvest.png',s:{}},
-      {id:'hob',n:'Volée de Lames',img:CD+'domination/hailofblades/hailofblades.png',s:{}},
+      {id:'electro',n:'Electrocute',img:CD+'domination/electrocute/electrocute.png',s:{}},
+      {id:'dark',n:'Dark Harvest',img:CD+'domination/darkharvest/darkharvest.png',s:{}},
+      {id:'hob',n:'Hail of Blades',img:CD+'domination/hailofblades/hailofblades.png',s:{}},
     ],
     rows:[
-      [{id:'cheap',n:'Coup Bas',img:CD+'domination/cheapshot/cheapshot.png',s:{}},
-       {id:'taste',n:'Goût du Sang',img:CD+'domination/tasteofblood/greenterror_tasteofblood.png',s:{}},
-       {id:'sudden',n:'Impact Soudain',img:CD+'domination/suddenimpact/suddenimpact.png',s:{leth:7}}],
-      [{id:'sixth',n:'Sixième Sens',img:CD+'domination/sixthsense/sixthsense.png',s:{}},
-       {id:'grisly',n:'Mementos Macabres',img:CD+'domination/grislymementos/grislymementos.png',s:{}},
-       {id:'deep',n:'Garde Profonde',img:CD+'domination/deepward/deepward.png',s:{}}],
-      [{id:'treas',n:'Chasseur Trésors',img:CD+'domination/treasurehunter/treasurehunter.png',s:{}},
-       {id:'relent',n:'Chasseur Implacable',img:CD+'domination/relentlesshunter/relentlesshunter.png',s:{ms_flat:0}},
-       {id:'ulth',n:'Chasseur Ultime',img:CD+'domination/ultimatehunter/ultimatehunter.png',s:{uh:18}}],
+      [{id:'cheap',n:'Cheap Shot',img:CD+'domination/cheapshot/cheapshot.png',s:{}},
+       {id:'taste',n:'Taste of Blood',img:CD+'domination/tasteofblood/greenterror_tasteofblood.png',s:{}},
+       {id:'sudden',n:'Sudden Impact',img:CD+'domination/suddenimpact/suddenimpact.png',s:{leth:7}}],
+      [{id:'sixth',n:'Sixth Sense',img:CD+'domination/sixthsense/sixthsense.png',s:{}},
+       {id:'grisly',n:'Grisly Mementos',img:CD+'domination/grislymementos/grislymementos.png',s:{}},
+       {id:'deep',n:'Deep Ward',img:CD+'domination/deepward/deepward.png',s:{}}],
+      [{id:'treas',n:'Treasure Hunter',img:CD+'domination/treasurehunter/treasurehunter.png',s:{}},
+       {id:'relent',n:'Relentless Hunter',img:CD+'domination/relentlesshunter/relentlesshunter.png',s:{ms_flat:0}},
+       {id:'ulth',n:'Ultimate Hunter',img:CD+'domination/ultimatehunter/ultimatehunter.png',s:{uh:18}}],
     ]},
-  sorcery:{label:'Sorcellerie',icon:CD+'7202_sorcery.png',
+  sorcery:{label:'Sorcery',icon:CD+'7202_sorcery.png',
     keystones:[
-      {id:'aery',n:'Invocation : Aery',img:CD+'sorcery/summonaery/summonaery.png',s:{}},
-      {id:'comet',n:'Comète Arcanique',img:CD+'sorcery/arcanecomet/arcanecomet.png',s:{}},
-      {id:'phase',n:'Saccade',img:CD+'sorcery/phaserush/phaserush.png',s:{}},
+      {id:'aery',n:'Summon Aery',img:CD+'sorcery/summonaery/summonaery.png',s:{}},
+      {id:'comet',n:'Arcane Comet',img:CD+'sorcery/arcanecomet/arcanecomet.png',s:{}},
+      {id:'phase',n:'Phase Rush',img:CD+'sorcery/phaserush/phaserush.png',s:{}},
     ],
     rows:[
-      [{id:'axiom',n:'Arcaniste Axiome',img:CD+'sorcery/axiom_arcanist.png',s:{}},
-       {id:'mana',n:'Flux de Mana',img:CD+'sorcery/manaflowband/manaflowband.png',s:{}},
-       {id:'nimbus',n:'Cape Nimbus',img:CD+'sorcery/nimbuscloak.png',s:{ms_flat:25}}],
-      [{id:'trans',n:'Transcendance',img:CD+'sorcery/transcendence/transcendence.png',s:{ah:5}},
-       {id:'celer',n:'Célérité',img:CD+'sorcery/celerity.png',s:{}},
-       {id:'tonic',n:'Triple Tonique',img:CD+'sorcery/tripletonic.png',s:{ah:10}}],
-      [{id:'scorch',n:'Carbonisation',img:CD+'sorcery/scorch/scorch.png',s:{}},
-       {id:'water',n:"Marche sur l'Eau",img:CD+'sorcery/waterwalking/waterwalking.png',s:{}},
-       {id:'storm',n:'Tempête Imminente',img:CD+'sorcery/gatheringstorm/gatheringstorm.png',s:{ad:24}}],
+      [{id:'axiom',n:'Axiom Arcanist',img:CD+'sorcery/axiom_arcanist.png',s:{}},
+       {id:'mana',n:'Manaflow Band',img:CD+'sorcery/manaflowband/manaflowband.png',s:{}},
+       {id:'nimbus',n:'Nimbus Cloak',img:CD+'sorcery/nimbuscloak.png',s:{ms_flat:25}}],
+      [{id:'trans',n:'Transcendence',img:CD+'sorcery/transcendence/transcendence.png',s:{ah:5}},
+       {id:'celer',n:'Celerity',img:CD+'sorcery/celerity.png',s:{}},
+       {id:'tonic',n:'Triple Tonic',img:CD+'sorcery/tripletonic.png',s:{ah:10}}],
+      [{id:'scorch',n:'Scorch',img:CD+'sorcery/scorch/scorch.png',s:{}},
+       {id:'water',n:'Waterwalking',img:CD+'sorcery/waterwalking/waterwalking.png',s:{}},
+       {id:'storm',n:'Gathering Storm',img:CD+'sorcery/gatheringstorm/gatheringstorm.png',s:{ad:24}}],
     ]},
-  resolve:{label:'Détermination',icon:CD+'7204_resolve.png',
+  resolve:{label:'Resolve',icon:CD+'7204_resolve.png',
     keystones:[
-      {id:'grasp',n:"Poigne Immortel",img:CD+'resolve/graspoftheundying/graspoftheundying.png',s:{}},
-      {id:'after',n:'Réplique',img:CD+'resolve/veteranaftershock/veteranaftershock.png',s:{}},
-      {id:'guard',n:'Gardien',img:CD+'resolve/guardian/guardian.png',s:{}},
+      {id:'grasp',n:'Grasp of the Undying',img:CD+'resolve/graspoftheundying/graspoftheundying.png',s:{}},
+      {id:'after',n:'Aftershock',img:CD+'resolve/veteranaftershock/veteranaftershock.png',s:{}},
+      {id:'guard',n:'Guardian',img:CD+'resolve/guardian/guardian.png',s:{}},
     ],
     rows:[
-      [{id:'demo',n:'Démolition',img:CD+'resolve/demolish/demolish.png',s:{}},
-       {id:'font',n:'Source de Vie',img:CD+'resolve/fontoflife/fontoflife.png',s:{}},
-       {id:'shield',n:'Coup de Bouclier',img:CD+'resolve/mirrorshell/mirrorshell.png',s:{}}],
-      [{id:'cond',n:'Acclimatation',img:CD+'resolve/conditioning/conditioning.png',s:{armor:8,mr:8}},
-       {id:'second',n:'Second Souffle',img:CD+'resolve/secondwind/secondwind.png',s:{}},
-       {id:'bone',n:'Armure Osseuse',img:CD+'resolve/boneplating/boneplating.png',s:{}}],
-      [{id:'revit',n:'Revitalisation',img:CD+'resolve/revitalize/revitalize.png',s:{}},
-       {id:'unflin',n:'Inébranlable',img:CD+'resolve/unflinching/unflinching.png',s:{}},
-       {id:'over',n:'Excroissance',img:CD+'resolve/overgrowth/overgrowth.png',s:{hp:100}}],
+      [{id:'demo',n:'Demolish',img:CD+'resolve/demolish/demolish.png',s:{}},
+       {id:'font',n:'Font of Life',img:CD+'resolve/fontoflife/fontoflife.png',s:{}},
+       {id:'shield',n:'Shield Bash',img:CD+'resolve/mirrorshell/mirrorshell.png',s:{}}],
+      [{id:'cond',n:'Conditioning',img:CD+'resolve/conditioning/conditioning.png',s:{armor:8,mr:8}},
+       {id:'second',n:'Second Wind',img:CD+'resolve/secondwind/secondwind.png',s:{}},
+       {id:'bone',n:'Bone Plating',img:CD+'resolve/boneplating/boneplating.png',s:{}}],
+      [{id:'revit',n:'Revitalize',img:CD+'resolve/revitalize/revitalize.png',s:{}},
+       {id:'unflin',n:'Unflinching',img:CD+'resolve/unflinching/unflinching.png',s:{}},
+       {id:'over',n:'Overgrowth',img:CD+'resolve/overgrowth/overgrowth.png',s:{hp:100}}],
     ]},
   inspiration:{label:'Inspiration',icon:CD+'7203_whimsy.png',
     keystones:[
-      {id:'first',n:'Tir en Traître',img:CD+'inspiration/firststrike/firststrike.png',s:{}},
-      {id:'glacial',n:'Augment Glacial',img:CD+'inspiration/glacialaugment/glacialaugment.png',s:{}},
-      {id:'unseal',n:'Grimoire Descellé',img:CD+'inspiration/unsealedspellbook/unsealedspellbook.png',s:{ah:10}},
+      {id:'first',n:'First Strike',img:CD+'inspiration/firststrike/firststrike.png',s:{}},
+      {id:'glacial',n:'Glacial Augment',img:CD+'inspiration/glacialaugment/glacialaugment.png',s:{}},
+      {id:'unseal',n:'Unsealed Spellbook',img:CD+'inspiration/unsealedspellbook/unsealedspellbook.png',s:{ah:10}},
     ],
     rows:[
-      [{id:'hexflash',n:'Hextech Flash',img:CD+'inspiration/hextechflashtraption/hextechflashtraption.png',s:{}},
-       {id:'magboot',n:'Bottes Magiques',img:CD+'inspiration/magicalfootwear/magicalfootwear.png',s:{}},
-       {id:'cash',n:'Remise',img:CD+'inspiration/cashback/cashback2.png',s:{}}],
-      [{id:'triple',n:'Triple Tonique',img:CD+'inspiration/perfecttiming/alchemistcabinet.png',s:{ah:10}},
-       {id:'timew',n:'Tonique Temporel',img:CD+'inspiration/timewarptonic/timewarptonic.png',s:{}},
-       {id:'biscuit',n:'Livraison Biscuits',img:CD+'inspiration/biscuitdelivery/biscuitdelivery.png',s:{hp:100}}],
-      [{id:'cosmic',n:'Intuition Cosmique',img:CD+'inspiration/cosmicinsight/cosmicinsight.png',s:{ah:18}},
-       {id:'approach',n:"Vélocité d'Approche",img:CD+'resolve/approachvelocity/approachvelocity.png',s:{}},
-       {id:'jack',n:'Touche-à-Tout',img:CD+'inspiration/jackofalltrades/jackofalltrades2.png',s:{}}],
+      [{id:'hexflash',n:'Hextech Flashtraption',img:CD+'inspiration/hextechflashtraption/hextechflashtraption.png',s:{}},
+       {id:'magboot',n:'Magical Footwear',img:CD+'inspiration/magicalfootwear/magicalfootwear.png',s:{}},
+       {id:'cash',n:'Cash Back',img:CD+'inspiration/cashback/cashback2.png',s:{}}],
+      [{id:'triple',n:'Triple Tonic',img:CD+'inspiration/perfecttiming/alchemistcabinet.png',s:{ah:10}},
+       {id:'timew',n:'Time Warp Tonic',img:CD+'inspiration/timewarptonic/timewarptonic.png',s:{}},
+       {id:'biscuit',n:'Biscuit Delivery',img:CD+'inspiration/biscuitdelivery/biscuitdelivery.png',s:{hp:100}}],
+      [{id:'cosmic',n:'Cosmic Insight',img:CD+'inspiration/cosmicinsight/cosmicinsight.png',s:{ah:18}},
+       {id:'approach',n:'Approach Velocity',img:CD+'resolve/approachvelocity/approachvelocity.png',s:{}},
+       {id:'jack',n:'Jack of All Trades',img:CD+'inspiration/jackofalltrades/jackofalltrades2.png',s:{}}],
     ]},
 };
 const TREE_KEYS=Object.keys(TREES);
@@ -507,10 +507,10 @@ const SHARDS=[
    {id:'a_ah',n:'+8 AH',img:SM+'statmodscdrscalingicon.png',s:{ah:8}}],
   [{id:'b_force',n:'+5.4 AD',img:SM+'statmodsadaptiveforceicon.png',s:{ad:5.4}},
    {id:'b_ms',n:'+2.5% MS',img:SM+'statmodsmovementspeedicon.png',s:{ms_pct:0.025}},
-   {id:'b_hp',n:'+10-200 PV',img:SM+'statmodshealthscalingicon.png',s:{hp:'scale'}}],
-  [{id:'c_hp',n:'+65 PV',img:SM+'statmodshealthplusicon.png',s:{hp:65}},
-   {id:'c_ten',n:'+15% Tenacité',img:SM+'statmodstenacityicon.png',s:{ten:15}},
-   {id:'c_hps',n:'+10-200 PV',img:SM+'statmodshealthscalingicon.png',s:{hp:'scale'}}],
+   {id:'b_hp',n:'+10-200 HP',img:SM+'statmodshealthscalingicon.png',s:{hp:'scale'}}],
+  [{id:'c_hp',n:'+65 HP',img:SM+'statmodshealthplusicon.png',s:{hp:65}},
+   {id:'c_ten',n:'+15% Tenacity',img:SM+'statmodstenacityicon.png',s:{ten:15}},
+   {id:'c_hps',n:'+10-200 HP',img:SM+'statmodshealthscalingicon.png',s:{hp:'scale'}}],
 ];
 function shardScaleHP(l){return Math.round(10+(190/17)*Math.min(Math.max(l-1,0),17));}
 
@@ -541,25 +541,129 @@ async function resolveVersion(){const v=await fetchJSON('https://ddragon.leagueo
 async function loadUrgotBase(){
   const d=await fetchJSON([`https://ddragon.leagueoflegends.com/cdn/${DDV}/data/fr_FR/champion/Urgot.json`,`https://ddragon.leagueoflegends.com/cdn/${DDV}/data/en_US/champion/Urgot.json`]);
   if(d&&d.data&&d.data.Urgot){const st=d.data.Urgot.stats;BASE={hp:st.hp,hpPerLvl:st.hpperlevel,hpReg:st.hpregen,hpRegPerLvl:st.hpregenperlevel,mp:st.mp,mpPerLvl:st.mpperlevel,ad:st.attackdamage,adPerLvl:st.attackdamageperlevel,armor:st.armor,armorPerLvl:st.armorperlevel,mr:st.spellblock,mrPerLvl:st.spellblockperlevel,asBase:st.attackspeed,asPerLvl:st.attackspeedperlevel,ms:st.movespeed};}
-  else setLoadStatus('bases défaut','err');
+  else setLoadStatus('offline · default stats','err');
 }
 
 /* ═══ ITEMS ═══ */
 const CATS={
-  all:      {fr:'Tout',        col:'#4ADE80'},
-  fighter:  {fr:'Combattant',  col:'#c8632b'},
-  marksman: {fr:'Tireur',      col:'#e0c14f'},
+  all:      {fr:'All',        col:'#4ADE80'},
+  fighter:  {fr:'Fighter',  col:'#c8632b'},
+  marksman: {fr:'Marksman',      col:'#e0c14f'},
   assassin: {fr:'Assassin',    col:'#e04f6f'},
   mage:     {fr:'Mage',        col:'#9b6fe0'},
   tank:     {fr:'Tank',        col:'#4f93e0'},
   support:  {fr:'Support',     col:'#4fd0b0'},
-  boots:    {fr:'Bottes',      col:'#7d8a83'},
-  consumable:{fr:'Consommable',col:'#c84b4b'},
+  boots:    {fr:'Boots',      col:'#7d8a83'},
+  consumable:{fr:'Consumable',col:'#c84b4b'},
 };
 const CAT_ORDER=['all','fighter','marksman','assassin','mage','tank','support','boots','consumable'];
 let activeCat='all';
 
 const AH_BY_NAME={"Abyssal Mask":15,"Archangel's Staff":25,"Axiom Arc":25,"Black Cleaver":20,"Bloodletter's Curse":15,"Caulfield's Warhammer":10,"Chempunk Chainsword":15,"Cosmic Drive":30,"Cryptbloom":20,"Death's Dance":15,"Echoes of Helia":20,"Eclipse":15,"Essence Reaver":25,"Fiendish Codex":10,"Fimbulwinter":20,"Frozen Heart":20,"Glacial Buckler":10,"Hextech Rocketbelt":15,"Horizon Focus":25,"Hubris":15,"Iceborn Gauntlet":15,"Imperial Mandate":25,"Ionian Boots of Lucidity":12,"Kindlegem":10,"Knight's Vow":10,"Lich Bane":10,"Locket of the Iron Solari":15,"Lost Chapter":10,"Luden's Companion":10,"Malignance":25,"Manamune":15,"Maw of Malmortius":15,"Moonstone Renewer":15,"Morellonomicon":15,"Muramana":15,"Profane Hydra":18,"Ravenous Hydra":20,"Redemption":10,"Seraph's Embrace":25,"Serylda's Grudge":15,"Shurelya's Battlesong":15,"Spirit Visage":10,"Sundered Sky":20,"Sunfire Aegis":15,"Trinity Force":20,"Umbral Glaive":15,"Voltaic Cyclosword":10,"Winter's Approach":20,"Zeke's Convergence":20,"Liandry's Torment":20,"Spear of Shojin":25,"Experimental Hexplate":30,"Titanic Hydra":20,"Sterak's Gage":0};
+// Manual stat overrides for items where API data is unreliable or missing
+// Format: EN name → stat object (same fields as item stats)
+const MANUAL_STATS={
+  "Black Cleaver":       {hp:400,ad:40,ah:20},
+  "Trinity Force":       {hp:333,ad:30,as:0.30,ah:20,ms_flat:5},
+  "Bloodmail":           {hp:500,ad:40,ah:0},
+  "Sterak's Gage":       {hp:450,ah:0},
+  "Blade of the Ruined King":{hp:0,ad:30,as:0.25,ls:8},
+  "Bloodthirster":       {ad:80,ls:15},
+  "Ravenous Hydra":      {hp:150,ad:65,ah:20,ls:8},
+  "Titanic Hydra":       {hp:500,ad:35,ah:20},
+  "Death's Dance":       {hp:300,ad:55,ah:15},
+  "Guardian Angel":      {armor:40,ah:0},
+  "Experimental Hexplate":{hp:300,ad:25,as:0.25,ah:30},
+  "Sundered Sky":        {hp:450,ad:30,ah:20},
+  "Spear of Shojin":     {hp:300,ad:55,ah:25},
+  "Mercurial Scimitar":  {ad:40,mr:30,ls:10},
+  "Maw of Malmortius":   {ad:65,mr:40,ah:15},
+  "Eclipse":             {ad:55,armor:10,ah:15},
+  "Serylda's Grudge":    {ad:45,armor:20,ah:15},
+  "Chempunk Chainsword": {hp:150,ad:40,ah:15},
+  "Dead Man's Plate":    {hp:475,armor:45},
+  "Galeforce":           {ad:55,as:0.15,crit:20,ms_flat:5},
+  "Infinity Edge":       {ad:70,crit:20},
+  "Lord Dominik's Regards":{ad:35,crit:20,apen:35},
+  "Navori Flickerblade": {ad:60,as:0.10,crit:20},
+  "Phantom Dancer":      {as:0.45,crit:20,ms_flat:7},
+  "Runaan's Hurricane":  {as:0.45,crit:20,ms_flat:7},
+  "Statikk Shiv":        {as:0.35,crit:20},
+  "Kraken Slayer":       {ad:45,as:0.35,crit:20},
+  "Rapid Firecannon":    {as:0.35,crit:20,ms_flat:7},
+  "Guinsoo's Rageblade": {ad:30,as:0.40},
+  "Immortal Shieldbow":  {ad:55,as:0.15,crit:20,ls:10},
+  "Youmuu's Ghostblade": {ad:60,leth:18,ms_flat:20},
+  "Umbral Glaive":       {ad:50,leth:15,ah:15},
+  "Profane Hydra":       {ad:60,leth:18,ah:18},
+  "Voltaic Cyclosword":  {ad:45,leth:15,ah:10},
+  "The Collector":       {ad:50,leth:15,crit:20},
+  "Night's Edge":        {ad:60,leth:20,ah:0},
+  "Axiom Arc":           {ad:60,leth:10,ah:25},
+  "Hubris":              {ad:70,leth:18},
+  "Serpent's Fang":      {ad:60,leth:18},
+  "Luden's Companion":   {ah:10,ms_flat:5},
+  "Shadowflame":         {ah:0},
+  "Rabadon's Deathcap":  {ah:0},
+  "Void Staff":          {ah:0},
+  "Cryptbloom":          {ah:20},
+  "Liandry's Torment":   {hp:300,ah:20},
+  "Riftmaker":           {hp:300,ah:15},
+  "Zhonya's Hourglass":  {armor:45,ah:10},
+  "Banshee's Veil":      {mr:45,ah:10},
+  "Cosmic Drive":        {hp:200,ms_flat:10,ah:30},
+  "Warmog's Armor":      {hp:800},
+  "Heartsteel":          {hp:1000,ah:0},
+  "Jak'Sho, The Protean":{hp:400,armor:30,mr:30,ah:15},
+  "Randuin's Omen":      {hp:400,armor:80},
+  "Frozen Heart":        {mana:400,armor:70,ah:20},
+  "Abyssal Mask":        {hp:400,mr:40,ah:15},
+  "Spirit Visage":       {hp:350,mr:55,ah:10},
+  "Force of Nature":     {hp:350,mr:70,ms_flat:5},
+  "Thornmail":           {hp:250,armor:80},
+  "Sunfire Aegis":       {hp:450,armor:35,ah:15},
+  "Unending Despair":    {hp:350,armor:45,mr:35,ah:0},
+  "Hollow Radiance":     {hp:300,armor:40,mr:30,ah:10},
+  "Fimbulwinter":        {hp:350,mr:40,ah:20},
+  "Locket of the Iron Solari":{hp:200,armor:30,mr:30,ah:15},
+  "Zeke's Convergence":  {hp:250,armor:30,mr:30,ah:20},
+  "Knight's Vow":        {hp:400,armor:30,ah:10},
+  "Moonstone Renewer":   {hp:200,ah:15},
+  "Redemption":          {hp:200,ah:10},
+  "Staff of Flowing Water":{mr:30,ah:15},
+  "Shurelya's Battlesong":{hp:200,ms_flat:5,ms_pct:0.05,ah:15},
+  "Ardent Censer":       {as:0.10,ah:0},
+  "Imperial Mandate":    {hp:200,ah:25},
+  "Echoes of Helia":     {hp:150,ah:20},
+  "Ionian Boots of Lucidity":{ah:12,ms_flat:45},
+  "Sorcerer's Shoes":    {ms_flat:45,mrpen:18},
+  "Plated Steelcaps":    {armor:20,ms_flat:45},
+  "Mercury's Treads":    {mr:25,ms_flat:45,ten:30},
+  "Boots of Swiftness":  {ms_flat:55},
+  "Berserker's Greaves": {as:0.35,ms_flat:45},
+};
+
+function patchItemStats(it){
+  const ov = MANUAL_STATS[it.nameEN];
+  if(!ov) return;
+  // Force-override: manual values are more reliable than API for these items
+  if(ov.hp    !== undefined) it.hp    = ov.hp;
+  if(ov.ad    !== undefined) it.ad    = ov.ad;
+  if(ov.armor !== undefined) it.armor = ov.armor;
+  if(ov.mr    !== undefined) it.mr    = ov.mr;
+  if(ov.ah    !== undefined && ov.ah>0) it.ah = ov.ah;
+  if(ov.as    !== undefined) it.as    = ov.as;
+  if(ov.crit  !== undefined) it.crit  = ov.crit;
+  if(ov.ls    !== undefined) it.ls    = ov.ls;
+  if(ov.leth  !== undefined && ov.leth>0) it.leth = ov.leth;
+  if(ov.apen  !== undefined && ov.apen>0) it.apen = ov.apen;
+  if(ov.ms_flat !== undefined && ov.ms_flat>0) it.ms_flat = ov.ms_flat;
+  if(ov.ms_pct  !== undefined && ov.ms_pct>0)  it.ms_pct  = ov.ms_pct;
+  if(ov.omni  !== undefined && ov.omni>0) it.omni = ov.omni;
+  if(ov.ten   !== undefined && ov.ten>0) it.ten = ov.ten;
+  if(ov.mrpen !== undefined && ov.mrpen>0) it.mrpen = ov.mrpen;
+}
+
 let FR_NAMES={};
 function norm(s){return String(s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[''`]/g,'').replace(/[^a-z0-9]/g,'');}
 function buildIdx(o){const m={};for(const k in o)m[norm(k)]=o[k];return m;}
@@ -570,24 +674,24 @@ const mpct=(s,k)=>(s&&s[k]&&typeof s[k].percent==='number')?s[k].percent:0;
 function readAH(s,name){let v=mflat(s,'abilityHaste');if(!v)v=mflat(s,'cooldownReduction');if(!v)v=lookupN(AH_IDX,name)||0;return v||0;}
 
 const ITEM_PASSIVES={
-  "Sterak's Gage":{note:"Gage de Sterak : +50% de l'AD de base.",applyStats:(A)=>{A.ad+=A.baseAD*0.45;A._sterak=A.baseAD*0.50;}},
-  "Black Cleaver":{special:'cleaver',note:"Black Cleaver : réduit jusqu'à 30% armure (6 stacks).",applyStats:(A)=>{A.armorShred=Math.max(A.armorShred||0,0.30);}},
-  "Serylda's Grudge":{special:'serylda',note:"Rancune de Serylda : +35% pén. d'armure.",applyStats:(A)=>{A.armPenPct+=0.35;}},
-  "Eclipse":{note:"Éclipse : dégâts bonus % PV max sur 2 attaques (non simulé)."},
-  "Blade of the Ruined King":{onHitPctHP:0.06,note:"BotRK : on-hit ≈ 6% des PV courants."},
-  "Ravenous Hydra":{note:"Hydre Sanguinaire : cleave + omnivamp."},
-  "Titanic Hydra":{note:"Hydre Titanesque : dégâts en % PV max d'Urgot (non simulé)."},
-  "The Collector":{note:"Le Collectionneur : exécute sous 5% PV."},
+  "Sterak's Gage":{note:"Sterak's Gage: +50% of base AD as bonus AD.",applyStats:(A)=>{A.ad+=A.baseAD*0.45;A._sterak=A.baseAD*0.50;}},
+  "Black Cleaver":{special:'cleaver',note:"Black Cleaver: reduces up to 30% armor (6 stacks).",applyStats:(A)=>{A.armorShred=Math.max(A.armorShred||0,0.30);}},
+  "Serylda's Grudge":{special:'serylda',note:"Serylda's Grudge: +35% armor penetration.",applyStats:(A)=>{A.armPenPct+=0.35;}},
+  "Eclipse":{note:"Eclipse: bonus damage % max HP on 2 attacks (not simulated)."},
+  "Blade of the Ruined King":{onHitPctHP:0.06,note:"BotRK: on-hit ≈ 6% current HP."},
+  "Ravenous Hydra":{note:"Ravenous Hydra: cleave + omnivamp."},
+  "Titanic Hydra":{note:"Titanic Hydra: bonus damage % Urgot max HP (not simulated)."},
+  "The Collector":{note:"The Collector: executes below 5% HP."},
 };
 const PASS_IDX=buildIdx(ITEM_PASSIVES);
 function findPassive(name){return lookupN(PASS_IDX,name)||null;}
 const CONSUMABLE_EFFECTS=[
-  {test:/Elixir of Wrath|Élixir de [Ff]orce/i,stats:{ad:30},note:"Élixir de Force : +30 AD."},
-  {test:/Elixir of Iron|Élixir de [Ff]er/i,stats:{ten:25},hpFlat:300,note:"Élixir de Fer : +300 PV, +25% tenacité."},
-  {test:/Health Potion|Potion de [Ss]oin/i,regen:120,note:"Potion : régénère 120 PV."},
-  {test:/Refillable/i,regen:125,note:"Potion rechargeable."},
-  {test:/Corrupting|Corrompue/i,regen:125,note:"Potion corrompue."},
-  {test:/Biscuit/i,regen:90,note:"Biscuit : ~90 PV + mana."},
+  {test:/Elixir of Wrath|Élixir de [Ff]orce/i,stats:{ad:30},note:"Elixir of Wrath: +30 AD."},
+  {test:/Elixir of Iron|Élixir de [Ff]er/i,stats:{ten:25},hpFlat:300,note:"Elixir of Iron: +300 HP, +25% tenacity."},
+  {test:/Health Potion|Potion de [Ss]oin/i,regen:120,note:"Health Potion: restores 120 HP."},
+  {test:/Refillable/i,regen:125,note:"Refillable Potion: restores 125 HP."},
+  {test:/Corrupting|Corrompue/i,regen:125,note:"Corrupting Potion: restores HP + deals burn."},
+  {test:/Biscuit/i,regen:90,note:"Biscuit: restores ~90 HP + mana."},
 ];
 function consumableEffect(name){if(!name)return null;for(const c of CONSUMABLE_EFFECTS)if(c.test.test(name))return c;return null;}
 
@@ -661,7 +765,7 @@ _wl([_G],                    'chapitre perdu','lost chapter');
 _wl([_G],                    'déguisement hanté','deguisement hante');
 _wl([_G],                    "catalyseur de l'éternité","catalyseur de leternite",'catalyst of aeons');
 _wl([_G],                    'protège-bras du savant','protege bras du savant',"seeker's armguard",'seekers armguard');
-_wl([_G,_S],                 'barrière verdoyante','barriere verdoyante','verdant barrier');
+_wl([_G],                    'barrière verdoyante','barriere verdoyante','verdant barrier');
 _wl([_T],                    'armure roncière','armure ronciere','bramble vest');
 _wl([_T,_S],                 'bracelet crystalin','bracelet cristallin','crystalline bracer');
 _wl([_T],                    'cendre de brami');
@@ -680,7 +784,7 @@ _wl([_F],                    'danse de la mort',"death's dance",'deaths dance');
 _wl([_F,_M,_A],             'ange gardien','guardian angel');
 _wl([_F],                    'sterak',"sterak's gage",'steraks gage');
 _wl([_F,_M],                 'épée du roi déchu','epee du roi dechu','lame du roi dechu','blade of the ruined king');
-_wl([_F,_M],                 'faim insatiable','bloodthrister','bloodthirster');
+_wl([_F],                    'faim insatiable','bloodthirster','bloodthrister');
 _wl([_F],                    'hexplate','experimental hexplate');
 _wl([_F],                    'ciel éventré','ciel eventre','sundered sky');
 _wl([_F],                    'lance de shojin','spear of shojin');
@@ -688,13 +792,13 @@ _wl([_F,_M],                 'cimeterre mercuriel','mercurial scimitar');
 _wl([_F],                    'estropieur');
 _wl([_F],                    'couperet noir','black cleaver');
 _wl([_F],                    'brise coque','hullbreaker');
-_wl([_F,_M,_A,_G,_T],       'terminus');
+_wl([_F,_M],                'terminus');
 _wl([_F,_A],                 'chempunk chainsword');
 _wl([_F,_M,_A],             'serylda',"serylda's grudge",'seryldas grudge');
 _wl([_F,_M,_A],             'malmortius','maw of malmortius');
 _wl([_F,_T],                 'deadman plate','dead man plate',"dead man's plate",'dead mans plate');
 _wl([_F],                    'eclipse');
-_wl([_F,_M,_A],             'au bout du rouleau');
+_wl([_F,_M],                'au bout du rouleau','kraken slayer');
 _wl([_F,_M,_A],             'muramana');
 _wl([_F,_T],                 'gantelet givrant','iceborn gauntlet');
 _wl([_M],                    'infinity edge');
@@ -763,11 +867,11 @@ _wl([_T],                    'randuin',"randuin's omen",'randuins omen');
 _wl([_T],                    'immolation du vide','hollow radiance');
 _wl([_T],                    'désespoir infini','desespoir infini','unending despair');
 _wl([_T],                    'force de la nature');
-_wl([_T],                    'rookern');
+_wl([_T],                    'rookern',"rookern",'riftmaker');
 _wl([_T],                    "cœur d'acier","coeur dacier","coeur d acier",'heartsteel');
 _wl([_T],                    'warmog',"warmog's armor",'warmogs armor');
 _wl([_T],                    "jak'sho",'jaksho',"jak'sho, the protean",'jaksho the protean');
-_wl([_S],                    "cœur de l'aube","coeur de laube");
+_wl([_S],                    "cœur de l'aube","coeur de laube",'dawncore');
 _wl([_S],                    "écho d'helia","echo d'helia","echo dhelia",'echoes of helia');
 _wl([_S],                    'shurelya',"shurelya's battlesong",'shurelyas battlesong');
 _wl([_S],                    'bénédiction de mikael','benediction de mikael',"mikael's blessing",'mikaels blessing');
@@ -779,11 +883,30 @@ _wl([_S],                    'diadème des murmures','diademe des murmures');
 _wl([_S],                    'cendre ardente','ardent censer');
 _wl([_S],                    'flûte de bandle','flute de bandle');
 
+// ─── Boots & Boot Upgrades ───
+// All boots are handled by regex in getItemCats (name contains boots/greaves/treads etc)
+// But some FR names may not match — add explicit mappings
+_wl([_B],
+  // Base boots
+  'boots of speed',
+  // Tier 2 boots
+  "sorcerer's shoes","sorcerers shoes",
+  "plated steelcaps",
+  "mercury's treads","mercurys treads",
+  "ionian boots of lucidity",
+  "boots of swiftness",
+  "berserker's greaves","berserkers greaves",
+  // Removed: mobility boots (no longer in game)
+  // Boot enchantments / upgrades
+  "boomerang blade","crystalline reflector","symbiotic soles","synchronized souls",
+  "archlight momentum","glorious momentum","tempered fate","lich bane enchant"
+);
+
 function getItemCats(nameEN, nameFR){
   // Consommables (slot potion)
   if(/potion|biscuit|elixir|cookie|refillable/i.test(nameEN||'')) return ['consumable'];
   // Bottes
-  if(/boots|greaves|treads|steelcaps|sorcerer|swiftness|mobility|lucidity/i.test(nameEN||'')||
+  if(/boots|greaves|treads|steelcaps|sorcerer|swiftness|lucidity|berserker|momentum|crystalline reflector|symbiotic|synchronized|boomerang blade|archlight|glorious|tempered fate/i.test(nameEN||'')||
      /bottes/i.test(nameFR||'')) return ['boots'];
   // Whitelist
   const cats = WL[norm(nameEN||'')] || WL[norm(nameFR||'')];
@@ -791,7 +914,7 @@ function getItemCats(nameEN, nameFR){
 }
 
 async function loadItems(){
-  document.getElementById('shopGrid').innerHTML='<div class="shop-loading">Chargement…</div>';
+  document.getElementById('shopGrid').innerHTML='<div class="shop-loading">Loading items…</div>';
   const ddEN=await fetchJSON([`https://ddragon.leagueoflegends.com/cdn/${DDV}/data/en_US/item.json`]);
   const ddFR=await fetchJSON([`https://ddragon.leagueoflegends.com/cdn/${DDV}/data/fr_FR/item.json`]);
   FR_NAMES={};if(ddFR&&ddFR.data)for(const[id,it]of Object.entries(ddFR.data))FR_NAMES[+id]=it.name;
@@ -824,7 +947,7 @@ async function loadItems(){
         leth:mflat(s,'lethality'),apen:Math.round(mpct(s,'armorPenetration')),
         bah:0,uh:0,passiveKey:passive?nameEN:null,special:passive&&passive.special?passive.special:null,
         onHitPctHP:passive&&passive.onHitPctHP||0,note:passive?passive.note:null,consumable:consumableEffect(nameEN)};
-    }).filter(x=>x!==null).sort((a,b)=>a.gold-b.gold||a.name.localeCompare(b.name));
+    }).filter(x=>x!==null).map(it=>{patchItemStats(it);return it;}).sort((a,b)=>a.gold-b.gold||a.name.localeCompare(b.name));
     setLoadStatus(DDV+' · Meraki','ok');
   } else if(ddEN){
     ALL_ITEMS=Object.entries(ddEN.data).filter(([id,it])=>{
@@ -845,10 +968,10 @@ async function loadItems(){
         ms_pct:st.PercentMovementSpeedMod||0,ah:lookupN(AH_IDX,nameEN)||0,omni:0,leth:0,apen:0,bah:0,uh:0,
         passiveKey:passive?nameEN:null,special:passive&&passive.special||null,
         onHitPctHP:passive&&passive.onHitPctHP||0,note:passive&&passive.note||null,consumable:consumableEffect(nameEN)};
-    }).filter(x=>x!==null).sort((a,b)=>a.gold-b.gold||a.name.localeCompare(b.name));
-    setLoadStatus(DDV+' · DDragon','warn');
+    }).filter(x=>x!==null).map(it=>{patchItemStats(it);return it;}).sort((a,b)=>a.gold-b.gold||a.name.localeCompare(b.name));
+    setLoadStatus(DDV+' · DDragon fallback','warn');
   } else {
-    document.getElementById('shopGrid').innerHTML='<div class="shop-empty">Impossible de charger les items.</div>';
+    document.getElementById('shopGrid').innerHTML='<div class="shop-empty">Cannot load items. Check connection.</div>';
     setLoadStatus('hors-ligne','err');return;
   }
   renderShop();
@@ -871,7 +994,7 @@ function renderSlots(){
 }
 function updateSlotHint(){
   const h=document.getElementById('slotHint');
-  if(S.activeSlot!==null){h.textContent=`Slot ${S.activeSlot+1} sélectionné${S.activeSlot===6?' (potion)':''} — cliquer un item`;h.classList.add('show');}
+  if(S.activeSlot!==null){h.textContent=`Slot ${S.activeSlot+1} selected${S.activeSlot===6?' (potion)':''} — click an item`;h.classList.add('show');}
   else{h.classList.remove('show');}
 }
 
@@ -889,11 +1012,11 @@ function renderShopCats(){
 function filterShop(){renderShop();}
 function renderShop(){
   const g=document.getElementById('shopGrid');
-  if(!ALL_ITEMS.length){g.innerHTML='<div class="shop-loading">Chargement…</div>';return;}
+  if(!ALL_ITEMS.length){g.innerHTML='<div class="shop-loading">Loading items…</div>';return;}
   g.innerHTML='';
   const q=(document.getElementById('shopSearch').value||'').toLowerCase().trim();
   const list=ALL_ITEMS.filter(it=>(activeCat==='all'||it.cats.includes(activeCat))&&(!q||it.name.toLowerCase().includes(q)||(it.nameEN&&it.nameEN.toLowerCase().includes(q))));
-  if(!list.length){g.innerHTML='<div class="shop-empty">Aucun item</div>';return;}
+  if(!list.length){g.innerHTML='<div class="shop-empty">No items found</div>';return;}
   list.forEach(it=>{
     const d=document.createElement('div');d.className='icard';
     d.innerHTML=`<img src="${it.img}" alt=""><span class="inm">${it.name}</span><span class="igp">${it.gold||0} po</span>`;
@@ -917,21 +1040,21 @@ function showTooltip(it,e){
   document.getElementById('tt-name').textContent=it.name;
   document.getElementById('tt-gold').textContent=(it.gold||0)+' po';
   let rows='';
-  if(it.hp)    rows+=statRow('PV','+'+Math.round(it.hp));
-  if(it.ad)    rows+=statRow('Dégâts d\'attaque','+'+Math.round(it.ad));
-  if(it.armor) rows+=statRow('Armure','+'+Math.round(it.armor));
-  if(it.mr)    rows+=statRow('Rés. magique','+'+Math.round(it.mr));
-  if(it.ah)    rows+=statRow('Accél. compétence','+'+Math.round(it.ah));
-  if(it.as)    rows+=statRow('Vitesse attaque','+'+Math.round(it.as*100)+'%');
-  if(it.crit)  rows+=statRow('Chance critique','+'+Math.round(it.crit)+'%');
-  if(it.ls)    rows+=statRow('Vol de vie','+'+Math.round(it.ls)+'%');
+  if(it.hp)    rows+=statRow('HP','+'+Math.round(it.hp));
+  if(it.ad)    rows+=statRow('Attack Damage','+'+Math.round(it.ad));
+  if(it.armor) rows+=statRow('Armor','+'+Math.round(it.armor));
+  if(it.mr)    rows+=statRow('Magic Resist','+'+Math.round(it.mr));
+  if(it.ah)    rows+=statRow('Ability Haste','+'+Math.round(it.ah));
+  if(it.as)    rows+=statRow('Attack Speed','+'+Math.round(it.as*100)+'%');
+  if(it.crit)  rows+=statRow('Crit Chance','+'+Math.round(it.crit)+'%');
+  if(it.ls)    rows+=statRow('Life Steal','+'+Math.round(it.ls)+'%');
   if(it.omni)  rows+=statRow('Omnivamp','+'+Math.round(it.omni)+'%');
   if(it.leth)  rows+=statRow('Léthalité','+'+Math.round(it.leth));
   if(it.apen)  rows+=statRow('Pén. armure %','+'+it.apen+'%');
-  if(it.ms_flat)rows+=statRow('Vitesse dépl.','+'+it.ms_flat);
-  if(it.ms_pct) rows+=statRow('Vitesse dépl. %','+'+Math.round(it.ms_pct*100)+'%');
-  if(it.bah)   rows+=statRow('AH base','+'+Math.round(it.bah));
-  if(it.uh)    rows+=statRow('AH ultime','+'+Math.round(it.uh));
+  if(it.ms_flat)rows+=statRow('Move Speed','+'+it.ms_flat);
+  if(it.ms_pct) rows+=statRow('Move Speed %','+'+Math.round(it.ms_pct*100)+'%');
+  if(it.bah)   rows+=statRow('Basic AH','+'+Math.round(it.bah));
+  if(it.uh)    rows+=statRow('Ult AH','+'+Math.round(it.uh));
   document.getElementById('tt-stats').innerHTML=rows||'<span style="color:var(--txt3);font-size:11px">Aucune stat de combat</span>';
   const noteEl=document.getElementById('tt-note');
   if(it.note){noteEl.innerHTML=it.note.replace(/^([^:]+):/,'<b>$1</b>:');noteEl.style.display='block';}
@@ -967,19 +1090,19 @@ function renderPrimary(){
   const kl=document.createElement('div');kl.className='rlbl';kl.textContent='Keystone';wrap.appendChild(kl);
   const kg=document.createElement('div');kg.className='kgrid';
   t.keystones.forEach(ks=>{kg.appendChild(mkRune(ks,S.keystone===ks.id,'pri',()=>{S.keystone=S.keystone===ks.id?null:ks.id;renderRunes();recompute();}));});wrap.appendChild(kg);
-  t.rows.forEach((row,i)=>{const l=document.createElement('div');l.className='rlbl';l.textContent='Ligne '+(i+1);wrap.appendChild(l);const rg=document.createElement('div');rg.className='rgrid';row.forEach(r=>{rg.appendChild(mkRune(r,S.pri[i]===r.id,'pri',()=>{S.pri[i]=S.pri[i]===r.id?null:r.id;renderRunes();recompute();}));});wrap.appendChild(rg);});
+  t.rows.forEach((row,i)=>{const l=document.createElement('div');l.className='rlbl';l.textContent='Row '+(i+1);wrap.appendChild(l);const rg=document.createElement('div');rg.className='rgrid';row.forEach(r=>{rg.appendChild(mkRune(r,S.pri[i]===r.id,'pri',()=>{S.pri[i]=S.pri[i]===r.id?null:r.id;renderRunes();recompute();}));});wrap.appendChild(rg);});
 }
 function renderSecondary(){
   const t=TREES[S.secTree],wrap=document.getElementById('secTree');
   wrap.innerHTML=`<div class="tree-hd s"><img src="${t.icon}" onerror="this.style.display='none'"> ${t.label}</div>`;
   const tabs=document.createElement('div');tabs.className='tree-tabs';
   TREE_KEYS.forEach(k=>{const dis=(k===S.priTree);const tt=document.createElement('button');tt.className='ttab'+(S.secTree===k?' os':'')+(dis?' dis':'');tt.title=TREES[k].label;tt.innerHTML=`<img src="${TREES[k].icon}" onerror="this.style.display='none'">`;if(!dis)tt.onclick=()=>{if(S.secTree===k)return;S.secTree=k;S.sec=[null,null];renderRunes();recompute();};tabs.appendChild(tt);});wrap.appendChild(tabs);
-  const l=document.createElement('div');l.className='rlbl';l.textContent='Choisir 2 runes (1/ligne)';wrap.appendChild(l);
+  const l=document.createElement('div');l.className='rlbl';l.textContent='Pick 2 runes (max 1 per row)';wrap.appendChild(l);
   t.rows.forEach(row=>{const rg=document.createElement('div');rg.className='rgrid';row.forEach(r=>{const on=S.sec.includes(r.id);const otherRow=row.some(x=>x.id!==r.id&&S.sec.includes(x.id));const full=S.sec.filter(Boolean).length>=2;const b=mkRune(r,on,'sec',()=>{if(on){S.sec=S.sec.map(x=>x===r.id?null:x);}else{const e=S.sec.indexOf(null);if(e>=0)S.sec[e]=r.id;}renderRunes();recompute();});if(!on&&(otherRow||full))b.classList.add('locked');rg.appendChild(b);});wrap.appendChild(rg);});
 }
 function renderShardsUI(){
   const g=document.getElementById('shards');g.innerHTML='';
-  const labels=['Offensif','Flexible','Défensif'];
+  const labels=['Offensive','Flexible','Defensive'];
   SHARDS.forEach((opts,i)=>{const row=document.createElement('div');row.className='shard-row';row.innerHTML=`<span class="sl">${labels[i]}</span>`;const wrap=document.createElement('div');wrap.className='shard-opts';opts.forEach(sh=>{const b=document.createElement('button');b.className='sbtn'+(S.shards[i]===sh.id?' on':'');b.innerHTML=`<img src="${sh.img}" onerror="this.style.display='none'">${sh.n}`;b.onclick=()=>{S.shards[i]=sh.id;renderShardsUI();recompute();};wrap.appendChild(b);});row.appendChild(wrap);g.appendChild(row);});
 }
 
@@ -1003,13 +1126,13 @@ const cdWith=(b,h)=>b*(100/(100+h));
 function renderStats(A){
   const g=document.getElementById('stats');
   const cell=(ico,name,val,bonus,dual)=>{const b=(bonus!==undefined&&bonus>0)?`<div class="sb${dual?' r':''}">${typeof bonus==='number'?'+'+Math.round(bonus):bonus}</div>`:'';return `<div class="stat${dual?' dual':''}"><div class="sn">${ico} ${name}</div><div class="sv">${val}</div>${b}</div>`;};
-  let html=cell('❤','PV',Math.round(A.hp),A.bonusHP)+cell('⚔','Dégâts d\'att.',Math.round(A.ad),A.bonusAD)+cell('💨','Vitesse dépl.',Math.round(A.ms))+cell('⚡','Vitesse att.',A.as_.toFixed(3))+cell('🛡','Armure',Math.round(A.armor),A.armor-A.baseArmor)+cell('🔮','Rés. Mag.',Math.round(A.mr),A.mr-A.baseMR)+cell('🩸','Vol de vie',A.ls+'%')+cell('⏱','Accél. comp.',Math.round(A.ah))+cell('💊','Omnivamp',A.omni+'%');
-  if(A.crit>0)html+=cell('🎯','Critique',A.crit+'%');
-  if(A.bonusRegen>0)html+=cell('🧪','Soin potion',A.bonusRegen+' PV');
+  let html=cell('❤','HP',Math.round(A.hp),A.bonusHP)+cell('⚔','Attack Damage',Math.round(A.ad),A.bonusAD)+cell('💨','Move Speed',Math.round(A.ms))+cell('⚡','Attack Speed',A.as_.toFixed(3))+cell('🛡','Armor',Math.round(A.armor),A.armor-A.baseArmor)+cell('🔮','Magic Resist',Math.round(A.mr),A.mr-A.baseMR)+cell('🩸','Life Steal',A.ls+'%')+cell('⏱','Ability Haste',Math.round(A.ah))+cell('💊','Omnivamp',A.omni+'%');
+  if(A.crit>0)html+=cell('🎯','Crit Chance',A.crit+'%');
+  if(A.bonusRegen>0)html+=cell('🧪','Potion Heal',A.bonusRegen+' PV');
   if(A.leth>0||A.apen>0)html+=`<div class="stat dual"><div class="sn">🔪 Léth / Pén. armure</div><div class="sv">${A.leth>0?Math.round(A.leth):'0'} <span style="font-size:13px;color:var(--txt2)">/</span> ${A.apen>0?A.apen+'%':'—'}</div></div>`;
-  if(A.bah>0)html+=cell('🟢','AH base (Q/W/E)',Math.round(A.bah));
-  if(A.uh>0)html+=cell('🔴','AH ultime (R)',Math.round(A.uh));
-  if(A.ten>0)html+=cell('🧊','Tenacité',A.ten+'%');
+  if(A.bah>0)html+=cell('🟢','Basic AH (Q/W/E)',Math.round(A.bah));
+  if(A.uh>0)html+=cell('🔴','Ultimate AH (R)',Math.round(A.uh));
+  if(A.ten>0)html+=cell('🧊','Tenacity',A.ten+'%');
   g.innerHTML=html;
 }
 
@@ -1021,22 +1144,22 @@ function skillRanks(l){
 }
 function renderAbilities(A){
   const ranks=skillRanks(A.l),basicH=A.ah+A.bah,ultH=A.ah+A.uh;
-  document.getElementById('ahHint').textContent=`AH ${Math.round(A.ah)}  ·  base +${Math.round(A.bah)}  ·  ult +${Math.round(A.uh)}`;
+  document.getElementById('ahHint').textContent=`AH ${Math.round(A.ah)} · basic +${Math.round(A.bah)} · ult +${Math.round(A.uh)}`;
   const abilDmg=(sp,rank)=>{const r=Math.max(1,rank)-1;const base=Array.isArray(sp.base)?sp.base[r]:sp.base;const adComp=sp.ratioType==='bonus'?A.bonusAD*(Array.isArray(sp.adRatio)?sp.adRatio[r]:sp.adRatio):A.ad*(Array.isArray(sp.adRatio)?sp.adRatio[r]:sp.adRatio);return base+adComp;};
   function card(key,sp,rank,haste,ult){
     const learned=rank>=1&&!(ult&&!ranks.rLearned);
     if(!learned){const av=ult?'Niv. 6':(key==='W'?'Niv. 2':key==='E'?'Niv. 3':'Niv. 1');return `<div class="abil" style="opacity:.5"><div class="abil-top"><div class="abil-key${ult?' ult':''}">${key}</div><div class="abil-name">${sp.name}<small>${av}</small></div></div><div class="abil-body"><div class="abil-dmg">—</div></div></div>`;}
     const dmg=abilDmg(sp,rank);let cdTxt,dmgTxt,sub;const ratio=Array.isArray(sp.adRatio)?sp.adRatio[rank-1]:sp.adRatio;
     if(key==='W'){const tog=(rank===5);cdTxt=tog?'Toggle ∞':cdWith(sp.cd[rank-1],haste).toFixed(1)+'s';dmgTxt=Math.round(dmg);sub=`Par tir · ~3 tirs/s → <b style="color:var(--green)">${Math.round(dmg*3)}/s</b>${tog?' · infini':''}`;}
-    else if(key==='R'){cdTxt=cdWith(sp.cd[rank-1],haste).toFixed(1)+'s';dmgTxt=Math.round(dmg);sub='Impact · puis <b style="color:var(--red)">exécute sous 25% PV</b>';}
+    else if(key==='R'){cdTxt=cdWith(sp.cd[rank-1],haste).toFixed(1)+'s';dmgTxt=Math.round(dmg);sub='Direct impact · then <b style="color:var(--red)">executes below 25% HP</b>';}
     else{cdTxt=cdWith(sp.cd[rank-1],haste).toFixed(1)+'s';dmgTxt=Math.round(dmg);sub=key==='Q'?'Zone + ralentissement':'Charge + étourdissement + bouclier';}
     return `<div class="abil"><div class="abil-top"><div class="abil-key${ult?' ult':''}">${key}</div><div class="abil-name">${sp.name}<small>Rang ${rank}/${sp.maxRank}</small></div></div><div class="abil-body"><div class="abil-dmg">${dmgTxt}<span style="font-size:12px;color:var(--txt2)"> phys</span></div><div class="abil-meta"><span>CD <span class="cd">${cdTxt}</span></span><span>${sp.ratioType==='bonus'?Math.round(ratio*100)+'% AD bonus':Math.round(ratio*100)+'% AD'}</span></div><div class="abil-sub">${sub}</div></div></div>`;
   }
   document.getElementById('abilities').innerHTML=card('Q',SPELLS.Q,ranks.Q,basicH,false)+card('W',SPELLS.W,ranks.W,basicH,false)+card('E',SPELLS.E,ranks.E,basicH,false)+card('R',SPELLS.R,ranks.R,ultH,true);
   const adR=passiveADRatio(A.l),hpR=passiveHPRatio(A.l),legCD=passiveLegCD(A.l);
-  document.getElementById('passiveBox').innerHTML=`<div class="phtitle">⚙ Echoing Flames — Niveau ${A.l}</div><div class="pgrid"><div class="pstat">AD/jambe : <b>${Math.round(adR*100)}% = ${Math.round(A.ad*adR)} dmg</b></div><div class="pstat">% PV cible/jambe : <b>${(hpR*100).toFixed(0)}%</b></div><div class="pstat">CD/jambe : <b>${legCD}s</b></div><div class="pstat">6 jambes (AD) : <b>~${Math.round(A.ad*adR*6)} dmg</b></div></div><div class="notes-box" id="buildNotes"></div>`;
+  document.getElementById('passiveBox').innerHTML=`<div class="phtitle">⚙ Echoing Flames — Level ${A.l}</div><div class="pgrid"><div class="pstat">AD/jambe : <b>${Math.round(adR*100)}% = ${Math.round(A.ad*adR)} dmg</b></div><div class="pstat">% PV cible/jambe : <b>${(hpR*100).toFixed(0)}%</b></div><div class="pstat">CD/jambe : <b>${legCD}s</b></div><div class="pstat">6 jambes (AD) : <b>~${Math.round(A.ad*adR*6)} dmg</b></div></div><div class="notes-box" id="buildNotes"></div>`;
   let notes='';if(A.sterakBonus>0)notes+=`<div class="note"><b>Sterak</b> — +${Math.round(A.sterakBonus)} AD inclus.</div>`;[...new Set(A.itemNotes||[])].forEach(n=>{if(!/Sterak/i.test(n))notes+=`<div class="note">${n.replace(/^([^:]+):/,'<b>$1</b>:')}</div>`;});
-  document.getElementById('buildNotes').innerHTML=notes||'<div class="note" style="opacity:.5">Aucun passif d\'item actif.</div>';
+  document.getElementById('buildNotes').innerHTML=notes||'<div class="note" style="opacity:.5">No active item passive.</div>';
 }
 
 /* ═══ DUMMY ═══ */
@@ -1059,7 +1182,7 @@ function renderDummy(){
   const pct=v=>Math.min(100,v/dHP*100);
   function dc(label,val,sp){const p=pct(val),ov=val>=dHP;return `<div class="dcard${sp?' sp':''}"><div class="dl">${label}</div><div class="dv${ov?' warn':''}">${Math.round(val)}</div><div class="dp">${(val/dHP*100).toFixed(1)}% PV</div><div class="hpbar"><i class="${ov?'over':''}" style="width:${p}%"></i></div></div>`;}
   function ic(label,val,sub){return `<div class="dcard sp"><div class="dl">${label}</div><div class="dv info">${val}</div><div class="dp">${sub||''}</div></div>`;}
-  let h=dc('Auto',out.auto)+dc('Q — Corrosive',out.Q)+dc('E — Disdain',out.E)+dc('W/s',wDps)+(ranks.rLearned?dc('R — Impact',out.R):ic('R — Fear','Niv. 6','pas appris'))+dc('1 jambe',out.leg)+dc('6 jambes',burst6)+dc('All-in ~4s',allIn,true)+ic('Armure effective',Math.round(ea),`base ${DUMMY.armor}${A.armorShred>0?' ·-'+Math.round(A.armorShred*100)+'% shred':''}${A.apen>0?' ·-'+A.apen+'%':''}${A.leth>0?' ·-'+Math.round(A.leth)+' plate':''}`)+ic('EHP phys',Math.round(dHP*(1+ea/100)),'PV × (1 + armure/100)')+ic('Réduct. passif',Math.round((1-passiveMult(DUMMY.passive,DUMMY.custom))*100)+'%',DUMMY.passive==='none'?'aucun':'sur dégâts phys');
+  let h=dc('Auto Attack',out.auto)+dc('Q — Corrosive',out.Q)+dc('E — Disdain',out.E)+dc('W/sec',wDps)+(ranks.rLearned?dc('R — Impact',out.R):ic('R — Fear','Niv. 6','pas appris'))+dc('1 Leg',out.leg)+dc('6-Leg Burst',burst6)+dc('All-in ~4s',allIn,true)+ic('Effective Armor',Math.round(ea),`base ${DUMMY.armor}${A.armorShred>0?' ·-'+Math.round(A.armorShred*100)+'% shred':''}${A.apen>0?' ·-'+A.apen+'%':''}${A.leth>0?' ·-'+Math.round(A.leth)+' plate':''}`)+ic('EHP (phys)',Math.round(dHP*(1+ea/100)),'HP × (1 + armor/100)')+ic('Passive Reduction',Math.round((1-passiveMult(DUMMY.passive,DUMMY.custom))*100)+'%',DUMMY.passive==='none'?'none':'vs phys damage');
   document.getElementById('dummyResults').innerHTML=h;
   document.getElementById('dummyNotes').innerHTML='<b>Ordre de pén. :</b> shred % (BC) → pén. % (Serylda) → léthalité (plate). Dégâts après armure + passif défensif.';
 }
