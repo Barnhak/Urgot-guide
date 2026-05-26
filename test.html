@@ -12,7 +12,7 @@
   --bg:#060D07;--bg2:#0B1A0D;--card:#0F2211;--card2:#132417;
   --border:#1A3D1E;--border-b:#2D6A33;
   --txt:#A8D4A0;--txt2:#4A7550;--txt3:#2D4A32;
-  --bright:#E8F5E2;--gold:#C89B3C;--red:#C84B4B;--blue:#0BC4E3;
+  --bright:#E8F5E2;--gold:#C89B3C;--red:#C84B4B;--blue:#0BC4E3;--orange:#c8632b;
   --acid-glow:rgba(74,222,128,.3);--shadow:0 8px 30px rgba(0,0,0,.6);
 }
 html{scroll-behavior:smooth}
@@ -20,8 +20,10 @@ body{background:var(--bg);color:var(--txt);font-family:'Rajdhani',sans-serif;fon
   background-image:radial-gradient(ellipse 80% 40% at 50% -5%,rgba(74,222,128,.04) 0%,transparent 60%),
   repeating-linear-gradient(0deg,transparent,transparent 49px,rgba(26,61,30,.07) 50px),
   repeating-linear-gradient(90deg,transparent,transparent 49px,rgba(26,61,30,.07) 50px);}
-.wrap{max-width:1400px;margin:0 auto;padding:0 clamp(10px,2vw,28px) 60px}
-.hero{position:relative;height:280px;display:flex;align-items:center;justify-content:center;overflow:hidden;margin:0 -28px 22px;width:calc(100% + 56px)}
+.wrap{max-width:1440px;margin:0 auto;padding:0 clamp(10px,2vw,28px) 60px}
+
+/* HERO */
+.hero{position:relative;height:260px;display:flex;align-items:center;justify-content:center;overflow:hidden;margin:0 -28px 22px;width:calc(100% + 56px)}
 .hero-bg{position:absolute;inset:0;background:url('https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Urgot_2.jpg') center 30%/cover no-repeat;filter:brightness(.2) saturate(.5);animation:hZ 20s ease-in-out infinite alternate}
 @keyframes hZ{from{transform:scale(1.03)}to{transform:scale(1.08)}}
 .hero-ov{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(6,13,7,.4) 0%,rgba(6,13,7,0) 40%,rgba(6,13,7,.85) 85%,var(--bg) 100%)}
@@ -32,6 +34,8 @@ body{background:var(--bg);color:var(--txt);font-family:'Rajdhani',sans-serif;fon
 .hero-su{font-size:11px;letter-spacing:.25em;color:var(--txt2);text-transform:uppercase;margin-top:.5rem}
 .pbadge{display:inline-flex;align-items:center;gap:6px;margin-top:.75rem;font-family:'Cinzel',serif;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--txt2);border:1px solid var(--border);padding:5px 12px;border-radius:2px;background:var(--card)}
 .pbadge b{color:var(--green)}
+
+/* PANELS */
 .panel{background:linear-gradient(180deg,var(--card2),var(--card));border:1px solid var(--border);border-radius:4px;box-shadow:var(--shadow);position:relative;margin-bottom:16px}
 .panel::before{content:"";position:absolute;top:0;left:0;width:100%;height:2px;background:linear-gradient(90deg,transparent,var(--green-dark),transparent);opacity:.6}
 .ph{display:flex;align-items:center;gap:10px;padding:13px 17px;border-bottom:1px solid var(--border)}
@@ -39,11 +43,15 @@ body{background:var(--bg);color:var(--txt);font-family:'Rajdhani',sans-serif;fon
 .ph h2{font-family:'Cinzel',serif;font-weight:700;font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--bright)}
 .ph .hint{margin-left:auto;font-size:10px;color:var(--txt3);letter-spacing:.06em;font-family:'Cinzel',serif}
 .pb{padding:16px}
+
+/* LAYOUT */
 .main-grid{display:grid;grid-template-columns:1fr 340px;gap:16px;align-items:start}
 @media(max-width:1100px){.main-grid{grid-template-columns:1fr}}
 .left-col{display:flex;flex-direction:column;gap:16px}
 .cols2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
 @media(max-width:800px){.cols2{grid-template-columns:1fr}}
+
+/* LEVEL */
 .lvl-row{display:flex;align-items:center;gap:20px}
 .lvl-badge{display:flex;flex-direction:column;align-items:center;justify-content:center;width:90px;height:78px;flex-shrink:0;border:1px solid var(--border-b);background:var(--bg);border-radius:3px;position:relative;overflow:hidden}
 .lvl-badge::after{content:"";position:absolute;inset:0;background:linear-gradient(135deg,var(--acid-glow),transparent 55%);opacity:.2}
@@ -53,6 +61,8 @@ body{background:var(--bg);color:var(--txt);font-family:'Rajdhani',sans-serif;fon
 input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:5px;border-radius:3px;background:linear-gradient(90deg,var(--green-dark),var(--red));outline:none;cursor:pointer}
 input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#eafbe0,var(--green) 60%,var(--green-dark));border:2px solid var(--bg);box-shadow:0 0 10px var(--acid-glow);cursor:pointer}
 .ticks{display:flex;justify-content:space-between;margin-top:7px;font-family:'Cinzel',serif;font-size:9px;color:var(--txt3);letter-spacing:.08em}
+
+/* ITEM SLOTS */
 .slots-row{display:grid;grid-template-columns:repeat(7,1fr);gap:8px}
 @media(max-width:500px){.slots-row{grid-template-columns:repeat(4,1fr)}}
 .slot{aspect-ratio:1;background:var(--bg);border:2px dashed var(--border);border-radius:4px;display:flex;align-items:center;justify-content:center;cursor:pointer;position:relative;overflow:hidden;transition:.18s}
@@ -66,6 +76,8 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;heigh
 .slot:hover .rm{opacity:1}
 .slot-hint{font-family:'Cinzel',serif;font-size:10px;color:var(--txt2);margin-top:9px;letter-spacing:.06em}
 .slot-hint b{color:var(--green-dark)}
+
+/* SHOP */
 .shop-panel{position:sticky;top:16px;max-height:calc(100vh - 32px);display:flex;flex-direction:column;overflow:hidden}
 .shop-search-wrap{padding:10px 12px;border-bottom:1px solid var(--border);background:var(--card)}
 .shop-search{width:100%;background:var(--bg);border:1px solid var(--border-b);border-radius:3px;color:var(--bright);font-family:'Rajdhani',sans-serif;font-size:13px;padding:7px 10px;outline:none;letter-spacing:.02em}
@@ -89,6 +101,8 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;heigh
 .shop-loading{padding:2rem;text-align:center;color:var(--txt2);font-size:12px;grid-column:1/-1}
 .active-slot-hint{padding:7px 12px;border-bottom:1px solid var(--border);font-family:'Cinzel',serif;font-size:10px;letter-spacing:.12em;text-transform:uppercase;text-align:center;color:var(--green);background:rgba(74,222,128,.06);display:none}
 .active-slot-hint.show{display:block}
+
+/* TOOLTIP */
 .itooltip{position:fixed;z-index:9999;pointer-events:none;display:none;background:linear-gradient(180deg,var(--card2),var(--card));border:1px solid var(--border-b);border-radius:4px;padding:11px 14px;min-width:200px;max-width:260px;box-shadow:0 12px 40px rgba(0,0,0,.7)}
 .itooltip.show{display:block}
 .tt-name{font-family:'Cinzel',serif;font-weight:700;font-size:12px;color:var(--green);letter-spacing:.08em;margin-bottom:3px}
@@ -98,6 +112,8 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;heigh
 .tt-stat .tk{color:var(--txt2)} .tt-stat .tv{color:var(--bright);font-weight:600}
 .tt-note{font-size:11px;color:var(--txt2);margin-top:7px;padding-top:7px;border-top:1px dashed var(--border);line-height:1.4}
 .tt-note b{color:var(--green)}
+
+/* RUNES */
 .rune-tree{background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:14px}
 .rune-tree.sec{border-color:#1a3a42}
 .tree-hd{font-family:'Cinzel',serif;font-weight:700;font-size:12px;letter-spacing:.14em;text-transform:uppercase;display:flex;align-items:center;gap:8px;margin-bottom:12px;color:var(--bright)}
@@ -129,6 +145,8 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;heigh
 .sbtn{display:flex;align-items:center;gap:5px;padding:5px 9px;background:var(--card);border:1px solid var(--border);color:var(--txt2);cursor:pointer;border-radius:2px;font-size:10px;letter-spacing:.03em;transition:.15s;white-space:nowrap}
 .sbtn img{width:16px;height:16px} .sbtn:hover{border-color:var(--border-b)}
 .sbtn.on{border-color:var(--green);color:var(--green);background:rgba(74,222,128,.08)}
+
+/* STATS */
 .stat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(145px,1fr));gap:10px}
 .stat{background:var(--bg);border:1px solid var(--border);border-radius:3px;padding:11px 13px;position:relative;overflow:hidden}
 .stat::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--green-dark);opacity:.8}
@@ -136,6 +154,8 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;heigh
 .stat .sn{font-family:'Cinzel',serif;font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--txt2);margin-bottom:5px}
 .stat .sv{font-family:'Cinzel',serif;font-weight:700;font-size:22px;color:var(--bright);line-height:1}
 .stat .sb{font-size:11px;color:var(--green-dark);margin-top:2px;letter-spacing:.03em} .stat .sb.r{color:var(--red)}
+
+/* ABILITIES */
 .abil-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:11px}
 .abil{background:var(--bg);border:1px solid var(--border);border-radius:3px;overflow:hidden}
 .abil-top{display:flex;align-items:center;gap:9px;padding:10px 12px;border-bottom:1px solid var(--border);background:rgba(0,0,0,.2)}
@@ -155,14 +175,47 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;heigh
 .notes-box{margin-top:10px;display:flex;flex-direction:column;gap:4px}
 .note{font-size:11px;color:var(--txt2);padding:5px 9px;background:rgba(74,222,128,.04);border-left:2px solid var(--green-dark);border-radius:2px}
 .note b{color:var(--green)}
-.dummy-ctrls{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-bottom:18px}
+
+/* ── TRAINING DUMMY (new) ─────────────────────────────── */
+.dummy-section{display:flex;flex-direction:column;gap:14px}
+
+/* Basic sliders row */
+.dummy-basic{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-bottom:4px}
 .dctl .dlbl{font-family:'Cinzel',serif;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--txt2);margin-bottom:8px;display:flex;justify-content:space-between}
 .dctl .dlbl b{color:var(--green);font-weight:600}
 .dctl-row{display:flex;align-items:center;gap:10px}
 .dnum{width:78px;background:var(--bg);border:1px solid var(--border);color:var(--bright);border-radius:3px;padding:6px 8px;font-family:'Rajdhani',sans-serif;font-size:14px;text-align:center}
 .dnum:focus{outline:none;border-color:var(--green-dark)}
-.dsel{width:100%;background:var(--bg);border:1px solid var(--border);color:var(--txt);border-radius:3px;padding:8px 9px;font-family:'Rajdhani',sans-serif;font-weight:400;font-size:13px;cursor:pointer}
-.dsel:focus{outline:none;border-color:var(--green-dark)}
+
+/* Passive selector tabs */
+.passive-panel{background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:14px}
+.passive-panel-title{font-family:'Cinzel',serif;font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--bright);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.passive-panel-title::after{content:"";flex:1;height:1px;background:var(--border)}
+.passive-cats{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.pcat{font-family:'Cinzel',serif;font-size:8px;letter-spacing:.12em;padding:4px 10px;border-radius:2px;border:1px solid var(--border);background:transparent;color:var(--txt2);cursor:pointer;text-transform:uppercase;transition:.15s}
+.pcat.on{border-color:var(--orange);color:var(--orange);background:rgba(200,99,43,.1)}
+.pcat:hover:not(.on){color:var(--txt);border-color:var(--border-b)}
+.passive-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:7px;max-height:320px;overflow-y:auto;padding-right:4px}
+.passive-grid::-webkit-scrollbar{width:3px}
+.passive-grid::-webkit-scrollbar-thumb{background:var(--border-b);border-radius:2px}
+.pbtn{background:var(--card);border:1px solid var(--border);border-radius:3px;cursor:pointer;padding:9px 10px;display:flex;flex-direction:column;gap:4px;transition:.16s;text-align:left}
+.pbtn:hover{border-color:var(--border-b);transform:translateY(-1px)}
+.pbtn.on{border-color:var(--orange);background:rgba(200,99,43,.1)}
+.pbtn .pbtitle{font-family:'Cinzel',serif;font-size:9.5px;color:var(--txt);letter-spacing:.02em;line-height:1.2}
+.pbtn .pbsrc{font-size:9px;color:var(--txt3);letter-spacing:.04em;margin-top:1px}
+.pbtn .pbval{font-family:'Cinzel',serif;font-size:11px;color:var(--orange);font-weight:600;margin-top:3px}
+.pbtn.on .pbtitle{color:var(--bright)}
+.pbtn.on .pbval{color:#f0a878}
+.pbtn .pbtype{font-size:8px;color:var(--txt3);letter-spacing:.08em;text-transform:uppercase;margin-top:2px}
+
+/* selected passives summary */
+.selected-passives{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;min-height:28px}
+.sp-tag{display:flex;align-items:center;gap:5px;padding:4px 8px;background:rgba(200,99,43,.12);border:1px solid rgba(200,99,43,.4);border-radius:2px;font-family:'Cinzel',serif;font-size:9px;color:var(--orange);cursor:pointer;transition:.15s}
+.sp-tag:hover{background:rgba(200,99,43,.22)}
+.sp-tag .rm{font-size:10px;color:var(--red);margin-left:2px}
+.sp-none{font-family:'Cinzel',serif;font-size:9px;color:var(--txt3);letter-spacing:.1em;padding:4px 0}
+
+/* Dummy results */
 .dummy-results{display:grid;grid-template-columns:repeat(auto-fill,minmax(162px,1fr));gap:10px}
 .dcard{background:var(--bg);border:1px solid var(--border);border-radius:3px;padding:12px;position:relative;overflow:hidden}
 .dcard.sp{border-color:rgba(200,99,43,.35)}
@@ -176,6 +229,18 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;heigh
 .hpbar i.over{background:linear-gradient(90deg,var(--red),#6f1a1a)}
 .footnote{margin-top:16px;font-size:11px;color:var(--txt3);line-height:1.6;letter-spacing:.02em}
 .footnote b{color:var(--txt2)}
+
+/* mitigation breakdown */
+.mitigation-breakdown{margin-top:12px;background:var(--bg);border:1px solid var(--border);border-radius:3px;padding:12px}
+.mit-title{font-family:'Cinzel',serif;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--txt2);margin-bottom:8px}
+.mit-row{display:flex;justify-content:space-between;align-items:center;padding:4px 0;border-bottom:1px solid rgba(26,61,30,.4);font-size:11px}
+.mit-row:last-child{border-bottom:none}
+.mit-label{color:var(--txt2);flex:1}
+.mit-val{font-family:'Cinzel',serif;color:var(--orange);font-weight:600;font-size:12px;margin-left:8px}
+.mit-val.green{color:var(--green)}
+.mit-row.total{border-top:1px solid var(--border-b);margin-top:4px;padding-top:8px}
+.mit-row.total .mit-label{color:var(--bright);font-weight:600}
+.mit-row.total .mit-val{font-size:14px;color:var(--bright)}
 </style>
 </head>
 <body>
@@ -189,27 +254,39 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;heigh
     <div class="pbadge">Live data · <b id="ddv">DDragon</b></div>
   </div>
 </div>
+
 <div class="itooltip" id="tooltip">
   <div class="tt-name" id="tt-name"></div>
   <div class="tt-gold" id="tt-gold"></div>
   <div class="tt-stats" id="tt-stats"></div>
   <div class="tt-note" id="tt-note"></div>
 </div>
+
 <div class="main-grid">
   <div class="left-col">
+
+    <!-- LEVEL -->
     <div class="panel">
       <div class="ph"><span class="ph-tick"></span><h2>Level</h2><span class="hint">1 → 20</span></div>
       <div class="pb"><div class="lvl-row">
         <div class="lvl-badge"><span class="lbl">Level</span><span class="num" id="lvlNum">9</span></div>
-        <div class="sldr-col"><input type="range" min="1" max="20" value="9" id="lvlSlider"/>
-        <div class="ticks"><span>1</span><span>5</span><span>10</span><span>15</span><span>20</span></div></div>
+        <div class="sldr-col">
+          <input type="range" min="1" max="20" value="9" id="lvlSlider"/>
+          <div class="ticks"><span>1</span><span>5</span><span>10</span><span>15</span><span>20</span></div>
+        </div>
       </div></div>
     </div>
+
+    <!-- ITEMS -->
     <div class="panel">
       <div class="ph"><span class="ph-tick"></span><h2>Items &amp; Potion</h2><span class="hint">Click a slot then an item</span></div>
-      <div class="pb"><div class="slots-row" id="slots"></div>
-      <div class="slot-hint">Click a slot to select · <b>slot 7 = potion/elixir</b></div></div>
+      <div class="pb">
+        <div class="slots-row" id="slots"></div>
+        <div class="slot-hint">Click a slot to select · <b>slot 7 = potion/elixir</b></div>
+      </div>
     </div>
+
+    <!-- RUNES -->
     <div class="panel">
       <div class="ph"><span class="ph-tick"></span><h2>Runes</h2><span class="hint">Primary + Secondary + Shards</span></div>
       <div class="pb">
@@ -217,73 +294,209 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;heigh
         <div style="margin-top:13px"><div class="rlbl">Shards</div><div class="shards" id="shards"></div></div>
       </div>
     </div>
+
+    <!-- STATS -->
     <div class="panel">
       <div class="ph"><span class="ph-tick"></span><h2>Stats</h2></div>
       <div class="pb"><div class="stat-grid" id="stats"></div></div>
     </div>
+
+    <!-- ABILITIES -->
     <div class="panel">
       <div class="ph"><span class="ph-tick"></span><h2>Damage &amp; Cooldowns</h2><span class="hint" id="ahHint"></span></div>
       <div class="pb"><div class="abil-grid" id="abilities"></div><div class="passive-box" id="passiveBox"></div></div>
     </div>
+
+    <!-- TRAINING DUMMY -->
     <div class="panel">
-      <div class="ph"><span class="ph-tick"></span><h2>Training Dummy</h2><span class="hint">Penetration &amp; real damage</span></div>
+      <div class="ph"><span class="ph-tick"></span><h2>Training Dummy</h2><span class="hint">Pénétration + passifs réels</span></div>
       <div class="pb">
-        <div class="dummy-ctrls">
-          <div class="dctl"><div class="dlbl"><span>Dummy HP</span><b id="dHpLbl">3000</b></div>
-            <div class="dctl-row"><input type="range" min="100" max="12000" step="50" value="3000" id="dHpSlider" style="flex:1"/>
-            <input type="number" min="100" max="12000" step="50" value="3000" id="dHpNum" class="dnum"/></div></div>
-          <div class="dctl"><div class="dlbl"><span>Dummy Armor</span><b id="dArmLbl">100</b></div>
-            <div class="dctl-row"><input type="range" min="0" max="600" step="5" value="100" id="dArmSlider" style="flex:1"/>
-            <input type="number" min="0" max="600" step="5" value="100" id="dArmNum" class="dnum"/></div></div>
-          <div class="dctl"><div class="dlbl"><span>Enemy Defensive Passive</span></div>
-            <select id="dPassive" class="dsel">
-              <option value="none">None</option>
-              <option value="garen">Garen W — −60% dmg (1.5s)</option>
-              <option value="garen30">Garen W — −30% (residual)</option>
-              <option value="braum">Braum E − 35% dmg</option>
-              <option value="annie">Shield — −50% next source</option>
-              <option value="amumu">Aftershock-like — −25%</option>
-              <option value="malphite">Generic reduction −10%</option>
-              <option value="custom">Custom…</option>
-            </select>
-            <div id="customWrap" style="display:none;margin-top:8px">
-              <div class="dlbl"><span>Custom reduction</span><b id="dCustomLbl">0%</b></div>
-              <div class="dctl-row"><input type="range" min="0" max="90" step="5" value="0" id="dCustomSlider" style="flex:1"/>
-              <input type="number" min="0" max="90" step="5" value="0" id="dCustomNum" class="dnum"/></div>
+        <div class="dummy-section">
+
+          <!-- HP + Armor sliders -->
+          <div class="dummy-basic">
+            <div class="dctl">
+              <div class="dlbl"><span>Dummy HP</span><b id="dHpLbl">3000</b></div>
+              <div class="dctl-row">
+                <input type="range" min="100" max="12000" step="50" value="3000" id="dHpSlider" style="flex:1"/>
+                <input type="number" min="100" max="12000" step="50" value="3000" id="dHpNum" class="dnum"/>
+              </div>
+            </div>
+            <div class="dctl">
+              <div class="dlbl"><span>Dummy Armor</span><b id="dArmLbl">100</b></div>
+              <div class="dctl-row">
+                <input type="range" min="0" max="600" step="5" value="100" id="dArmSlider" style="flex:1"/>
+                <input type="number" min="0" max="600" step="5" value="100" id="dArmNum" class="dnum"/>
+              </div>
             </div>
           </div>
+
+          <!-- Passive selector -->
+          <div class="passive-panel">
+            <div class="passive-panel-title">Passifs ennemis actifs</div>
+            <div class="passive-cats" id="passiveCats"></div>
+            <div class="passive-grid" id="passiveGrid"></div>
+            <div style="margin-top:10px;font-family:'Cinzel',serif;font-size:8px;letter-spacing:.16em;text-transform:uppercase;color:var(--txt3);margin-bottom:5px">Actifs :</div>
+            <div class="selected-passives" id="selectedPassives"></div>
+          </div>
+
+          <!-- Mitigation breakdown -->
+          <div class="mitigation-breakdown" id="mitBreakdown"></div>
+
+          <!-- Results grid -->
+          <div class="dummy-results" id="dummyResults"></div>
+          <div class="footnote" id="dummyNotes"></div>
+
         </div>
-        <div class="dummy-results" id="dummyResults"></div>
-        <div class="footnote" id="dummyNotes"></div>
       </div>
     </div>
   </div>
+
+  <!-- SHOP -->
   <div class="panel shop-panel">
     <div class="ph"><span class="ph-tick"></span><h2>Shop</h2></div>
     <div class="active-slot-hint" id="slotHint">Slot — click an item to equip</div>
-    <div class="shop-search-wrap"><input class="shop-search" id="shopSearch" placeholder="Search (EN or FR)…" oninput="filterShop()"/></div>
+    <div class="shop-search-wrap"><input class="shop-search" id="shopSearch" placeholder="Search…" oninput="filterShop()"/></div>
     <div class="shop-cats" id="shopCats"></div>
     <div class="shop-grid" id="shopGrid"><div class="shop-loading">Loading…</div></div>
   </div>
 </div>
 </div>
-<script>
 
+<script>
 const DDV_FALLBACK='16.9.1';
 let DDV=DDV_FALLBACK;
 const CD='https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/perk-images/styles/';
 const SM='https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/perk-images/statmods/';
 
-const SPELLS={
-  Q:{name:'Corrosive Charge',base:[25,70,115,160,205],adRatio:0.7,ratioType:'total',cd:[10,9.5,9,8.5,8],maxRank:5},
-  W:{name:'Purge',base:12,adRatio:[0.20,0.235,0.27,0.305,0.34],ratioType:'total',cd:[12,9,6,3,0],maxRank:5,ticksPerSec:3},
-  E:{name:'Disdain',base:[90,120,150,180,210],adRatio:1.00,ratioType:'bonus',cd:[16,15.5,15,14.5,14],maxRank:5},
-  R:{name:'Fear Beyond Death',base:[100,225,350],adRatio:0.50,ratioType:'bonus',cd:[100,85,70],maxRank:3,ult:true},
-};
-function passiveADRatio(l){return l>=16?.80:l>=11?.70:l>=6?.60:.50;}
-function passiveHPRatio(l){return l>=16?.05:l>=11?.04:l>=6?.03:.02;}
-function passiveLegCD(l){return l>=16?2.5:l>=11?5:l>=7?10:l>=4?20:30;}
+// ══════════════════════════════════════════════════════════
+// PASSIVE DATABASE — real League data from wiki images
+// type: 'pct'=percent reduction on incoming phys dmg,
+//        'flat_pre'=flat reduction before armor,
+//        'flat_post'=flat reduction after armor,
+//        'stack'=has multiple values (select stack)
+// mult: the damage multiplier (0.4 = take 40%, reduce 60%)
+// flat: flat damage reduced per hit
+// ══════════════════════════════════════════════════════════
+const ALL_PASSIVES=[
+  // ── CHAMPION ABILITIES ──────────────────────────────────
+  {id:'alistar_w',  cat:'champion', name:"Alistar W",   src:"Alistar — Unbreakable Will",     type:'pct', mult:0.30, desc:"−70% all dmg"},
+  {id:'belveth_r',  cat:'champion', name:"Bel'Veth R",  src:"Bel'Veth — Royal Maelstrom",     type:'pct', mult:0.60, desc:"−40% phys, self-heal"},
+  {id:'braum_e',    cat:'champion', name:"Braum E",      src:"Braum — Unbreakable",             type:'pct', mult:0.65, desc:"−35% dmg taken"},
+  {id:'briar_w',    cat:'champion', name:"Briar W",      src:"Briar — Chilling Scream",        type:'pct', mult:0.70, desc:"−30% dmg taken"},
+  {id:'galio_w',    cat:'champion', name:"Galio W",      src:"Galio — Shield of Durand",       type:'pct', mult:0.50, desc:"−50% dmg, AoE taunt"},
+  {id:'garen_w',    cat:'champion', name:"Garen W",      src:"Garen — Courage (active)",       type:'pct', mult:0.40, desc:"−60% dmg (1.5s)"},
+  {id:'garen_w2',   cat:'champion', name:"Garen W (residuel)", src:"Garen — Courage (passive)",type:'pct', mult:0.70, desc:"−30% (stack passif)"},
+  {id:'gragas_w',   cat:'champion', name:"Gragas W",     src:"Gragas — Drunken Rage",          type:'pct', mult:0.90, desc:"−10% dmg taken"},
+  {id:'irelia_e',   cat:'champion', name:"Irelia E",     src:"Irelia — Defiant Dance",         type:'pct', mult:0.50, desc:"−50% phys dmg (chargé: −90%)"},
+  {id:'jax_e_aoe',  cat:'champion', name:"Jax E (AoE)",  src:"Jax — Counter Strike (AoE only)",type:'pct', mult:0.75, desc:"−25% dmg AoE pendant E"},
+  {id:'kassadin_q', cat:'champion', name:"Kassadin Q",   src:"Kassadin — Void Stone (magie seule)",type:'pct', mult:0.85, desc:"−15% dégâts magiques uniquement"},
+  {id:'ksante_p',   cat:'champion', name:"K'Sante Path Maker",src:"K'Sante — Path Maker",    type:'pct', mult:0.65, desc:"−35% dmg pendant ultime"},
+  {id:'malzahar_w', cat:'champion', name:"Malzahar W",   src:"Malzahar — Void Shift",          type:'pct', mult:0.10, desc:"−90% dmg (shield unique)"},
+  {id:'masteryi_w', cat:'champion', name:"Master Yi W",  src:"Master Yi — Meditate",           type:'pct', mult:0.47, desc:"−53% dmg pendant W"},
+  {id:'nilah_r',    cat:'champion', name:"Nilah R",      src:"Nilah — Jubilant Veil (magie seule)",type:'pct', mult:0.75, desc:"−25% dégâts magiques"},
+  {id:'warwick_r',  cat:'champion', name:"Warwick R",    src:"Warwick — Primal Howl",          type:'pct', mult:0.65, desc:"−35% dmg pendant R"},
+  {id:'zaahen_r',   cat:'champion', name:"Zaahen R",     src:"Zaahen — Grim Deliverance",      type:'pct', mult:0.65, desc:"−35% dmg pendant R"},
 
+  // ── ITEMS ────────────────────────────────────────────────
+  {id:'item_celestial',cat:'item', name:"Celestial Opposition",src:"Item — Celestial Opposition",type:'pct', mult:0.85, desc:"−15% dmg after proc"},
+  {id:'item_dd',       cat:'item', name:"Death's Dance",       src:"Item — Death's Dance",        type:'pct_delay', mult:1.0, flatDelay:0.30, desc:"30% phys dmg délayé (bleed 3s)"},
+  {id:'item_steelcaps',cat:'item', name:"Plated Steelcaps",    src:"Item — Plated Steelcaps",     type:'pct', mult:0.88, desc:"−12% auto-attack dmg"},
+  {id:'item_randuin',  cat:'item', name:"Randuin's Omen (crit)",src:"Item — Randuin's Omen",     type:'pct', mult:0.85, desc:"−15% dégâts de crits"},
+
+  // ── RUNES ────────────────────────────────────────────────
+  {id:'rune_glacial',  cat:'rune',  name:"Glacial Augment",    src:"Rune — Glacial Augment",     type:'pct', mult:0.925, desc:"−7.5% (slow aura)"},
+  {id:'rune_chemtech', cat:'rune',  name:"Chemtech Blight",    src:"Buff neutre — Chemtech Blight",type:'pct',mult:0.88, desc:"−12% dmg taken (zone)"},
+
+  // ── FLAT PRE-MITIGATION (applied before armor) ──────────
+  {id:'fizz_w',        cat:'flat',  name:"Fizz W",             src:"Fizz — Nimble Fighter (pré-miti)",type:'flat_pre', flat:8, desc:"−8 flat dmg (pré-armure)"},
+  {id:'leona_e',       cat:'flat',  name:"Leona E",            src:"Leona — Eclipse (pré-miti)",  type:'flat_pre', flat:40, desc:"−40 flat dmg (pré-armure)"},
+  {id:'amumu_w',       cat:'flat',  name:"Amumu W",            src:"Amumu — Tantrum (pré-miti)",  type:'flat_pre', flatBase:10, flatPerLvl:1, desc:"−10 + (1×lvl) flat dmg (pré-armure)"},
+  {id:'guardian_horn', cat:'flat',  name:"Guardian's Horn",    src:"Item — Guardian's Horn (pré-miti)",type:'flat_pre', flat:5, desc:"−5 flat dmg (pré-armure)"},
+
+  // ── FLAT POST-MITIGATION (applied after armor) ──────────
+  {id:'bone_plating',  cat:'flat',  name:"Bone Plating",       src:"Rune — Bone Plating (post-miti)",type:'flat_post', flat:30, flat2:60, desc:"−30 à −60 flat dmg (post-armure, 3 hits)"},
+  {id:'warden_mail',   cat:'flat',  name:"Warden's Mail",      src:"Item — Warden's Mail (post-miti)",type:'flat_post', flat:0, desc:"−15% AS ennemi (indirect)"},
+];
+
+const PASSIVE_CATS={all:'Tous',champion:'Champions',item:'Items',rune:'Runes/Buffs',flat:'Réductions plates'};
+const PASSIVE_CAT_ORDER=['all','champion','item','rune','flat'];
+
+let activePassiveCat='all';
+let selectedPassiveIds=new Set();
+
+function renderPassiveCats(){
+  const c=document.getElementById('passiveCats');c.innerHTML='';
+  PASSIVE_CAT_ORDER.forEach(cat=>{
+    const b=document.createElement('button');b.className='pcat'+(activePassiveCat===cat?' on':'');
+    b.textContent=PASSIVE_CATS[cat];
+    b.onclick=()=>{activePassiveCat=cat;renderPassiveCats();renderPassiveGrid();};
+    c.appendChild(b);
+  });
+}
+
+function renderPassiveGrid(){
+  const g=document.getElementById('passiveGrid');g.innerHTML='';
+  const list=ALL_PASSIVES.filter(p=>activePassiveCat==='all'||p.cat===activePassiveCat);
+  list.forEach(p=>{
+    const on=selectedPassiveIds.has(p.id);
+    const b=document.createElement('div');b.className='pbtn'+(on?' on':'');
+    const typeLabel=p.type==='flat_pre'?'Pré-armure':p.type==='flat_post'?'Post-armure':p.type==='pct_delay'?'Délayé':'% Réduction';
+    b.innerHTML=`<div class="pbtitle">${p.name}</div><div class="pbsrc">${p.src}</div><div class="pbval">${p.desc}</div><div class="pbtype">${typeLabel}</div>`;
+    b.onclick=()=>{
+      if(selectedPassiveIds.has(p.id))selectedPassiveIds.delete(p.id);
+      else selectedPassiveIds.add(p.id);
+      renderPassiveGrid();renderSelectedTags();renderDummy();
+    };
+    g.appendChild(b);
+  });
+}
+
+function renderSelectedTags(){
+  const c=document.getElementById('selectedPassives');c.innerHTML='';
+  if(selectedPassiveIds.size===0){c.innerHTML='<span class="sp-none">Aucun passif actif</span>';return;}
+  selectedPassiveIds.forEach(id=>{
+    const p=ALL_PASSIVES.find(x=>x.id===id);if(!p)return;
+    const t=document.createElement('div');t.className='sp-tag';
+    t.innerHTML=`${p.name}<span class="rm">✕</span>`;
+    t.onclick=()=>{selectedPassiveIds.delete(id);renderPassiveGrid();renderSelectedTags();renderDummy();};
+    c.appendChild(t);
+  });
+}
+
+// Compute combined mitigation from selected passives
+function computeMitigation(A, rawPhys){
+  const l=A.l;
+  let flatPre=0, flatPost=0, pctMult=1.0, delayFrac=0;
+  const rows=[];
+
+  selectedPassiveIds.forEach(id=>{
+    const p=ALL_PASSIVES.find(x=>x.id===id);if(!p)return;
+    if(p.type==='pct'){
+      const red=Math.round((1-p.mult)*100);
+      rows.push({label:p.name,val:'-'+red+'%',type:'pct'});
+      pctMult*=p.mult;
+    } else if(p.type==='flat_pre'){
+      const fv=p.flat!==undefined?p.flat:(p.flatBase+(p.flatPerLvl||0)*l);
+      rows.push({label:p.name,val:'-'+Math.round(fv)+' (pré)',type:'flat_pre'});
+      flatPre+=fv;
+    } else if(p.type==='flat_post'){
+      if(p.flat||p.flat2){
+        const fv=p.flat2||p.flat;
+        rows.push({label:p.name,val:'-'+Math.round(fv)+' (post)',type:'flat_post'});
+        flatPost+=fv;
+      }
+    } else if(p.type==='pct_delay'){
+      rows.push({label:p.name,val:p.flatDelay*100+'% délayé',type:'delay'});
+      delayFrac=Math.max(delayFrac,p.flatDelay||0);
+    }
+  });
+  return{flatPre,flatPost,pctMult,delayFrac,rows};
+}
+
+// ══════════════════════════════════════════════════════════
+// RUNE TREES (same as original)
+// ══════════════════════════════════════════════════════════
 const TREES={
   precision:{label:'Precision',icon:CD+'7201_precision.png',
     keystones:[
@@ -414,401 +627,51 @@ async function loadUrgotBase(){
   else setLoadStatus('offline · default stats','err');
 }
 
-const CATS={
-  all:{fr:'All',col:'#4ADE80'},fighter:{fr:'Fighter',col:'#c8632b'},
-  marksman:{fr:'Marksman',col:'#e0c14f'},assassin:{fr:'Assassin',col:'#e04f6f'},
-  mage:{fr:'Mage',col:'#9b6fe0'},tank:{fr:'Tank',col:'#4f93e0'},
-  support:{fr:'Support',col:'#4fd0b0'},boots:{fr:'Boots',col:'#7d8a83'},
-  consumable:{fr:'Consumable',col:'#c84b4b'},
-};
+// ══════════════════════════════════════════════════════════
+// ITEM SYSTEM (same as original)
+// ══════════════════════════════════════════════════════════
+const CATS={all:{fr:'All',col:'#4ADE80'},fighter:{fr:'Fighter',col:'#c8632b'},marksman:{fr:'Marksman',col:'#e0c14f'},assassin:{fr:'Assassin',col:'#e04f6f'},mage:{fr:'Mage',col:'#9b6fe0'},tank:{fr:'Tank',col:'#4f93e0'},support:{fr:'Support',col:'#4fd0b0'},boots:{fr:'Boots',col:'#7d8a83'},consumable:{fr:'Consumable',col:'#c84b4b'}};
 const CAT_ORDER=['all','fighter','marksman','assassin','mage','tank','support','boots','consumable'];
 let activeCat='all';
 
 const AH_BY_NAME={"Abyssal Mask":15,"Archangel's Staff":25,"Axiom Arc":25,"Black Cleaver":20,"Bloodletter's Curse":15,"Caulfield's Warhammer":10,"Chempunk Chainsword":15,"Cosmic Drive":30,"Cryptbloom":20,"Death's Dance":15,"Echoes of Helia":20,"Eclipse":15,"Essence Reaver":25,"Fiendish Codex":10,"Fimbulwinter":20,"Frozen Heart":20,"Glacial Buckler":10,"Hextech Rocketbelt":15,"Horizon Focus":25,"Hubris":15,"Iceborn Gauntlet":15,"Imperial Mandate":25,"Ionian Boots of Lucidity":12,"Kindlegem":10,"Knight's Vow":10,"Lich Bane":10,"Locket of the Iron Solari":15,"Lost Chapter":10,"Luden's Companion":10,"Malignance":25,"Maw of Malmortius":15,"Moonstone Renewer":15,"Morellonomicon":15,"Muramana":15,"Profane Hydra":18,"Ravenous Hydra":20,"Redemption":10,"Seraph's Embrace":25,"Serylda's Grudge":15,"Shurelya's Battlesong":15,"Spirit Visage":10,"Sundered Sky":20,"Sunfire Aegis":15,"Trinity Force":20,"Umbral Glaive":15,"Voltaic Cyclosword":10,"Zeke's Convergence":20,"Liandry's Torment":20,"Spear of Shojin":25,"Experimental Hexplate":30,"Titanic Hydra":20};
 
 const MANUAL_STATS={
-
-/* ══════════════════════════════════════════════════════════
-   BOOTS  (patch 16.x Season 2025)
-   ══════════════════════════════════════════════════════════ */
-"Boots":                      {ms_flat:25},
-"Berserker's Greaves":        {as:0.35, ms_flat:45},
-"Boots of Swiftness":         {ms_flat:55},
-"Ionian Boots of Lucidity":   {ah:15, ms_flat:45},
-"Mercury's Treads":           {mr:25, ten:30, ms_flat:45},
-"Plated Steelcaps":           {armor:20, ms_flat:45,
-  note:"Plated Steelcaps: reduces all basic attack damage by 12%."},
-"Sorcerer's Shoes":           {mrpen:18, ms_flat:45},
-/* Season 2025 reworked boots */
-"Armored Advance":            {armor:40, ms_flat:45},
-"Chainlaced Crushers":        {mr:30, ten:30, ms_flat:45},
-"Crimson Lucidity":           {ah:15, ms_flat:45},
-"Gluttonous Greaves":         {omni:10, ms_flat:45},
-"Gunmetal Greaves":           {as:0.35, ls:5, ms_flat:45},
-"Immortal Path":              {omni:10, ms_flat:45},
-"Spellslinger's Shoes":       {mr:18, ms_flat:45},
-"Swiftmarch":                 {ms_flat:65},
-
-/* ══════════════════════════════════════════════════════════
-   COMPONENTS
-   ══════════════════════════════════════════════════════════ */
-"Amplifying Tome":            {ap:20},
-"B. F. Sword":                {ad:40},
-"Blasting Wand":              {ap:40},
-"Cloak of Agility":           {crit:15},
-"Cloth Armor":                {armor:15},
-"Dagger":                     {as:0.12},
-"Faerie Charm":               {mp5:25},
-"Glowing Mote":               {ah:5},
-"Long Sword":                 {ad:10},
-"Needlessly Large Rod":       {ap:65},
-"Null-Magic Mantle":          {mr:20},
-"Pickaxe":                    {ad:25},
-"Rejuvenation Bead":          {hp5:7.5},
-"Ruby Crystal":               {hp:150},
-"Sapphire Crystal":           {mana:300},
-
-/* ══════════════════════════════════════════════════════════
-   EPIC ITEMS
-   ══════════════════════════════════════════════════════════ */
-"Aether Wisp":                {ap:30, ms_pct:0.05},
-"Bami's Cinder":              {hp:200, ah:5},
-"Bandleglass Mirror":         {ap:20, ah:10, mp5:50},
-"Blighting Jewel":            {ap:35, mrpen_pct:12},
-"Bramble Vest":               {armor:35,
-  note:"Bramble Vest: reflects 3 + 10% armor as magic damage on being hit."},
-"Brutalizer":                 {ad:25, ah:10, leth:5},
-"Catalyst of Aeons":          {hp:300, mana:375},
-"Caulfield's Warhammer":      {ad:20, ah:10},
-"Chain Vest":                 {armor:40},
-"Crystalline Bracer":         {hp:200, hp5:25},
-"Executioner's Calling":      {ad:15, crit:15,
-  note:"Executioner's Calling: applies 40% Grievous Wounds on hit."},
-"Fated Ashes":                {ap:30, hp5:15},
-"Fiendish Codex":             {ap:25, ah:10},
-"Forbidden Idol":             {ap:25, shdpwr:8, mp5:50},
-"Giant's Belt":               {hp:380},
-"Glacial Buckler":            {armor:35, mana:300, ah:10},
-"Haunting Guise":             {ap:30, hp:200},
-"Hearthbound Axe":            {ad:20, as:0.20,
-  note:"Hearthbound Axe: first auto on a champion slows for 20%."},
-"Hexdrinker":                 {ad:20, mr:25,
-  note:"Hexdrinker: grants a 200-360 HP magic damage shield when below 30% HP (45s CD)."},
-"Hextech Alternator":         {ap:40},
-"Kindlegem":                  {hp:200, ah:10},
-"Last Whisper":               {ad:20, apen:18},
-"Lost Chapter":               {ap:40, ah:10, mana:300},
-"Negatron Cloak":             {mr:45},
-"Noonquiver":                 {ad:20, crit:15},
-"Oblivion Orb":               {ap:25,
-  note:"Oblivion Orb: applies 15% Grievous Wounds on ability damage."},
-"Phage":                      {hp:200, ad:15,
-  note:"Phage: killing a unit grants +20 MS for 2s."},
-"Quicksilver Sash":           {mr:30,
-  note:"Quicksilver Sash: active removes all crowd control (90s CD)."},
-"Rectrix":                    {ad:15, ms_pct:0.04},
-"Recurve Bow":                {as:0.18},
-"Scout's Slingshot":          {as:0.20, crit:10},
-"Seeker's Armguard":          {ap:40, armor:25},
-"Serrated Dirk":              {ad:30, leth:10},
-"Sheen":                      {ah:10, mana:200,
-  note:"Sheen: Spellblade — next auto deals 100% base AD bonus phys after using an ability (1.5s CD)."},
-"Specter's Cowl":             {mr:35, hp:200, hp5:50},
-"Steel Sigil":                {armor:30, ad:10},
-"Tiamat":                     {ad:20, hp:250,
-  note:"Tiamat: autos deal 60% AD AoE cleave."},
-"Tunneler":                   {ad:15, hp:200},
-"Vampiric Scepter":           {ad:15, ls:8},
-"Verdant Barrier":            {ap:40, mr:25},
-"Warden's Mail":              {armor:40,
-  note:"Warden's Mail: reduces attacker's AS by 15% for 1s."},
-"Winged Moonplate":           {hp:150, ms_pct:0.04},
-"Zeal":                       {as:0.15, crit:15, ms_pct:0.07},
-
-/* ══════════════════════════════════════════════════════════
-   LEGENDARY — FIGHTER
-   ══════════════════════════════════════════════════════════ */
-"Abyssal Mask":               {hp:400, mr:45, ah:15,
-  note:"Abyssal Mask: nearby enemies take +10% magic damage."},
-"Axiom Arc":                  {ad:55, ah:25, leth:18,
-  note:"Axiom Arc: champion kills restore 25% of R cooldown."},
-"BastionBreaker":             {ad:55, leth:22, ah:15,
-  note:"BastionBreaker: dealing damage reduces enemy armor by 4% (up to 40%)."},
-"Black Cleaver":              {hp:400, ad:40, ah:20,
-  special:'cleaver',
-  note:"Black Cleaver: each hit reduces armor by 5% (6 stacks = 30%), +20 MS on kill.",
-  applyStats:(A)=>{ A.armorShred=Math.max(A.armorShred||0, 0.30); }},
-"Bloodmail":                  {hp:500, ad:40,
-  note:"Bloodmail: gain 2% bonus HP as bonus AD per 100 bonus HP."},
-"Blade of the Ruined King":   {ad:30, as:0.25, ls:8,
-  onHitPctHP: 0.06,
-  note:"BotRK: on-hit deals 6% of target's current HP (melee). Active steals 15% MS.",
-  applyStats:(A)=>{}},
-"Bloodthirster":              {ad:80, ls:18,
-  note:"Bloodthirster: excess healing creates a shield up to 50% bonus AD."},
-"Chempunk Chainsword":        {ad:45, hp:450, ah:15,
-  note:"Chempunk Chainsword: applies 60% Grievous Wounds on damage."},
-"Dead Man's Plate":           {armor:55, hp:400, ms_pct:0.05,
-  note:"Dead Man's Plate: build Momentum (max 100) to gain MS; charged auto stuns briefly and deals up to 100 + 50% AD bonus dmg."},
-"Death's Dance":              {ad:55, armor:45, ah:15,
-  note:"Death's Dance: 30% of physical damage taken is delayed as a bleed over 3s. Kills heal 15% of max HP."},
-"Eclipse":                    {ad:55, armor:15, ah:15,
-  note:"Eclipse: every 2nd auto deals 6% max HP bonus phys damage and grants a brief overshield.",
-  applyStats:(A)=>{}},
-"Experimental Hexplate":      {hp:300, ad:25, as:0.25, uh:30,
-  note:"Hexplate: +30 Ult Haste. After using R: +30% AS and +15% MS for 3s."},
-"Guardian Angel":             {armor:45, ah:0,
-  note:"Guardian Angel: on death, revive with 50% HP and 30% max mana (300s CD)."},
-"Hullbreaker":                {hp:400, ad:50, armor:20,
-  note:"Hullbreaker: when alone from allies: +20 armor, +20 MR, +15% damage to structures."},
-"Iceborn Gauntlet":           {hp:400, armor:50, ah:15,
-  note:"Iceborn Gauntlet: Spellblade auto creates a 65% slow zone for 2.5s."},
-"Kraken Slayer":              {ad:45, as:0.35, crit:20,
-  note:"Kraken Slayer: every 3rd attack deals 60 + 40% bonus AD true damage.",
-  applyStats:(A)=>{}},
-"Maw of Malmortius":          {ad:65, mr:40, ah:15,
-  note:"Maw of Malmortius: when below 30% HP, gain 10% omnivamp and 20 lethality (Lifeline shield: 200-600)."},
-"Mercurial Scimitar":         {ad:40, mr:35, ls:10,
-  note:"Mercurial Scimitar: active removes all crowd control and grants +50% MS for 1s (90s CD)."},
-"Muramana":                   {ad:35, ah:15, mana:860,
-  note:"Muramana: +6% of max mana as bonus AD. Shock passive on autos/abilities.",
-  applyStats:(A)=>{ A.ad += A.mana * 0.06; }},
-"Ravenous Hydra":             {hp:150, ad:65, ah:20, ls:8,
-  note:"Ravenous Hydra: autos cleave for 60% AD AoE. +8% omnivamp from all damage.",
-  applyStats:(A)=>{}},
-"Serylda's Grudge":           {ad:45, armor:20, ah:15,
-  special:'serylda',
-  note:"Serylda's Grudge: +35% armor penetration. Abilities slow for 30%.",
-  applyStats:(A)=>{ A.armPenPct += 0.35; }},
-"Spear of Shojin":            {hp:300, ad:55, ah:25,
-  note:"Spear of Shojin: after using an ability, next 3 autos have 30% reduced CD per hit on the ability used."},
-"Sterak's Gage":              {hp:500,
-  note:"Sterak's Gage: +45% of base AD as bonus AD. Lifeline: shield for 75% bonus AD when below 30% HP.",
-  applyStats:(A)=>{ A.ad += A.baseAD * 0.45; A._sterak = A.baseAD * 0.50; }},
-"Sundered Sky":               {hp:450, ad:30, ah:20,
-  note:"Sundered Sky: first auto on a champion Shatters (deals 100% base AD + 12% target max HP bonus phys, 8s CD)."},
-"Terminus":                   {ad:35, as:0.25,
-  note:"Terminus: autos alternately apply Shade (−30 armor, stacking) or Light (−30 MR, stacking), up to −150 each.",
-  applyStats:(A)=>{}},
-"Titanic Hydra":              {hp:500, ad:35, ah:20,
-  note:"Titanic Hydra: on-hit deals 1% of Urgot's max HP as bonus phys + 3% in a cone behind target.",
-  applyStats:(A)=>{ A.onHitPctOwnHP = Math.max(A.onHitPctOwnHP||0, 0.01); }},
-"Trinity Force":              {hp:333, ad:30, as:0.35, ah:20, ms_flat:5,
-  note:"Trinity Force: Spellblade — next auto deals 200% base AD bonus phys after an ability (1.5s CD). +4% MS on kill.",
-  applyStats:(A)=>{}},
-
-/* ══════════════════════════════════════════════════════════
-   LEGENDARY — MARKSMAN
-   ══════════════════════════════════════════════════════════ */
-"Edge of Night":              {ad:50, leth:18, hp:250,
-  note:"Edge of Night: channel 0.75s to gain a spell shield that blocks the next ability (40s CD)."},
-"Endless Hunger":             {ad:65, omni:8, ten:20},
-"Essence Reaver":             {ad:55, ah:20, crit:20,
-  note:"Essence Reaver: Spellblade — after using an ability, next auto deals 40-100% bonus AD bonus phys."},
-"Galeforce":                  {ad:55, as:0.15, crit:20, ms_flat:5,
-  note:"Galeforce: active dash in target direction dealing 12-22% max HP phys damage (90s CD)."},
-"Guinsoo's Rageblade":        {ad:30, as:0.40,
-  note:"Guinsoo's Rageblade: on-hits apply at double rate (each hit = 2 on-hits stacks)."},
-"Immortal Shieldbow":         {ad:55, as:0.15, crit:20, ls:10,
-  note:"Immortal Shieldbow: Lifeline — when dropping below 30% HP, gain shield for 250-700 HP (90s CD)."},
-"Infinity Edge":              {ad:70, crit:20,
-  note:"Infinity Edge: if crit ≥ 60%, crits deal 235% damage instead of 175%."},
-"Lord Dominik's Regards":     {ad:35, crit:20, apen:35,
-  note:"Lord Dominik's Regards: deal up to +20% bonus phys dmg when target has more max HP."},
-"Mortal Reminder":            {ad:35, crit:20, apen:35,
-  note:"Mortal Reminder: applies 60% Grievous Wounds on hit."},
-"Nashor's Tooth":             {as:0.50, ah:15,
-  note:"Nashor's Tooth: on-hit deals 15 + 20% AP magic damage."},
-"Navori Flickerblade":        {ad:55, as:0.10, crit:20,
-  note:"Navori Flickerblade: crits reduce non-ult ability CDs by 15%."},
-"Phantom Dancer":             {ad:20, as:0.45, crit:20, ms_flat:7,
-  note:"Phantom Dancer: gain a 300-600 HP shield when below 30% HP (60s CD)."},
-"Rapid Firecannon":           {as:0.35, crit:20, ms_flat:7,
-  note:"Rapid Firecannon: Energized auto has extended range (+100 on ranged, 75 on melee) and deals +160% AD bonus magic."},
-"Runaan's Hurricane":         {as:0.45, crit:20, ms_flat:7,
-  note:"Runaan's Hurricane: autos fire 2 extra bolts to nearby enemies for 40% AD each."},
-"Statikk Shiv":               {as:0.35, crit:20,
-  note:"Statikk Shiv: Energized auto deals 50-100 + 50% bonus AD magic damage, chaining to 5 targets."},
-"Stormrazor":                 {ad:45, crit:20, as:0.25,
-  note:"Stormrazor: Energized auto slows target by 75% for 0.5s and deals +160% AD bonus magic."},
-"The Collector":              {ad:55, leth:20, crit:20,
-  note:"The Collector: killing blow executes below 5% HP. Kills grant +2 gold.",
-  applyStats:(A)=>{}},
-"Yun Tal Wildarrows":         {ad:55, crit:20, as:0.15,
-  note:"Yun Tal Wildarrows: first attack on a champion per second deals 65 + 15% bonus AD bonus phys."},
-
-/* ══════════════════════════════════════════════════════════
-   LEGENDARY — ASSASSIN
-   ══════════════════════════════════════════════════════════ */
-"Hextech Gunblade":           {ad:35, ah:15, ls:8,
-  note:"Hextech Gunblade: active bolt deals 175-250 + 30% bonus AD + 20% AP magic damage and slows 60% (20s CD)."},
-"Hubris":                     {ad:65, leth:20,
-  note:"Hubris: killing a champion grants an Ego statue (cosmetic) and a stacking AD buff."},
-"Night's Edge":               {ad:55, leth:20, hp:250,
-  note:"Night's Edge: after 5 ability hits on a target, next ability hit deals +25% damage and ignores 20 armor."},
-"Profane Hydra":              {ad:55, leth:18, ah:18,
-  note:"Profane Hydra: autos cleave for 60% AD AoE. Active: emit waves for 100% + 50% AD phys per wave (20s CD)."},
-"Serpent's Fang":             {ad:55, leth:20,
-  note:"Serpent's Fang: dealing damage reduces incoming shields by 50%. Reduces enemy shields by 100% on champion hit.",
-  applyStats:(A)=>{}},
-"Umbral Glaive":              {ad:55, leth:15, ah:15,
-  note:"Umbral Glaive: nearby wards/traps are visible; first auto kills them instantly."},
-"Voltaic Cyclosword":         {ad:45, leth:15, ah:10,
-  note:"Voltaic Cyclosword: Energized attack slows target for 99% for 0.5s."},
-"Youmuu's Ghostblade":        {ad:55, leth:18, ah:15, ms_flat:20,
-  note:"Youmuu's Ghostblade: active grants +20% MS for 6s (45s CD, doesn't break on damage)."},
-
-/* ══════════════════════════════════════════════════════════
-   LEGENDARY — MAGE
-   ══════════════════════════════════════════════════════════ */
-"Actualizer":                 {ap:90, ah:10},
-"Archangel's Staff":          {ap:80, ah:25, mana:500,
-  note:"Archangel's Staff: unique passive — max mana increases by 5 per ability use (up to +750 mana). Transforms into Seraph's Embrace at 750 stacks."},
-"Bandlepipes":                {ap:45, ah:15, armor:20, mr:20, hp:200},
-"Banshee's Veil":             {ap:105, mr:40,
-  note:"Banshee's Veil: passive — spell shield blocking first ability hit every 40s."},
-"Blackfire Torch":            {ap:80, ah:20,
-  note:"Blackfire Torch: ability hits ignite targets for 2% max HP/s magic damage over 3s (stacking, max 30/s)."},
-"Bloodletter's Curse":        {ap:65, ah:15, hp:400,
-  note:"Bloodletter's Curse: dealing magic damage reduces enemy MR by 5% per stack (up to −25% / 5 stacks)."},
-"Cosmic Drive":               {ap:70, ah:25, hp:350, ms_flat:10,
-  note:"Cosmic Drive: dealing ability damage grants +20 AP and +20% MS for 3s (stacks 3x = +60 AP, +60% MS total)."},
-"Cryptbloom":                 {ap:75, ah:20, mrpen_pct:30,
-  note:"Cryptbloom: kills root nearby enemies for 1.5s and grant +50 AP for 5s."},
-"Dawncore":                   {ap:60, ah:20, shdpwr:8,
-  note:"Dawncore: 2% of bonus mana as bonus AP. Increases heal/shield power by 1% per 100 AP."},
-"Dusk and Dawn":              {ap:60, ah:20, as:0.20, hp:300,
-  note:"Dusk and Dawn: ability hits alternate between increasing AP by 5% for 5s (Dawn) and AS by 15% for 5s (Dusk)."},
-"Lich Bane":                  {ap:75, ah:10, ms_flat:5,
-  note:"Lich Bane: Spellblade — next auto deals 75% base AD + 40% AP bonus magic after an ability (1.5s CD)."},
-"Liandry's Torment":          {ap:90, hp:300, ah:20,
-  note:"Liandry's Torment: abilities inflict Torment for 3s dealing 1.5% max HP/s magic damage. Bonus vs slowed/rooted/stunned."},
-"Luden's Companion":          {ap:80, ah:10, ms_flat:10,
-  note:"Luden's Companion: ability hits charge Luden; at 100 charges, next ability hit deals 80 + 15% AP bonus magic damage to up to 4 targets."},
-"Malignance":                 {ap:80, ah:25,
-  note:"Malignance: R damage is amplified +25%. R applies Haunt: 15 + 5% AP magic burn/s for 3s."},
-"Mejai's Soulstealer":        {ap:20,
-  note:"Mejai's Soulstealer: stacking — up to +130 AP at 25 stacks. Gain stacks on kills/assists, lose on death."},
-"Morellonomicon":             {ap:75, ah:15,
-  note:"Morellonomicon: dealing magic damage applies 40% Grievous Wounds."},
-"Rabadon's Deathcap":         {ap:120,
-  note:"Rabadon's Deathcap: increases total AP by 35%.",
-  applyStats:(A)=>{}},
-"Riftmaker":                  {ap:65, hp:300, ah:15,
-  note:"Riftmaker: in combat with champions gain up to +6% AP (3 stacks). At max stacks: deal 3% of max HP bonus true damage per ability."},
-"Rod of Ages":                {ap:60, hp:300, mana:400,
-  note:"Rod of Ages: charges over 10 min up to +200 HP, +200 mana, +20 AP. Transforms at full stacks."},
-"Rylai's Crystal Scepter":    {ap:80, hp:350,
-  note:"Rylai's Crystal Scepter: abilities slow targets by 30% for 1s."},
-"Seraph's Embrace":           {ap:80, ah:25, mana:1000,
-  note:"Seraph's Embrace: 3% of max mana as bonus AP. Shield active for 25% max mana HP (120s CD)."},
-"Shadowflame":                {ap:100,
-  note:"Shadowflame: crits and abilities deal 20 bonus magic pen (if target is shielded, 10-30 penetration)."},
-"Stormsurge":                 {ap:95, ms_pct:0.04,
-  note:"Stormsurge: immobilizing or killing a champ within 3s launches a lightning bolt for 35-400 bonus magic damage."},
-"Void Staff":                 {ap:90, mrpen_pct:40,
-  note:"Void Staff: +40% magic penetration."},
-"Zhonya's Hourglass":         {ap:80, armor:45, ah:10,
-  note:"Zhonya's Hourglass: active — enter Stasis (untargetable + invulnerable) for 2.5s (120s CD)."},
-
-/* ══════════════════════════════════════════════════════════
-   LEGENDARY — TANK
-   ══════════════════════════════════════════════════════════ */
-"Dead Man's Plate":           {armor:55, hp:400, ms_pct:0.05,
-  note:"Dead Man's Plate: gain Momentum stacks while moving (max 100, = +40 MS). Charged auto stuns for 0.5s and deals 1% max HP phys per 5 Momentum."},
-"Fimbulwinter":               {hp:350, mr:40, ah:20, mana:400,
-  note:"Fimbulwinter: Spellblade — after CC, next auto deals 50 + 2% max HP + 3% mana bonus phys."},
-"Force of Nature":            {hp:350, mr:70, ms_flat:5,
-  note:"Force of Nature: stacks up to +100 MR and +10% MS over time when taking magic damage."},
-"Frozen Heart":               {armor:80, mana:400, ah:20,
-  note:"Frozen Heart: reduces nearby enemy AS by 20%."},
-"Heartsteel":                 {hp:1000,
-  note:"Heartsteel: every 4s, proc next auto for 100 + 6% bonus HP bonus phys damage + 10% permanently to max HP.",
-  applyStats:(A)=>{}},
-"Hollow Radiance":            {hp:300, armor:40, mr:35, ah:10,
-  note:"Hollow Radiance: deals 2% max HP magic damage/s to nearby enemies (Immolate). Bonus vs jungle monsters."},
-"Jak'Sho, The Protean":       {hp:400, armor:30, mr:30, ah:15,
-  note:"Jak'Sho: stacks during combat (6 stacks = +12% armor and MR on top of base values).",
-  applyStats:(A)=>{ A.armorMult=(A.armorMult||0)+0.12; A.mrMult=(A.mrMult||0)+0.12; }},
-"Knight's Vow":               {hp:400, armor:30, ah:10,
-  note:"Knight's Vow: redirect 15% of damage taken by your Sworn ally to you."},
-"Locket of the Iron Solari":  {hp:200, armor:30, mr:30, ah:15,
-  note:"Locket of the Iron Solari: active — grant nearby allies a 200-400 HP shield for 2.5s (90s CD)."},
-"Randuin's Omen":             {hp:400, armor:80,
-  note:"Randuin's Omen: reduces damage from crits by 15%. Active slows nearby enemies by 55% for 2s (60s CD)."},
-"Rookern":                    {hp:500, mr:65,
-  note:"Rookern: stores 10% of post-mitigation magic damage (max 300). Releases stored damage as a shield."},
-"Spirit Visage":              {hp:350, mr:55, ah:10,
-  note:"Spirit Visage: increases all healing, regeneration and draining by 25%."},
-"Sunfire Aegis":              {hp:450, armor:35, ah:15,
-  note:"Sunfire Aegis: Immolate — deals 25 + 1% max HP magic/s to nearby enemies."},
-"Thornmail":                  {hp:250, armor:80,
-  note:"Thornmail: reflects 25 + 10% armor magic damage on being hit by autos. Applies 40% Grievous Wounds."},
-"Unending Despair":           {hp:350, armor:45, mr:35,
-  note:"Unending Despair: restores 25 + 2% max HP every 9s when taking damage from champions."},
-"Warmog's Armor":             {hp:800, hp5:200,
-  note:"Warmog's Armor: when above 1000 bonus HP, regenerate 5% max HP/s out of combat (3s timer)."},
-"Zeke's Convergence":         {hp:250, armor:30, mr:30, ah:20,
-  note:"Zeke's Convergence: after using R, empowers Sworn ally's attacks to deal bonus magic/slow for 10s."},
-
-/* ══════════════════════════════════════════════════════════
-   LEGENDARY — SUPPORT
-   ══════════════════════════════════════════════════════════ */
-"Ardent Censer":              {ap:45, as:0.10, shdpwr:8,
-  note:"Ardent Censer: healing or shielding an ally grants them +10-30% AS and 15-30 on-hit magic damage for 6s."},
-"Celestial Opposition":       {hp:200, shdpwr:10,
-  note:"Celestial Opposition: after a stun/root, grant all nearby allies a shield."},
-"Diadem of Songs":            {hp:200, mana:600, shdpwr:8,
-  note:"Diadem of Songs: allies healed/shielded gain a brief MS boost."},
-"Dream Maker":                {hp:300, shdpwr:12,
-  note:"Dream Maker: accumulate Reverie (from assist/healing/shielding); release as a shield on nearby allies."},
-"Echoes of Helia":            {ap:35, ah:20, hp:200, shdpwr:6,
-  note:"Echoes of Helia: on healing, deal 25 + 5% AP bonus magic to nearby enemies and heal the most wounded ally."},
-"Imperial Mandate":           {hp:200, ah:25,
-  note:"Imperial Mandate: slowing/immobilizing an enemy marks them; ally hitting the mark explodes for 45-90 + 9% AP magic."},
-"Mikael's Blessing":          {hp:150, mr:35, ah:15, shdpwr:16,
-  note:"Mikael's Blessing: active removes all crowd control and grants a 15% max HP shield on an ally (90s CD)."},
-"Moonstone Renewer":          {hp:200, ah:15, shdpwr:6,
-  note:"Moonstone Renewer: in combat, grants 35 + 3% AP stacking heal/shield to most wounded ally every 2s."},
-"Redemption":                 {hp:200, ah:10, shdpwr:20,
-  note:"Redemption: active calls a healing beam (anywhere on map) healing 35-400 HP to allies and dealing 10% max HP magic to enemies (90s CD)."},
-"Shurelya's Battlesong":      {hp:200, ah:15, ms_flat:5, ms_pct:0.05, shdpwr:8,
-  note:"Shurelya's Battlesong: active — grant nearby allies +40% MS for 4s (90s CD)."},
-"Staff of Flowing Water":     {ap:50, mr:30, ah:15, shdpwr:12,
-  note:"Staff of Flowing Water: healing/shielding an ally grants them 20-40 AP and 15% AS for 4s."},
-
-};};
+"Boots":{ms_flat:25},"Berserker's Greaves":{as:0.35,ms_flat:45},"Boots of Swiftness":{ms_flat:55},"Ionian Boots of Lucidity":{ah:15,ms_flat:45},"Mercury's Treads":{mr:25,ten:30,ms_flat:45},"Plated Steelcaps":{armor:20,ms_flat:45,note:"Plated Steelcaps: reduces all basic attack damage by 12%."},"Sorcerer's Shoes":{mrpen:18,ms_flat:45},"Armored Advance":{armor:40,ms_flat:45},"Chainlaced Crushers":{mr:30,ten:30,ms_flat:45},"Crimson Lucidity":{ah:15,ms_flat:45},"Gluttonous Greaves":{omni:10,ms_flat:45},"Gunmetal Greaves":{as:0.35,ls:5,ms_flat:45},"Immortal Path":{omni:10,ms_flat:45},"Spellslinger's Shoes":{mr:18,ms_flat:45},"Swiftmarch":{ms_flat:65},
+"Amplifying Tome":{ap:20},"B. F. Sword":{ad:40},"Blasting Wand":{ap:40},"Cloak of Agility":{crit:15},"Cloth Armor":{armor:15},"Dagger":{as:0.12},"Faerie Charm":{mp5:25},"Glowing Mote":{ah:5},"Long Sword":{ad:10},"Needlessly Large Rod":{ap:65},"Null-Magic Mantle":{mr:20},"Pickaxe":{ad:25},"Rejuvenation Bead":{hp5:7.5},"Ruby Crystal":{hp:150},"Sapphire Crystal":{mana:300},
+"Aether Wisp":{ap:30,ms_pct:0.05},"Bami's Cinder":{hp:200,ah:5},"Bandleglass Mirror":{ap:20,ah:10,mp5:50},"Blighting Jewel":{ap:35,mrpen_pct:12},"Bramble Vest":{armor:35,note:"Bramble Vest: reflects 3 + 10% armor as magic damage on being hit."},"Brutalizer":{ad:25,ah:10,leth:5},"Catalyst of Aeons":{hp:300,mana:375},"Caulfield's Warhammer":{ad:20,ah:10},"Chain Vest":{armor:40},"Crystalline Bracer":{hp:200,hp5:25},"Executioner's Calling":{ad:15,crit:15,note:"Executioner's Calling: applies 40% Grievous Wounds on hit."},"Fated Ashes":{ap:30,hp5:15},"Fiendish Codex":{ap:25,ah:10},"Forbidden Idol":{ap:25,shdpwr:8,mp5:50},"Giant's Belt":{hp:380},"Glacial Buckler":{armor:35,mana:300,ah:10},"Haunting Guise":{ap:30,hp:200},"Hearthbound Axe":{ad:20,as:0.20,note:"Hearthbound Axe: first auto on a champion slows for 20%."},"Hexdrinker":{ad:20,mr:25,note:"Hexdrinker: grants a 200-360 HP magic damage shield when below 30% HP (45s CD)."},"Hextech Alternator":{ap:40},"Kindlegem":{hp:200,ah:10},"Last Whisper":{ad:20,apen:18},"Lost Chapter":{ap:40,ah:10,mana:300},"Negatron Cloak":{mr:45},"Noonquiver":{ad:20,crit:15},"Oblivion Orb":{ap:25,note:"Oblivion Orb: applies 15% Grievous Wounds on ability damage."},"Phage":{hp:200,ad:15,note:"Phage: killing a unit grants +20 MS for 2s."},"Quicksilver Sash":{mr:30,note:"Quicksilver Sash: active removes all crowd control (90s CD)."},"Rectrix":{ad:15,ms_pct:0.04},"Recurve Bow":{as:0.18},"Scout's Slingshot":{as:0.20,crit:10},"Seeker's Armguard":{ap:40,armor:25},"Serrated Dirk":{ad:30,leth:10},"Sheen":{ah:10,mana:200,note:"Sheen: Spellblade — next auto deals 100% base AD bonus phys after using an ability (1.5s CD)."},"Specter's Cowl":{mr:35,hp:200,hp5:50},"Steel Sigil":{armor:30,ad:10},"Tiamat":{ad:20,hp:250,note:"Tiamat: autos deal 60% AD AoE cleave."},"Tunneler":{ad:15,hp:200},"Vampiric Scepter":{ad:15,ls:8},"Verdant Barrier":{ap:40,mr:25},"Warden's Mail":{armor:40,note:"Warden's Mail: reduces attacker's AS by 15% for 1s."},"Winged Moonplate":{hp:150,ms_pct:0.04},"Zeal":{as:0.15,crit:15,ms_pct:0.07},
+"Abyssal Mask":{hp:400,mr:45,ah:15,note:"Abyssal Mask: nearby enemies take +10% magic damage."},"Axiom Arc":{ad:55,ah:25,leth:18,note:"Axiom Arc: champion kills restore 25% of R cooldown."},"Black Cleaver":{hp:400,ad:40,ah:20,special:'cleaver',note:"Black Cleaver: each hit reduces armor by 5% (6 stacks = 30%), +20 MS on kill.",applyStats:(A)=>{A.armorShred=Math.max(A.armorShred||0,0.30);}},"Bloodmail":{hp:500,ad:40,note:"Bloodmail: gain 2% bonus HP as bonus AD per 100 bonus HP."},"Blade of the Ruined King":{ad:30,as:0.25,ls:8,onHitPctHP:0.06,note:"BotRK: on-hit deals 6% of target's current HP (melee). Active steals 15% MS.",applyStats:(A)=>{}},"Bloodthirster":{ad:80,ls:18,note:"Bloodthirster: excess healing creates a shield up to 50% bonus AD."},"Chempunk Chainsword":{ad:45,hp:450,ah:15,note:"Chempunk Chainsword: applies 60% Grievous Wounds on damage."},"Dead Man's Plate":{armor:55,hp:400,ms_pct:0.05,note:"Dead Man's Plate: build Momentum (max 100) to gain MS; charged auto stuns briefly."},"Death's Dance":{ad:55,armor:45,ah:15,note:"Death's Dance: 30% of physical damage taken is delayed as a bleed over 3s. Kills heal 15% of max HP."},"Eclipse":{ad:55,armor:15,ah:15,note:"Eclipse: every 2nd auto deals 6% max HP bonus phys damage and grants a brief overshield.",applyStats:(A)=>{}},"Experimental Hexplate":{hp:300,ad:25,as:0.25,uh:30,note:"Hexplate: +30 Ult Haste. After using R: +30% AS and +15% MS for 3s."},"Guardian Angel":{armor:45,ah:0,note:"Guardian Angel: on death, revive with 50% HP and 30% max mana (300s CD)."},"Hullbreaker":{hp:400,ad:50,armor:20,note:"Hullbreaker: when alone from allies: +20 armor, +20 MR, +15% damage to structures."},"Iceborn Gauntlet":{hp:400,armor:50,ah:15,note:"Iceborn Gauntlet: Spellblade auto creates a 65% slow zone for 2.5s."},"Kraken Slayer":{ad:45,as:0.35,crit:20,note:"Kraken Slayer: every 3rd attack deals 60 + 40% bonus AD true damage.",applyStats:(A)=>{}},"Maw of Malmortius":{ad:65,mr:40,ah:15,note:"Maw of Malmortius: when below 30% HP, gain 10% omnivamp and 20 lethality (Lifeline shield)."},"Mercurial Scimitar":{ad:40,mr:35,ls:10,note:"Mercurial Scimitar: active removes all crowd control and grants +50% MS for 1s (90s CD)."},"Muramana":{ad:35,ah:15,mana:860,note:"Muramana: +6% of max mana as bonus AD. Shock passive on autos/abilities.",applyStats:(A)=>{A.ad+=A.mana*0.06;}},"Ravenous Hydra":{hp:150,ad:65,ah:20,ls:8,note:"Ravenous Hydra: autos cleave for 60% AD AoE. +8% omnivamp from all damage.",applyStats:(A)=>{}},"Serylda's Grudge":{ad:45,armor:20,ah:15,special:'serylda',note:"Serylda's Grudge: +35% armor penetration. Abilities slow for 30%.",applyStats:(A)=>{A.armPenPct+=0.35;}},"Spear of Shojin":{hp:300,ad:55,ah:25,note:"Spear of Shojin: after using an ability, next 3 autos have 30% reduced CD per hit."},"Sterak's Gage":{hp:500,note:"Sterak's Gage: +45% of base AD as bonus AD. Lifeline: shield for 75% bonus AD when below 30% HP.",applyStats:(A)=>{A.ad+=A.baseAD*0.45;A._sterak=A.baseAD*0.50;}},"Sundered Sky":{hp:450,ad:30,ah:20,note:"Sundered Sky: first auto on a champion Shatters (deals 100% base AD + 12% target max HP bonus phys, 8s CD)."},"Terminus":{ad:35,as:0.25,note:"Terminus: autos alternately apply Shade (−30 armor) or Light (−30 MR), stacking.",applyStats:(A)=>{}},"Titanic Hydra":{hp:500,ad:35,ah:20,note:"Titanic Hydra: on-hit deals 1% of Urgot's max HP as bonus phys + 3% in a cone behind target.",applyStats:(A)=>{A.onHitPctOwnHP=Math.max(A.onHitPctOwnHP||0,0.01);}},"Trinity Force":{hp:333,ad:30,as:0.35,ah:20,ms_flat:5,note:"Trinity Force: Spellblade — next auto deals 200% base AD bonus phys after an ability (1.5s CD).",applyStats:(A)=>{}},"Edge of Night":{ad:50,leth:18,hp:250,note:"Edge of Night: channel 0.75s to gain a spell shield that blocks the next ability (40s CD)."},"Endless Hunger":{ad:65,omni:8,ten:20},"Essence Reaver":{ad:55,ah:20,crit:20,note:"Essence Reaver: Spellblade — after using an ability, next auto deals 40-100% bonus AD bonus phys."},"Galeforce":{ad:55,as:0.15,crit:20,ms_flat:5,note:"Galeforce: active dash in target direction dealing 12-22% max HP phys damage (90s CD)."},"Guinsoo's Rageblade":{ad:30,as:0.40,note:"Guinsoo's Rageblade: on-hits apply at double rate."},"Immortal Shieldbow":{ad:55,as:0.15,crit:20,ls:10,note:"Immortal Shieldbow: Lifeline — when dropping below 30% HP, gain shield for 250-700 HP (90s CD)."},"Infinity Edge":{ad:70,crit:20,note:"Infinity Edge: if crit ≥ 60%, crits deal 235% damage instead of 175%."},"Lord Dominik's Regards":{ad:35,crit:20,apen:35,note:"Lord Dominik's Regards: deal up to +20% bonus phys dmg when target has more max HP."},"Mortal Reminder":{ad:35,crit:20,apen:35,note:"Mortal Reminder: applies 60% Grievous Wounds on hit."},"Nashor's Tooth":{as:0.50,ah:15,note:"Nashor's Tooth: on-hit deals 15 + 20% AP magic damage."},"Navori Flickerblade":{ad:55,as:0.10,crit:20,note:"Navori Flickerblade: crits reduce non-ult ability CDs by 15%."},"Phantom Dancer":{ad:20,as:0.45,crit:20,ms_flat:7,note:"Phantom Dancer: gain a 300-600 HP shield when below 30% HP (60s CD)."},"Rapid Firecannon":{as:0.35,crit:20,ms_flat:7,note:"Rapid Firecannon: Energized auto has extended range and deals +160% AD bonus magic."},"Runaan's Hurricane":{as:0.45,crit:20,ms_flat:7,note:"Runaan's Hurricane: autos fire 2 extra bolts to nearby enemies for 40% AD each."},"Statikk Shiv":{as:0.35,crit:20,note:"Statikk Shiv: Energized auto deals 50-100 + 50% bonus AD magic damage, chaining to 5 targets."},"Stormrazor":{ad:45,crit:20,as:0.25,note:"Stormrazor: Energized auto slows target by 75% for 0.5s and deals +160% AD bonus magic."},"The Collector":{ad:55,leth:20,crit:20,note:"The Collector: killing blow executes below 5% HP. Kills grant +2 gold.",applyStats:(A)=>{}},"Yun Tal Wildarrows":{ad:55,crit:20,as:0.15,note:"Yun Tal Wildarrows: first attack on a champion per second deals 65 + 15% bonus AD bonus phys."},"Hextech Gunblade":{ad:35,ah:15,ls:8,note:"Hextech Gunblade: active bolt deals 175-250 + 30% bonus AD + 20% AP magic damage and slows 60% (20s CD)."},"Hubris":{ad:65,leth:20,note:"Hubris: killing a champion grants an Ego statue and a stacking AD buff."},"Night's Edge":{ad:55,leth:20,hp:250,note:"Night's Edge: after 5 ability hits on a target, next ability hit deals +25% damage and ignores 20 armor."},"Profane Hydra":{ad:55,leth:18,ah:18,note:"Profane Hydra: autos cleave for 60% AD AoE. Active: emit waves for 100% + 50% AD phys per wave (20s CD)."},"Serpent's Fang":{ad:55,leth:20,note:"Serpent's Fang: dealing damage reduces incoming shields by 50%. Reduces enemy shields by 100% on champion hit.",applyStats:(A)=>{}},"Umbral Glaive":{ad:55,leth:15,ah:15,note:"Umbral Glaive: nearby wards/traps are visible; first auto kills them instantly."},"Voltaic Cyclosword":{ad:45,leth:15,ah:10,note:"Voltaic Cyclosword: Energized attack slows target for 99% for 0.5s."},"Youmuu's Ghostblade":{ad:55,leth:18,ah:15,ms_flat:20,note:"Youmuu's Ghostblade: active grants +20% MS for 6s (45s CD)."},"Fimbulwinter":{hp:350,mr:40,ah:20,mana:400,note:"Fimbulwinter: Spellblade — after CC, next auto deals 50 + 2% max HP + 3% mana bonus phys."},"Force of Nature":{hp:350,mr:70,ms_flat:5,note:"Force of Nature: stacks up to +100 MR and +10% MS when taking magic damage."},"Frozen Heart":{armor:80,mana:400,ah:20,note:"Frozen Heart: reduces nearby enemy AS by 20%."},"Heartsteel":{hp:1000,note:"Heartsteel: every 4s, proc next auto for 100 + 6% bonus HP bonus phys damage + 10% permanently to max HP.",applyStats:(A)=>{}},"Hollow Radiance":{hp:300,armor:40,mr:35,ah:10,note:"Hollow Radiance: deals 2% max HP magic damage/s to nearby enemies."},"Jak'Sho, The Protean":{hp:400,armor:30,mr:30,ah:15,note:"Jak'Sho: stacks during combat (6 stacks = +12% armor and MR).",applyStats:(A)=>{A.armorMult=(A.armorMult||0)+0.12;A.mrMult=(A.mrMult||0)+0.12;}},"Knight's Vow":{hp:400,armor:30,ah:10,note:"Knight's Vow: redirect 15% of damage taken by your Sworn ally to you."},"Locket of the Iron Solari":{hp:200,armor:30,mr:30,ah:15,note:"Locket of the Iron Solari: active — grant nearby allies a 200-400 HP shield for 2.5s (90s CD)."},"Randuin's Omen":{hp:400,armor:80,note:"Randuin's Omen: reduces damage from crits by 15%. Active slows nearby enemies by 55% for 2s (60s CD)."},"Rookern":{hp:500,mr:65,note:"Rookern: stores 10% of post-mitigation magic damage (max 300). Releases stored damage as a shield."},"Spirit Visage":{hp:350,mr:55,ah:10,note:"Spirit Visage: increases all healing, regeneration and draining by 25%."},"Sunfire Aegis":{hp:450,armor:35,ah:15,note:"Sunfire Aegis: Immolate — deals 25 + 1% max HP magic/s to nearby enemies."},"Thornmail":{hp:250,armor:80,note:"Thornmail: reflects 25 + 10% armor magic damage on being hit by autos. Applies 40% Grievous Wounds."},"Unending Despair":{hp:350,armor:45,mr:35,note:"Unending Despair: restores 25 + 2% max HP every 9s when taking damage from champions."},"Warmog's Armor":{hp:800,hp5:200,note:"Warmog's Armor: when above 1000 bonus HP, regenerate 5% max HP/s out of combat (3s timer)."},"Zeke's Convergence":{hp:250,armor:30,mr:30,ah:20,note:"Zeke's Convergence: after using R, empowers Sworn ally's attacks to deal bonus magic/slow for 10s."},"Ardent Censer":{ap:45,as:0.10,shdpwr:8,note:"Ardent Censer: healing or shielding an ally grants them +10-30% AS and 15-30 on-hit magic damage for 6s."},"Celestial Opposition":{hp:200,shdpwr:10,note:"Celestial Opposition: after a stun/root, grant all nearby allies a shield."},"Diadem of Songs":{hp:200,mana:600,shdpwr:8,note:"Diadem of Songs: allies healed/shielded gain a brief MS boost."},"Dream Maker":{hp:300,shdpwr:12,note:"Dream Maker: accumulate Reverie; release as a shield on nearby allies."},"Echoes of Helia":{ap:35,ah:20,hp:200,shdpwr:6,note:"Echoes of Helia: on healing, deal 25 + 5% AP bonus magic to nearby enemies."},"Imperial Mandate":{hp:200,ah:25,note:"Imperial Mandate: slowing/immobilizing an enemy marks them; ally hitting the mark explodes for 45-90 + 9% AP magic."},"Mikael's Blessing":{hp:150,mr:35,ah:15,shdpwr:16,note:"Mikael's Blessing: active removes all crowd control and grants a 15% max HP shield on an ally (90s CD)."},"Moonstone Renewer":{hp:200,ah:15,shdpwr:6,note:"Moonstone Renewer: in combat, grants 35 + 3% AP stacking heal/shield to most wounded ally every 2s."},"Redemption":{hp:200,ah:10,shdpwr:20,note:"Redemption: active calls a healing beam healing 35-400 HP to allies and dealing 10% max HP magic to enemies (90s CD)."},"Shurelya's Battlesong":{hp:200,ah:15,ms_flat:5,ms_pct:0.05,shdpwr:8,note:"Shurelya's Battlesong: active — grant nearby allies +40% MS for 4s (90s CD)."},"Staff of Flowing Water":{ap:50,mr:30,ah:15,shdpwr:12,note:"Staff of Flowing Water: healing/shielding an ally grants them 20-40 AP and 15% AS for 4s."},"Archangel's Staff":{ap:80,ah:25,mana:500,note:"Archangel's Staff: max mana increases by 5 per ability use (up to +750 mana). Transforms into Seraph's Embrace."},"Bandlepipes":{ap:45,ah:15,armor:20,mr:20,hp:200},"Banshee's Veil":{ap:105,mr:40,note:"Banshee's Veil: passive — spell shield blocking first ability hit every 40s."},"Blackfire Torch":{ap:80,ah:20,note:"Blackfire Torch: ability hits ignite targets for 2% max HP/s magic damage over 3s."},"Bloodletter's Curse":{ap:65,ah:15,hp:400,note:"Bloodletter's Curse: dealing magic damage reduces enemy MR by 5% per stack (up to −25%)."},"Cosmic Drive":{ap:70,ah:25,hp:350,ms_flat:10,note:"Cosmic Drive: dealing ability damage grants +20 AP and +20% MS for 3s (stacks 3x)."},"Cryptbloom":{ap:75,ah:20,mrpen_pct:30,note:"Cryptbloom: kills root nearby enemies for 1.5s and grant +50 AP for 5s."},"Lich Bane":{ap:75,ah:10,ms_flat:5,note:"Lich Bane: Spellblade — next auto deals 75% base AD + 40% AP bonus magic after an ability (1.5s CD)."},"Liandry's Torment":{ap:90,hp:300,ah:20,note:"Liandry's Torment: abilities inflict Torment for 3s dealing 1.5% max HP/s magic damage."},"Luden's Companion":{ap:80,ah:10,ms_flat:10,note:"Luden's Companion: ability hits charge Luden; at 100 charges, next ability hit deals 80 + 15% AP bonus magic."},"Malignance":{ap:80,ah:25,note:"Malignance: R damage is amplified +25%. R applies Haunt: 15 + 5% AP magic burn/s for 3s."},"Rabadon's Deathcap":{ap:120,note:"Rabadon's Deathcap: increases total AP by 35%.",applyStats:(A)=>{}},"Riftmaker":{ap:65,hp:300,ah:15,note:"Riftmaker: in combat with champions gain up to +6% AP (3 stacks). At max stacks: deal 3% of max HP bonus true damage per ability."},"Rod of Ages":{ap:60,hp:300,mana:400,note:"Rod of Ages: charges over 10 min up to +200 HP, +200 mana, +20 AP."},"Rylai's Crystal Scepter":{ap:80,hp:350,note:"Rylai's Crystal Scepter: abilities slow targets by 30% for 1s."},"Seraph's Embrace":{ap:80,ah:25,mana:1000,note:"Seraph's Embrace: 3% of max mana as bonus AP. Shield active for 25% max mana HP (120s CD)."},"Shadowflame":{ap:100,note:"Shadowflame: crits and abilities deal 20 bonus magic pen (if target is shielded, 10-30 penetration)."},"Stormsurge":{ap:95,ms_pct:0.04,note:"Stormsurge: immobilizing or killing a champ within 3s launches a lightning bolt for 35-400 bonus magic damage."},"Void Staff":{ap:90,mrpen_pct:40,note:"Void Staff: +40% magic penetration."},"Zhonya's Hourglass":{ap:80,armor:45,ah:10,note:"Zhonya's Hourglass: active — enter Stasis (untargetable + invulnerable) for 2.5s (120s CD)."},"Dawncore":{ap:60,ah:20,shdpwr:8,note:"Dawncore: 2% of bonus mana as bonus AP. Increases heal/shield power by 1% per 100 AP."},"Actualizer":{ap:90,ah:10},"Mejai's Soulstealer":{ap:20,note:"Mejai's Soulstealer: stacking — up to +130 AP at 25 stacks."},"Morellonomicon":{ap:75,ah:15,note:"Morellonomicon: dealing magic damage applies 40% Grievous Wounds."}
+};
 
 function patchItemStats(it){
   const ov=MANUAL_STATS[it.nameEN];
   if(!ov)return;
-  if(ov.hp      !==undefined) it.hp       = ov.hp;
-  if(ov.ad      !==undefined) it.ad       = ov.ad;
-  if(ov.armor   !==undefined) it.armor    = ov.armor;
-  if(ov.mr      !==undefined) it.mr       = ov.mr;
-  if(ov.ah      !==undefined&&ov.ah>0)    it.ah      = ov.ah;
-  if(ov.uh      !==undefined&&ov.uh>0)    it.uh      = ov.uh;
-  if(ov.as      !==undefined) it.as       = ov.as;
-  if(ov.crit    !==undefined) it.crit     = ov.crit;
-  if(ov.ls      !==undefined) it.ls       = ov.ls;
-  if(ov.leth    !==undefined&&ov.leth>0)  it.leth    = ov.leth;
-  if(ov.apen    !==undefined&&ov.apen>0)  it.apen    = ov.apen;
-  if(ov.ms_flat !==undefined&&ov.ms_flat>0)it.ms_flat= ov.ms_flat;
-  if(ov.ms_pct  !==undefined&&ov.ms_pct>0)it.ms_pct = ov.ms_pct;
-  if(ov.omni    !==undefined&&ov.omni>0)  it.omni    = ov.omni;
-  if(ov.ten     !==undefined&&ov.ten>0)   it.ten     = ov.ten;
-  if(ov.mrpen   !==undefined&&ov.mrpen>0) it.mrpen   = ov.mrpen;
-  if(ov.ap      !==undefined) it.ap       = ov.ap;
-  if(ov.mana    !==undefined&&ov.mana>0)  it.mana    = ov.mana;
-  if(ov.mp5     !==undefined&&ov.mp5>0)   it.mp5     = ov.mp5;
-  if(ov.hp5     !==undefined&&ov.hp5>0)   it.hp5     = ov.hp5;
-  if(ov.shdpwr  !==undefined&&ov.shdpwr>0)it.shdpwr  = ov.shdpwr;
+  if(ov.hp!==undefined)it.hp=ov.hp;
+  if(ov.ad!==undefined)it.ad=ov.ad;
+  if(ov.armor!==undefined)it.armor=ov.armor;
+  if(ov.mr!==undefined)it.mr=ov.mr;
+  if(ov.ah!==undefined&&ov.ah>0)it.ah=ov.ah;
+  if(ov.uh!==undefined&&ov.uh>0)it.uh=ov.uh;
+  if(ov.as!==undefined)it.as=ov.as;
+  if(ov.crit!==undefined)it.crit=ov.crit;
+  if(ov.ls!==undefined)it.ls=ov.ls;
+  if(ov.leth!==undefined&&ov.leth>0)it.leth=ov.leth;
+  if(ov.apen!==undefined&&ov.apen>0)it.apen=ov.apen;
+  if(ov.ms_flat!==undefined&&ov.ms_flat>0)it.ms_flat=ov.ms_flat;
+  if(ov.ms_pct!==undefined&&ov.ms_pct>0)it.ms_pct=ov.ms_pct;
+  if(ov.omni!==undefined&&ov.omni>0)it.omni=ov.omni;
+  if(ov.ten!==undefined&&ov.ten>0)it.ten=ov.ten;
+  if(ov.mrpen!==undefined&&ov.mrpen>0)it.mrpen=ov.mrpen;
+  if(ov.ap!==undefined)it.ap=ov.ap;
+  if(ov.mana!==undefined&&ov.mana>0)it.mana=ov.mana;
+  if(ov.mp5!==undefined&&ov.mp5>0)it.mp5=ov.mp5;
+  if(ov.hp5!==undefined&&ov.hp5>0)it.hp5=ov.hp5;
+  if(ov.shdpwr!==undefined&&ov.shdpwr>0)it.shdpwr=ov.shdpwr;
   if(ov.mrpen_pct!==undefined&&ov.mrpen_pct>0)it.mrpen_pct=ov.mrpen_pct;
-  // Passives
-  if(ov.note       !==undefined) it.note       = ov.note;
-  if(ov.special    !==undefined) it.special    = ov.special;
-  if(ov.onHitPctHP !==undefined) it.onHitPctHP = ov.onHitPctHP;
-  if(ov.applyStats !==undefined) it._applyStats= ov.applyStats;
+  if(ov.note!==undefined)it.note=ov.note;
+  if(ov.special!==undefined)it.special=ov.special;
+  if(ov.onHitPctHP!==undefined)it.onHitPctHP=ov.onHitPctHP;
+  if(ov.applyStats!==undefined)it._applyStats=ov.applyStats;
 }
 
 let FR_NAMES={};
@@ -847,53 +710,14 @@ let ALL_ITEMS=[];
 const WL={};
 const _F='fighter',_M='marksman',_A='assassin',_G='mage',_T='tank',_S='support',_B='boots';
 function _wl(cats){const names=[...arguments].slice(1);for(const n of names){const k=norm(n);if(!WL[k])WL[k]=[];cats.forEach(c=>{if(!WL[k].includes(c))WL[k].push(c);});}}
-
-// Components
-_wl([_F,_M,_A],'dagger');
-_wl([_F,_M,_A,_G,_T,_S],'glowing mote','null-magic mantle','ruby crystal','cloth armor');
-_wl([_F,_M,_A],'long sword','pickaxe','b. f. sword','bf sword');
-_wl([_G,_S],'amplifying tome','blasting wand','needlessly large rod');
-_wl([_G,_T,_S],'sapphire crystal');
-_wl([_T,_S],'rejuvenation bead');
-_wl([_S],'faerie charm');
-// Epics
-_wl([_F,_M],'recurve bow','noonquiver','hearthbound axe','zeal','vampiric scepter');
-_wl([_F,_M,_A],'serrated dirk','caulfield\'s warhammer','brutalizer','tiamat','tunneler');
-_wl([_F,_T,_S],'kindlegem','winged moonplate');
-_wl([_F,_M,_T,_S],'negatron cloak');
-_wl([_F,_M,_T],'chain vest','sheen');
-_wl([_F,_T,_G],'giant\'s belt');
-_wl([_F],'phage','steel sigil','hexdrinker');
-_wl([_M,_A],'last whisper','executioner\'s calling','rectrix','scout\'s slingshot');
-_wl([_M],'cloak of agility');
-_wl([_G],'haunting guise','fiendish codex','lost chapter','hextech alternator','blighting jewel','aether wisp','bandleglass mirror','seeker\'s armguard','verdant barrier','fated ashes','oblivion orb');
-_wl([_G,_S],'forbidden idol');
-_wl([_T],'bramble vest','warden\'s mail','specter\'s cowl','glacial buckler','bami\'s cinder','crystalline bracer');
-_wl([_T,_S],'quicksilver sash');
-_wl([_S],'bandleglass mirror');
-// Fighter legendaries
-_wl([_F,_T],'trinity force','bloodmail','titanic hydra','dead man\'s plate','iceborn gauntlet');
-_wl([_F],'ravenous hydra','death\'s dance','sterak\'s gage','bloodthirster','experimental hexplate','sundered sky','spear of shojin','hullbreaker','eclipse','muramana','abyssal mask');
-_wl([_F,_M,_A],'guardian angel','serylda\'s grudge','maw of malmortius','mercurial scimitar');
-_wl([_F,_M],'blade of the ruined king','terminus','kraken slayer','au bout du rouleau','kraken slayer');
-_wl([_F,_A],'chempunk chainsword','black cleaver','bastion breaker','bastionbreaker');
-// Marksman legendaries
-_wl([_M],'infinity edge','lord dominik\'s regards','yun tal wildarrows','stormrazor','phantom dancer','mortal reminder','navori flickerblade','rapid firecannon','runaan\'s hurricane','immortal shieldbow','guinsoo\'s rageblade','statikk shiv','galeforce','essence reaver','endless hunger');
-_wl([_M,_A],'the collector','edge of night');
-_wl([_M,_G],'nashor\'s tooth');
-// Assassin legendaries
-_wl([_A],'hubris','umbral glaive','youmuu\'s ghostblade','profane hydra','serpent\'s fang','voltaic cyclosword','night\'s edge','axiom arc');
-_wl([_A,_G],'hextech gunblade');
-// Mage legendaries
-_wl([_G],'rod of ages','rylai\'s crystal scepter','hextech rocketbelt','malignance','horizon focus','luden\'s companion','blackfire torch','riftmaker','stormsurge','archangel\'s staff','lich bane','bloodletter\'s curse','void staff','cryptbloom','cosmic drive','liandry\'s torment','shadowflame','zhonya\'s hourglass','rabadon\'s deathcap','mejai\'s soulstealer','dusk and dawn','actualizer','seraph\'s embrace','bandlepipes','morellonomicon','dawncore');
-_wl([_G,_T],'banshee\'s veil');
-_wl([_G,_T,_S],'morellonomicon');
-// Tank legendaries
-_wl([_T],'fimbulwinter','force of nature','frozen heart','heartsteel','hollow radiance','randuin\'s omen','rookern','spirit visage','sunfire aegis','thornmail','unending despair','warmog\'s armor','jak\'sho, the protean','jaksho');
-_wl([_T,_S],'abyssal mask','zeke\'s convergence','locket of the iron solari','knight\'s vow','dead man\'s plate');
-// Support legendaries
-_wl([_S],'ardent censer','echoes of helia','shurelya\'s battlesong','mikael\'s blessing','redemption','imperial mandate','staff of flowing water','moonstone renewer','celestial opposition','dream maker','diadem of songs','bandlepipes');
-
+_wl([_F,_M,_A],'dagger');_wl([_F,_M,_A,_G,_T,_S],'glowing mote','null-magic mantle','ruby crystal','cloth armor');_wl([_F,_M,_A],'long sword','pickaxe','b. f. sword','bf sword');_wl([_G,_S],'amplifying tome','blasting wand','needlessly large rod');_wl([_G,_T,_S],'sapphire crystal');_wl([_T,_S],'rejuvenation bead');_wl([_S],'faerie charm');
+_wl([_F,_M],'recurve bow','noonquiver','hearthbound axe','zeal','vampiric scepter');_wl([_F,_M,_A],'serrated dirk',"caulfield's warhammer",'brutalizer','tiamat','tunneler');_wl([_F,_T,_S],'kindlegem','winged moonplate');_wl([_F,_M,_T,_S],'negatron cloak');_wl([_F,_M,_T],'chain vest','sheen');_wl([_F,_T,_G],"giant's belt");_wl([_F],'phage','steel sigil','hexdrinker');_wl([_M,_A],'last whisper',"executioner's calling",'rectrix',"scout's slingshot");_wl([_M],'cloak of agility');_wl([_G],'haunting guise','fiendish codex','lost chapter','hextech alternator','blighting jewel','aether wisp','bandleglass mirror',"seeker's armguard",'verdant barrier','fated ashes','oblivion orb');_wl([_G,_S],'forbidden idol');_wl([_T],'bramble vest',"warden's mail","specter's cowl",'glacial buckler',"bami's cinder",'crystalline bracer');_wl([_T,_S],'quicksilver sash');_wl([_S],'bandleglass mirror');
+_wl([_F,_T],'trinity force','bloodmail','titanic hydra','dead man\'s plate','iceborn gauntlet');_wl([_F],'ravenous hydra',"death's dance","sterak's gage",'bloodthirster','experimental hexplate','sundered sky','spear of shojin','hullbreaker','eclipse','muramana','abyssal mask');_wl([_F,_M,_A],'guardian angel',"serylda's grudge",'maw of malmortius','mercurial scimitar');_wl([_F,_M],'blade of the ruined king','terminus','kraken slayer');_wl([_F,_A],'chempunk chainsword','black cleaver','bastionbreaker');
+_wl([_M],'infinity edge',"lord dominik's regards",'yun tal wildarrows','stormrazor','phantom dancer','mortal reminder','navori flickerblade','rapid firecannon',"runaan's hurricane",'immortal shieldbow',"guinsoo's rageblade",'statikk shiv','galeforce','essence reaver','endless hunger');_wl([_M,_A],'the collector','edge of night');_wl([_M,_G],"nashor's tooth");
+_wl([_A],'hubris','umbral glaive',"youmuu's ghostblade",'profane hydra',"serpent's fang",'voltaic cyclosword',"night's edge",'axiom arc');_wl([_A,_G],'hextech gunblade');
+_wl([_G],'rod of ages',"rylai's crystal scepter",'hextech rocketbelt','malignance','horizon focus',"luden's companion",'blackfire torch','riftmaker','stormsurge',"archangel's staff",'lich bane',"bloodletter's curse",'void staff','cryptbloom','cosmic drive',"liandry's torment",'shadowflame',"zhonya's hourglass","rabadon's deathcap","mejai's soulstealer","seraph's embrace",'bandlepipes','morellonomicon','dawncore','actualizer');_wl([_G,_T],"banshee's veil");_wl([_G,_T,_S],'morellonomicon');
+_wl([_T],'fimbulwinter','force of nature','frozen heart','heartsteel','hollow radiance',"randuin's omen",'rookern','spirit visage','sunfire aegis','thornmail','unending despair',"warmog's armor","jak'sho, the protean",'jaksho');_wl([_T,_S],'abyssal mask',"zeke's convergence",'locket of the iron solari',"knight's vow",'dead man\'s plate');
+_wl([_S],'ardent censer','echoes of helia',"shurelya's battlesong","mikael's blessing",'redemption','imperial mandate','staff of flowing water','moonstone renewer','celestial opposition','dream maker','diadem of songs','bandlepipes');
 _wl([_B],'boots','boots of speed',"sorcerer's shoes","sorcerers shoes","plated steelcaps","mercury's treads","mercurys treads","ionian boots of lucidity","boots of swiftness","berserker's greaves","berserkers greaves","armored advance","chainlaced crushers","crimson lucidity","gluttonous greaves","gunmetal greaves","immortal path","spellslinger's shoes","swiftmarch");
 
 function getItemCats(nameEN,nameFR,itemId){
@@ -1020,28 +844,28 @@ function showTooltip(it,e){
   document.getElementById('tt-name').textContent=it.name;
   document.getElementById('tt-gold').textContent=(it.gold||0)+' gold';
   let rows='';
-  if(it.hp)     rows+=statRow('HP','+'+Math.round(it.hp));
-  if(it.ad)     rows+=statRow('Attack Damage','+'+Math.round(it.ad));
-  if(it.armor)  rows+=statRow('Armor','+'+Math.round(it.armor));
-  if(it.mr)     rows+=statRow('Magic Resist','+'+Math.round(it.mr));
-  if(it.ah)     rows+=statRow('Ability Haste','+'+Math.round(it.ah));
-  if(it.uh)     rows+=statRow('Ult Haste','+'+Math.round(it.uh));
-  if(it.as)     rows+=statRow('Attack Speed','+'+Math.round(it.as*100)+'%');
-  if(it.crit)   rows+=statRow('Crit Chance','+'+Math.round(it.crit)+'%');
-  if(it.ls)     rows+=statRow('Life Steal','+'+Math.round(it.ls)+'%');
-  if(it.omni)   rows+=statRow('Omnivamp','+'+Math.round(it.omni)+'%');
-  if(it.leth)   rows+=statRow('Lethality','+'+Math.round(it.leth));
-  if(it.apen)   rows+=statRow('Armor Pen %','+'+it.apen+'%');
-  if(it.mrpen)  rows+=statRow('Magic Pen','+'+Math.round(it.mrpen));
+  if(it.hp)rows+=statRow('HP','+'+Math.round(it.hp));
+  if(it.ad)rows+=statRow('Attack Damage','+'+Math.round(it.ad));
+  if(it.armor)rows+=statRow('Armor','+'+Math.round(it.armor));
+  if(it.mr)rows+=statRow('Magic Resist','+'+Math.round(it.mr));
+  if(it.ah)rows+=statRow('Ability Haste','+'+Math.round(it.ah));
+  if(it.uh)rows+=statRow('Ult Haste','+'+Math.round(it.uh));
+  if(it.as)rows+=statRow('Attack Speed','+'+Math.round(it.as*100)+'%');
+  if(it.crit)rows+=statRow('Crit Chance','+'+Math.round(it.crit)+'%');
+  if(it.ls)rows+=statRow('Life Steal','+'+Math.round(it.ls)+'%');
+  if(it.omni)rows+=statRow('Omnivamp','+'+Math.round(it.omni)+'%');
+  if(it.leth)rows+=statRow('Lethality','+'+Math.round(it.leth));
+  if(it.apen)rows+=statRow('Armor Pen %','+'+it.apen+'%');
+  if(it.mrpen)rows+=statRow('Magic Pen','+'+Math.round(it.mrpen));
   if(it.ms_flat)rows+=statRow('Move Speed','+'+it.ms_flat);
-  if(it.ms_pct) rows+=statRow('Move Speed %','+'+Math.round(it.ms_pct*100)+'%');
-  if(it.ten)       rows+=statRow('Tenacity',        '+'+it.ten+'%');
-  if(it.mana)      rows+=statRow('Mana',             '+'+Math.round(it.mana));
-  if(it.hp5)       rows+=statRow('HP Regen /5s',     '+'+it.hp5.toFixed(1));
-  if(it.mp5)       rows+=statRow('Mana Regen /5s',   '+'+it.mp5.toFixed(1));
-  if(it.shdpwr)    rows+=statRow('Heal & Shield +',  '+'+it.shdpwr+'%');
-  if(it.mrpen_pct) rows+=statRow('Magic Pen %',      '+'+it.mrpen_pct+'%');
-  if(it.ap)        rows+=statRow('Ability Power',    '+'+Math.round(it.ap));
+  if(it.ms_pct)rows+=statRow('Move Speed %','+'+Math.round(it.ms_pct*100)+'%');
+  if(it.ten)rows+=statRow('Tenacity','+'+it.ten+'%');
+  if(it.mana)rows+=statRow('Mana','+'+Math.round(it.mana));
+  if(it.hp5)rows+=statRow('HP Regen /5s','+'+it.hp5.toFixed(1));
+  if(it.mp5)rows+=statRow('Mana Regen /5s','+'+it.mp5.toFixed(1));
+  if(it.shdpwr)rows+=statRow('Heal & Shield +','+'+it.shdpwr+'%');
+  if(it.mrpen_pct)rows+=statRow('Magic Pen %','+'+it.mrpen_pct+'%');
+  if(it.ap)rows+=statRow('Ability Power','+'+Math.round(it.ap));
   document.getElementById('tt-stats').innerHTML=rows||'<span style="color:var(--txt3);font-size:11px">No combat stats</span>';
   const noteEl=document.getElementById('tt-note');
   if(it.note){noteEl.innerHTML=it.note.replace(/^([^:]+):/,'<b>$1</b>:');noteEl.style.display='block';}
@@ -1091,6 +915,9 @@ function renderShardsUI(){
   SHARDS.forEach((opts,i)=>{const row=document.createElement('div');row.className='shard-row';row.innerHTML=`<span class="sl">${labels[i]}</span>`;const wrap=document.createElement('div');wrap.className='shard-opts';opts.forEach(sh=>{const b=document.createElement('button');b.className='sbtn'+(S.shards[i]===sh.id?' on':'');b.innerHTML=`<img src="${sh.img}" onerror="this.style.display='none'">${sh.n}`;b.onclick=()=>{S.shards[i]=sh.id;renderShardsUI();recompute();};wrap.appendChild(b);});row.appendChild(wrap);g.appendChild(row);});
 }
 
+// ══════════════════════════════════════════════════════════
+// AGGREGATION
+// ══════════════════════════════════════════════════════════
 function aggregate(){
   const l=S.lvl;
   const baseHP=grow(BASE.hp,BASE.hpPerLvl,l),baseAD=grow(BASE.ad,BASE.adPerLvl,l),baseArmor=grow(BASE.armor,BASE.armorPerLvl,l),baseMR=grow(BASE.mr,BASE.mrPerLvl,l);
@@ -1101,18 +928,24 @@ function aggregate(){
   S.items.forEach(it=>{if(!it)return;hp+=it.hp||0;ad+=it.ad||0;armor+=it.armor||0;mr+=it.mr||0;crit+=it.crit||0;ls+=it.ls||0;omni+=it.omni||0;ah+=it.ah||0;bah+=it.bah||0;uh+=it.uh||0;leth+=it.leth||0;apen+=it.apen||0;ms+=it.ms_flat||0;if(it.ms_pct)ms_pct+=it.ms_pct;if(it.as)as_=as_*(1+it.as);mana+=it.mana||0;hp5+=it.hp5||0;mp5+=it.mp5||0;shdpwr+=it.shdpwr||0;mrpen_pct+=it.mrpen_pct||0;if(it.special&&special.hasOwnProperty(it.special))special[it.special]=true;if(it.onHitPctHP)onHitPctHP+=it.onHitPctHP;if(it.note)itemNotes.push(it.note);if(it.consumable){const c=it.consumable;if(c.stats){if(c.stats.ad)ad+=c.stats.ad;if(c.stats.ten)ten+=c.stats.ten;if(c.stats.hp)hp+=c.stats.hp;}if(c.hpFlat)hp+=c.hpFlat;if(c.regen)bonusRegen+=c.regen;if(c.note)itemNotes.push(c.note);}});
   if(ms_pct)ms=Math.floor(ms*(1+ms_pct));as_=Math.min(as_,2.5);crit=Math.min(crit,100);
   const work={ad,baseAD,mana,hp,_sterak:0,armPenPct:0,armorShred:0,onHitPctOwnHP:0};
-  S.items.forEach(it=>{
-    if(!it)return;
-    if(it.passiveKey){const p=ITEM_PASSIVES[it.passiveKey];if(p&&typeof p.applyStats==='function')p.applyStats(work);}
-    if(typeof it._applyStats==='function')it._applyStats(work);
-  });
+  S.items.forEach(it=>{if(!it)return;if(it.passiveKey){const p=ITEM_PASSIVES[it.passiveKey];if(p&&typeof p.applyStats==='function')p.applyStats(work);}if(typeof it._applyStats==='function')it._applyStats(work);});
   ad=work.ad;apen=Math.min(100,apen+Math.round((work.armPenPct||0)*100));const onHitPctOwnHP=work.onHitPctOwnHP||0;
-  // Multiplicative resistance bonuses (Jak'Sho 6 stacks etc.)
-  if(work.armorMult) armor = armor*(1+work.armorMult);
-  if(work.mrMult)    mr    = mr   *(1+work.mrMult);
+  if(work.armorMult)armor=armor*(1+work.armorMult);
+  if(work.mrMult)mr=mr*(1+work.mrMult);
   return{l,baseHP,baseAD,baseArmor,baseMR,hp,ad,armor,mr,as_,hp5,ms,crit,ls,omni,ah,bah,uh,leth,apen,ten,ms_pct,mana,mp5,shdpwr,mrpen_pct,bonusAD:ad-baseAD,bonusHP:hp-baseHP,special,sterakBonus:work._sterak||0,onHitPctHP,onHitPctOwnHP,itemNotes,bonusRegen,armorShred:work.armorShred||0};
 }
 const cdWith=(b,h)=>b*(100/(100+h));
+
+function passiveADRatio(l){return l>=16?.80:l>=11?.70:l>=6?.60:.50;}
+function passiveHPRatio(l){return l>=16?.05:l>=11?.04:l>=6?.03:.02;}
+function passiveLegCD(l){return l>=16?2.5:l>=11?5:l>=7?10:l>=4?20:30;}
+
+const SPELLS={
+  Q:{name:'Corrosive Charge',base:[25,70,115,160,205],adRatio:0.7,ratioType:'total',cd:[10,9.5,9,8.5,8],maxRank:5},
+  W:{name:'Purge',base:12,adRatio:[0.20,0.235,0.27,0.305,0.34],ratioType:'total',cd:[12,9,6,3,0],maxRank:5,ticksPerSec:3},
+  E:{name:'Disdain',base:[90,120,150,180,210],adRatio:1.00,ratioType:'bonus',cd:[16,15.5,15,14.5,14],maxRank:5},
+  R:{name:'Fear Beyond Death',base:[100,225,350],adRatio:0.50,ratioType:'bonus',cd:[100,85,70],maxRank:3,ult:true},
+};
 
 function renderStats(A){
   const g=document.getElementById('stats');
@@ -1123,12 +956,12 @@ function renderStats(A){
   if(A.leth>0||A.apen>0)html+=`<div class="stat dual"><div class="sn">🔪 Lethality / Armor Pen</div><div class="sv">${A.leth>0?Math.round(A.leth):'0'} <span style="font-size:13px;color:var(--txt2)">/</span> ${A.apen>0?A.apen+'%':'—'}</div></div>`;
   if(A.bah>0)html+=cell('🟢','Basic AH (Q/W/E)',Math.round(A.bah));
   if(A.uh>0)html+=cell('🔴','Ult AH (R)',Math.round(A.uh));
-  if(A.ten>0)     html+=cell('🧊','Tenacity',      A.ten+'%');
-  if(A.mana>0)    html+=cell('💧','Mana',           Math.round(A.mana));
-  if(A.hp5>0)     html+=cell('💚','HP Regen /5s',   A.hp5.toFixed(1));
-  if(A.mp5>0)     html+=cell('🔵','Mana Regen /5s', A.mp5.toFixed(1));
-  if(A.shdpwr>0)  html+=cell('🛡','Heal & Shield +', A.shdpwr+'%');
-  if(A.mrpen_pct>0)html+=cell('🌀','Magic Pen %',   A.mrpen_pct+'%');
+  if(A.ten>0)html+=cell('🧊','Tenacity',A.ten+'%');
+  if(A.mana>0)html+=cell('💧','Mana',Math.round(A.mana));
+  if(A.hp5>0)html+=cell('💚','HP Regen /5s',A.hp5.toFixed(1));
+  if(A.mp5>0)html+=cell('🔵','Mana Regen /5s',A.mp5.toFixed(1));
+  if(A.shdpwr>0)html+=cell('🛡','Heal & Shield +',A.shdpwr+'%');
+  if(A.mrpen_pct>0)html+=cell('🌀','Magic Pen %',A.mrpen_pct+'%');
   g.innerHTML=html;
 }
 
@@ -1138,6 +971,7 @@ function skillRanks(l){
   for(const k of['W','E','Q']){while(pts>0&&cap[k]<5){cap[k]++;pts--;}}
   return{Q:cap.Q,W:cap.W,E:cap.E,R:rPts,rLearned:rPts>0};
 }
+
 function renderAbilities(A){
   const ranks=skillRanks(A.l),basicH=A.ah+A.bah,ultH=A.ah+A.uh;
   document.getElementById('ahHint').textContent=`AH ${Math.round(A.ah)} · basic +${Math.round(A.bah)} · ult +${Math.round(A.uh)}`;
@@ -1155,55 +989,149 @@ function renderAbilities(A){
   const adR=passiveADRatio(A.l),hpR=passiveHPRatio(A.l),legCD=passiveLegCD(A.l);
   document.getElementById('passiveBox').innerHTML=`<div class="phtitle">⚙ Echoing Flames — Level ${A.l}</div><div class="pgrid"><div class="pstat">AD/leg: <b>${Math.round(adR*100)}% = ${Math.round(A.ad*adR)} dmg</b></div><div class="pstat">% target HP/leg: <b>${(hpR*100).toFixed(0)}%</b></div><div class="pstat">Leg CD: <b>${legCD}s</b></div><div class="pstat">6-leg AD burst: <b>~${Math.round(A.ad*adR*6)} dmg</b></div></div><div class="notes-box" id="buildNotes"></div>`;
   let notes='';
-  if(A.sterakBonus>0) notes+=`<div class="note"><b>Sterak's Gage</b> — +${Math.round(A.sterakBonus)} bonus AD included (50% base AD).</div>`;
-  const muraAD=A.mana*0.06;
+  if(A.sterakBonus>0)notes+=`<div class="note"><b>Sterak's Gage</b> — +${Math.round(A.sterakBonus)} bonus AD included (50% base AD).</div>`;
   const hasMuramana=S.items.some(it=>it&&/muramana/i.test(it.name||''));
-  if(hasMuramana&&muraAD>0) notes+=`<div class="note"><b>Muramana</b> — +${Math.round(muraAD)} AD from mana (6% of ${Math.round(A.mana)}).</div>`;
+  if(hasMuramana&&A.mana*0.06>0)notes+=`<div class="note"><b>Muramana</b> — +${Math.round(A.mana*0.06)} AD from mana (6% of ${Math.round(A.mana)}).</div>`;
   const hasJaksho=S.items.some(it=>it&&/jak.sho/i.test(it.name||''));
-  if(hasJaksho) notes+=`<div class="note"><b>Jak'Sho</b> — +12% armor/MR at 6 stacks (included above).</div>`;[...new Set(A.itemNotes||[])].forEach(n=>{if(!/Sterak/i.test(n))notes+=`<div class="note">${n.replace(/^([^:]+):/,'<b>$1</b>:')}</div>`;});
+  if(hasJaksho)notes+=`<div class="note"><b>Jak'Sho</b> — +12% armor/MR at 6 stacks (included above).</div>`;
+  [...new Set(A.itemNotes||[])].forEach(n=>{if(!/Sterak/i.test(n))notes+=`<div class="note">${n.replace(/^([^:]+):/,'<b>$1</b>:')}</div>`;});
   document.getElementById('buildNotes').innerHTML=notes||'<div class="note" style="opacity:.5">No active item passive.</div>';
 }
 
-const DUMMY={hp:3000,armor:100,passive:'none',custom:0};
-function passiveMult(p,c){switch(p){case 'garen':return.40;case 'garen30':return.70;case 'braum':return.65;case 'annie':return.50;case 'amumu':return.75;case 'malphite':return.90;case 'custom':return 1-c/100;default:return 1;}}
-function effArmor(A){let a=DUMMY.armor;if(A.armorShred>0)a*=(1-A.armorShred);if(A.apen>0)a*=(1-A.apen/100);return Math.max(0,a-A.leth);}
+// ══════════════════════════════════════════════════════════
+// DUMMY RENDER (new with full passive system)
+// ══════════════════════════════════════════════════════════
+const DUMMY={hp:3000,armor:100};
+
+function effArmorBase(A){
+  let a=DUMMY.armor;
+  if(A.armorShred>0)a*=(1-A.armorShred);
+  if(A.apen>0)a*=(1-A.apen/100);
+  return Math.max(0,a-A.leth);
+}
+
 function renderDummy(){
-  const A=aggregate(),ranks=skillRanks(A.l),ea=effArmor(A);
-  const physM=(100/(100+ea))*passiveMult(DUMMY.passive,DUMMY.custom),dHP=DUMMY.hp;
-  const rI=k=>Math.max(0,ranks[k]-1),ohFlat=(A.onHitPctHP||0)*dHP+(A.onHitPctOwnHP||0)*A.hp;
-  const raw={auto:A.ad+ohFlat};
+  const A=aggregate();
+  const ranks=skillRanks(A.l);
+  const ea=effArmorBase(A);
+  const l=A.l;
+  const dHP=DUMMY.hp;
+
+  // Compute passive mitigations
+  const{flatPre,flatPost,pctMult,delayFrac,rows}=computeMitigation(A,0);
+
+  // Base armor multiplier (no passives)
+  const armorMult=100/(100+ea);
+  // Final damage multiplier: flatPre applied before armor
+  // Formula: ((raw - flatPre) * armorMult - flatPost) * pctMult
+  // We'll apply this per damage value
+
+  function applyMit(raw){
+    let v=Math.max(0,raw-flatPre);
+    v=v*armorMult;
+    v=Math.max(0,v-flatPost);
+    v=v*pctMult;
+    // Death's Dance delay
+    const effective=v*(1-delayFrac);
+    const delayed=v*delayFrac;
+    return{v,effective,delayed};
+  }
+
+  const ohFlat=(A.onHitPctHP||0)*dHP+(A.onHitPctOwnHP||0)*A.hp;
+  const rI=k=>Math.max(0,ranks[k]-1);
+
+  // Raw damage values (before mitigation)
+  const raw={};
+  raw.auto=A.ad+ohFlat;
   raw.Q=ranks.Q>=1?SPELLS.Q.base[rI('Q')]+A.ad*SPELLS.Q.adRatio:0;
   raw.E=ranks.E>=1?SPELLS.E.base[rI('E')]+A.bonusAD*SPELLS.E.adRatio:0;
   const wAdR=Array.isArray(SPELLS.W.adRatio)?SPELLS.W.adRatio[rI('W')]:SPELLS.W.adRatio;
   raw.W=ranks.W>=1?SPELLS.W.base+A.ad*wAdR+ohFlat*.5:0;
   raw.R=ranks.rLearned?SPELLS.R.base[rI('R')]+A.bonusAD*SPELLS.R.adRatio:0;
-  raw.leg=A.ad*passiveADRatio(A.l)+dHP*passiveHPRatio(A.l);
-  const out={};for(const k in raw)out[k]=raw[k]*physM;
-  const wDps=out.W*3,burst6=out.leg*6,allIn=out.E+out.Q+out.R+burst6+out.W*6;
+  raw.leg=A.ad*passiveADRatio(A.l)+(dHP*passiveHPRatio(A.l));
+
+  // Mitigated
+  const out={};for(const k in raw)out[k]=applyMit(raw[k]);
+
+  const autoMit=out.auto.v,autoEff=out.auto.effective;
+  const wDps=out.W.v*3;
+  const burst6=out.leg.v*6;
+  const allIn=out.E.v+out.Q.v+out.R.v+burst6+out.W.v*6;
   const pct=v=>Math.min(100,v/dHP*100);
-  function dc(label,val,sp){const p=pct(val),ov=val>=dHP;return `<div class="dcard${sp?' sp':''}"><div class="dl">${label}</div><div class="dv${ov?' warn':''}">${Math.round(val)}</div><div class="dp">${(val/dHP*100).toFixed(1)}% HP</div><div class="hpbar"><i class="${ov?'over':''}" style="width:${p}%"></i></div></div>`;}
-  function ic(label,val,sub){return `<div class="dcard sp"><div class="dl">${label}</div><div class="dv info">${val}</div><div class="dp">${sub||''}</div></div>`;}
-  let h=dc('Auto Attack',out.auto)+dc('Q — Corrosive',out.Q)+dc('E — Disdain',out.E)+dc('W/sec',wDps)+(ranks.rLearned?dc('R — Impact',out.R):ic('R — Fear','Lv.6','not yet learned'))+dc('1 Leg',out.leg)+dc('6-Leg Burst',burst6)+dc('All-in ~4s',allIn,true)+ic('Effective Armor',Math.round(ea),`base ${DUMMY.armor}${A.armorShred>0?' ·-'+Math.round(A.armorShred*100)+'% shred':''}${A.apen>0?' ·-'+A.apen+'%':''}${A.leth>0?' ·-'+Math.round(A.leth)+' flat':''}`)+ic('EHP (phys)',Math.round(dHP*(1+ea/100)),'HP × (1 + armor/100)')+ic('Passive Reduction',Math.round((1-passiveMult(DUMMY.passive,DUMMY.custom))*100)+'%',DUMMY.passive==='none'?'none':'vs phys damage');
+
+  function dc(label,val,sub,isEff){
+    const ov=val>=dHP;
+    return `<div class="dcard${isEff?' sp':''}"><div class="dl">${label}</div><div class="dv${ov?' warn':''}">${Math.round(val)}</div><div class="dp">${(val/dHP*100).toFixed(1)}% HP${sub?'<br>'+sub:''}</div><div class="hpbar"><i class="${ov?'over':''}" style="width:${pct(val)}%"></i></div></div>`;
+  }
+  function ic(label,val,sub){
+    return `<div class="dcard sp"><div class="dl">${label}</div><div class="dv info">${val}</div><div class="dp">${sub||''}</div></div>`;
+  }
+
+  let h=dc('Auto Attack',autoMit)
+       +dc('Q — Corrosive',out.Q.v)
+       +dc('E — Disdain',out.E.v)
+       +dc('W / tir (mitig.)',wDps)
+       +(ranks.rLearned?dc('R — Impact',out.R.v):ic('R — Fear','Lv.6','not yet learned'))
+       +dc('1 Leg (mitig.)',out.leg.v)
+       +dc('6-Leg Burst',burst6)
+       +dc('All-in ~4s',allIn);
+
+  if(delayFrac>0){
+    const delayedTotal=out.E.delayed+out.Q.delayed+out.R.delayed+out.leg.delayed*6+out.W.delayed*6;
+    h+=ic('Dégâts différés (DD)',Math.round(delayedTotal),'bleed sur 3s, non-létaux immédiatement');
+  }
+
+  h+=ic('Armure effective',Math.round(ea),`base ${DUMMY.armor}${A.armorShred>0?' ·-'+Math.round(A.armorShred*100)+'%shred':''}${A.apen>0?' ·-'+A.apen+'%':''}${A.leth>0?' ·-'+Math.round(A.leth)+' flat':''}`)
+    +ic('EHP (phys)',Math.round(dHP*(1+ea/100)),'HP × (1 + armor/100)');
+
   document.getElementById('dummyResults').innerHTML=h;
-  document.getElementById('dummyNotes').innerHTML='<b>Pen order:</b> % shred (BC) → % pen (Serylda) → lethality (flat). All damage shown post-armor & passive.';
+
+  // Mitigation breakdown table
+  let brkHtml='<div class="mit-title">Détail des mitigations</div>';
+  if(rows.length===0){
+    brkHtml+='<div class="mit-row"><span class="mit-label">Aucun passif actif</span><span class="mit-val green">×1.00</span></div>';
+  } else {
+    rows.forEach(r=>{
+      const badge=r.type==='pct'?'% Réduction':r.type==='flat_pre'?'Pré-armure':r.type==='flat_post'?'Post-armure':r.type==='delay'?'Délayé':'';
+      brkHtml+=`<div class="mit-row"><span class="mit-label">${r.label} <span style="font-size:9px;color:var(--txt3)">[${badge}]</span></span><span class="mit-val">${r.val}</span></div>`;
+    });
+  }
+  // Total remaining multiplier
+  const totalPctKept=(pctMult*100).toFixed(0);
+  const autoFinalPct=DUMMY.armor>0?Math.round(autoMit/raw.auto*100):100;
+  brkHtml+=`<div class="mit-row total"><span class="mit-label">Auto att. reçue (% du brut)</span><span class="mit-val">${autoFinalPct}%</span></div>`;
+  brkHtml+=`<div class="mit-row"><span class="mit-label">Mult. passifs % restant</span><span class="mit-val green">${totalPctKept}%</span></div>`;
+  if(flatPre>0)brkHtml+=`<div class="mit-row"><span class="mit-label">Réduction plate pré-armure</span><span class="mit-val">${Math.round(flatPre)}</span></div>`;
+  if(flatPost>0)brkHtml+=`<div class="mit-row"><span class="mit-label">Réduction plate post-armure</span><span class="mit-val">${Math.round(flatPost)}</span></div>`;
+
+  document.getElementById('mitBreakdown').innerHTML=brkHtml;
+  document.getElementById('dummyNotes').innerHTML=`<b>Ordre d'application:</b> flat pré-armure (Fizz W, Leona E, Amumu W, Guardian's Horn) → armure (mitig. + pénétration) → flat post-armure (Bone Plating, Warden's Mail) → réduction % (multiplicatif entre eux). Death's Dance délaye 30% des dégâts physiques sur 3s.`;
 }
 
 function recompute(){const A=aggregate();renderStats(A);renderAbilities(A);renderDummy();}
 
+// ══════════════════════════════════════════════════════════
+// EVENTS
+// ══════════════════════════════════════════════════════════
 document.getElementById('lvlSlider').addEventListener('input',e=>{S.lvl=+e.target.value;document.getElementById('lvlNum').textContent=S.lvl;recompute();});
 
-function bindPair(stat,sliderId,numId,lblId){
-  let _l=false;const sl=document.getElementById(sliderId),num=document.getElementById(numId),lbl=lblId?document.getElementById(lblId):null;
-  const sync=v=>{if(_l)return;_l=true;v=+v;DUMMY[stat]=v;sl.value=v;num.value=v;if(lbl)lbl.textContent=v;_l=false;renderDummy();};
-  sl.addEventListener('input',()=>sync(sl.value));num.addEventListener('input',()=>sync(num.value));
+function bindPair(obj,prop,sliderId,numId,lblId){
+  let _l=false;
+  const sl=document.getElementById(sliderId),num=document.getElementById(numId),lbl=lblId?document.getElementById(lblId):null;
+  const sync=v=>{if(_l)return;_l=true;v=+v;obj[prop]=v;sl.value=v;num.value=v;if(lbl)lbl.textContent=v;_l=false;recompute();};
+  sl.addEventListener('input',()=>sync(sl.value));
+  num.addEventListener('input',()=>sync(num.value));
 }
-bindPair('hp','dHpSlider','dHpNum','dHpLbl');
-bindPair('armor','dArmSlider','dArmNum','dArmLbl');
-document.getElementById('dPassive').addEventListener('change',e=>{DUMMY.passive=e.target.value;document.getElementById('customWrap').style.display=e.target.value==='custom'?'block':'none';renderDummy();});
-(function(){let _l=false;const sl=document.getElementById('dCustomSlider'),num=document.getElementById('dCustomNum'),lbl=document.getElementById('dCustomLbl');const sync=v=>{if(_l)return;_l=true;v=+v;DUMMY.custom=v;sl.value=v;num.value=v;lbl.textContent=v+'%';_l=false;renderDummy();};sl.addEventListener('input',()=>sync(sl.value));num.addEventListener('input',()=>sync(num.value));})();
+bindPair(DUMMY,'hp','dHpSlider','dHpNum','dHpLbl');
+bindPair(DUMMY,'armor','dArmSlider','dArmNum','dArmLbl');
 
+// ══════════════════════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════════════════════
 (async function init(){
-  renderSlots();renderRunes();recompute();
+  renderSlots();renderRunes();
+  renderPassiveCats();renderPassiveGrid();renderSelectedTags();
+  recompute();
   renderShopCats();
   document.getElementById('shopGrid').innerHTML='<div class="shop-loading">Loading items…</div>';
   await resolveVersion();
@@ -1211,7 +1139,6 @@ document.getElementById('dPassive').addEventListener('change',e=>{DUMMY.passive=
   recompute();
   await loadItems();
 })();
-
 </script>
 </body>
 </html>
