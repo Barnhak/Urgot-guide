@@ -594,7 +594,7 @@ const CATS={all:{fr:'All',col:'#4ADE80'},fighter:{fr:'Fighter',col:'#c8632b'},ma
 const CAT_ORDER=['all','fighter','marksman','assassin','mage','tank','support','boots','consumable'];
 let activeCat='all';
 
-const AH_BY_NAME={"Abyssal Mask":15,"Archangel's Staff":25,"Axiom Arc":25,"Black Cleaver":20,"Bloodletter's Curse":15,"Caulfield's Warhammer":10,"Chempunk Chainsword":15,"Cosmic Drive":25,"Cryptbloom":20,"Death's Dance":15,"Echoes of Helia":20,"Eclipse":15,"Essence Reaver":25,"Fiendish Codex":10,"Fimbulwinter":20,"Frozen Heart":20,"Glacial Buckler":10,"Hextech Rocketbelt":15,"Horizon Focus":25,"Hubris":15,"Iceborn Gauntlet":15,"Imperial Mandate":25,"Ionian Boots of Lucidity":15,"Kindlegem":10,"Knight's Vow":10,"Lich Bane":10,"Locket of the Iron Solari":15,"Lost Chapter":10,"Luden's Companion":10,"Malignance":25,"Maw of Malmortius":15,"Moonstone Renewer":15,"Morellonomicon":15,"Muramana":15,"Profane Hydra":18,"Ravenous Hydra":20,"Redemption":10,"Seraph's Embrace":25,"Serylda's Grudge":15,"Shurelya's Battlesong":15,"Spirit Visage":10,"Sundered Sky":20,"Sunfire Aegis":15,"Trinity Force":20,"Umbral Glaive":15,"Voltaic Cyclosword":10,"Zeke's Convergence":20,"Liandry's Torment":20,"Spear of Shojin":25,"Experimental Hexplate":30,"Titanic Hydra":20};
+const AH_BY_NAME={"Abyssal Mask":15,"Archangel's Staff":25,"Axiom Arc":25,"Black Cleaver":20,"Bloodletter's Curse":15,"Caulfield's Warhammer":10,"Chempunk Chainsword":15,"Cosmic Drive":25,"Cryptbloom":20,"Death's Dance":15,"Echoes of Helia":20,"Eclipse":15,"Essence Reaver":25,"Fiendish Codex":10,"Fimbulwinter":20,"Frozen Heart":20,"Glacial Buckler":10,"Hextech Rocketbelt":15,"Horizon Focus":25,"Hubris":10,"Iceborn Gauntlet":15,"Imperial Mandate":25,"Ionian Boots of Lucidity":15,"Kindlegem":10,"Knight's Vow":10,"Lich Bane":10,"Locket of the Iron Solari":15,"Lost Chapter":10,"Luden's Echo":10,"Luden's Companion":10,"Malignance":25,"Maw of Malmortius":15,"Moonstone Renewer":15,"Morellonomicon":15,"Muramana":15,"Profane Hydra":18,"Ravenous Hydra":20,"Redemption":10,"Seraph's Embrace":25,"Serylda's Grudge":15,"Shurelya's Battlesong":15,"Spirit Visage":10,"Sundered Sky":20,"Sunfire Aegis":15,"Trinity Force":20,"Umbral Glaive":15,"Voltaic Cyclosword":10,"Zeke's Convergence":20,"Liandry's Torment":20,"Spear of Shojin":25,"Experimental Hexplate":30,"Titanic Hydra":20,"Protoplasm Harness":15,"Winter's Approach":15,"Stridebreaker":20,"Manamune":15,"Whispering Circlet":10};
 
 // ══════════════════════════════════════════════════════════
 // MANUAL STATS — source of truth for all items (patch 16.x)
@@ -677,7 +677,8 @@ const MANUAL_STATS={
 "Axiom Arc":{ad:55,ah:25,leth:18,note:"Axiom Arc: champion kills restore 25% of R cooldown."},
 "BastionBreaker":{ad:55,leth:22,ah:15,note:"BastionBreaker: dealing damage reduces enemy armor by 4% (up to 40%)."},
 "Black Cleaver":{hp:400,ad:40,ah:20,special:'cleaver',note:"Black Cleaver: each hit reduces armor by 5% (6 stacks = 30%), +20 MS on kill.",applyStats:(A)=>{A.armorShred=Math.max(A.armorShred||0,0.30);}},
-"Bloodmail":{hp:500,ad:40,note:"Bloodmail: gain 2% bonus HP as bonus AD per 100 bonus HP."},
+"Bloodmail":{hp:550,ad:30,note:"Overlord's Bloodmail: gain 2.5% bonus HP as bonus AD (Tyranny). Gain up to 12% bonus AD based on missing health (Retribution)."},
+"Overlord's Bloodmail":{hp:550,ad:30,note:"Overlord's Bloodmail: gain 2.5% bonus HP as bonus AD (Tyranny). Gain up to 12% bonus AD based on missing health (Retribution)."},
 "Blade of the Ruined King":{ad:30,as:0.25,ls:8,onHitPctHP:0.06,note:"BotRK: on-hit deals 6% of target's current HP (melee). Active steals 15% MS.",applyStats:(A)=>{}},
 "Bloodthirster":{ad:80,ls:18,note:"Bloodthirster: excess healing creates a shield up to 50% bonus AD."},
 "Chempunk Chainsword":{ad:45,hp:450,ah:15,note:"Chempunk Chainsword: applies 60% Grievous Wounds on damage."},
@@ -714,17 +715,17 @@ const MANUAL_STATS={
 "Phantom Dancer":{ad:20,as:0.45,crit:20,ms_flat:7,note:"Phantom Dancer: gain a 300-600 HP shield when below 30% HP (60s CD)."},
 "Rapid Firecannon":{as:0.35,crit:20,ms_flat:7,note:"Rapid Firecannon: Energized auto has extended range (+100 on ranged, 75 on melee) and deals +160% AD bonus magic."},
 "Runaan's Hurricane":{as:0.45,crit:20,ms_flat:7,note:"Runaan's Hurricane: autos fire 2 extra bolts to nearby enemies for 40% AD each."},
-"Statikk Shiv":{as:0.35,crit:20,note:"Statikk Shiv: Energized auto deals 50-100 + 50% bonus AD magic damage, chaining to 5 targets."},
+"Statikk Shiv":{ad:40,ap:45,as:0.30,ms_pct:0.04,note:"Statikk Shiv: Energized chain lightning deals 60 bonus magic damage to up to 4-8 targets, applying on-hit effects to secondary targets."},
 "Stormrazor":{ad:45,crit:20,as:0.25,note:"Stormrazor: Energized auto slows target by 75% for 0.5s and deals +160% AD bonus magic."},
 "The Collector":{ad:55,leth:20,crit:20,note:"The Collector: killing blow executes below 5% HP. Kills grant +2 gold.",applyStats:(A)=>{}},
 "Yun Tal Wildarrows":{ad:55,crit:20,as:0.15,note:"Yun Tal Wildarrows: first attack on a champion per second deals 65 + 15% bonus AD bonus phys."},
 "Hextech Gunblade":{ad:35,ah:15,ls:8,note:"Hextech Gunblade: active bolt deals 175-250 + 30% bonus AD + 20% AP magic damage and slows 60% (20s CD)."},
-"Hubris":{ad:65,leth:20,note:"Hubris: killing a champion grants an Ego statue (cosmetic) and a stacking AD buff."},
+"Hubris":{ad:55,leth:20,note:"Hubris: killing a champion grants an Ego statue (cosmetic) and a stacking AD buff (+3 AD per stack)."},
 "Night's Edge":{ad:55,leth:20,hp:250,note:"Night's Edge: after 5 ability hits on a target, next ability hit deals +25% damage and ignores 20 armor."},
 "Profane Hydra":{ad:55,leth:18,ah:18,note:"Profane Hydra: autos cleave for 60% AD AoE. Active: emit waves for 100% + 50% AD phys per wave (20s CD)."},
 "Serpent's Fang":{ad:55,leth:20,note:"Serpent's Fang: dealing damage reduces incoming shields by 50%. Reduces enemy shields by 100% on champion hit.",applyStats:(A)=>{}},
 "Umbral Glaive":{ad:55,leth:15,ah:15,note:"Umbral Glaive: nearby wards/traps are visible; first auto kills them instantly."},
-"Voltaic Cyclosword":{ad:45,leth:15,ah:10,note:"Voltaic Cyclosword: Energized attack slows target for 99% for 0.5s."},
+"Voltaic Cyclosword":{ad:45,leth:10,ah:10,note:"Voltaic Cyclosword (16.9): ability damage triggers Energized. Energized: grants 10-15 lethality for 4s and deals 7-9% current HP physical damage (capped 200 vs non-champs)."},
 "Youmuu's Ghostblade":{ad:55,leth:18,ah:15,ms_flat:20,note:"Youmuu's Ghostblade: active grants +20% MS for 6s (45s CD, doesn't break on damage)."},
 "Actualizer":{ap:90,ah:10},
 "Archangel's Staff":{ap:80,ah:25,mana:500,note:"Archangel's Staff: unique passive — max mana increases by 5 per ability use (up to +750 mana). Transforms into Seraph's Embrace at 750 stacks."},
@@ -735,10 +736,11 @@ const MANUAL_STATS={
 "Cosmic Drive":{ap:70,ah:25,hp:350,ms_flat:10,note:"Cosmic Drive: dealing ability damage grants +20 AP and +20% MS for 3s (stacks 3x = +60 AP, +60% MS total)."},
 "Cryptbloom":{ap:75,ah:20,mrpen_pct:30,note:"Cryptbloom: kills root nearby enemies for 1.5s and grant +50 AP for 5s."},
 "Dawncore":{ap:60,ah:20,shdpwr:8,note:"Dawncore: 2% of bonus mana as bonus AP. Increases heal/shield power by 1% per 100 AP."},
-"Dusk and Dawn":{ap:60,ah:20,as:0.20,hp:300,note:"Dusk and Dawn: ability hits alternate between increasing AP by 5% for 5s (Dawn) and AS by 15% for 5s (Dusk)."},
+"Dusk and Dawn":{ap:60,ah:20,as:0.20,hp:300,note:"Dusk and Dawn (16.9): Spellblade alternates Dawn (+AP) and Dusk (+AS). Now also heals for 10% AP + 3% bonus HP on proc."},
+"Luden's Echo":{ap:100,ah:10,mana:600,note:"Luden's Echo: ability damage to champions consumes Echo stacks, dealing 75 + 5% AP bonus magic damage to the target and nearby enemies."},
 "Lich Bane":{ap:75,ah:10,ms_flat:5,note:"Lich Bane: Spellblade — next auto deals 75% base AD + 40% AP bonus magic after an ability (1.5s CD)."},
 "Liandry's Torment":{ap:90,hp:300,ah:20,note:"Liandry's Torment: abilities inflict Torment for 3s dealing 1.5% max HP/s magic damage. Bonus vs slowed/rooted/stunned."},
-"Luden's Companion":{ap:80,ah:10,ms_flat:10,note:"Luden's Companion: ability hits charge Luden; at 100 charges, next ability hit deals 80 + 15% AP bonus magic damage to up to 4 targets."},
+"Luden's Companion":{ap:100,ah:10,mana:600,note:"Luden's Echo/Companion: ability damage to champions consumes Echo stacks, dealing 75 + 5% AP bonus magic damage to the target and nearby enemies."},
 "Malignance":{ap:80,ah:25,note:"Malignance: R damage is amplified +25%. R applies Haunt: 15 + 5% AP magic burn/s for 3s."},
 "Mejai's Soulstealer":{ap:20,note:"Mejai's Soulstealer: stacking — up to +130 AP at 25 stacks. Gain stacks on kills/assists, lose on death."},
 "Morellonomicon":{ap:75,ah:15,note:"Morellonomicon: dealing magic damage applies 40% Grievous Wounds."},
@@ -760,7 +762,8 @@ const MANUAL_STATS={
 "Knight's Vow":{hp:400,armor:30,ah:10,note:"Knight's Vow: redirect 15% of damage taken by your Sworn ally to you."},
 "Locket of the Iron Solari":{hp:200,armor:30,mr:30,ah:15,note:"Locket of the Iron Solari: active — grant nearby allies a 200-400 HP shield for 2.5s (90s CD)."},
 "Randuin's Omen":{hp:400,armor:80,note:"Randuin's Omen: reduces damage from crits by 15%. Active slows nearby enemies by 55% for 2s (60s CD)."},
-"Rookern":{hp:500,mr:65,note:"Rookern: stores 10% of post-mitigation magic damage (max 300). Releases stored damage as a shield."},
+"Rookern":{hp:500,mr:65,note:"Kaenic Rookern: stores 10% of post-mitigation magic damage (max 300). Releases stored damage as a shield."},
+"Kaenic Rookern":{hp:500,mr:65,note:"Kaenic Rookern: stores 10% of post-mitigation magic damage (max 300). Releases stored damage as a shield."},
 "Spirit Visage":{hp:350,mr:55,ah:10,note:"Spirit Visage: increases all healing, regeneration and draining by 25%."},
 "Sunfire Aegis":{hp:450,armor:35,ah:15,note:"Sunfire Aegis: Immolate — deals 25 + 1% max HP magic/s to nearby enemies."},
 "Thornmail":{hp:250,armor:80,note:"Thornmail: reflects 25 + 10% armor magic damage on being hit by autos. Applies 40% Grievous Wounds."},
@@ -777,7 +780,24 @@ const MANUAL_STATS={
 "Moonstone Renewer":{hp:200,ah:15,shdpwr:6,note:"Moonstone Renewer: in combat, grants 35 + 3% AP stacking heal/shield to most wounded ally every 2s."},
 "Redemption":{hp:200,ah:10,shdpwr:20,note:"Redemption: active calls a healing beam (anywhere on map) healing 35-400 HP to allies and dealing 10% max HP magic to enemies (90s CD)."},
 "Shurelya's Battlesong":{hp:200,ah:15,ms_flat:5,ms_pct:0.05,shdpwr:8,note:"Shurelya's Battlesong: active — grant nearby allies +40% MS for 4s (90s CD)."},
-"Staff of Flowing Water":{ap:50,mr:30,ah:15,shdpwr:12,note:"Staff of Flowing Water: healing/shielding an ally grants them 20-40 AP and 15% AS for 4s."},
+"Staff of Flowing Water":{ap:50,mr:30,ah:15,shdpwr:12,note:"Staff of Flowing Water: healing/shielding an ally grants them 40 AP and 15 AH for 6s (16.9 update)."},
+/* ══ FIGHTER — ITEMS MANQUANTS ══ */
+"Stridebreaker":{hp:400,ad:45,ah:20,note:"Stridebreaker: active — dash forward and slow nearby enemies by 50-60% for 3s (20s CD). Grants MS after dashing."},
+"Wit's End":{as:0.40,mr:50,note:"Wit's End: on-hit deals 15-80 magic damage (based on level). On champion hit, gain 20% MS for 2s."},
+"Silvermere Dawn":{ad:35,mr:35,hp:300,note:"Silvermere Dawn: active removes CC and grants 50% tenacity and slow resist for 3s (90s CD)."},
+/* ══ MARKSMAN — ITEMS MANQUANTS ══ */
+"Hexoptics C44":{ad:50,crit:25,note:"Hexoptics C44: Magnification — deal up to 10% increased damage based on distance (max at 700 range). On takedown, gain +100 attack range for 6s."},
+"Fiendhunter Bolts":{as:0.40,crit:25,ms_pct:0.04,uh:30,note:"Fiendhunter Bolts: +30 Ult Haste. After casting R, next 3 basic attacks gain 50% AS and crit for 75% of normal crit damage for 8s."},
+"Manamune":{ad:35,ah:15,mana:500,note:"Manamune: bonus AD equal to 2% of max mana. Shock passive on autos/abilities. Upgrades to Muramana at 750 charges."},
+/* ══ TANK — ITEMS MANQUANTS ══ */
+"Protoplasm Harness":{hp:600,ah:15,note:"Protoplasm Harness (Lifeline): when dropping below 30% HP, gain 200 bonus HP + heal 200-400 (+ 250% bonus armor + 250% MR) over 5s, plus +15% MS and 25% tenacity (90s CD)."},
+"Winter's Approach":{hp:400,mana:500,ah:15,note:"Winter's Approach: gain 8 HP per 100 max mana. Upgrades into Fimbulwinter at 750 mana charges."},
+"Aegis of the Legion":{hp:200,armor:30,mr:30,note:"Aegis of the Legion: unique aura — grants nearby allies +15 armor and +15 MR."},
+/* ══ MAGE — ITEMS MANQUANTS ══ */
+"Horizon Focus":{ap:85,ah:25,note:"Horizon Focus: dealing ability damage to immobilized or revealed targets or at 700+ range deals 10% increased damage."},
+"Hextech Rocketbelt":{ap:80,hp:250,ah:15,note:"Hextech Rocketbelt: active — dash in target direction, dealing 150-250 + 40% AP magic damage to nearby enemies (30s CD). Grants +30% MS for 2s."},
+/* ══ SUPPORT — ITEMS MANQUANTS ══ */
+"Whispering Circlet":{ap:30,shdpwr:8,mp5:50,note:"Whispering Circlet: mana support item. Upgrades into Diadem of Songs at 750 mana charges."},
 };
 
 // ── FIX APPLIQUÉ : it.name (et non it.nameEN qui n'existe pas) ──────────
@@ -851,13 +871,13 @@ const _F='fighter',_M='marksman',_A='assassin',_G='mage',_T='tank',_S='support',
 function _wl(cats){const names=[...arguments].slice(1);for(const n of names){const k=norm(n);if(!WL[k])WL[k]=[];cats.forEach(c=>{if(!WL[k].includes(c))WL[k].push(c);});}}
 _wl([_F,_M,_A],'dagger');_wl([_F,_M,_A,_G,_T,_S],'glowing mote','null-magic mantle','ruby crystal','cloth armor');_wl([_F,_M,_A],'long sword','pickaxe','b. f. sword','bf sword');_wl([_G,_S],'amplifying tome','blasting wand','needlessly large rod');_wl([_G,_T,_S],'sapphire crystal');_wl([_T,_S],'rejuvenation bead');_wl([_S],'faerie charm');
 _wl([_F,_M],'recurve bow','noonquiver','hearthbound axe','zeal','vampiric scepter');_wl([_F,_M,_A],'serrated dirk',"caulfield's warhammer",'brutalizer','tiamat','tunneler');_wl([_F,_T,_S],'kindlegem','winged moonplate');_wl([_F,_M,_T,_S],'negatron cloak');_wl([_F,_M,_T],'chain vest','sheen');_wl([_F,_T,_G],"giant's belt");_wl([_F],'phage','steel sigil','hexdrinker');_wl([_M,_A],'last whisper',"executioner's calling",'rectrix',"scout's slingshot");_wl([_M],'cloak of agility');_wl([_G],'haunting guise','fiendish codex','lost chapter','hextech alternator','blighting jewel','aether wisp','bandleglass mirror',"seeker's armguard",'verdant barrier','fated ashes','oblivion orb');_wl([_G,_S],'forbidden idol');_wl([_T],'bramble vest',"warden's mail","specter's cowl",'glacial buckler',"bami's cinder",'crystalline bracer');_wl([_T,_S],'quicksilver sash');_wl([_S],'bandleglass mirror');
-_wl([_F,_T],'trinity force','bloodmail','titanic hydra','dead man\'s plate','iceborn gauntlet');_wl([_F],'ravenous hydra',"death's dance","sterak's gage",'bloodthirster','experimental hexplate','sundered sky','spear of shojin','hullbreaker','eclipse','muramana','abyssal mask');_wl([_F,_M,_A],'guardian angel',"serylda's grudge",'maw of malmortius','mercurial scimitar');_wl([_F,_M],'blade of the ruined king','terminus','kraken slayer');_wl([_F,_A],'chempunk chainsword','black cleaver','bastionbreaker');
+_wl([_F,_T],'trinity force','bloodmail',"overlord's bloodmail",'titanic hydra','dead man\'s plate','iceborn gauntlet','stridebreaker');_wl([_F],'ravenous hydra',"death's dance","sterak's gage",'bloodthirster','experimental hexplate','sundered sky','spear of shojin','hullbreaker','eclipse','muramana','abyssal mask',"wit's end",'silvermere dawn');_wl([_F,_M,_A],'guardian angel',"serylda's grudge",'maw of malmortius','mercurial scimitar');_wl([_F,_M],'blade of the ruined king','terminus','kraken slayer');_wl([_F,_A],'chempunk chainsword','black cleaver','bastionbreaker');
 _wl([_G],'dusk and dawn');
-_wl([_M],'infinity edge',"lord dominik's regards",'yun tal wildarrows','stormrazor','phantom dancer','mortal reminder','navori flickerblade','rapid firecannon',"runaan's hurricane",'immortal shieldbow',"guinsoo's rageblade",'statikk shiv','galeforce','essence reaver','endless hunger');_wl([_M,_A],'the collector','edge of night');_wl([_M,_G],"nashor's tooth");
+_wl([_M],'infinity edge',"lord dominik's regards",'yun tal wildarrows','stormrazor','phantom dancer','mortal reminder','navori flickerblade','rapid firecannon',"runaan's hurricane",'immortal shieldbow',"guinsoo's rageblade",'galeforce','essence reaver','endless hunger','hexoptics c44','fiendhunter bolts','manamune');_wl([_F,_M],'statikk shiv');_wl([_M,_A],'the collector','edge of night');_wl([_M,_G],"nashor's tooth");
 _wl([_A],'hubris','umbral glaive',"youmuu's ghostblade",'profane hydra',"serpent's fang",'voltaic cyclosword',"night's edge",'axiom arc');_wl([_A,_G],'hextech gunblade');
-_wl([_G],'rod of ages',"rylai's crystal scepter",'hextech rocketbelt','malignance','horizon focus',"luden's companion",'blackfire torch','riftmaker','stormsurge',"archangel's staff",'lich bane',"bloodletter's curse",'void staff','cryptbloom','cosmic drive',"liandry's torment",'shadowflame',"zhonya's hourglass","rabadon's deathcap","mejai's soulstealer","seraph's embrace",'bandlepipes','morellonomicon','dawncore','actualizer');_wl([_G,_T],"banshee's veil");_wl([_G,_T,_S],'morellonomicon');
-_wl([_T],'fimbulwinter','force of nature','frozen heart','heartsteel','hollow radiance',"randuin's omen",'rookern','spirit visage','sunfire aegis','thornmail','unending despair',"warmog's armor","jak'sho, the protean",'jaksho');_wl([_T,_S],'abyssal mask',"zeke's convergence",'locket of the iron solari',"knight's vow",'dead man\'s plate');
-_wl([_S],'ardent censer','echoes of helia',"shurelya's battlesong","mikael's blessing",'redemption','imperial mandate','staff of flowing water','moonstone renewer','celestial opposition','dream maker','diadem of songs','bandlepipes');
+_wl([_G],'rod of ages',"rylai's crystal scepter",'hextech rocketbelt','malignance','horizon focus',"luden's echo","luden's companion",'blackfire torch','riftmaker','stormsurge',"archangel's staff",'lich bane',"bloodletter's curse",'void staff','cryptbloom','cosmic drive',"liandry's torment",'shadowflame',"zhonya's hourglass","rabadon's deathcap","mejai's soulstealer","seraph's embrace",'bandlepipes','morellonomicon','dawncore','actualizer');_wl([_G,_T],"banshee's veil");_wl([_G,_T,_S],'morellonomicon');
+_wl([_T],'fimbulwinter','force of nature','frozen heart','heartsteel','hollow radiance',"randuin's omen",'rookern','kaenic rookern','spirit visage','sunfire aegis','thornmail','unending despair',"warmog's armor","jak'sho, the protean",'jaksho','protoplasm harness');_wl([_T,_S],'abyssal mask',"zeke's convergence",'locket of the iron solari',"knight's vow",'dead man\'s plate','aegis of the legion');_wl([_G,_T],"winter's approach");
+_wl([_S],'ardent censer','echoes of helia',"shurelya's battlesong","mikael's blessing",'redemption','imperial mandate','staff of flowing water','moonstone renewer','celestial opposition','dream maker','diadem of songs','bandlepipes','whispering circlet');
 _wl([_B],'boots','boots of speed',"sorcerer's shoes","sorcerers shoes","plated steelcaps","mercury's treads","mercurys treads","ionian boots of lucidity","boots of swiftness","berserker's greaves","berserkers greaves","armored advance","chainlaced crushers","crimson lucidity","gluttonous greaves","gunmetal greaves","immortal path","spellslinger's shoes","swiftmarch");
 
 function getItemCats(nameEN,nameFR,itemId){
