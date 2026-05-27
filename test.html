@@ -176,18 +176,14 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;heigh
 .note{font-size:11px;color:var(--txt2);padding:5px 9px;background:rgba(74,222,128,.04);border-left:2px solid var(--green-dark);border-radius:2px}
 .note b{color:var(--green)}
 
-/* ── TRAINING DUMMY (new) ─────────────────────────────── */
+/* TRAINING DUMMY */
 .dummy-section{display:flex;flex-direction:column;gap:14px}
-
-/* Basic sliders row */
 .dummy-basic{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-bottom:4px}
 .dctl .dlbl{font-family:'Cinzel',serif;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--txt2);margin-bottom:8px;display:flex;justify-content:space-between}
 .dctl .dlbl b{color:var(--green);font-weight:600}
 .dctl-row{display:flex;align-items:center;gap:10px}
 .dnum{width:78px;background:var(--bg);border:1px solid var(--border);color:var(--bright);border-radius:3px;padding:6px 8px;font-family:'Rajdhani',sans-serif;font-size:14px;text-align:center}
 .dnum:focus{outline:none;border-color:var(--green-dark)}
-
-/* Passive selector tabs */
 .passive-panel{background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:14px}
 .passive-panel-title{font-family:'Cinzel',serif;font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--bright);margin-bottom:12px;display:flex;align-items:center;gap:8px}
 .passive-panel-title::after{content:"";flex:1;height:1px;background:var(--border)}
@@ -207,15 +203,11 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;heigh
 .pbtn.on .pbtitle{color:var(--bright)}
 .pbtn.on .pbval{color:#f0a878}
 .pbtn .pbtype{font-size:8px;color:var(--txt3);letter-spacing:.08em;text-transform:uppercase;margin-top:2px}
-
-/* selected passives summary */
 .selected-passives{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;min-height:28px}
 .sp-tag{display:flex;align-items:center;gap:5px;padding:4px 8px;background:rgba(200,99,43,.12);border:1px solid rgba(200,99,43,.4);border-radius:2px;font-family:'Cinzel',serif;font-size:9px;color:var(--orange);cursor:pointer;transition:.15s}
 .sp-tag:hover{background:rgba(200,99,43,.22)}
 .sp-tag .rm{font-size:10px;color:var(--red);margin-left:2px}
 .sp-none{font-family:'Cinzel',serif;font-size:9px;color:var(--txt3);letter-spacing:.1em;padding:4px 0}
-
-/* Dummy results */
 .dummy-results{display:grid;grid-template-columns:repeat(auto-fill,minmax(162px,1fr));gap:10px}
 .dcard{background:var(--bg);border:1px solid var(--border);border-radius:3px;padding:12px;position:relative;overflow:hidden}
 .dcard.sp{border-color:rgba(200,99,43,.35)}
@@ -229,8 +221,6 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;heigh
 .hpbar i.over{background:linear-gradient(90deg,var(--red),#6f1a1a)}
 .footnote{margin-top:16px;font-size:11px;color:var(--txt3);line-height:1.6;letter-spacing:.02em}
 .footnote b{color:var(--txt2)}
-
-/* mitigation breakdown */
 .mitigation-breakdown{margin-top:12px;background:var(--bg);border:1px solid var(--border);border-radius:3px;padding:12px}
 .mit-title{font-family:'Cinzel',serif;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--txt2);margin-bottom:8px}
 .mit-row{display:flex;justify-content:space-between;align-items:center;padding:4px 0;border-bottom:1px solid rgba(26,61,30,.4);font-size:11px}
@@ -312,8 +302,6 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;heigh
       <div class="ph"><span class="ph-tick"></span><h2>Training Dummy</h2><span class="hint">Pénétration + passifs réels</span></div>
       <div class="pb">
         <div class="dummy-section">
-
-          <!-- HP + Armor sliders -->
           <div class="dummy-basic">
             <div class="dctl">
               <div class="dlbl"><span>Dummy HP</span><b id="dHpLbl">3000</b></div>
@@ -330,8 +318,6 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;heigh
               </div>
             </div>
           </div>
-
-          <!-- Passive selector -->
           <div class="passive-panel">
             <div class="passive-panel-title">Passifs ennemis actifs</div>
             <div class="passive-cats" id="passiveCats"></div>
@@ -339,14 +325,9 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;heigh
             <div style="margin-top:10px;font-family:'Cinzel',serif;font-size:8px;letter-spacing:.16em;text-transform:uppercase;color:var(--txt3);margin-bottom:5px">Actifs :</div>
             <div class="selected-passives" id="selectedPassives"></div>
           </div>
-
-          <!-- Mitigation breakdown -->
           <div class="mitigation-breakdown" id="mitBreakdown"></div>
-
-          <!-- Results grid -->
           <div class="dummy-results" id="dummyResults"></div>
           <div class="footnote" id="dummyNotes"></div>
-
         </div>
       </div>
     </div>
@@ -369,17 +350,7 @@ let DDV=DDV_FALLBACK;
 const CD='https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/perk-images/styles/';
 const SM='https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/perk-images/statmods/';
 
-// ══════════════════════════════════════════════════════════
-// PASSIVE DATABASE — real League data from wiki images
-// type: 'pct'=percent reduction on incoming phys dmg,
-//        'flat_pre'=flat reduction before armor,
-//        'flat_post'=flat reduction after armor,
-//        'stack'=has multiple values (select stack)
-// mult: the damage multiplier (0.4 = take 40%, reduce 60%)
-// flat: flat damage reduced per hit
-// ══════════════════════════════════════════════════════════
 const ALL_PASSIVES=[
-  // ── CHAMPION ABILITIES ──────────────────────────────────
   {id:'alistar_w',  cat:'champion', name:"Alistar W",   src:"Alistar — Unbreakable Will",     type:'pct', mult:0.30, desc:"−70% all dmg"},
   {id:'belveth_r',  cat:'champion', name:"Bel'Veth R",  src:"Bel'Veth — Royal Maelstrom",     type:'pct', mult:0.60, desc:"−40% phys, self-heal"},
   {id:'braum_e',    cat:'champion', name:"Braum E",      src:"Braum — Unbreakable",             type:'pct', mult:0.65, desc:"−35% dmg taken"},
@@ -397,31 +368,22 @@ const ALL_PASSIVES=[
   {id:'nilah_r',    cat:'champion', name:"Nilah R",      src:"Nilah — Jubilant Veil (magie seule)",type:'pct', mult:0.75, desc:"−25% dégâts magiques"},
   {id:'warwick_r',  cat:'champion', name:"Warwick R",    src:"Warwick — Primal Howl",          type:'pct', mult:0.65, desc:"−35% dmg pendant R"},
   {id:'zaahen_r',   cat:'champion', name:"Zaahen R",     src:"Zaahen — Grim Deliverance",      type:'pct', mult:0.65, desc:"−35% dmg pendant R"},
-
-  // ── ITEMS ────────────────────────────────────────────────
   {id:'item_celestial',cat:'item', name:"Celestial Opposition",src:"Item — Celestial Opposition",type:'pct', mult:0.85, desc:"−15% dmg after proc"},
   {id:'item_dd',       cat:'item', name:"Death's Dance",       src:"Item — Death's Dance",        type:'pct_delay', mult:1.0, flatDelay:0.30, desc:"30% phys dmg délayé (bleed 3s)"},
   {id:'item_steelcaps',cat:'item', name:"Plated Steelcaps",    src:"Item — Plated Steelcaps",     type:'pct', mult:0.88, desc:"−12% auto-attack dmg"},
   {id:'item_randuin',  cat:'item', name:"Randuin's Omen (crit)",src:"Item — Randuin's Omen",     type:'pct', mult:0.85, desc:"−15% dégâts de crits"},
-
-  // ── RUNES ────────────────────────────────────────────────
   {id:'rune_glacial',  cat:'rune',  name:"Glacial Augment",    src:"Rune — Glacial Augment",     type:'pct', mult:0.925, desc:"−7.5% (slow aura)"},
   {id:'rune_chemtech', cat:'rune',  name:"Chemtech Blight",    src:"Buff neutre — Chemtech Blight",type:'pct',mult:0.88, desc:"−12% dmg taken (zone)"},
-
-  // ── FLAT PRE-MITIGATION (applied before armor) ──────────
   {id:'fizz_w',        cat:'flat',  name:"Fizz W",             src:"Fizz — Nimble Fighter (pré-miti)",type:'flat_pre', flat:8, desc:"−8 flat dmg (pré-armure)"},
   {id:'leona_e',       cat:'flat',  name:"Leona E",            src:"Leona — Eclipse (pré-miti)",  type:'flat_pre', flat:40, desc:"−40 flat dmg (pré-armure)"},
   {id:'amumu_w',       cat:'flat',  name:"Amumu W",            src:"Amumu — Tantrum (pré-miti)",  type:'flat_pre', flatBase:10, flatPerLvl:1, desc:"−10 + (1×lvl) flat dmg (pré-armure)"},
   {id:'guardian_horn', cat:'flat',  name:"Guardian's Horn",    src:"Item — Guardian's Horn (pré-miti)",type:'flat_pre', flat:5, desc:"−5 flat dmg (pré-armure)"},
-
-  // ── FLAT POST-MITIGATION (applied after armor) ──────────
   {id:'bone_plating',  cat:'flat',  name:"Bone Plating",       src:"Rune — Bone Plating (post-miti)",type:'flat_post', flat:30, flat2:60, desc:"−30 à −60 flat dmg (post-armure, 3 hits)"},
   {id:'warden_mail',   cat:'flat',  name:"Warden's Mail",      src:"Item — Warden's Mail (post-miti)",type:'flat_post', flat:0, desc:"−15% AS ennemi (indirect)"},
 ];
 
 const PASSIVE_CATS={all:'Tous',champion:'Champions',item:'Items',rune:'Runes/Buffs',flat:'Réductions plates'};
 const PASSIVE_CAT_ORDER=['all','champion','item','rune','flat'];
-
 let activePassiveCat='all';
 let selectedPassiveIds=new Set();
 
@@ -464,12 +426,10 @@ function renderSelectedTags(){
   });
 }
 
-// Compute combined mitigation from selected passives
-function computeMitigation(A, rawPhys){
+function computeMitigation(A,rawPhys){
   const l=A.l;
-  let flatPre=0, flatPost=0, pctMult=1.0, delayFrac=0;
+  let flatPre=0,flatPost=0,pctMult=1.0,delayFrac=0;
   const rows=[];
-
   selectedPassiveIds.forEach(id=>{
     const p=ALL_PASSIVES.find(x=>x.id===id);if(!p)return;
     if(p.type==='pct'){
@@ -495,7 +455,7 @@ function computeMitigation(A, rawPhys){
 }
 
 // ══════════════════════════════════════════════════════════
-// RUNE TREES (same as original)
+// RUNE TREES
 // ══════════════════════════════════════════════════════════
 const TREES={
   precision:{label:'Precision',icon:CD+'7201_precision.png',
@@ -628,23 +588,201 @@ async function loadUrgotBase(){
 }
 
 // ══════════════════════════════════════════════════════════
-// ITEM SYSTEM (same as original)
+// ITEM SYSTEM
 // ══════════════════════════════════════════════════════════
 const CATS={all:{fr:'All',col:'#4ADE80'},fighter:{fr:'Fighter',col:'#c8632b'},marksman:{fr:'Marksman',col:'#e0c14f'},assassin:{fr:'Assassin',col:'#e04f6f'},mage:{fr:'Mage',col:'#9b6fe0'},tank:{fr:'Tank',col:'#4f93e0'},support:{fr:'Support',col:'#4fd0b0'},boots:{fr:'Boots',col:'#7d8a83'},consumable:{fr:'Consumable',col:'#c84b4b'}};
 const CAT_ORDER=['all','fighter','marksman','assassin','mage','tank','support','boots','consumable'];
 let activeCat='all';
 
-const AH_BY_NAME={"Abyssal Mask":15,"Archangel's Staff":25,"Axiom Arc":25,"Black Cleaver":20,"Bloodletter's Curse":15,"Caulfield's Warhammer":10,"Chempunk Chainsword":15,"Cosmic Drive":30,"Cryptbloom":20,"Death's Dance":15,"Echoes of Helia":20,"Eclipse":15,"Essence Reaver":25,"Fiendish Codex":10,"Fimbulwinter":20,"Frozen Heart":20,"Glacial Buckler":10,"Hextech Rocketbelt":15,"Horizon Focus":25,"Hubris":15,"Iceborn Gauntlet":15,"Imperial Mandate":25,"Ionian Boots of Lucidity":12,"Kindlegem":10,"Knight's Vow":10,"Lich Bane":10,"Locket of the Iron Solari":15,"Lost Chapter":10,"Luden's Companion":10,"Malignance":25,"Maw of Malmortius":15,"Moonstone Renewer":15,"Morellonomicon":15,"Muramana":15,"Profane Hydra":18,"Ravenous Hydra":20,"Redemption":10,"Seraph's Embrace":25,"Serylda's Grudge":15,"Shurelya's Battlesong":15,"Spirit Visage":10,"Sundered Sky":20,"Sunfire Aegis":15,"Trinity Force":20,"Umbral Glaive":15,"Voltaic Cyclosword":10,"Zeke's Convergence":20,"Liandry's Torment":20,"Spear of Shojin":25,"Experimental Hexplate":30,"Titanic Hydra":20};
+const AH_BY_NAME={"Abyssal Mask":15,"Archangel's Staff":25,"Axiom Arc":25,"Black Cleaver":20,"Bloodletter's Curse":15,"Caulfield's Warhammer":10,"Chempunk Chainsword":15,"Cosmic Drive":25,"Cryptbloom":20,"Death's Dance":15,"Echoes of Helia":20,"Eclipse":15,"Essence Reaver":25,"Fiendish Codex":10,"Fimbulwinter":20,"Frozen Heart":20,"Glacial Buckler":10,"Hextech Rocketbelt":15,"Horizon Focus":25,"Hubris":15,"Iceborn Gauntlet":15,"Imperial Mandate":25,"Ionian Boots of Lucidity":15,"Kindlegem":10,"Knight's Vow":10,"Lich Bane":10,"Locket of the Iron Solari":15,"Lost Chapter":10,"Luden's Companion":10,"Malignance":25,"Maw of Malmortius":15,"Moonstone Renewer":15,"Morellonomicon":15,"Muramana":15,"Profane Hydra":18,"Ravenous Hydra":20,"Redemption":10,"Seraph's Embrace":25,"Serylda's Grudge":15,"Shurelya's Battlesong":15,"Spirit Visage":10,"Sundered Sky":20,"Sunfire Aegis":15,"Trinity Force":20,"Umbral Glaive":15,"Voltaic Cyclosword":10,"Zeke's Convergence":20,"Liandry's Torment":20,"Spear of Shojin":25,"Experimental Hexplate":30,"Titanic Hydra":20};
 
+// ══════════════════════════════════════════════════════════
+// MANUAL STATS — source of truth for all items (patch 16.x)
+// ══════════════════════════════════════════════════════════
 const MANUAL_STATS={
-"Boots":{ms_flat:25},"Berserker's Greaves":{as:0.35,ms_flat:45},"Boots of Swiftness":{ms_flat:55},"Ionian Boots of Lucidity":{ah:15,ms_flat:45},"Mercury's Treads":{mr:25,ten:30,ms_flat:45},"Plated Steelcaps":{armor:20,ms_flat:45,note:"Plated Steelcaps: reduces all basic attack damage by 12%."},"Sorcerer's Shoes":{mrpen:18,ms_flat:45},"Armored Advance":{armor:40,ms_flat:45},"Chainlaced Crushers":{mr:30,ten:30,ms_flat:45},"Crimson Lucidity":{ah:15,ms_flat:45},"Gluttonous Greaves":{omni:10,ms_flat:45},"Gunmetal Greaves":{as:0.35,ls:5,ms_flat:45},"Immortal Path":{omni:10,ms_flat:45},"Spellslinger's Shoes":{mr:18,ms_flat:45},"Swiftmarch":{ms_flat:65},
-"Amplifying Tome":{ap:20},"B. F. Sword":{ad:40},"Blasting Wand":{ap:40},"Cloak of Agility":{crit:15},"Cloth Armor":{armor:15},"Dagger":{as:0.12},"Faerie Charm":{mp5:25},"Glowing Mote":{ah:5},"Long Sword":{ad:10},"Needlessly Large Rod":{ap:65},"Null-Magic Mantle":{mr:20},"Pickaxe":{ad:25},"Rejuvenation Bead":{hp5:7.5},"Ruby Crystal":{hp:150},"Sapphire Crystal":{mana:300},
-"Aether Wisp":{ap:30,ms_pct:0.05},"Bami's Cinder":{hp:200,ah:5},"Bandleglass Mirror":{ap:20,ah:10,mp5:50},"Blighting Jewel":{ap:35,mrpen_pct:12},"Bramble Vest":{armor:35,note:"Bramble Vest: reflects 3 + 10% armor as magic damage on being hit."},"Brutalizer":{ad:25,ah:10,leth:5},"Catalyst of Aeons":{hp:300,mana:375},"Caulfield's Warhammer":{ad:20,ah:10},"Chain Vest":{armor:40},"Crystalline Bracer":{hp:200,hp5:25},"Executioner's Calling":{ad:15,crit:15,note:"Executioner's Calling: applies 40% Grievous Wounds on hit."},"Fated Ashes":{ap:30,hp5:15},"Fiendish Codex":{ap:25,ah:10},"Forbidden Idol":{ap:25,shdpwr:8,mp5:50},"Giant's Belt":{hp:380},"Glacial Buckler":{armor:35,mana:300,ah:10},"Haunting Guise":{ap:30,hp:200},"Hearthbound Axe":{ad:20,as:0.20,note:"Hearthbound Axe: first auto on a champion slows for 20%."},"Hexdrinker":{ad:20,mr:25,note:"Hexdrinker: grants a 200-360 HP magic damage shield when below 30% HP (45s CD)."},"Hextech Alternator":{ap:40},"Kindlegem":{hp:200,ah:10},"Last Whisper":{ad:20,apen:18},"Lost Chapter":{ap:40,ah:10,mana:300},"Negatron Cloak":{mr:45},"Noonquiver":{ad:20,crit:15},"Oblivion Orb":{ap:25,note:"Oblivion Orb: applies 15% Grievous Wounds on ability damage."},"Phage":{hp:200,ad:15,note:"Phage: killing a unit grants +20 MS for 2s."},"Quicksilver Sash":{mr:30,note:"Quicksilver Sash: active removes all crowd control (90s CD)."},"Rectrix":{ad:15,ms_pct:0.04},"Recurve Bow":{as:0.18},"Scout's Slingshot":{as:0.20,crit:10},"Seeker's Armguard":{ap:40,armor:25},"Serrated Dirk":{ad:30,leth:10},"Sheen":{ah:10,mana:200,note:"Sheen: Spellblade — next auto deals 100% base AD bonus phys after using an ability (1.5s CD)."},"Specter's Cowl":{mr:35,hp:200,hp5:50},"Steel Sigil":{armor:30,ad:10},"Tiamat":{ad:20,hp:250,note:"Tiamat: autos deal 60% AD AoE cleave."},"Tunneler":{ad:15,hp:200},"Vampiric Scepter":{ad:15,ls:8},"Verdant Barrier":{ap:40,mr:25},"Warden's Mail":{armor:40,note:"Warden's Mail: reduces attacker's AS by 15% for 1s."},"Winged Moonplate":{hp:150,ms_pct:0.04},"Zeal":{as:0.15,crit:15,ms_pct:0.07},
-"Abyssal Mask":{hp:400,mr:45,ah:15,note:"Abyssal Mask: nearby enemies take +10% magic damage."},"Axiom Arc":{ad:55,ah:25,leth:18,note:"Axiom Arc: champion kills restore 25% of R cooldown."},"Black Cleaver":{hp:400,ad:40,ah:20,special:'cleaver',note:"Black Cleaver: each hit reduces armor by 5% (6 stacks = 30%), +20 MS on kill.",applyStats:(A)=>{A.armorShred=Math.max(A.armorShred||0,0.30);}},"Bloodmail":{hp:500,ad:40,note:"Bloodmail: gain 2% bonus HP as bonus AD per 100 bonus HP."},"Blade of the Ruined King":{ad:30,as:0.25,ls:8,onHitPctHP:0.06,note:"BotRK: on-hit deals 6% of target's current HP (melee). Active steals 15% MS.",applyStats:(A)=>{}},"Bloodthirster":{ad:80,ls:18,note:"Bloodthirster: excess healing creates a shield up to 50% bonus AD."},"Chempunk Chainsword":{ad:45,hp:450,ah:15,note:"Chempunk Chainsword: applies 60% Grievous Wounds on damage."},"Dead Man's Plate":{armor:55,hp:400,ms_pct:0.05,note:"Dead Man's Plate: build Momentum (max 100) to gain MS; charged auto stuns briefly."},"Death's Dance":{ad:55,armor:45,ah:15,note:"Death's Dance: 30% of physical damage taken is delayed as a bleed over 3s. Kills heal 15% of max HP."},"Eclipse":{ad:55,armor:15,ah:15,note:"Eclipse: every 2nd auto deals 6% max HP bonus phys damage and grants a brief overshield.",applyStats:(A)=>{}},"Experimental Hexplate":{hp:300,ad:25,as:0.25,uh:30,note:"Hexplate: +30 Ult Haste. After using R: +30% AS and +15% MS for 3s."},"Guardian Angel":{armor:45,ah:0,note:"Guardian Angel: on death, revive with 50% HP and 30% max mana (300s CD)."},"Hullbreaker":{hp:400,ad:50,armor:20,note:"Hullbreaker: when alone from allies: +20 armor, +20 MR, +15% damage to structures."},"Iceborn Gauntlet":{hp:400,armor:50,ah:15,note:"Iceborn Gauntlet: Spellblade auto creates a 65% slow zone for 2.5s."},"Kraken Slayer":{ad:45,as:0.35,crit:20,note:"Kraken Slayer: every 3rd attack deals 60 + 40% bonus AD true damage.",applyStats:(A)=>{}},"Maw of Malmortius":{ad:65,mr:40,ah:15,note:"Maw of Malmortius: when below 30% HP, gain 10% omnivamp and 20 lethality (Lifeline shield)."},"Mercurial Scimitar":{ad:40,mr:35,ls:10,note:"Mercurial Scimitar: active removes all crowd control and grants +50% MS for 1s (90s CD)."},"Muramana":{ad:35,ah:15,mana:860,note:"Muramana: +6% of max mana as bonus AD. Shock passive on autos/abilities.",applyStats:(A)=>{A.ad+=A.mana*0.06;}},"Ravenous Hydra":{hp:150,ad:65,ah:20,ls:8,note:"Ravenous Hydra: autos cleave for 60% AD AoE. +8% omnivamp from all damage.",applyStats:(A)=>{}},"Serylda's Grudge":{ad:45,armor:20,ah:15,special:'serylda',note:"Serylda's Grudge: +35% armor penetration. Abilities slow for 30%.",applyStats:(A)=>{A.armPenPct+=0.35;}},"Spear of Shojin":{hp:300,ad:55,ah:25,note:"Spear of Shojin: after using an ability, next 3 autos have 30% reduced CD per hit."},"Sterak's Gage":{hp:500,note:"Sterak's Gage: +45% of base AD as bonus AD. Lifeline: shield for 75% bonus AD when below 30% HP.",applyStats:(A)=>{A.ad+=A.baseAD*0.45;A._sterak=A.baseAD*0.50;}},"Sundered Sky":{hp:450,ad:30,ah:20,note:"Sundered Sky: first auto on a champion Shatters (deals 100% base AD + 12% target max HP bonus phys, 8s CD)."},"Terminus":{ad:35,as:0.25,note:"Terminus: autos alternately apply Shade (−30 armor) or Light (−30 MR), stacking.",applyStats:(A)=>{}},"Titanic Hydra":{hp:500,ad:35,ah:20,note:"Titanic Hydra: on-hit deals 1% of Urgot's max HP as bonus phys + 3% in a cone behind target.",applyStats:(A)=>{A.onHitPctOwnHP=Math.max(A.onHitPctOwnHP||0,0.01);}},"Trinity Force":{hp:333,ad:30,as:0.35,ah:20,ms_flat:5,note:"Trinity Force: Spellblade — next auto deals 200% base AD bonus phys after an ability (1.5s CD).",applyStats:(A)=>{}},"Edge of Night":{ad:50,leth:18,hp:250,note:"Edge of Night: channel 0.75s to gain a spell shield that blocks the next ability (40s CD)."},"Endless Hunger":{ad:65,omni:8,ten:20},"Essence Reaver":{ad:55,ah:20,crit:20,note:"Essence Reaver: Spellblade — after using an ability, next auto deals 40-100% bonus AD bonus phys."},"Galeforce":{ad:55,as:0.15,crit:20,ms_flat:5,note:"Galeforce: active dash in target direction dealing 12-22% max HP phys damage (90s CD)."},"Guinsoo's Rageblade":{ad:30,as:0.40,note:"Guinsoo's Rageblade: on-hits apply at double rate."},"Immortal Shieldbow":{ad:55,as:0.15,crit:20,ls:10,note:"Immortal Shieldbow: Lifeline — when dropping below 30% HP, gain shield for 250-700 HP (90s CD)."},"Infinity Edge":{ad:70,crit:20,note:"Infinity Edge: if crit ≥ 60%, crits deal 235% damage instead of 175%."},"Lord Dominik's Regards":{ad:35,crit:20,apen:35,note:"Lord Dominik's Regards: deal up to +20% bonus phys dmg when target has more max HP."},"Mortal Reminder":{ad:35,crit:20,apen:35,note:"Mortal Reminder: applies 60% Grievous Wounds on hit."},"Nashor's Tooth":{as:0.50,ah:15,note:"Nashor's Tooth: on-hit deals 15 + 20% AP magic damage."},"Navori Flickerblade":{ad:55,as:0.10,crit:20,note:"Navori Flickerblade: crits reduce non-ult ability CDs by 15%."},"Phantom Dancer":{ad:20,as:0.45,crit:20,ms_flat:7,note:"Phantom Dancer: gain a 300-600 HP shield when below 30% HP (60s CD)."},"Rapid Firecannon":{as:0.35,crit:20,ms_flat:7,note:"Rapid Firecannon: Energized auto has extended range and deals +160% AD bonus magic."},"Runaan's Hurricane":{as:0.45,crit:20,ms_flat:7,note:"Runaan's Hurricane: autos fire 2 extra bolts to nearby enemies for 40% AD each."},"Statikk Shiv":{as:0.35,crit:20,note:"Statikk Shiv: Energized auto deals 50-100 + 50% bonus AD magic damage, chaining to 5 targets."},"Stormrazor":{ad:45,crit:20,as:0.25,note:"Stormrazor: Energized auto slows target by 75% for 0.5s and deals +160% AD bonus magic."},"The Collector":{ad:55,leth:20,crit:20,note:"The Collector: killing blow executes below 5% HP. Kills grant +2 gold.",applyStats:(A)=>{}},"Yun Tal Wildarrows":{ad:55,crit:20,as:0.15,note:"Yun Tal Wildarrows: first attack on a champion per second deals 65 + 15% bonus AD bonus phys."},"Hextech Gunblade":{ad:35,ah:15,ls:8,note:"Hextech Gunblade: active bolt deals 175-250 + 30% bonus AD + 20% AP magic damage and slows 60% (20s CD)."},"Hubris":{ad:65,leth:20,note:"Hubris: killing a champion grants an Ego statue and a stacking AD buff."},"Night's Edge":{ad:55,leth:20,hp:250,note:"Night's Edge: after 5 ability hits on a target, next ability hit deals +25% damage and ignores 20 armor."},"Profane Hydra":{ad:55,leth:18,ah:18,note:"Profane Hydra: autos cleave for 60% AD AoE. Active: emit waves for 100% + 50% AD phys per wave (20s CD)."},"Serpent's Fang":{ad:55,leth:20,note:"Serpent's Fang: dealing damage reduces incoming shields by 50%. Reduces enemy shields by 100% on champion hit.",applyStats:(A)=>{}},"Umbral Glaive":{ad:55,leth:15,ah:15,note:"Umbral Glaive: nearby wards/traps are visible; first auto kills them instantly."},"Voltaic Cyclosword":{ad:45,leth:15,ah:10,note:"Voltaic Cyclosword: Energized attack slows target for 99% for 0.5s."},"Youmuu's Ghostblade":{ad:55,leth:18,ah:15,ms_flat:20,note:"Youmuu's Ghostblade: active grants +20% MS for 6s (45s CD)."},"Fimbulwinter":{hp:350,mr:40,ah:20,mana:400,note:"Fimbulwinter: Spellblade — after CC, next auto deals 50 + 2% max HP + 3% mana bonus phys."},"Force of Nature":{hp:350,mr:70,ms_flat:5,note:"Force of Nature: stacks up to +100 MR and +10% MS when taking magic damage."},"Frozen Heart":{armor:80,mana:400,ah:20,note:"Frozen Heart: reduces nearby enemy AS by 20%."},"Heartsteel":{hp:1000,note:"Heartsteel: every 4s, proc next auto for 100 + 6% bonus HP bonus phys damage + 10% permanently to max HP.",applyStats:(A)=>{}},"Hollow Radiance":{hp:300,armor:40,mr:35,ah:10,note:"Hollow Radiance: deals 2% max HP magic damage/s to nearby enemies."},"Jak'Sho, The Protean":{hp:400,armor:30,mr:30,ah:15,note:"Jak'Sho: stacks during combat (6 stacks = +12% armor and MR).",applyStats:(A)=>{A.armorMult=(A.armorMult||0)+0.12;A.mrMult=(A.mrMult||0)+0.12;}},"Knight's Vow":{hp:400,armor:30,ah:10,note:"Knight's Vow: redirect 15% of damage taken by your Sworn ally to you."},"Locket of the Iron Solari":{hp:200,armor:30,mr:30,ah:15,note:"Locket of the Iron Solari: active — grant nearby allies a 200-400 HP shield for 2.5s (90s CD)."},"Randuin's Omen":{hp:400,armor:80,note:"Randuin's Omen: reduces damage from crits by 15%. Active slows nearby enemies by 55% for 2s (60s CD)."},"Rookern":{hp:500,mr:65,note:"Rookern: stores 10% of post-mitigation magic damage (max 300). Releases stored damage as a shield."},"Spirit Visage":{hp:350,mr:55,ah:10,note:"Spirit Visage: increases all healing, regeneration and draining by 25%."},"Sunfire Aegis":{hp:450,armor:35,ah:15,note:"Sunfire Aegis: Immolate — deals 25 + 1% max HP magic/s to nearby enemies."},"Thornmail":{hp:250,armor:80,note:"Thornmail: reflects 25 + 10% armor magic damage on being hit by autos. Applies 40% Grievous Wounds."},"Unending Despair":{hp:350,armor:45,mr:35,note:"Unending Despair: restores 25 + 2% max HP every 9s when taking damage from champions."},"Warmog's Armor":{hp:800,hp5:200,note:"Warmog's Armor: when above 1000 bonus HP, regenerate 5% max HP/s out of combat (3s timer)."},"Zeke's Convergence":{hp:250,armor:30,mr:30,ah:20,note:"Zeke's Convergence: after using R, empowers Sworn ally's attacks to deal bonus magic/slow for 10s."},"Ardent Censer":{ap:45,as:0.10,shdpwr:8,note:"Ardent Censer: healing or shielding an ally grants them +10-30% AS and 15-30 on-hit magic damage for 6s."},"Celestial Opposition":{hp:200,shdpwr:10,note:"Celestial Opposition: after a stun/root, grant all nearby allies a shield."},"Diadem of Songs":{hp:200,mana:600,shdpwr:8,note:"Diadem of Songs: allies healed/shielded gain a brief MS boost."},"Dream Maker":{hp:300,shdpwr:12,note:"Dream Maker: accumulate Reverie; release as a shield on nearby allies."},"Echoes of Helia":{ap:35,ah:20,hp:200,shdpwr:6,note:"Echoes of Helia: on healing, deal 25 + 5% AP bonus magic to nearby enemies."},"Imperial Mandate":{hp:200,ah:25,note:"Imperial Mandate: slowing/immobilizing an enemy marks them; ally hitting the mark explodes for 45-90 + 9% AP magic."},"Mikael's Blessing":{hp:150,mr:35,ah:15,shdpwr:16,note:"Mikael's Blessing: active removes all crowd control and grants a 15% max HP shield on an ally (90s CD)."},"Moonstone Renewer":{hp:200,ah:15,shdpwr:6,note:"Moonstone Renewer: in combat, grants 35 + 3% AP stacking heal/shield to most wounded ally every 2s."},"Redemption":{hp:200,ah:10,shdpwr:20,note:"Redemption: active calls a healing beam healing 35-400 HP to allies and dealing 10% max HP magic to enemies (90s CD)."},"Shurelya's Battlesong":{hp:200,ah:15,ms_flat:5,ms_pct:0.05,shdpwr:8,note:"Shurelya's Battlesong: active — grant nearby allies +40% MS for 4s (90s CD)."},"Staff of Flowing Water":{ap:50,mr:30,ah:15,shdpwr:12,note:"Staff of Flowing Water: healing/shielding an ally grants them 20-40 AP and 15% AS for 4s."},"Archangel's Staff":{ap:80,ah:25,mana:500,note:"Archangel's Staff: max mana increases by 5 per ability use (up to +750 mana). Transforms into Seraph's Embrace."},"Bandlepipes":{ap:45,ah:15,armor:20,mr:20,hp:200},"Banshee's Veil":{ap:105,mr:40,note:"Banshee's Veil: passive — spell shield blocking first ability hit every 40s."},"Blackfire Torch":{ap:80,ah:20,note:"Blackfire Torch: ability hits ignite targets for 2% max HP/s magic damage over 3s."},"Bloodletter's Curse":{ap:65,ah:15,hp:400,note:"Bloodletter's Curse: dealing magic damage reduces enemy MR by 5% per stack (up to −25%)."},"Cosmic Drive":{ap:70,ah:25,hp:350,ms_flat:10,note:"Cosmic Drive: dealing ability damage grants +20 AP and +20% MS for 3s (stacks 3x)."},"Cryptbloom":{ap:75,ah:20,mrpen_pct:30,note:"Cryptbloom: kills root nearby enemies for 1.5s and grant +50 AP for 5s."},"Lich Bane":{ap:75,ah:10,ms_flat:5,note:"Lich Bane: Spellblade — next auto deals 75% base AD + 40% AP bonus magic after an ability (1.5s CD)."},"Liandry's Torment":{ap:90,hp:300,ah:20,note:"Liandry's Torment: abilities inflict Torment for 3s dealing 1.5% max HP/s magic damage."},"Luden's Companion":{ap:80,ah:10,ms_flat:10,note:"Luden's Companion: ability hits charge Luden; at 100 charges, next ability hit deals 80 + 15% AP bonus magic."},"Malignance":{ap:80,ah:25,note:"Malignance: R damage is amplified +25%. R applies Haunt: 15 + 5% AP magic burn/s for 3s."},"Rabadon's Deathcap":{ap:120,note:"Rabadon's Deathcap: increases total AP by 35%.",applyStats:(A)=>{}},"Riftmaker":{ap:65,hp:300,ah:15,note:"Riftmaker: in combat with champions gain up to +6% AP (3 stacks). At max stacks: deal 3% of max HP bonus true damage per ability."},"Rod of Ages":{ap:60,hp:300,mana:400,note:"Rod of Ages: charges over 10 min up to +200 HP, +200 mana, +20 AP."},"Rylai's Crystal Scepter":{ap:80,hp:350,note:"Rylai's Crystal Scepter: abilities slow targets by 30% for 1s."},"Seraph's Embrace":{ap:80,ah:25,mana:1000,note:"Seraph's Embrace: 3% of max mana as bonus AP. Shield active for 25% max mana HP (120s CD)."},"Shadowflame":{ap:100,note:"Shadowflame: crits and abilities deal 20 bonus magic pen (if target is shielded, 10-30 penetration)."},"Stormsurge":{ap:95,ms_pct:0.04,note:"Stormsurge: immobilizing or killing a champ within 3s launches a lightning bolt for 35-400 bonus magic damage."},"Void Staff":{ap:90,mrpen_pct:40,note:"Void Staff: +40% magic penetration."},"Zhonya's Hourglass":{ap:80,armor:45,ah:10,note:"Zhonya's Hourglass: active — enter Stasis (untargetable + invulnerable) for 2.5s (120s CD)."},"Dawncore":{ap:60,ah:20,shdpwr:8,note:"Dawncore: 2% of bonus mana as bonus AP. Increases heal/shield power by 1% per 100 AP."},"Actualizer":{ap:90,ah:10},"Mejai's Soulstealer":{ap:20,note:"Mejai's Soulstealer: stacking — up to +130 AP at 25 stacks."},"Morellonomicon":{ap:75,ah:15,note:"Morellonomicon: dealing magic damage applies 40% Grievous Wounds."}
+"Boots":{ms_flat:25},
+"Berserker's Greaves":{as:0.35,ms_flat:45},
+"Boots of Swiftness":{ms_flat:55},
+"Ionian Boots of Lucidity":{ah:15,ms_flat:45},
+"Mercury's Treads":{mr:25,ten:30,ms_flat:45},
+"Plated Steelcaps":{armor:20,ms_flat:45,note:"Plated Steelcaps: reduces all basic attack damage by 12%."},
+"Sorcerer's Shoes":{mrpen:18,ms_flat:45},
+"Armored Advance":{armor:40,ms_flat:45},
+"Chainlaced Crushers":{mr:30,ten:30,ms_flat:45},
+"Crimson Lucidity":{ah:15,ms_flat:45},
+"Gluttonous Greaves":{omni:10,ms_flat:45},
+"Gunmetal Greaves":{as:0.35,ls:5,ms_flat:45},
+"Immortal Path":{omni:10,ms_flat:45},
+"Spellslinger's Shoes":{mr:18,ms_flat:45},
+"Swiftmarch":{ms_flat:65},
+"Amplifying Tome":{ap:20},
+"B. F. Sword":{ad:40},
+"Blasting Wand":{ap:40},
+"Cloak of Agility":{crit:15},
+"Cloth Armor":{armor:15},
+"Dagger":{as:0.12},
+"Faerie Charm":{mp5:25},
+"Glowing Mote":{ah:5},
+"Long Sword":{ad:10},
+"Needlessly Large Rod":{ap:65},
+"Null-Magic Mantle":{mr:20},
+"Pickaxe":{ad:25},
+"Rejuvenation Bead":{hp5:7.5},
+"Ruby Crystal":{hp:150},
+"Sapphire Crystal":{mana:300},
+"Aether Wisp":{ap:30,ms_pct:0.05},
+"Bami's Cinder":{hp:200,ah:5},
+"Bandleglass Mirror":{ap:20,ah:10,mp5:50},
+"Blighting Jewel":{ap:35,mrpen_pct:12},
+"Bramble Vest":{armor:35,note:"Bramble Vest: reflects 3 + 10% armor as magic damage on being hit."},
+"Brutalizer":{ad:25,ah:10,leth:5},
+"Catalyst of Aeons":{hp:300,mana:375},
+"Caulfield's Warhammer":{ad:20,ah:10},
+"Chain Vest":{armor:40},
+"Crystalline Bracer":{hp:200,hp5:25},
+"Executioner's Calling":{ad:15,crit:15,note:"Executioner's Calling: applies 40% Grievous Wounds on hit."},
+"Fated Ashes":{ap:30,hp5:15},
+"Fiendish Codex":{ap:25,ah:10},
+"Forbidden Idol":{ap:25,shdpwr:8,mp5:50},
+"Giant's Belt":{hp:380},
+"Glacial Buckler":{armor:35,mana:300,ah:10},
+"Haunting Guise":{ap:30,hp:200},
+"Hearthbound Axe":{ad:20,as:0.20,note:"Hearthbound Axe: first auto on a champion slows for 20%."},
+"Hexdrinker":{ad:20,mr:25,note:"Hexdrinker: grants a 200-360 HP magic damage shield when below 30% HP (45s CD)."},
+"Hextech Alternator":{ap:40},
+"Kindlegem":{hp:200,ah:10},
+"Last Whisper":{ad:20,apen:18},
+"Lost Chapter":{ap:40,ah:10,mana:300},
+"Negatron Cloak":{mr:45},
+"Noonquiver":{ad:20,crit:15},
+"Oblivion Orb":{ap:25,note:"Oblivion Orb: applies 15% Grievous Wounds on ability damage."},
+"Phage":{hp:200,ad:15,note:"Phage: killing a unit grants +20 MS for 2s."},
+"Quicksilver Sash":{mr:30,note:"Quicksilver Sash: active removes all crowd control (90s CD)."},
+"Rectrix":{ad:15,ms_pct:0.04},
+"Recurve Bow":{as:0.18},
+"Scout's Slingshot":{as:0.20,crit:10},
+"Seeker's Armguard":{ap:40,armor:25},
+"Serrated Dirk":{ad:30,leth:10},
+"Sheen":{ah:10,mana:200,note:"Sheen: Spellblade — next auto deals 100% base AD bonus phys after using an ability (1.5s CD)."},
+"Specter's Cowl":{mr:35,hp:200,hp5:50},
+"Steel Sigil":{armor:30,ad:10},
+"Tiamat":{ad:20,hp:250,note:"Tiamat: autos deal 60% AD AoE cleave."},
+"Tunneler":{ad:15,hp:200},
+"Vampiric Scepter":{ad:15,ls:8},
+"Verdant Barrier":{ap:40,mr:25},
+"Warden's Mail":{armor:40,note:"Warden's Mail: reduces attacker's AS by 15% for 1s."},
+"Winged Moonplate":{hp:150,ms_pct:0.04},
+"Zeal":{as:0.15,crit:15,ms_pct:0.07},
+"Abyssal Mask":{hp:400,mr:45,ah:15,note:"Abyssal Mask: nearby enemies take +10% magic damage."},
+"Axiom Arc":{ad:55,ah:25,leth:18,note:"Axiom Arc: champion kills restore 25% of R cooldown."},
+"BastionBreaker":{ad:55,leth:22,ah:15,note:"BastionBreaker: dealing damage reduces enemy armor by 4% (up to 40%)."},
+"Black Cleaver":{hp:400,ad:40,ah:20,special:'cleaver',note:"Black Cleaver: each hit reduces armor by 5% (6 stacks = 30%), +20 MS on kill.",applyStats:(A)=>{A.armorShred=Math.max(A.armorShred||0,0.30);}},
+"Bloodmail":{hp:500,ad:40,note:"Bloodmail: gain 2% bonus HP as bonus AD per 100 bonus HP."},
+"Blade of the Ruined King":{ad:30,as:0.25,ls:8,onHitPctHP:0.06,note:"BotRK: on-hit deals 6% of target's current HP (melee). Active steals 15% MS.",applyStats:(A)=>{}},
+"Bloodthirster":{ad:80,ls:18,note:"Bloodthirster: excess healing creates a shield up to 50% bonus AD."},
+"Chempunk Chainsword":{ad:45,hp:450,ah:15,note:"Chempunk Chainsword: applies 60% Grievous Wounds on damage."},
+"Dead Man's Plate":{armor:55,hp:400,ms_pct:0.05,note:"Dead Man's Plate: build Momentum (max 100) to gain MS; charged auto stuns briefly and deals up to 100 + 50% AD bonus dmg."},
+"Death's Dance":{ad:55,armor:45,ah:15,note:"Death's Dance: 30% of physical damage taken is delayed as a bleed over 3s. Kills heal 15% of max HP."},
+"Eclipse":{ad:55,armor:15,ah:15,note:"Eclipse: every 2nd auto deals 6% max HP bonus phys damage and grants a brief overshield.",applyStats:(A)=>{}},
+"Experimental Hexplate":{hp:300,ad:25,as:0.25,uh:30,note:"Hexplate: +30 Ult Haste. After using R: +30% AS and +15% MS for 3s."},
+"Guardian Angel":{armor:45,ah:0,note:"Guardian Angel: on death, revive with 50% HP and 30% max mana (300s CD)."},
+"Hullbreaker":{hp:400,ad:50,armor:20,note:"Hullbreaker: when alone from allies: +20 armor, +20 MR, +15% damage to structures."},
+"Iceborn Gauntlet":{hp:400,armor:50,ah:15,note:"Iceborn Gauntlet: Spellblade auto creates a 65% slow zone for 2.5s."},
+"Kraken Slayer":{ad:45,as:0.35,crit:20,note:"Kraken Slayer: every 3rd attack deals 60 + 40% bonus AD true damage.",applyStats:(A)=>{}},
+"Maw of Malmortius":{ad:65,mr:40,ah:15,note:"Maw of Malmortius: when below 30% HP, gain 10% omnivamp and 20 lethality (Lifeline shield: 200-600)."},
+"Mercurial Scimitar":{ad:40,mr:35,ls:10,note:"Mercurial Scimitar: active removes all crowd control and grants +50% MS for 1s (90s CD)."},
+"Muramana":{ad:35,ah:15,mana:860,note:"Muramana: +6% of max mana as bonus AD. Shock passive on autos/abilities.",applyStats:(A)=>{A.ad+=A.mana*0.06;}},
+"Ravenous Hydra":{hp:150,ad:65,ah:20,ls:8,note:"Ravenous Hydra: autos cleave for 60% AD AoE. +8% omnivamp from all damage.",applyStats:(A)=>{}},
+"Serylda's Grudge":{ad:45,armor:20,ah:15,special:'serylda',note:"Serylda's Grudge: +35% armor penetration. Abilities slow for 30%.",applyStats:(A)=>{A.armPenPct+=0.35;}},
+"Spear of Shojin":{hp:300,ad:55,ah:25,note:"Spear of Shojin: after using an ability, next 3 autos have 30% reduced CD per hit on the ability used."},
+"Sterak's Gage":{hp:500,note:"Sterak's Gage: +45% of base AD as bonus AD. Lifeline: shield for 75% bonus AD when below 30% HP.",applyStats:(A)=>{A.ad+=A.baseAD*0.45;A._sterak=A.baseAD*0.50;}},
+"Sundered Sky":{hp:450,ad:30,ah:20,note:"Sundered Sky: first auto on a champion Shatters (deals 100% base AD + 12% target max HP bonus phys, 8s CD)."},
+"Terminus":{ad:35,as:0.25,note:"Terminus: autos alternately apply Shade (−30 armor, stacking) or Light (−30 MR, stacking), up to −150 each.",applyStats:(A)=>{}},
+"Titanic Hydra":{hp:500,ad:35,ah:20,note:"Titanic Hydra: on-hit deals 1% of Urgot's max HP as bonus phys + 3% in a cone behind target.",applyStats:(A)=>{A.onHitPctOwnHP=Math.max(A.onHitPctOwnHP||0,0.01);}},
+"Trinity Force":{hp:333,ad:30,as:0.35,ah:20,ms_flat:5,note:"Trinity Force: Spellblade — next auto deals 200% base AD bonus phys after an ability (1.5s CD). +4% MS on kill.",applyStats:(A)=>{}},
+"Edge of Night":{ad:50,leth:18,hp:250,note:"Edge of Night: channel 0.75s to gain a spell shield that blocks the next ability (40s CD)."},
+"Endless Hunger":{ad:65,omni:8,ten:20},
+"Essence Reaver":{ad:55,ah:20,crit:20,note:"Essence Reaver: Spellblade — after using an ability, next auto deals 40-100% bonus AD bonus phys."},
+"Galeforce":{ad:55,as:0.15,crit:20,ms_flat:5,note:"Galeforce: active dash in target direction dealing 12-22% max HP phys damage (90s CD)."},
+"Guinsoo's Rageblade":{ad:30,as:0.40,note:"Guinsoo's Rageblade: on-hits apply at double rate (each hit = 2 on-hits stacks)."},
+"Immortal Shieldbow":{ad:55,as:0.15,crit:20,ls:10,note:"Immortal Shieldbow: Lifeline — when dropping below 30% HP, gain shield for 250-700 HP (90s CD)."},
+"Infinity Edge":{ad:70,crit:20,note:"Infinity Edge: if crit ≥ 60%, crits deal 235% damage instead of 175%."},
+"Lord Dominik's Regards":{ad:35,crit:20,apen:35,note:"Lord Dominik's Regards: deal up to +20% bonus phys dmg when target has more max HP."},
+"Mortal Reminder":{ad:35,crit:20,apen:35,note:"Mortal Reminder: applies 60% Grievous Wounds on hit."},
+"Nashor's Tooth":{as:0.50,ah:15,note:"Nashor's Tooth: on-hit deals 15 + 20% AP magic damage."},
+"Navori Flickerblade":{ad:55,as:0.10,crit:20,note:"Navori Flickerblade: crits reduce non-ult ability CDs by 15%."},
+"Phantom Dancer":{ad:20,as:0.45,crit:20,ms_flat:7,note:"Phantom Dancer: gain a 300-600 HP shield when below 30% HP (60s CD)."},
+"Rapid Firecannon":{as:0.35,crit:20,ms_flat:7,note:"Rapid Firecannon: Energized auto has extended range (+100 on ranged, 75 on melee) and deals +160% AD bonus magic."},
+"Runaan's Hurricane":{as:0.45,crit:20,ms_flat:7,note:"Runaan's Hurricane: autos fire 2 extra bolts to nearby enemies for 40% AD each."},
+"Statikk Shiv":{as:0.35,crit:20,note:"Statikk Shiv: Energized auto deals 50-100 + 50% bonus AD magic damage, chaining to 5 targets."},
+"Stormrazor":{ad:45,crit:20,as:0.25,note:"Stormrazor: Energized auto slows target by 75% for 0.5s and deals +160% AD bonus magic."},
+"The Collector":{ad:55,leth:20,crit:20,note:"The Collector: killing blow executes below 5% HP. Kills grant +2 gold.",applyStats:(A)=>{}},
+"Yun Tal Wildarrows":{ad:55,crit:20,as:0.15,note:"Yun Tal Wildarrows: first attack on a champion per second deals 65 + 15% bonus AD bonus phys."},
+"Hextech Gunblade":{ad:35,ah:15,ls:8,note:"Hextech Gunblade: active bolt deals 175-250 + 30% bonus AD + 20% AP magic damage and slows 60% (20s CD)."},
+"Hubris":{ad:65,leth:20,note:"Hubris: killing a champion grants an Ego statue (cosmetic) and a stacking AD buff."},
+"Night's Edge":{ad:55,leth:20,hp:250,note:"Night's Edge: after 5 ability hits on a target, next ability hit deals +25% damage and ignores 20 armor."},
+"Profane Hydra":{ad:55,leth:18,ah:18,note:"Profane Hydra: autos cleave for 60% AD AoE. Active: emit waves for 100% + 50% AD phys per wave (20s CD)."},
+"Serpent's Fang":{ad:55,leth:20,note:"Serpent's Fang: dealing damage reduces incoming shields by 50%. Reduces enemy shields by 100% on champion hit.",applyStats:(A)=>{}},
+"Umbral Glaive":{ad:55,leth:15,ah:15,note:"Umbral Glaive: nearby wards/traps are visible; first auto kills them instantly."},
+"Voltaic Cyclosword":{ad:45,leth:15,ah:10,note:"Voltaic Cyclosword: Energized attack slows target for 99% for 0.5s."},
+"Youmuu's Ghostblade":{ad:55,leth:18,ah:15,ms_flat:20,note:"Youmuu's Ghostblade: active grants +20% MS for 6s (45s CD, doesn't break on damage)."},
+"Actualizer":{ap:90,ah:10},
+"Archangel's Staff":{ap:80,ah:25,mana:500,note:"Archangel's Staff: unique passive — max mana increases by 5 per ability use (up to +750 mana). Transforms into Seraph's Embrace at 750 stacks."},
+"Bandlepipes":{ap:45,ah:15,armor:20,mr:20,hp:200},
+"Banshee's Veil":{ap:105,mr:40,note:"Banshee's Veil: passive — spell shield blocking first ability hit every 40s."},
+"Blackfire Torch":{ap:80,ah:20,note:"Blackfire Torch: ability hits ignite targets for 2% max HP/s magic damage over 3s (stacking, max 30/s)."},
+"Bloodletter's Curse":{ap:65,ah:15,hp:400,note:"Bloodletter's Curse: dealing magic damage reduces enemy MR by 5% per stack (up to −25% / 5 stacks)."},
+"Cosmic Drive":{ap:70,ah:25,hp:350,ms_flat:10,note:"Cosmic Drive: dealing ability damage grants +20 AP and +20% MS for 3s (stacks 3x = +60 AP, +60% MS total)."},
+"Cryptbloom":{ap:75,ah:20,mrpen_pct:30,note:"Cryptbloom: kills root nearby enemies for 1.5s and grant +50 AP for 5s."},
+"Dawncore":{ap:60,ah:20,shdpwr:8,note:"Dawncore: 2% of bonus mana as bonus AP. Increases heal/shield power by 1% per 100 AP."},
+"Dusk and Dawn":{ap:60,ah:20,as:0.20,hp:300,note:"Dusk and Dawn: ability hits alternate between increasing AP by 5% for 5s (Dawn) and AS by 15% for 5s (Dusk)."},
+"Lich Bane":{ap:75,ah:10,ms_flat:5,note:"Lich Bane: Spellblade — next auto deals 75% base AD + 40% AP bonus magic after an ability (1.5s CD)."},
+"Liandry's Torment":{ap:90,hp:300,ah:20,note:"Liandry's Torment: abilities inflict Torment for 3s dealing 1.5% max HP/s magic damage. Bonus vs slowed/rooted/stunned."},
+"Luden's Companion":{ap:80,ah:10,ms_flat:10,note:"Luden's Companion: ability hits charge Luden; at 100 charges, next ability hit deals 80 + 15% AP bonus magic damage to up to 4 targets."},
+"Malignance":{ap:80,ah:25,note:"Malignance: R damage is amplified +25%. R applies Haunt: 15 + 5% AP magic burn/s for 3s."},
+"Mejai's Soulstealer":{ap:20,note:"Mejai's Soulstealer: stacking — up to +130 AP at 25 stacks. Gain stacks on kills/assists, lose on death."},
+"Morellonomicon":{ap:75,ah:15,note:"Morellonomicon: dealing magic damage applies 40% Grievous Wounds."},
+"Rabadon's Deathcap":{ap:120,note:"Rabadon's Deathcap: increases total AP by 35%.",applyStats:(A)=>{}},
+"Riftmaker":{ap:65,hp:300,ah:15,note:"Riftmaker: in combat with champions gain up to +6% AP (3 stacks). At max stacks: deal 3% of max HP bonus true damage per ability."},
+"Rod of Ages":{ap:60,hp:300,mana:400,note:"Rod of Ages: charges over 10 min up to +200 HP, +200 mana, +20 AP. Transforms at full stacks."},
+"Rylai's Crystal Scepter":{ap:80,hp:350,note:"Rylai's Crystal Scepter: abilities slow targets by 30% for 1s."},
+"Seraph's Embrace":{ap:80,ah:25,mana:1000,note:"Seraph's Embrace: 3% of max mana as bonus AP. Shield active for 25% max mana HP (120s CD)."},
+"Shadowflame":{ap:100,note:"Shadowflame: crits and abilities deal 20 bonus magic pen (if target is shielded, 10-30 penetration)."},
+"Stormsurge":{ap:95,ms_pct:0.04,note:"Stormsurge: immobilizing or killing a champ within 3s launches a lightning bolt for 35-400 bonus magic damage."},
+"Void Staff":{ap:90,mrpen_pct:40,note:"Void Staff: +40% magic penetration."},
+"Zhonya's Hourglass":{ap:80,armor:45,ah:10,note:"Zhonya's Hourglass: active — enter Stasis (untargetable + invulnerable) for 2.5s (120s CD)."},
+"Fimbulwinter":{hp:350,mr:40,ah:20,mana:400,note:"Fimbulwinter: Spellblade — after CC, next auto deals 50 + 2% max HP + 3% mana bonus phys."},
+"Force of Nature":{hp:350,mr:70,ms_flat:5,note:"Force of Nature: stacks up to +100 MR and +10% MS over time when taking magic damage."},
+"Frozen Heart":{armor:80,mana:400,ah:20,note:"Frozen Heart: reduces nearby enemy AS by 20%."},
+"Heartsteel":{hp:1000,note:"Heartsteel: every 4s, proc next auto for 100 + 6% bonus HP bonus phys damage + 10% permanently to max HP.",applyStats:(A)=>{}},
+"Hollow Radiance":{hp:300,armor:40,mr:35,ah:10,note:"Hollow Radiance: deals 2% max HP magic damage/s to nearby enemies (Immolate). Bonus vs jungle monsters."},
+"Jak'Sho, The Protean":{hp:400,armor:30,mr:30,ah:15,note:"Jak'Sho: stacks during combat (6 stacks = +12% armor and MR on top of base values).",applyStats:(A)=>{A.armorMult=(A.armorMult||0)+0.12;A.mrMult=(A.mrMult||0)+0.12;}},
+"Knight's Vow":{hp:400,armor:30,ah:10,note:"Knight's Vow: redirect 15% of damage taken by your Sworn ally to you."},
+"Locket of the Iron Solari":{hp:200,armor:30,mr:30,ah:15,note:"Locket of the Iron Solari: active — grant nearby allies a 200-400 HP shield for 2.5s (90s CD)."},
+"Randuin's Omen":{hp:400,armor:80,note:"Randuin's Omen: reduces damage from crits by 15%. Active slows nearby enemies by 55% for 2s (60s CD)."},
+"Rookern":{hp:500,mr:65,note:"Rookern: stores 10% of post-mitigation magic damage (max 300). Releases stored damage as a shield."},
+"Spirit Visage":{hp:350,mr:55,ah:10,note:"Spirit Visage: increases all healing, regeneration and draining by 25%."},
+"Sunfire Aegis":{hp:450,armor:35,ah:15,note:"Sunfire Aegis: Immolate — deals 25 + 1% max HP magic/s to nearby enemies."},
+"Thornmail":{hp:250,armor:80,note:"Thornmail: reflects 25 + 10% armor magic damage on being hit by autos. Applies 40% Grievous Wounds."},
+"Unending Despair":{hp:350,armor:45,mr:35,note:"Unending Despair: restores 25 + 2% max HP every 9s when taking damage from champions."},
+"Warmog's Armor":{hp:800,hp5:200,note:"Warmog's Armor: when above 1000 bonus HP, regenerate 5% max HP/s out of combat (3s timer)."},
+"Zeke's Convergence":{hp:250,armor:30,mr:30,ah:20,note:"Zeke's Convergence: after using R, empowers Sworn ally's attacks to deal bonus magic/slow for 10s."},
+"Ardent Censer":{ap:45,as:0.10,shdpwr:8,note:"Ardent Censer: healing or shielding an ally grants them +10-30% AS and 15-30 on-hit magic damage for 6s."},
+"Celestial Opposition":{hp:200,shdpwr:10,note:"Celestial Opposition: after a stun/root, grant all nearby allies a shield."},
+"Diadem of Songs":{hp:200,mana:600,shdpwr:8,note:"Diadem of Songs: allies healed/shielded gain a brief MS boost."},
+"Dream Maker":{hp:300,shdpwr:12,note:"Dream Maker: accumulate Reverie (from assist/healing/shielding); release as a shield on nearby allies."},
+"Echoes of Helia":{ap:35,ah:20,hp:200,shdpwr:6,note:"Echoes of Helia: on healing, deal 25 + 5% AP bonus magic to nearby enemies and heal the most wounded ally."},
+"Imperial Mandate":{hp:200,ah:25,note:"Imperial Mandate: slowing/immobilizing an enemy marks them; ally hitting the mark explodes for 45-90 + 9% AP magic."},
+"Mikael's Blessing":{hp:150,mr:35,ah:15,shdpwr:16,note:"Mikael's Blessing: active removes all crowd control and grants a 15% max HP shield on an ally (90s CD)."},
+"Moonstone Renewer":{hp:200,ah:15,shdpwr:6,note:"Moonstone Renewer: in combat, grants 35 + 3% AP stacking heal/shield to most wounded ally every 2s."},
+"Redemption":{hp:200,ah:10,shdpwr:20,note:"Redemption: active calls a healing beam (anywhere on map) healing 35-400 HP to allies and dealing 10% max HP magic to enemies (90s CD)."},
+"Shurelya's Battlesong":{hp:200,ah:15,ms_flat:5,ms_pct:0.05,shdpwr:8,note:"Shurelya's Battlesong: active — grant nearby allies +40% MS for 4s (90s CD)."},
+"Staff of Flowing Water":{ap:50,mr:30,ah:15,shdpwr:12,note:"Staff of Flowing Water: healing/shielding an ally grants them 20-40 AP and 15% AS for 4s."},
 };
 
+// ── FIX APPLIQUÉ : it.name (et non it.nameEN qui n'existe pas) ──────────
 function patchItemStats(it){
-  const ov=MANUAL_STATS[it.nameEN];
+  const ov=MANUAL_STATS[it.name]; // BUGFIX: était it.nameEN → toujours undefined
   if(!ov)return;
   if(ov.hp!==undefined)it.hp=ov.hp;
   if(ov.ad!==undefined)it.ad=ov.ad;
@@ -695,6 +833,7 @@ const ITEM_PASSIVES={
 };
 const PASS_IDX=buildIdx(ITEM_PASSIVES);
 function findPassive(name){return lookupN(PASS_IDX,name)||null;}
+
 const CONSUMABLE_EFFECTS=[
   {test:/Elixir of Wrath|Elixir of Force/i,stats:{ad:30},note:"Elixir of Wrath: +30 AD."},
   {test:/Elixir of Iron/i,stats:{ten:25},hpFlat:300,note:"Elixir of Iron: +300 HP, +25% tenacity."},
@@ -713,6 +852,7 @@ function _wl(cats){const names=[...arguments].slice(1);for(const n of names){con
 _wl([_F,_M,_A],'dagger');_wl([_F,_M,_A,_G,_T,_S],'glowing mote','null-magic mantle','ruby crystal','cloth armor');_wl([_F,_M,_A],'long sword','pickaxe','b. f. sword','bf sword');_wl([_G,_S],'amplifying tome','blasting wand','needlessly large rod');_wl([_G,_T,_S],'sapphire crystal');_wl([_T,_S],'rejuvenation bead');_wl([_S],'faerie charm');
 _wl([_F,_M],'recurve bow','noonquiver','hearthbound axe','zeal','vampiric scepter');_wl([_F,_M,_A],'serrated dirk',"caulfield's warhammer",'brutalizer','tiamat','tunneler');_wl([_F,_T,_S],'kindlegem','winged moonplate');_wl([_F,_M,_T,_S],'negatron cloak');_wl([_F,_M,_T],'chain vest','sheen');_wl([_F,_T,_G],"giant's belt");_wl([_F],'phage','steel sigil','hexdrinker');_wl([_M,_A],'last whisper',"executioner's calling",'rectrix',"scout's slingshot");_wl([_M],'cloak of agility');_wl([_G],'haunting guise','fiendish codex','lost chapter','hextech alternator','blighting jewel','aether wisp','bandleglass mirror',"seeker's armguard",'verdant barrier','fated ashes','oblivion orb');_wl([_G,_S],'forbidden idol');_wl([_T],'bramble vest',"warden's mail","specter's cowl",'glacial buckler',"bami's cinder",'crystalline bracer');_wl([_T,_S],'quicksilver sash');_wl([_S],'bandleglass mirror');
 _wl([_F,_T],'trinity force','bloodmail','titanic hydra','dead man\'s plate','iceborn gauntlet');_wl([_F],'ravenous hydra',"death's dance","sterak's gage",'bloodthirster','experimental hexplate','sundered sky','spear of shojin','hullbreaker','eclipse','muramana','abyssal mask');_wl([_F,_M,_A],'guardian angel',"serylda's grudge",'maw of malmortius','mercurial scimitar');_wl([_F,_M],'blade of the ruined king','terminus','kraken slayer');_wl([_F,_A],'chempunk chainsword','black cleaver','bastionbreaker');
+_wl([_G],'dusk and dawn');
 _wl([_M],'infinity edge',"lord dominik's regards",'yun tal wildarrows','stormrazor','phantom dancer','mortal reminder','navori flickerblade','rapid firecannon',"runaan's hurricane",'immortal shieldbow',"guinsoo's rageblade",'statikk shiv','galeforce','essence reaver','endless hunger');_wl([_M,_A],'the collector','edge of night');_wl([_M,_G],"nashor's tooth");
 _wl([_A],'hubris','umbral glaive',"youmuu's ghostblade",'profane hydra',"serpent's fang",'voltaic cyclosword',"night's edge",'axiom arc');_wl([_A,_G],'hextech gunblade');
 _wl([_G],'rod of ages',"rylai's crystal scepter",'hextech rocketbelt','malignance','horizon focus',"luden's companion",'blackfire torch','riftmaker','stormsurge',"archangel's staff",'lich bane',"bloodletter's curse",'void staff','cryptbloom','cosmic drive',"liandry's torment",'shadowflame',"zhonya's hourglass","rabadon's deathcap","mejai's soulstealer","seraph's embrace",'bandlepipes','morellonomicon','dawncore','actualizer');_wl([_G,_T],"banshee's veil");_wl([_G,_T,_S],'morellonomicon');
@@ -765,7 +905,7 @@ async function loadItems(){
         mana:mflat(s,'mana'),hp5:mflat(s,'hpRegen')*5,mp5:mflat(s,'mpRegen')*5,
         shdpwr:Math.round(mpct(s,'healAndShieldPower')||mpct(s,'shieldPower')||mpct(s,'healingPower')),
         mrpen_pct:Math.round(mpct(s,'magicPenetration')),
-        bah:0,uh:0,ap:0,mrpen:0,
+        bah:0,uh:0,ap:0,mrpen:0,ten:0,
         passiveKey:passive?nameEN:null,special:passive&&passive.special?passive.special:null,
         onHitPctHP:passive&&passive.onHitPctHP||0,note:passive?passive.note:null,consumable:consumableEffect(nameEN)};
     }).filter(x=>x!==null).map(it=>{patchItemStats(it);return it;}).sort((a,b)=>a.gold-b.gold||a.name.localeCompare(b.name));
@@ -780,12 +920,14 @@ async function loadItems(){
       const cats=getItemCats(nameEN,nameFR,+id);if(!cats)return null;
       const k=norm(nameEN);if(seen.has(k))return null;seen.add(k);
       const st=it.stats||{},passive=findPassive(nameEN);
+      // BUGFIX: ajout mana (FlatMPPoolMod), hp5, ten et autres stats manquantes dans le path DDragon
       return{id:+id,name:nameEN,nameFR,cats,gold:(it.gold&&it.gold.total)||0,
         img:`https://ddragon.leagueoflegends.com/cdn/${DDV}/img/item/${id}.png`,
         hp:st.FlatHPPoolMod||0,ad:st.FlatPhysicalDamageMod||0,armor:st.FlatArmorMod||0,mr:st.FlatSpellBlockMod||0,
         as:st.PercentAttackSpeedMod||0,crit:Math.round((st.FlatCritChanceMod||0)*100),ls:Math.round((st.PercentLifeStealMod||0)*100),
         ms_flat:st.FlatMovementSpeedMod||0,ms_pct:st.PercentMovementSpeedMod||0,
-        ah:lookupN(AH_IDX,nameEN)||0,omni:0,leth:0,apen:0,bah:0,uh:0,ap:0,mrpen:0,
+        mana:st.FlatMPPoolMod||0,hp5:(st.FlatHPRegenMod||0)*5,mp5:(st.FlatMPRegenMod||0)*5,
+        ah:lookupN(AH_IDX,nameEN)||0,omni:0,leth:0,apen:0,bah:0,uh:0,ap:0,mrpen:0,ten:0,shdpwr:0,mrpen_pct:0,
         passiveKey:passive?nameEN:null,special:passive&&passive.special||null,
         onHitPctHP:passive&&passive.onHitPctHP||0,note:passive&&passive.note||null,consumable:consumableEffect(nameEN)};
     }).filter(x=>x!==null).map(it=>{patchItemStats(it);return it;}).sort((a,b)=>a.gold-b.gold||a.name.localeCompare(b.name));
@@ -925,9 +1067,9 @@ function aggregate(){
   let crit=0,ls=0,omni=0,ah=0,bah=0,uh=0,leth=0,apen=0,ten=0,ms_pct=0,mana=0,hp5=grow(BASE.hpReg,BASE.hpRegPerLvl,l)*5,mp5=0,shdpwr=0,mrpen_pct=0;
   [S.keystone,...S.pri,...S.sec,...S.shards].forEach(id=>{const r=findRune(id);if(!r||!r.s)return;const s=r.s;if(s.hp==='scale')hp+=shardScaleHP(l);else if(s.hp)hp+=s.hp;if(s.ad)ad+=s.ad;if(s.armor)armor+=s.armor;if(s.mr)mr+=s.mr;if(s.as)as_=as_*(1+s.as);if(s.ls)ls+=s.ls;if(s.ah)ah+=s.ah;if(s.bah)bah+=s.bah;if(s.uh)uh+=s.uh;if(s.ms_flat)ms+=s.ms_flat;if(s.ms_pct)ms_pct+=s.ms_pct;if(s.ten)ten+=s.ten;});
   let special={cleaver:false,serylda:false},itemNotes=[],onHitPctHP=0,bonusRegen=0;
-  S.items.forEach(it=>{if(!it)return;hp+=it.hp||0;ad+=it.ad||0;armor+=it.armor||0;mr+=it.mr||0;crit+=it.crit||0;ls+=it.ls||0;omni+=it.omni||0;ah+=it.ah||0;bah+=it.bah||0;uh+=it.uh||0;leth+=it.leth||0;apen+=it.apen||0;ms+=it.ms_flat||0;if(it.ms_pct)ms_pct+=it.ms_pct;if(it.as)as_=as_*(1+it.as);mana+=it.mana||0;hp5+=it.hp5||0;mp5+=it.mp5||0;shdpwr+=it.shdpwr||0;mrpen_pct+=it.mrpen_pct||0;if(it.special&&special.hasOwnProperty(it.special))special[it.special]=true;if(it.onHitPctHP)onHitPctHP+=it.onHitPctHP;if(it.note)itemNotes.push(it.note);if(it.consumable){const c=it.consumable;if(c.stats){if(c.stats.ad)ad+=c.stats.ad;if(c.stats.ten)ten+=c.stats.ten;if(c.stats.hp)hp+=c.stats.hp;}if(c.hpFlat)hp+=c.hpFlat;if(c.regen)bonusRegen+=c.regen;if(c.note)itemNotes.push(c.note);}});
+  S.items.forEach(it=>{if(!it)return;hp+=it.hp||0;ad+=it.ad||0;armor+=it.armor||0;mr+=it.mr||0;crit+=it.crit||0;ls+=it.ls||0;omni+=it.omni||0;ah+=it.ah||0;bah+=it.bah||0;uh+=it.uh||0;leth+=it.leth||0;apen+=it.apen||0;ms+=it.ms_flat||0;if(it.ms_pct)ms_pct+=it.ms_pct;if(it.as)as_=as_*(1+it.as);mana+=it.mana||0;hp5+=it.hp5||0;mp5+=it.mp5||0;shdpwr+=it.shdpwr||0;mrpen_pct+=it.mrpen_pct||0;ten+=it.ten||0;if(it.special&&special.hasOwnProperty(it.special))special[it.special]=true;if(it.onHitPctHP)onHitPctHP+=it.onHitPctHP;if(it.note)itemNotes.push(it.note);if(it.consumable){const c=it.consumable;if(c.stats){if(c.stats.ad)ad+=c.stats.ad;if(c.stats.ten)ten+=c.stats.ten;if(c.stats.hp)hp+=c.stats.hp;}if(c.hpFlat)hp+=c.hpFlat;if(c.regen)bonusRegen+=c.regen;if(c.note)itemNotes.push(c.note);}});
   if(ms_pct)ms=Math.floor(ms*(1+ms_pct));as_=Math.min(as_,2.5);crit=Math.min(crit,100);
-  const work={ad,baseAD,mana,hp,_sterak:0,armPenPct:0,armorShred:0,onHitPctOwnHP:0};
+  const work={ad,baseAD,mana,hp,_sterak:0,armPenPct:0,armorShred:0,onHitPctOwnHP:0,armorMult:0,mrMult:0};
   S.items.forEach(it=>{if(!it)return;if(it.passiveKey){const p=ITEM_PASSIVES[it.passiveKey];if(p&&typeof p.applyStats==='function')p.applyStats(work);}if(typeof it._applyStats==='function')it._applyStats(work);});
   ad=work.ad;apen=Math.min(100,apen+Math.round((work.armPenPct||0)*100));const onHitPctOwnHP=work.onHitPctOwnHP||0;
   if(work.armorMult)armor=armor*(1+work.armorMult);
@@ -999,7 +1141,7 @@ function renderAbilities(A){
 }
 
 // ══════════════════════════════════════════════════════════
-// DUMMY RENDER (new with full passive system)
+// DUMMY RENDER
 // ══════════════════════════════════════════════════════════
 const DUMMY={hp:3000,armor:100};
 
@@ -1016,31 +1158,19 @@ function renderDummy(){
   const ea=effArmorBase(A);
   const l=A.l;
   const dHP=DUMMY.hp;
-
-  // Compute passive mitigations
   const{flatPre,flatPost,pctMult,delayFrac,rows}=computeMitigation(A,0);
-
-  // Base armor multiplier (no passives)
   const armorMult=100/(100+ea);
-  // Final damage multiplier: flatPre applied before armor
-  // Formula: ((raw - flatPre) * armorMult - flatPost) * pctMult
-  // We'll apply this per damage value
-
   function applyMit(raw){
     let v=Math.max(0,raw-flatPre);
     v=v*armorMult;
     v=Math.max(0,v-flatPost);
     v=v*pctMult;
-    // Death's Dance delay
     const effective=v*(1-delayFrac);
     const delayed=v*delayFrac;
     return{v,effective,delayed};
   }
-
   const ohFlat=(A.onHitPctHP||0)*dHP+(A.onHitPctOwnHP||0)*A.hp;
   const rI=k=>Math.max(0,ranks[k]-1);
-
-  // Raw damage values (before mitigation)
   const raw={};
   raw.auto=A.ad+ohFlat;
   raw.Q=ranks.Q>=1?SPELLS.Q.base[rI('Q')]+A.ad*SPELLS.Q.adRatio:0;
@@ -1049,16 +1179,11 @@ function renderDummy(){
   raw.W=ranks.W>=1?SPELLS.W.base+A.ad*wAdR+ohFlat*.5:0;
   raw.R=ranks.rLearned?SPELLS.R.base[rI('R')]+A.bonusAD*SPELLS.R.adRatio:0;
   raw.leg=A.ad*passiveADRatio(A.l)+(dHP*passiveHPRatio(A.l));
-
-  // Mitigated
   const out={};for(const k in raw)out[k]=applyMit(raw[k]);
-
-  const autoMit=out.auto.v,autoEff=out.auto.effective;
   const wDps=out.W.v*3;
   const burst6=out.leg.v*6;
   const allIn=out.E.v+out.Q.v+out.R.v+burst6+out.W.v*6;
   const pct=v=>Math.min(100,v/dHP*100);
-
   function dc(label,val,sub,isEff){
     const ov=val>=dHP;
     return `<div class="dcard${isEff?' sp':''}"><div class="dl">${label}</div><div class="dv${ov?' warn':''}">${Math.round(val)}</div><div class="dp">${(val/dHP*100).toFixed(1)}% HP${sub?'<br>'+sub:''}</div><div class="hpbar"><i class="${ov?'over':''}" style="width:${pct(val)}%"></i></div></div>`;
@@ -1066,8 +1191,7 @@ function renderDummy(){
   function ic(label,val,sub){
     return `<div class="dcard sp"><div class="dl">${label}</div><div class="dv info">${val}</div><div class="dp">${sub||''}</div></div>`;
   }
-
-  let h=dc('Auto Attack',autoMit)
+  let h=dc('Auto Attack',out.auto.v)
        +dc('Q — Corrosive',out.Q.v)
        +dc('E — Disdain',out.E.v)
        +dc('W / tir (mitig.)',wDps)
@@ -1075,18 +1199,13 @@ function renderDummy(){
        +dc('1 Leg (mitig.)',out.leg.v)
        +dc('6-Leg Burst',burst6)
        +dc('All-in ~4s',allIn);
-
   if(delayFrac>0){
     const delayedTotal=out.E.delayed+out.Q.delayed+out.R.delayed+out.leg.delayed*6+out.W.delayed*6;
     h+=ic('Dégâts différés (DD)',Math.round(delayedTotal),'bleed sur 3s, non-létaux immédiatement');
   }
-
   h+=ic('Armure effective',Math.round(ea),`base ${DUMMY.armor}${A.armorShred>0?' ·-'+Math.round(A.armorShred*100)+'%shred':''}${A.apen>0?' ·-'+A.apen+'%':''}${A.leth>0?' ·-'+Math.round(A.leth)+' flat':''}`)
     +ic('EHP (phys)',Math.round(dHP*(1+ea/100)),'HP × (1 + armor/100)');
-
   document.getElementById('dummyResults').innerHTML=h;
-
-  // Mitigation breakdown table
   let brkHtml='<div class="mit-title">Détail des mitigations</div>';
   if(rows.length===0){
     brkHtml+='<div class="mit-row"><span class="mit-label">Aucun passif actif</span><span class="mit-val green">×1.00</span></div>';
@@ -1096,16 +1215,14 @@ function renderDummy(){
       brkHtml+=`<div class="mit-row"><span class="mit-label">${r.label} <span style="font-size:9px;color:var(--txt3)">[${badge}]</span></span><span class="mit-val">${r.val}</span></div>`;
     });
   }
-  // Total remaining multiplier
   const totalPctKept=(pctMult*100).toFixed(0);
-  const autoFinalPct=DUMMY.armor>0?Math.round(autoMit/raw.auto*100):100;
+  const autoFinalPct=DUMMY.armor>0?Math.round(out.auto.v/raw.auto*100):100;
   brkHtml+=`<div class="mit-row total"><span class="mit-label">Auto att. reçue (% du brut)</span><span class="mit-val">${autoFinalPct}%</span></div>`;
   brkHtml+=`<div class="mit-row"><span class="mit-label">Mult. passifs % restant</span><span class="mit-val green">${totalPctKept}%</span></div>`;
   if(flatPre>0)brkHtml+=`<div class="mit-row"><span class="mit-label">Réduction plate pré-armure</span><span class="mit-val">${Math.round(flatPre)}</span></div>`;
   if(flatPost>0)brkHtml+=`<div class="mit-row"><span class="mit-label">Réduction plate post-armure</span><span class="mit-val">${Math.round(flatPost)}</span></div>`;
-
   document.getElementById('mitBreakdown').innerHTML=brkHtml;
-  document.getElementById('dummyNotes').innerHTML=`<b>Ordre d'application:</b> flat pré-armure (Fizz W, Leona E, Amumu W, Guardian's Horn) → armure (mitig. + pénétration) → flat post-armure (Bone Plating, Warden's Mail) → réduction % (multiplicatif entre eux). Death's Dance délaye 30% des dégâts physiques sur 3s.`;
+  document.getElementById('dummyNotes').innerHTML=`<b>Ordre d'application:</b> flat pré-armure → armure (mitig. + pénétration) → flat post-armure → réduction % (multiplicatif). Death's Dance délaye 30% des dégâts physiques sur 3s.`;
 }
 
 function recompute(){const A=aggregate();renderStats(A);renderAbilities(A);renderDummy();}
