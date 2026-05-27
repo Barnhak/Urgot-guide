@@ -108,8 +108,8 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;heigh
 .tt-name{font-family:'Cinzel',serif;font-weight:700;font-size:12px;color:var(--green);letter-spacing:.08em;margin-bottom:3px}
 .tt-gold{font-size:11px;color:var(--gold);letter-spacing:.04em;margin-bottom:8px}
 .tt-stats{display:flex;flex-direction:column;gap:3px}
-.tt-stat{display:flex;justify-content:space-between;font-size:12px;gap:12px}
-.tt-stat .tk{color:var(--txt2)} .tt-stat .tv{color:var(--bright);font-weight:600}
+.tt-stat{display:flex;justify-content:space-between;font-size:11.5px;gap:10px;align-items:center}
+.tt-stat .tk{color:var(--txt2);display:flex;align-items:center;gap:4px} .tt-stat .tv{color:var(--bright);font-weight:600;font-family:'Cinzel',serif;font-size:11px;white-space:nowrap}
 .tt-note{font-size:11px;color:var(--txt2);margin-top:7px;padding-top:7px;border-top:1px dashed var(--border);line-height:1.4}
 .tt-note b{color:var(--green)}
 
@@ -689,7 +689,7 @@ const MANUAL_STATS={
 "Guardian Angel":{armor:45,ah:0,note:"Guardian Angel: on death, revive with 50% HP and 30% max mana (300s CD)."},
 "Hullbreaker":{hp:400,ad:50,armor:20,note:"Hullbreaker: when alone from allies: +20 armor, +20 MR, +15% damage to structures."},
 "Iceborn Gauntlet":{hp:400,armor:50,ah:15,note:"Iceborn Gauntlet: Spellblade auto creates a 65% slow zone for 2.5s."},
-"Kraken Slayer":{ad:45,as:0.35,crit:20,note:"Kraken Slayer: every 3rd attack deals 60 + 40% bonus AD true damage.",applyStats:(A)=>{}},
+"Kraken Slayer":{ad:45,as:0.35,crit:25,note:"Kraken Slayer: every 3rd attack deals 60 + 40% bonus AD true damage.",applyStats:(A)=>{}},
 "Maw of Malmortius":{ad:65,mr:40,ah:15,note:"Maw of Malmortius: when below 30% HP, gain 10% omnivamp and 20 lethality (Lifeline shield: 200-600)."},
 "Mercurial Scimitar":{ad:40,mr:35,ls:10,note:"Mercurial Scimitar: active removes all crowd control and grants +50% MS for 1s (90s CD)."},
 "Muramana":{ad:35,ah:15,mana:860,note:"Muramana: +6% of max mana as bonus AD. Shock passive on autos/abilities.",applyStats:(A)=>{A.ad+=A.mana*0.06;}},
@@ -703,22 +703,22 @@ const MANUAL_STATS={
 "Trinity Force":{hp:333,ad:30,as:0.35,ah:20,ms_flat:5,note:"Trinity Force: Spellblade — next auto deals 200% base AD bonus phys after an ability (1.5s CD). +4% MS on kill.",applyStats:(A)=>{}},
 "Edge of Night":{ad:50,leth:18,hp:250,note:"Edge of Night: channel 0.75s to gain a spell shield that blocks the next ability (40s CD)."},
 "Endless Hunger":{ad:65,omni:8,ten:20},
-"Essence Reaver":{ad:55,ah:20,crit:20,note:"Essence Reaver: Spellblade — after using an ability, next auto deals 40-100% bonus AD bonus phys."},
-"Galeforce":{ad:55,as:0.15,crit:20,ms_flat:5,note:"Galeforce: active dash in target direction dealing 12-22% max HP phys damage (90s CD)."},
+"Essence Reaver":{ad:55,ah:20,crit:25,note:"Essence Reaver: Spellblade — after using an ability, next auto deals 40-100% bonus AD bonus phys."},
+"Galeforce":{ad:55,as:0.15,crit:25,ms_flat:5,note:"Galeforce: active dash in target direction dealing 12-22% max HP phys damage (90s CD)."},
 "Guinsoo's Rageblade":{ad:30,as:0.40,note:"Guinsoo's Rageblade: on-hits apply at double rate (each hit = 2 on-hits stacks)."},
-"Immortal Shieldbow":{ad:55,as:0.15,crit:20,ls:10,note:"Immortal Shieldbow: Lifeline — when dropping below 30% HP, gain shield for 250-700 HP (90s CD)."},
-"Infinity Edge":{ad:70,crit:20,note:"Infinity Edge: if crit ≥ 60%, crits deal 235% damage instead of 175%."},
-"Lord Dominik's Regards":{ad:35,crit:20,apen:35,note:"Lord Dominik's Regards: deal up to +20% bonus phys dmg when target has more max HP."},
-"Mortal Reminder":{ad:35,crit:20,apen:35,note:"Mortal Reminder: applies 60% Grievous Wounds on hit."},
+"Immortal Shieldbow":{ad:55,as:0.15,crit:25,ls:10,note:"Immortal Shieldbow: Lifeline — when dropping below 30% HP, gain shield for 250-700 HP (90s CD)."},
+"Infinity Edge":{ad:70,crit:20,note:"Infinity Edge (Season 2026): Perfection active at ≥40% crit — crits deal 235% damage instead of 200%. Capstone crit item."},
+"Lord Dominik's Regards":{ad:35,crit:25,apen:35,note:"Lord Dominik's Regards: deal up to +20% bonus phys dmg when target has more max HP."},
+"Mortal Reminder":{ad:35,crit:25,apen:35,note:"Mortal Reminder: applies 60% Grievous Wounds on hit."},
 "Nashor's Tooth":{as:0.50,ah:15,note:"Nashor's Tooth: on-hit deals 15 + 20% AP magic damage."},
-"Navori Flickerblade":{ad:55,as:0.10,crit:20,note:"Navori Flickerblade: crits reduce non-ult ability CDs by 15%."},
-"Phantom Dancer":{ad:20,as:0.45,crit:20,ms_flat:7,note:"Phantom Dancer: gain a 300-600 HP shield when below 30% HP (60s CD)."},
-"Rapid Firecannon":{as:0.35,crit:20,ms_flat:7,note:"Rapid Firecannon: Energized auto has extended range (+100 on ranged, 75 on melee) and deals +160% AD bonus magic."},
-"Runaan's Hurricane":{as:0.45,crit:20,ms_flat:7,note:"Runaan's Hurricane: autos fire 2 extra bolts to nearby enemies for 40% AD each."},
+"Navori Flickerblade":{ad:55,as:0.10,crit:25,note:"Navori Flickerblade: crits reduce non-ult ability CDs by 15%."},
+"Phantom Dancer":{as:0.60,crit:25,ms_pct:0.12,note:"Phantom Dancer (2026): 60% AS, 25% crit, 12% MS. Shield 300-600 HP when below 30% HP (60s CD). Highest AS of all Zeal items."},
+"Rapid Firecannon":{as:0.35,crit:25,ms_flat:7,note:"Rapid Firecannon: Energized auto has extended range (+100 on ranged, 75 on melee) and deals +160% AD bonus magic."},
+"Runaan's Hurricane":{as:0.45,crit:25,ms_flat:7,note:"Runaan's Hurricane: autos fire 2 extra bolts to nearby enemies for 40% AD each."},
 "Statikk Shiv":{ad:40,ap:45,as:0.30,ms_pct:0.04,note:"Statikk Shiv: Energized chain lightning deals 60 bonus magic damage to up to 4-8 targets, applying on-hit effects to secondary targets."},
-"Stormrazor":{ad:45,crit:20,as:0.25,note:"Stormrazor: Energized auto slows target by 75% for 0.5s and deals +160% AD bonus magic."},
-"The Collector":{ad:55,leth:20,crit:20,note:"The Collector: killing blow executes below 5% HP. Kills grant +2 gold.",applyStats:(A)=>{}},
-"Yun Tal Wildarrows":{ad:55,crit:20,as:0.15,note:"Yun Tal Wildarrows: first attack on a champion per second deals 65 + 15% bonus AD bonus phys."},
+"Stormrazor":{ad:45,crit:25,as:0.25,note:"Stormrazor: Energized auto slows target by 75% for 0.5s and deals +160% AD bonus magic."},
+"The Collector":{ad:55,leth:20,crit:25,note:"The Collector: killing blow executes below 5% HP. Kills grant +2 gold.",applyStats:(A)=>{}},
+"Yun Tal Wildarrows":{ad:65,crit:25,as:0.15,note:"Yun Tal Wildarrows: first attack on a champion per second deals 65 + 15% bonus AD bonus phys."},
 "Hextech Gunblade":{ad:35,ah:15,ls:8,note:"Hextech Gunblade: active bolt deals 175-250 + 30% bonus AD + 20% AP magic damage and slows 60% (20s CD)."},
 "Hubris":{ad:55,leth:20,note:"Hubris: killing a champion grants an Ego statue (cosmetic) and a stacking AD buff (+3 AD per stack)."},
 "Night's Edge":{ad:55,leth:20,hp:250,note:"Night's Edge: after 5 ability hits on a target, next ability hit deals +25% damage and ignores 20 armor."},
@@ -1001,33 +1001,33 @@ function renderShop(){
 }
 
 const TT=document.getElementById('tooltip');
-function statRow(label,val){return `<div class="tt-stat"><span class="tk">${label}</span><span class="tv">${val}</span></div>`;}
+function statRow(ico,label,val){return `<div class="tt-stat"><span class="tk">${ico} ${label}</span><span class="tv">${val}</span></div>`;}
 function showTooltip(it,e){
   document.getElementById('tt-name').textContent=it.name;
   document.getElementById('tt-gold').textContent=(it.gold||0)+' gold';
   let rows='';
-  if(it.hp)rows+=statRow('HP','+'+Math.round(it.hp));
-  if(it.ad)rows+=statRow('Attack Damage','+'+Math.round(it.ad));
-  if(it.armor)rows+=statRow('Armor','+'+Math.round(it.armor));
-  if(it.mr)rows+=statRow('Magic Resist','+'+Math.round(it.mr));
-  if(it.ah)rows+=statRow('Ability Haste','+'+Math.round(it.ah));
-  if(it.uh)rows+=statRow('Ult Haste','+'+Math.round(it.uh));
-  if(it.as)rows+=statRow('Attack Speed','+'+Math.round(it.as*100)+'%');
-  if(it.crit)rows+=statRow('Crit Chance','+'+Math.round(it.crit)+'%');
-  if(it.ls)rows+=statRow('Life Steal','+'+Math.round(it.ls)+'%');
-  if(it.omni)rows+=statRow('Omnivamp','+'+Math.round(it.omni)+'%');
-  if(it.leth)rows+=statRow('Lethality','+'+Math.round(it.leth));
-  if(it.apen)rows+=statRow('Armor Pen %','+'+it.apen+'%');
-  if(it.mrpen)rows+=statRow('Magic Pen','+'+Math.round(it.mrpen));
-  if(it.ms_flat)rows+=statRow('Move Speed','+'+it.ms_flat);
-  if(it.ms_pct)rows+=statRow('Move Speed %','+'+Math.round(it.ms_pct*100)+'%');
-  if(it.ten)rows+=statRow('Tenacity','+'+it.ten+'%');
-  if(it.mana)rows+=statRow('Mana','+'+Math.round(it.mana));
-  if(it.hp5)rows+=statRow('HP Regen /5s','+'+it.hp5.toFixed(1));
-  if(it.mp5)rows+=statRow('Mana Regen /5s','+'+it.mp5.toFixed(1));
-  if(it.shdpwr)rows+=statRow('Heal & Shield +','+'+it.shdpwr+'%');
-  if(it.mrpen_pct)rows+=statRow('Magic Pen %','+'+it.mrpen_pct+'%');
-  if(it.ap)rows+=statRow('Ability Power','+'+Math.round(it.ap));
+  if(it.hp)rows+=statRow('❤','HP','+'+Math.round(it.hp));
+  if(it.ad)rows+=statRow('⚔','Attack Damage','+'+Math.round(it.ad));
+  if(it.ap)rows+=statRow('✨','Ability Power','+'+Math.round(it.ap));
+  if(it.armor)rows+=statRow('🛡','Armor','+'+Math.round(it.armor));
+  if(it.mr)rows+=statRow('🔮','Magic Resist','+'+Math.round(it.mr));
+  if(it.ah)rows+=statRow('⏱','Ability Haste','+'+Math.round(it.ah));
+  if(it.uh)rows+=statRow('🔴','Ult Haste','+'+Math.round(it.uh));
+  if(it.as)rows+=statRow('⚡','Attack Speed','+'+Math.round(it.as*100)+'%');
+  if(it.crit)rows+=statRow('🎯','Crit Chance','+'+Math.round(it.crit)+'%');
+  if(it.ls)rows+=statRow('🩸','Life Steal','+'+Math.round(it.ls)+'%');
+  if(it.omni)rows+=statRow('💊','Omnivamp','+'+Math.round(it.omni)+'%');
+  if(it.leth)rows+=statRow('🔪','Lethality','+'+Math.round(it.leth));
+  if(it.apen)rows+=statRow('🔪','Armor Pen %','+'+it.apen+'%');
+  if(it.mrpen)rows+=statRow('🌀','Magic Pen (flat)','+'+Math.round(it.mrpen));
+  if(it.mrpen_pct)rows+=statRow('🌀','Magic Pen %','+'+it.mrpen_pct+'%');
+  if(it.ms_flat)rows+=statRow('💨','Move Speed','+'+it.ms_flat);
+  if(it.ms_pct)rows+=statRow('💨','Move Speed %','+'+Math.round(it.ms_pct*100)+'%');
+  if(it.ten)rows+=statRow('🧊','Tenacity','+'+it.ten+'%');
+  if(it.mana)rows+=statRow('💧','Mana','+'+Math.round(it.mana));
+  if(it.hp5)rows+=statRow('💚','HP Regen /5s','+'+it.hp5.toFixed(1));
+  if(it.mp5)rows+=statRow('🔵','Mana Regen /5s','+'+it.mp5.toFixed(1));
+  if(it.shdpwr)rows+=statRow('🛡','Heal & Shield +','+'+it.shdpwr+'%');
   document.getElementById('tt-stats').innerHTML=rows||'<span style="color:var(--txt3);font-size:11px">No combat stats</span>';
   const noteEl=document.getElementById('tt-note');
   if(it.note){noteEl.innerHTML=it.note.replace(/^([^:]+):/,'<b>$1</b>:');noteEl.style.display='block';}
