@@ -677,8 +677,8 @@ const MANUAL_STATS={
 "Axiom Arc":{ad:55,ah:25,leth:18,note:"Axiom Arc: champion kills restore 25% of R cooldown."},
 "BastionBreaker":{ad:55,leth:22,ah:15,note:"BastionBreaker: dealing damage reduces enemy armor by 4% (up to 40%)."},
 "Black Cleaver":{hp:400,ad:40,ah:20,special:'cleaver',note:"Black Cleaver: each hit reduces armor by 5% (6 stacks = 30%), +20 MS on kill.",applyStats:(A)=>{A.armorShred=Math.max(A.armorShred||0,0.30);}},
-"Bloodmail":{hp:550,ad:30,note:"Overlord's Bloodmail: gain 2.5% bonus HP as bonus AD (Tyranny). Gain up to 12% bonus AD based on missing health (Retribution)."},
-"Overlord's Bloodmail":{hp:550,ad:30,note:"Overlord's Bloodmail: gain 2.5% bonus HP as bonus AD (Tyranny). Gain up to 12% bonus AD based on missing health (Retribution)."},
+"Bloodmail":{hp:550,ad:30,note:"Overlord's Bloodmail: gain 2.5% bonus HP as bonus AD (Tyranny). Gain up to 12% bonus AD based on missing health (Retribution).",applyStats:(A)=>{const bHP=A.hp-A.baseHP;const bonus=bHP*0.025;A._bloodmailAD=(A._bloodmailAD||0)+bonus;A.ad+=bonus;}},
+"Overlord's Bloodmail":{hp:550,ad:30,note:"Overlord's Bloodmail: gain 2.5% bonus HP as bonus AD (Tyranny). Gain up to 12% bonus AD based on missing health (Retribution).",applyStats:(A)=>{const bHP=A.hp-A.baseHP;const bonus=bHP*0.025;A._bloodmailAD=(A._bloodmailAD||0)+bonus;A.ad+=bonus;}},
 "Blade of the Ruined King":{ad:30,as:0.25,ls:8,onHitPctHP:0.06,note:"BotRK: on-hit deals 6% of target's current HP (melee). Active steals 15% MS.",applyStats:(A)=>{}},
 "Bloodthirster":{ad:80,ls:18,note:"Bloodthirster: excess healing creates a shield up to 50% bonus AD."},
 "Chempunk Chainsword":{ad:45,hp:450,ah:15,note:"Chempunk Chainsword: applies 60% Grievous Wounds on damage."},
@@ -735,7 +735,7 @@ const MANUAL_STATS={
 "Bloodletter's Curse":{ap:65,ah:15,hp:400,note:"Bloodletter's Curse: dealing magic damage reduces enemy MR by 5% per stack (up to −25% / 5 stacks)."},
 "Cosmic Drive":{ap:70,ah:25,hp:350,ms_flat:10,note:"Cosmic Drive: dealing ability damage grants +20 AP and +20% MS for 3s (stacks 3x = +60 AP, +60% MS total)."},
 "Cryptbloom":{ap:75,ah:20,mrpen_pct:30,note:"Cryptbloom: kills root nearby enemies for 1.5s and grant +50 AP for 5s."},
-"Dawncore":{ap:60,ah:20,shdpwr:8,note:"Dawncore: 2% of bonus mana as bonus AP. Increases heal/shield power by 1% per 100 AP."},
+"Dawncore":{ap:60,ah:20,shdpwr:8,note:"Dawncore: 2% of bonus mana as bonus AP. Increases heal/shield power by 1% per 100 AP.",applyStats:(A)=>{const bonus=A.mana*0.02;A._dawncoreAP=(A._dawncoreAP||0)+bonus;A.ap+=bonus;}},
 "Dusk and Dawn":{ap:60,ah:20,as:0.20,hp:300,note:"Dusk and Dawn (16.9): Spellblade alternates Dawn (+AP) and Dusk (+AS). Now also heals for 10% AP + 3% bonus HP on proc."},
 "Luden's Echo":{ap:100,ah:10,mana:600,note:"Luden's Echo: ability damage to champions consumes Echo stacks, dealing 75 + 5% AP bonus magic damage to the target and nearby enemies."},
 "Lich Bane":{ap:75,ah:10,ms_flat:5,note:"Lich Bane: Spellblade — next auto deals 75% base AD + 40% AP bonus magic after an ability (1.5s CD)."},
@@ -744,11 +744,11 @@ const MANUAL_STATS={
 "Malignance":{ap:80,ah:25,note:"Malignance: R damage is amplified +25%. R applies Haunt: 15 + 5% AP magic burn/s for 3s."},
 "Mejai's Soulstealer":{ap:20,note:"Mejai's Soulstealer: stacking — up to +130 AP at 25 stacks. Gain stacks on kills/assists, lose on death."},
 "Morellonomicon":{ap:75,ah:15,note:"Morellonomicon: dealing magic damage applies 40% Grievous Wounds."},
-"Rabadon's Deathcap":{ap:120,note:"Rabadon's Deathcap: increases total AP by 35%.",applyStats:(A)=>{}},
+"Rabadon's Deathcap":{ap:120,note:"Rabadon's Deathcap: increases total AP by 35%.",applyStats:(A)=>{if(A.ap>0){A._rabadonfactor=0.35;A.ap=Math.round(A.ap*1.35);}}},
 "Riftmaker":{ap:65,hp:300,ah:15,note:"Riftmaker: in combat with champions gain up to +6% AP (3 stacks). At max stacks: deal 3% of max HP bonus true damage per ability."},
 "Rod of Ages":{ap:60,hp:300,mana:400,note:"Rod of Ages: charges over 10 min up to +200 HP, +200 mana, +20 AP. Transforms at full stacks."},
 "Rylai's Crystal Scepter":{ap:80,hp:350,note:"Rylai's Crystal Scepter: abilities slow targets by 30% for 1s."},
-"Seraph's Embrace":{ap:80,ah:25,mana:1000,note:"Seraph's Embrace: 3% of max mana as bonus AP. Shield active for 25% max mana HP (120s CD)."},
+"Seraph's Embrace":{ap:80,ah:25,mana:1000,note:"Seraph's Embrace: 3% of max mana as bonus AP. Shield active for 25% max mana HP (120s CD).",applyStats:(A)=>{const bonus=A.mana*0.03;A._seraphAP=(A._seraphAP||0)+bonus;A.ap+=bonus;}},
 "Shadowflame":{ap:100,note:"Shadowflame: crits and abilities deal 20 bonus magic pen (if target is shielded, 10-30 penetration)."},
 "Stormsurge":{ap:95,ms_pct:0.04,note:"Stormsurge: immobilizing or killing a champ within 3s launches a lightning bolt for 35-400 bonus magic damage."},
 "Void Staff":{ap:90,mrpen_pct:40,note:"Void Staff: +40% magic penetration."},
@@ -788,10 +788,10 @@ const MANUAL_STATS={
 /* ══ MARKSMAN — ITEMS MANQUANTS ══ */
 "Hexoptics C44":{ad:50,crit:25,note:"Hexoptics C44: Magnification — deal up to 10% increased damage based on distance (max at 700 range). On takedown, gain +100 attack range for 6s."},
 "Fiendhunter Bolts":{as:0.40,crit:25,ms_pct:0.04,uh:30,note:"Fiendhunter Bolts: +30 Ult Haste. After casting R, next 3 basic attacks gain 50% AS and crit for 75% of normal crit damage for 8s."},
-"Manamune":{ad:35,ah:15,mana:500,note:"Manamune: bonus AD equal to 2% of max mana. Shock passive on autos/abilities. Upgrades to Muramana at 750 charges."},
+"Manamune":{ad:35,ah:15,mana:500,note:"Manamune: bonus AD equal to 2% of max mana. Shock passive on autos/abilities. Upgrades to Muramana at 750 charges.",applyStats:(A)=>{const bonus=A.mana*0.02;A._manamuneAD=(A._manamuneAD||0)+bonus;A.ad+=bonus;}},
 /* ══ TANK — ITEMS MANQUANTS ══ */
 "Protoplasm Harness":{hp:600,ah:15,note:"Protoplasm Harness (Lifeline): when dropping below 30% HP, gain 200 bonus HP + heal 200-400 (+ 250% bonus armor + 250% MR) over 5s, plus +15% MS and 25% tenacity (90s CD)."},
-"Winter's Approach":{hp:400,mana:500,ah:15,note:"Winter's Approach: gain 8 HP per 100 max mana. Upgrades into Fimbulwinter at 750 mana charges."},
+"Winter's Approach":{hp:400,mana:500,ah:15,note:"Winter's Approach: gain 8 HP per 100 max mana. Upgrades into Fimbulwinter at 750 mana charges.",applyStats:(A)=>{const bonus=A.mana*0.08;A._wintersHP=(A._wintersHP||0)+bonus;A.hp+=bonus;}},
 "Aegis of the Legion":{hp:200,armor:30,mr:30,note:"Aegis of the Legion: unique aura — grants nearby allies +15 armor and +15 MR."},
 /* ══ MAGE — ITEMS MANQUANTS ══ */
 "Horizon Focus":{ap:85,ah:25,note:"Horizon Focus: dealing ability damage to immobilized or revealed targets or at 700+ range deals 10% increased damage."},
@@ -1089,12 +1089,12 @@ function aggregate(){
   let special={cleaver:false,serylda:false},itemNotes=[],onHitPctHP=0,bonusRegen=0;
   S.items.forEach(it=>{if(!it)return;hp+=it.hp||0;ad+=it.ad||0;armor+=it.armor||0;mr+=it.mr||0;crit+=it.crit||0;ls+=it.ls||0;omni+=it.omni||0;ah+=it.ah||0;bah+=it.bah||0;uh+=it.uh||0;leth+=it.leth||0;apen+=it.apen||0;ms+=it.ms_flat||0;if(it.ms_pct)ms_pct+=it.ms_pct;if(it.as)as_=as_*(1+it.as);mana+=it.mana||0;hp5+=it.hp5||0;mp5+=it.mp5||0;shdpwr+=it.shdpwr||0;mrpen_pct+=it.mrpen_pct||0;ten+=it.ten||0;if(it.special&&special.hasOwnProperty(it.special))special[it.special]=true;if(it.onHitPctHP)onHitPctHP+=it.onHitPctHP;if(it.note)itemNotes.push(it.note);if(it.consumable){const c=it.consumable;if(c.stats){if(c.stats.ad)ad+=c.stats.ad;if(c.stats.ten)ten+=c.stats.ten;if(c.stats.hp)hp+=c.stats.hp;}if(c.hpFlat)hp+=c.hpFlat;if(c.regen)bonusRegen+=c.regen;if(c.note)itemNotes.push(c.note);}});
   if(ms_pct)ms=Math.floor(ms*(1+ms_pct));as_=Math.min(as_,2.5);crit=Math.min(crit,100);
-  const work={ad,baseAD,mana,hp,_sterak:0,armPenPct:0,armorShred:0,onHitPctOwnHP:0,armorMult:0,mrMult:0};
+  const work={ad,baseAD,mana,hp,baseHP,ap:0,_sterak:0,armPenPct:0,armorShred:0,onHitPctOwnHP:0,armorMult:0,mrMult:0,_bloodmailAD:0,_manamuneAD:0,_wintersHP:0,_dawncoreAP:0,_seraphAP:0,_rabadonfactor:0};
   S.items.forEach(it=>{if(!it)return;if(it.passiveKey){const p=ITEM_PASSIVES[it.passiveKey];if(p&&typeof p.applyStats==='function')p.applyStats(work);}if(typeof it._applyStats==='function')it._applyStats(work);});
   ad=work.ad;apen=Math.min(100,apen+Math.round((work.armPenPct||0)*100));const onHitPctOwnHP=work.onHitPctOwnHP||0;
   if(work.armorMult)armor=armor*(1+work.armorMult);
   if(work.mrMult)mr=mr*(1+work.mrMult);
-  return{l,baseHP,baseAD,baseArmor,baseMR,hp,ad,armor,mr,as_,hp5,ms,crit,ls,omni,ah,bah,uh,leth,apen,ten,ms_pct,mana,mp5,shdpwr,mrpen_pct,bonusAD:ad-baseAD,bonusHP:hp-baseHP,special,sterakBonus:work._sterak||0,onHitPctHP,onHitPctOwnHP,itemNotes,bonusRegen,armorShred:work.armorShred||0};
+  return{l,baseHP,baseAD,baseArmor,baseMR,hp:work.hp,ad,armor,mr,as_,hp5,ms,crit,ls,omni,ah,bah,uh,leth,apen,ten,ms_pct,mana,mp5,shdpwr,mrpen_pct,bonusAD:ad-baseAD,bonusHP:work.hp-baseHP,special,sterakBonus:work._sterak||0,onHitPctHP,onHitPctOwnHP,itemNotes,bonusRegen,armorShred:work.armorShred||0,bloodmailAD:work._bloodmailAD||0,manamuneAD:work._manamuneAD||0,wintersHP:work._wintersHP||0,dawncoreAP:work._dawncoreAP||0,seraphAP:work._seraphAP||0,rabadonfactor:work._rabadonfactor||0};
 }
 const cdWith=(b,h)=>b*(100/(100+h));
 
@@ -1151,11 +1151,17 @@ function renderAbilities(A){
   const adR=passiveADRatio(A.l),hpR=passiveHPRatio(A.l),legCD=passiveLegCD(A.l);
   document.getElementById('passiveBox').innerHTML=`<div class="phtitle">⚙ Echoing Flames — Level ${A.l}</div><div class="pgrid"><div class="pstat">AD/leg: <b>${Math.round(adR*100)}% = ${Math.round(A.ad*adR)} dmg</b></div><div class="pstat">% target HP/leg: <b>${(hpR*100).toFixed(0)}%</b></div><div class="pstat">Leg CD: <b>${legCD}s</b></div><div class="pstat">6-leg AD burst: <b>~${Math.round(A.ad*adR*6)} dmg</b></div></div><div class="notes-box" id="buildNotes"></div>`;
   let notes='';
-  if(A.sterakBonus>0)notes+=`<div class="note"><b>Sterak's Gage</b> — +${Math.round(A.sterakBonus)} bonus AD included (50% base AD).</div>`;
+  if(A.sterakBonus>0)notes+=`<div class="note"><b>Sterak's Gage</b> — +${Math.round(A.sterakBonus)} bonus AD (50% base AD ${Math.round(A.baseAD)}).</div>`;
   const hasMuramana=S.items.some(it=>it&&/muramana/i.test(it.name||''));
-  if(hasMuramana&&A.mana*0.06>0)notes+=`<div class="note"><b>Muramana</b> — +${Math.round(A.mana*0.06)} AD from mana (6% of ${Math.round(A.mana)}).</div>`;
+  if(hasMuramana&&A.mana*0.06>0)notes+=`<div class="note"><b>Muramana</b> — +${Math.round(A.mana*0.06)} AD (6% of ${Math.round(A.mana)} mana).</div>`;
+  if(A.manamuneAD>0)notes+=`<div class="note"><b>Manamune</b> — +${Math.round(A.manamuneAD)} AD (2% of ${Math.round(A.mana)} mana).</div>`;
+  if(A.bloodmailAD>0)notes+=`<div class="note"><b>Overlord's Bloodmail</b> — +${Math.round(A.bloodmailAD)} AD Tyranny (2.5% de ${Math.round(A.bonusHP)} bonus HP). En combat : jusqu'à +${Math.round(A.ad*0.12)} AD supp. Retribution (12% AD missing HP).</div>`;
+  if(A.wintersHP>0)notes+=`<div class="note"><b>Winter's Approach</b> — +${Math.round(A.wintersHP)} HP (8 HP par 100 de ${Math.round(A.mana)} mana).</div>`;
+  if(A.seraphAP>0)notes+=`<div class="note"><b>Seraph's Embrace</b> — +${Math.round(A.seraphAP)} AP (3% de ${Math.round(A.mana)} mana).</div>`;
+  if(A.dawncoreAP>0)notes+=`<div class="note"><b>Dawncore</b> — +${Math.round(A.dawncoreAP)} AP (2% de ${Math.round(A.mana)} mana).</div>`;
+  if(A.rabadonfactor>0)notes+=`<div class="note"><b>Rabadon's Deathcap</b> — ×1.35 appliqué sur tout l'AP (inclus ci-dessus).</div>`;
   const hasJaksho=S.items.some(it=>it&&/jak.sho/i.test(it.name||''));
-  if(hasJaksho)notes+=`<div class="note"><b>Jak'Sho</b> — +12% armor/MR at 6 stacks (included above).</div>`;
+  if(hasJaksho)notes+=`<div class="note"><b>Jak'Sho</b> — +12% armor/MR en combat (6 stacks, inclus ci-dessus).</div>`;
   [...new Set(A.itemNotes||[])].forEach(n=>{if(!/Sterak/i.test(n))notes+=`<div class="note">${n.replace(/^([^:]+):/,'<b>$1</b>:')}</div>`;});
   document.getElementById('buildNotes').innerHTML=notes||'<div class="note" style="opacity:.5">No active item passive.</div>';
 }
