@@ -21,7 +21,9 @@ body{background:var(--bg);color:var(--txt);font-family:'Rajdhani',sans-serif;dis
 .card-title{font-family:'Cinzel',serif;font-weight:700;font-size:13px;letter-spacing:.22em;text-transform:uppercase;color:var(--bright);margin-bottom:1.5rem;display:flex;align-items:center;gap:10px}
 .card-title::before{content:"";width:6px;height:16px;background:var(--green);box-shadow:0 0 8px var(--acid);flex-shrink:0}
 .field{margin-bottom:1.2rem}
-.field label{display:block;font-family:'Cinzel',serif;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--txt2);margin-bottom:.5rem}
+.field label{display:block;font-family:'Cinzel',serif;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--txt2);margin-bottom:.5rem;display:flex;justify-content:space-between;align-items:center}
+.field label a{color:var(--txt2);text-decoration:none;font-size:9px;letter-spacing:.1em;transition:color .2s}
+.field label a:hover{color:var(--green)}
 .field input{width:100%;background:var(--bg);border:1px solid var(--border-b);border-radius:3px;color:var(--bright);font-family:'Rajdhani',sans-serif;font-size:15px;padding:10px 14px;outline:none;transition:border-color .2s,box-shadow .2s}
 .field input:focus{border-color:var(--green-mid);box-shadow:0 0 0 2px rgba(74,222,128,.1)}
 .field input::placeholder{color:var(--txt2)}
@@ -30,6 +32,8 @@ body{background:var(--bg);color:var(--txt);font-family:'Rajdhani',sans-serif;dis
 .btn:disabled{opacity:.5;cursor:not-allowed}
 .error{background:rgba(200,75,75,.15);border:1px solid rgba(200,75,75,.4);border-radius:3px;padding:10px 14px;font-size:12px;color:#f08080;margin-bottom:1rem;display:none}
 .error.show{display:block}
+.success-msg{background:rgba(74,222,128,.1);border:1px solid var(--green-dark);border-radius:3px;padding:10px 14px;font-size:12px;color:var(--green);margin-bottom:1rem;display:none}
+.success-msg.show{display:block}
 .footer-links{text-align:center;margin-top:1.5rem;font-size:12px;color:var(--txt2)}
 .footer-links a{color:var(--green);text-decoration:none;transition:color .2s}
 .footer-links a:hover{color:var(--green-mid)}
@@ -42,6 +46,15 @@ body{background:var(--bg);color:var(--txt);font-family:'Rajdhani',sans-serif;dis
 .btn-google{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:12px 14px;background:var(--bg);border:1px solid var(--border-b);border-radius:3px;color:var(--bright);font-family:'Cinzel',serif;font-weight:600;font-size:11px;letter-spacing:.12em;text-decoration:none;text-transform:uppercase;cursor:pointer;transition:border-color .2s,background .2s}
 .btn-google:hover{border-color:#4285f4;background:rgba(66,133,244,.08)}
 .btn-google img{width:18px;height:18px;flex-shrink:0}
+
+/* Panel reset mot de passe */
+.reset-panel{display:none}
+.reset-panel.show{display:block}
+.login-panel{display:block}
+.login-panel.hide{display:none}
+.back-link{background:none;border:none;color:var(--txt2);font-family:'Cinzel',serif;font-size:9px;letter-spacing:.15em;text-transform:uppercase;cursor:pointer;padding:0;margin-bottom:1.2rem;display:flex;align-items:center;gap:6px}
+.back-link:hover{color:var(--green)}
+.back-link::before{content:"←"}
 </style>
 </head>
 <body>
@@ -53,31 +66,62 @@ body{background:var(--bg);color:var(--txt);font-family:'Rajdhani',sans-serif;dis
   </div>
 
   <div class="card">
-    <div class="card-title">Connexion</div>
-    <div class="reason-msg warn" id="reasonMsg"></div>
-    <div class="error" id="errorMsg"></div>
 
-    <a href="/api/auth/google" class="btn-google">
-      <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google"/>
-      Continuer avec Google
-    </a>
+    <!-- PANEL LOGIN -->
+    <div class="login-panel" id="loginPanel">
+      <div class="card-title">Connexion</div>
+      <div class="reason-msg warn" id="reasonMsg"></div>
+      <div class="error" id="loginError"></div>
 
-    <div class="divider">
-      <div class="divider-line"></div>
-      <span class="divider-txt">ou avec email</span>
-      <div class="divider-line"></div>
+      <a href="/api/auth/google" class="btn-google">
+        <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google"/>
+        Continuer avec Google
+      </a>
+
+      <div class="divider">
+        <div class="divider-line"></div>
+        <span class="divider-txt">ou avec email</span>
+        <div class="divider-line"></div>
+      </div>
+
+      <div class="field">
+        <label>Adresse email</label>
+        <input type="email" id="email" placeholder="ton@email.com" autocomplete="email"/>
+      </div>
+      <div class="field">
+        <label>
+          Mot de passe
+          <a href="#" onclick="showReset();return false;">Mot de passe oublié ?</a>
+        </label>
+        <input type="password" id="password" placeholder="••••••••" autocomplete="current-password"/>
+      </div>
+
+      <button class="btn" id="loginBtn" onclick="login()">Se connecter</button>
     </div>
 
-    <div class="field">
-      <label>Adresse email</label>
-      <input type="email" id="email" placeholder="ton@email.com" autocomplete="email"/>
-    </div>
-    <div class="field">
-      <label>Mot de passe</label>
-      <input type="password" id="password" placeholder="••••••••" autocomplete="current-password"/>
+    <!-- PANEL RESET MOT DE PASSE -->
+    <div class="reset-panel" id="resetPanel">
+      <button class="back-link" onclick="showLogin()">Retour à la connexion</button>
+      <div class="card-title">Mot de passe oublié</div>
+      <div class="error" id="resetError"></div>
+      <div class="success-msg" id="resetSuccess"></div>
+
+      <div class="field">
+        <label>Adresse email</label>
+        <input type="email" id="resetEmail" placeholder="ton@email.com"/>
+      </div>
+      <div class="field">
+        <label>Nouveau mot de passe</label>
+        <input type="password" id="newPwd" placeholder="8 caractères minimum"/>
+      </div>
+      <div class="field">
+        <label>Confirmer le mot de passe</label>
+        <input type="password" id="newPwd2" placeholder="••••••••"/>
+      </div>
+
+      <button class="btn" id="resetBtn" onclick="resetPassword()">Réinitialiser</button>
     </div>
 
-    <button class="btn" id="loginBtn" onclick="login()">Se connecter</button>
   </div>
 
   <div class="footer-links">
@@ -86,6 +130,7 @@ body{background:var(--bg);color:var(--txt);font-family:'Rajdhani',sans-serif;dis
 </div>
 
 <script>
+// Messages de redirection
 const params  = new URLSearchParams(window.location.search);
 const reason  = params.get('reason');
 const reasons = {
@@ -101,11 +146,25 @@ if (reasons[reason]) {
   el.style.display = 'block';
 }
 
+// Switcher entre login et reset
+function showReset() {
+  document.getElementById('loginPanel').classList.add('hide');
+  document.getElementById('resetPanel').classList.add('show');
+  // Pré-remplir l'email si déjà saisi
+  const email = document.getElementById('email').value;
+  if (email) document.getElementById('resetEmail').value = email;
+}
+function showLogin() {
+  document.getElementById('loginPanel').classList.remove('hide');
+  document.getElementById('resetPanel').classList.remove('show');
+}
+
+// Connexion
 async function login() {
-  const email   = document.getElementById('email').value.trim();
+  const email    = document.getElementById('email').value.trim();
   const password = document.getElementById('password').value;
-  const btn     = document.getElementById('loginBtn');
-  const errorEl = document.getElementById('errorMsg');
+  const btn      = document.getElementById('loginBtn');
+  const errorEl  = document.getElementById('loginError');
   errorEl.classList.remove('show');
   btn.disabled = true;
   btn.textContent = 'Connexion…';
@@ -124,7 +183,49 @@ async function login() {
     btn.textContent = 'Se connecter';
   }
 }
-document.addEventListener('keydown', e => { if(e.key==='Enter') login(); });
+
+// Reset mot de passe
+async function resetPassword() {
+  const email  = document.getElementById('resetEmail').value.trim();
+  const pwd    = document.getElementById('newPwd').value;
+  const pwd2   = document.getElementById('newPwd2').value;
+  const btn    = document.getElementById('resetBtn');
+  const errEl  = document.getElementById('resetError');
+  const succEl = document.getElementById('resetSuccess');
+  errEl.classList.remove('show');
+  succEl.classList.remove('show');
+
+  if (!email) { errEl.textContent='Email requis.'; errEl.classList.add('show'); return; }
+  if (pwd.length < 8) { errEl.textContent='Mot de passe trop court (8 min).'; errEl.classList.add('show'); return; }
+  if (pwd !== pwd2) { errEl.textContent='Les mots de passe ne correspondent pas.'; errEl.classList.add('show'); return; }
+
+  btn.disabled = true;
+  btn.textContent = 'Réinitialisation…';
+
+  try {
+    const res  = await fetch('/api/auth/request-reset', {
+      method: 'POST', headers: {'Content-Type':'application/json'},
+      credentials: 'include', body: JSON.stringify({email, newPassword: pwd}),
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'Erreur inconnue.');
+    succEl.textContent = '✓ Mot de passe modifié ! Tu peux te connecter.';
+    succEl.classList.add('show');
+    setTimeout(() => showLogin(), 2000);
+  } catch(e) {
+    errEl.textContent = e.message;
+    errEl.classList.add('show');
+  }
+  btn.disabled = false;
+  btn.textContent = 'Réinitialiser';
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Enter') {
+    if (document.getElementById('resetPanel').classList.contains('show')) resetPassword();
+    else login();
+  }
+});
 </script>
 </body>
 </html>
