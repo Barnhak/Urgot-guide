@@ -15,10 +15,19 @@ function requireAuth(req, res, next) {
   }
 }
 
+const ADMIN_EMAILS = [
+  'l.rouxel22300@gmail.com',   // ← remplace par ton vrai email
+];
+
 function requireSubscription(req, res, next) {
   requireAuth(req, res, () => {
-    if (!Users.isActive(req.user))
+    // Admin bypass — accès gratuit
+    if (ADMIN_EMAILS.includes(req.user.email)) {
+      return next();
+    }
+    if (!Users.isActive(req.user)) {
       return res.redirect('/subscribe.html?reason=no_subscription');
+    }
     next();
   });
 }
