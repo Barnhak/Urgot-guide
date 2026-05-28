@@ -12,7 +12,13 @@
   script.onload = function() { initPayPal(); };
   script.onerror = function() {
     document.getElementById('paypal-button-container').innerHTML =
-      '<div class="loading-paypal" style="color:#f08080">Impossible de charger PayPal.<br>Vérifie ton Client ID.</div>';
+      '<div class="loading-paypal" style: {
+  shape:  'rect',
+  color:  'blue',      // ← 'gold' | 'blue' | 'silver' | 'white' | 'black'
+  layout: 'vertical',
+  label:  'subscribe',
+  height: 45,
+},
   };
   document.head.appendChild(script);
 </script>
