@@ -16,7 +16,7 @@ function requireAuth(req, res, next) {
 }
 
 const ADMIN_EMAILS = [
-  'l.rouxel22300@gmail.com','barnhak123@gmail.com',   // ← remplace par ton vrai email
+  'l.rouxel22300@gmail.com','barnhak123@gmail.com','u8703338435@gmail.com',   // ← remplace par ton vrai email
 ];
 
 function requireSubscription(req, res, next) {
