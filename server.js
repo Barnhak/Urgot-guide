@@ -45,8 +45,8 @@ const app  = express();
 const PORT = process.env.PORT || 3000;
 
 // ── Middlewares globaux ──────────────────────────────────────────────────────
-app.use(cors({ origin: process.env.SITE_URL, credentials: true }));
-app.use(cookieParser());
+app.use(cors);
+app.use(cookieParser);
 app.use(express.json());
 
 // Le webhook PayPal a besoin du body brut pour la vérification de signature
