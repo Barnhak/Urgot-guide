@@ -65,13 +65,29 @@ router.get('/me', (req, res) => {
   }
 });
 
-// ── Reset mot de passe (admin seulement) ─────────────────────────────────────
-// Utilisation : GET /api/auth/reset-pwd?email=ton@email.com&pwd=NouveauMdp123!&secret=CLE_ADMIN
-// IMPORTANT : supprimer cette route ou changer le secret après usage
+// ── Reset mot de passe depuis la page login ───────────────────────────────────
+router.post('/request-reset', async (req, res) => {
+  const { email, newPassword } = req.body;
+  if (!email || !newPassword)
+    return res.status(400).json({ error: 'Email et mot de passe requis.' });
+  if (newPassword.length < 8)
+    return res.status(400).json({ error: 'Mot de passe trop court (8 min).' });
+
+  const user = Users.findByEmail.get(email.toLowerCase());
+  if (!user)
+    return res.status(404).json({ error: 'Aucun compte trouvé avec cet email.' });
+
+  const hash = await bcrypt.hash(newPassword, 12);
+  const { db } = require('../db');
+  db.run(`UPDATE users SET password_hash='${hash.replace(/'/g,"''")}' WHERE email='${email.toLowerCase().replace(/'/g,"''")}'`);
+
+  res.json({ success: true });
+});
+
+// ── Reset mot de passe (admin via URL) ────────────────────────────────────────
+// GET /api/auth/reset-pwd?email=ton@email.com&pwd=NouveauMdp123!&secret=CLE_ADMIN
 router.get('/reset-pwd', async (req, res) => {
   const { email, pwd, secret } = req.query;
-
-  // Protection par clé secrète — change cette valeur
   const ADMIN_SECRET = process.env.RESET_SECRET || 'urgot-reset-2026';
 
   if (secret !== ADMIN_SECRET)
