@@ -4,8 +4,38 @@ const { getDb } = require('./db');
 getDb().then(() => console.log('✅ Base de données prête'));
 const express    = require('express');
 const path       = require('path');
-const cookieParser = require('cookie-parser');
-const cors       = require('cors');
+// Parse cookies manuellement sans dépendance externe
+const cookieParser = (req, res, next) => {
+  req.cookies = {};
+  const header = req.headers.cookie;
+  if (header) {
+    header.split(';').forEach(pair => {
+      const [key, ...val] = pair.trim().split('=');
+      req.cookies[key.trim()] = decodeURIComponent(val.join('='));
+    });
+  }
+  // Helper pour effacer un cookie
+  res.clearCookie = (name) => {
+    res.setHeader('Set-Cookie', `${name}=; HttpOnly; Path=/; Max-Age=0`);
+  };
+  // Helper pour définir un cookie
+  res.cookie = (name, value, opts = {}) => {
+    let str = `${name}=${value}; HttpOnly; Path=/`;
+    if (opts.maxAge) str += `; Max-Age=${Math.floor(opts.maxAge/1000)}`;
+    if (opts.secure) str += `; Secure`;
+    if (opts.sameSite) str += `; SameSite=${opts.sameSite}`;
+    res.setHeader('Set-Cookie', str);
+  };
+  next();
+};
+const cors = (req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', process.env.SITE_URL || '*');
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
+  res.setHeader('Access-Control-Allow-Methods', 'GET,POST,OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type,Authorization');
+  if (req.method === 'OPTIONS') return res.sendStatus(200);
+  next();
+};
 
 const { requireSubscription } = require('./middleware/auth');
 const authRoutes   = require('./routes/auth');
