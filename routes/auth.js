@@ -72,40 +72,54 @@ router.post('/request-reset', async (req, res) => {
     return res.status(400).json({ error: 'Email et mot de passe requis.' });
   if (newPassword.length < 8)
     return res.status(400).json({ error: 'Mot de passe trop court (8 min).' });
-
   const user = Users.findByEmail.get(email.toLowerCase());
   if (!user)
     return res.status(404).json({ error: 'Aucun compte trouvé avec cet email.' });
-
   const hash = await bcrypt.hash(newPassword, 12);
   const { db } = require('../db');
   db.run(`UPDATE users SET password_hash='${hash.replace(/'/g,"''")}' WHERE email='${email.toLowerCase().replace(/'/g,"''")}'`);
-
   res.json({ success: true });
 });
 
 // ── Reset mot de passe (admin via URL) ────────────────────────────────────────
-// GET /api/auth/reset-pwd?email=ton@email.com&pwd=NouveauMdp123!&secret=CLE_ADMIN
 router.get('/reset-pwd', async (req, res) => {
   const { email, pwd, secret } = req.query;
   const ADMIN_SECRET = process.env.RESET_SECRET || 'urgot-reset-2026';
-
   if (secret !== ADMIN_SECRET)
     return res.status(403).send('Accès refusé.');
   if (!email || !pwd)
     return res.status(400).send('Paramètres manquants : email et pwd requis.');
   if (pwd.length < 8)
     return res.status(400).send('Mot de passe trop court (8 min).');
-
   const user = Users.findByEmail.get(email.toLowerCase());
   if (!user)
     return res.status(404).send(`Aucun compte trouvé pour ${email}`);
-
   const hash = await bcrypt.hash(pwd, 12);
   const { db } = require('../db');
   db.run(`UPDATE users SET password_hash='${hash.replace(/'/g,"''")}' WHERE email='${email.toLowerCase().replace(/'/g,"''")}'`);
-
   res.send(`✅ Mot de passe réinitialisé pour ${email}. Tu peux maintenant te connecter.`);
+});
+
+// ── Activer compte admin (accès gratuit permanent) ────────────────────────────
+router.get('/activate-admin', (req, res) => {
+  const { email, secret } = req.query;
+  const ADMIN_SECRET = process.env.RESET_SECRET || 'urgot-reset-2026';
+  if (secret !== ADMIN_SECRET)
+    return res.status(403).send('Accès refusé.');
+  if (!email)
+    return res.status(400).send('Email requis.');
+  const user = Users.findByEmail.get(email.toLowerCase());
+  if (!user)
+    return res.status(404).send(`Aucun compte trouvé pour ${email}`);
+  const { db } = require('../db');
+  db.run(`
+    UPDATE users
+    SET sub_status     = 'active',
+        sub_expires_at = '2099-12-31T00:00:00Z',
+        sub_started_at = datetime('now')
+    WHERE email = '${email.toLowerCase().replace(/'/g,"''")}'
+  `);
+  res.send(`✅ Compte ${email} activé jusqu'au 31/12/2099. Connecte-toi maintenant !`);
 });
 
 // ── Helper cookie ─────────────────────────────────────────────────────────────
