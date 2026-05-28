@@ -40,6 +40,20 @@ app.use((req, res, next) => {
 
 // ── Body parsers ─────────────────────────────────────────────────────────────
 app.use(express.json());
+// Session pour Passport
+const session = require('express-session');
+app.use(session({
+  secret:            process.env.JWT_SECRET,
+  resave:            false,
+  saveUninitialized: false,
+  cookie: { secure: process.env.NODE_ENV === 'production' }
+}));
+
+// Google OAuth
+const { router: googleRouter, passport } = require('./routes/google');
+app.use(passport.initialize());
+app.use(passport.session());
+app.use('/api/auth/google', googleRouter);
 app.use(express.urlencoded({ extended: true }));
 
 // ── Initialiser la DB ─────────────────────────────────────────────────────────
