@@ -8,7 +8,9 @@
 
   // Charge le SDK PayPal dynamiquement
   var script = document.createElement('script');
-  script.src = 'https://www.paypal.com/sdk/js?client-id=' + PAYPAL_CLIENT_ID + '&vault=true&intent=subscription&currency=EUR';
+ script.src = 'https://www.paypal.com/sdk/js?client-id=' + PAYPAL_CLIENT_ID
+           + '&vault=true&intent=subscription&currency=USD'
+           + '&disable-funding=credit,card';
   script.onload = function() { initPayPal(); };
   script.onerror = function() {
     document.getElementById('paypal-button-container').innerHTML =
