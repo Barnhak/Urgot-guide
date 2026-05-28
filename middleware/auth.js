@@ -22,7 +22,7 @@ const ADMIN_EMAILS = [
 function requireSubscription(req, res, next) {
   requireAuth(req, res, () => {
     // Admin bypass — accès gratuit
-    if (ADMIN_EMAILS.includes(req.user.email)) {
+    if (ADMIN_EMAILS.map(e => e.toLowerCase()).includes((req.user.email || '').toLowerCase())) {
       return next();
     }
     if (!Users.isActive(req.user)) {
