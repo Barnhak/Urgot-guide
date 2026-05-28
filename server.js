@@ -43,4 +43,4 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // ── Init DB puis démarrage ────────────────────────────────────────────────────
-const { getDb } = require('./db'
+const { getDb } = require('./db');
