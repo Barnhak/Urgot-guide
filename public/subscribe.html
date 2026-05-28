@@ -1,63 +1,200 @@
-<div id="paypal-button-container">
-  <div class="loading-paypal">Chargement PayPal…</div>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Abonnement — Urgot Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--green:#4ADE80;--green-mid:#22C55E;--green-dark:#15803D;--bg:#060D07;--card:#0F2211;--card2:#132417;--border:#1A3D1E;--border-b:#2D6A33;--txt:#A8D4A0;--txt2:#4A7550;--bright:#E8F5E2;--red:#C84B4B;--gold:#C89B3C}
+html,body{height:100%}
+body{background:var(--bg);color:var(--txt);font-family:'Rajdhani',sans-serif;display:flex;align-items:center;justify-content:center;min-height:100vh;background-image:radial-gradient(ellipse 80% 40% at 50% -5%,rgba(74,222,128,.05) 0%,transparent 60%),repeating-linear-gradient(0deg,transparent,transparent 49px,rgba(26,61,30,.07) 50px),repeating-linear-gradient(90deg,transparent,transparent 49px,rgba(26,61,30,.07) 50px);}
+.bg-splash{position:fixed;inset:0;background:url('https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Urgot_2.jpg') center/cover no-repeat;filter:brightness(.1) saturate(.4);z-index:0}
+.container{position:relative;z-index:1;width:100%;max-width:480px;padding:0 20px}
+.logo{text-align:center;margin-bottom:2.5rem}
+.logo-title{font-family:'Cinzel',serif;font-weight:900;font-size:28px;color:var(--bright);letter-spacing:.08em}
+.logo-title span{color:var(--green)}
+.logo-sub{font-family:'Cinzel',serif;font-size:10px;letter-spacing:.4em;text-transform:uppercase;color:var(--txt2);margin-top:.4rem}
+.card{background:linear-gradient(180deg,var(--card2),var(--card));border:1px solid var(--border);border-radius:6px;padding:2rem;position:relative;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.7)}
+.card::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
+.card-title{font-family:'Cinzel',serif;font-weight:700;font-size:13px;letter-spacing:.22em;text-transform:uppercase;color:var(--bright);margin-bottom:1.5rem;display:flex;align-items:center;gap:10px}
+.card-title::before{content:"";width:6px;height:16px;background:var(--gold);box-shadow:0 0 8px rgba(200,155,60,.4);flex-shrink:0}
+.price-block{text-align:center;margin:1.5rem 0}
+.price-amount{font-family:'Cinzel',serif;font-weight:900;font-size:48px;color:var(--bright);line-height:1}
+.price-amount span{font-size:22px;vertical-align:top;margin-top:8px;display:inline-block;color:var(--gold)}
+.price-period{font-size:12px;color:var(--txt2);letter-spacing:.1em;margin-top:.3rem}
+.price-cancel{font-size:11px;color:var(--txt2);margin-top:.2rem}
+.features{margin:1.5rem 0;display:flex;flex-direction:column;gap:.6rem}
+.feature{display:flex;align-items:center;gap:.7rem;font-size:13px;color:var(--txt)}
+.feature::before{content:"✓";color:var(--green);font-weight:700;font-size:14px;flex-shrink:0}
+
+/* Zone PayPal */
+#paypal-wrap{margin-top:1.5rem}
+#paypal-button-container{min-height:50px}
+.pp-loading{text-align:center;padding:1rem;font-family:'Cinzel',serif;font-size:10px;letter-spacing:.15em;color:var(--txt2);text-transform:uppercase;display:flex;align-items:center;justify-content:center;gap:8px}
+.pp-loading::before{content:"";width:12px;height:12px;border:2px solid var(--border-b);border-top-color:var(--green);border-radius:50%;animation:spin .8s linear infinite;flex-shrink:0}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* Bouton payer custom (affiché si PayPal ne charge pas) */
+.btn-pay-fallback{display:none;width:100%;padding:14px;background:#0070ba;border:none;border-radius:4px;color:#fff;font-family:'Cinzel',serif;font-weight:700;font-size:13px;letter-spacing:.1em;cursor:pointer;transition:background .2s}
+.btn-pay-fallback:hover{background:#005ea6}
+
+.error{background:rgba(200,75,75,.15);border:1px solid rgba(200,75,75,.4);border-radius:3px;padding:10px 14px;font-size:12px;color:#f08080;margin-top:1rem;display:none}
+.error.show{display:block}
+.success{background:rgba(74,222,128,.1);border:1px solid var(--green-dark);border-radius:3px;padding:14px;font-size:13px;color:var(--green);margin-top:1rem;text-align:center;display:none}
+.success.show{display:block}
+.footer-links{text-align:center;margin-top:1.5rem;font-size:12px;color:var(--txt2)}
+.footer-links a{color:var(--txt2);text-decoration:none}
+.footer-links a:hover{color:var(--green)}
+</style>
+</head>
+<body>
+<div class="bg-splash"></div>
+<div class="container">
+  <div class="logo">
+    <div class="logo-title">URGOT <span>GUIDE</span></div>
+    <div class="logo-sub">Top Lane · Season 2026</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Accès complet</div>
+
+    <div class="price-block">
+      <div class="price-amount"><span>€</span>4.99</div>
+      <div class="price-period">par mois · renouvelé automatiquement</div>
+      <div class="price-cancel">Annulable à tout moment</div>
+    </div>
+
+    <div class="features">
+      <div class="feature">Guide complet Urgot Top Lane Season 2026</div>
+      <div class="feature">Forge de Build — calculateur de stats interactif</div>
+      <div class="feature">Runes détaillées avec explications</div>
+      <div class="feature">Matchups contre tous les tops</div>
+      <div class="feature">Mises à jour à chaque patch</div>
+    </div>
+
+    <div id="paypal-wrap">
+      <div id="paypal-button-container">
+        <div class="pp-loading">Chargement PayPal</div>
+      </div>
+    </div>
+
+    <div class="error" id="errorMsg"></div>
+    <div class="success" id="successMsg">✓ Paiement confirmé — redirection en cours…</div>
+  </div>
+
+  <div class="footer-links">
+    <a href="/login.html">← Retour à la connexion</a>
+  </div>
 </div>
 
 <script>
-  var PAYPAL_CLIENT_ID = 'AQdM0aQGlC_v0QMPS4uig07LikY7GK8gGKc9Fr2oJBs-KKk-sGKYr2U52OUXhZTADZ7ApbTyIdyhxqSM'; // ← ton client ID sandbox
-  var PAYPAL_PLAN_ID   = 'P-8WP099467T9127646NIMFFSA';
+var PAYPAL_CLIENT_ID = 'AQdM0aQGlC_v0QMPS4uig07LikY7GK8gGKc9Fr2oJBs-KKk-sGKYr2U52OUXhZTADZ7ApbTyIdyhxqSM';
+var PAYPAL_PLAN_ID   = 'P-8WP099467T9127646NIMFFSA'; // ← mets à jour avec ton nouveau plan ID
 
-  // Charge le SDK PayPal dynamiquement
-  var script = document.createElement('script');
- script.src = 'https://www.paypal.com/sdk/js?client-id=' + PAYPAL_CLIENT_ID
-           + '&vault=true&intent=subscription&currency=USD'
-           + '&disable-funding=credit,card';
-  script.onload = function() { initPayPal(); };
-  script.onerror = function() {
-    document.getElementById('paypal-button-container').innerHTML =
-      '<div class="loading-paypal" style: {
-  shape:  'rect',
-  color:  'blue',      // ← 'gold' | 'blue' | 'silver' | 'white' | 'black'
-  layout: 'vertical',
-  label:  'subscribe',
-  height: 45,
-},
+var LOAD_TIMEOUT = setTimeout(function() {
+  document.getElementById('paypal-button-container').innerHTML =
+    '<div class="pp-loading" style="color:#f08080;flex-direction:column;gap:6px">'
+    + '<span>PayPal ne répond pas.</span>'
+    + '<span style="font-size:9px">Désactive ton bloqueur de pub et réessaie.</span>'
+    + '</div>';
+}, 8000);
+
+// Charge le SDK PayPal dynamiquement
+(function() {
+  var s = document.createElement('script');
+  s.src = 'https://www.paypal.com/sdk/js'
+        + '?client-id=' + PAYPAL_CLIENT_ID
+        + '&vault=true'
+        + '&intent=subscription'
+        + '&currency=EUR'
+        + '&disable-funding=credit,card,sepa'; // garde seulement PayPal
+
+  s.onload = function() {
+    clearTimeout(LOAD_TIMEOUT);
+    renderButtons();
   };
-  document.head.appendChild(script);
-</script>
 
-<script>
-function initPayPal() {
+  s.onerror = function() {
+    clearTimeout(LOAD_TIMEOUT);
+    document.getElementById('paypal-button-container').innerHTML =
+      '<div class="pp-loading" style="color:#f08080">Impossible de charger PayPal.<br>'
+      + '<span style="font-size:9px">Vérifie ta connexion ou désactive uBlock/Adblock.</span></div>';
+  };
+
+  document.head.appendChild(s);
+})();
+
+function renderButtons() {
   document.getElementById('paypal-button-container').innerHTML = '';
+
   paypal.Buttons({
-    style: { shape:'rect', color:'gold', layout:'vertical', label:'subscribe' },
-    createSubscription: function(data, actions) {
-      return actions.subscription.create({ plan_id: PAYPAL_PLAN_ID });
+    // Popup natif PayPal — pas de redirection
+    fundingSource: paypal.FUNDING.PAYPAL,
+
+    style: {
+      layout: 'vertical',
+      color:  'gold',
+      shape:  'rect',
+      label:  'subscribe',
+      height: 48,
     },
+
+    createSubscription: function(data, actions) {
+      return actions.subscription.create({
+        plan_id:              PAYPAL_PLAN_ID,
+        application_context: {
+          shipping_preference: 'NO_SHIPPING',
+          user_action:         'SUBSCRIBE_NOW',
+          // POPUP = fenêtre modale PayPal au lieu d'un nouvel onglet
+          return_url: window.location.href,
+          cancel_url: window.location.href,
+        },
+      });
+    },
+
     onApprove: async function(data) {
       const errEl     = document.getElementById('errorMsg');
       const successEl = document.getElementById('successMsg');
+      const wrap      = document.getElementById('paypal-wrap');
       errEl.classList.remove('show');
+      wrap.style.opacity = '.4';
+      wrap.style.pointerEvents = 'none';
+
       try {
         const res = await fetch('/api/paypal/activate', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          method:      'POST',
+          headers:     { 'Content-Type': 'application/json' },
           credentials: 'include',
-          body: JSON.stringify({ subscriptionId: data.subscriptionID }),
+          body:        JSON.stringify({ subscriptionId: data.subscriptionID }),
         });
         const result = await res.json();
         if (!res.ok) throw new Error(result.error || 'Erreur activation');
+        successEl.textContent = '✓ Paiement confirmé — redirection en cours…';
         successEl.classList.add('show');
         setTimeout(() => { window.location.href = result.redirect || '/guide'; }, 1500);
       } catch(e) {
+        wrap.style.opacity = '1';
+        wrap.style.pointerEvents = 'auto';
         errEl.textContent = 'Erreur : ' + e.message;
         errEl.classList.add('show');
       }
     },
-    onError: function(err) {
-      document.getElementById('errorMsg').textContent = 'Erreur PayPal. Réessaie.';
-      document.getElementById('errorMsg').classList.add('show');
-      console.error(err);
+
+    onCancel: function() {
+      console.log('Paiement annulé par l\'utilisateur.');
     },
+
+    onError: function(err) {
+      console.error('PayPal error:', err);
+      document.getElementById('errorMsg').textContent =
+        'Erreur PayPal. Réessaie ou contacte le support.';
+      document.getElementById('errorMsg').classList.add('show');
+    },
+
   }).render('#paypal-button-container');
 }
 </script>
+</body>
+</html>
