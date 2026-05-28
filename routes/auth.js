@@ -1,62 +1,84 @@
-const jwt = require('jsonwebtoken');
+const router  = require('express').Router();
+const bcrypt  = require('bcryptjs');
+const jwt     = require('jsonwebtoken');
 const { Users } = require('../db');
 
-// Vérifie le JWT dans le cookie ou le header Authorization
-function requireAuth(req, res, next) {
-  const token = req.cookies?.token || extractBearerToken(req);
+// ── Inscription ──────────────────────────────────────────────────────────────
+router.post('/register', async (req, res) => {
+  const { email, password } = req.body;
+  if (!email || !password)
+    return res.status(400).json({ error: 'Email et mot de passe requis.' });
+  if (password.length < 8)
+    return res.status(400).json({ error: 'Mot de passe trop court (8 caractères min).' });
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
+    return res.status(400).json({ error: 'Email invalide.' });
 
-  if (!token) {
-    return res.redirect('/login.html?reason=not_logged_in');
-  }
+  const existing = Users.findByEmail.get(email.toLowerCase());
+  if (existing)
+    return res.status(409).json({ error: 'Un compte existe déjà avec cet email.' });
 
-  let payload;
+  const hash   = await bcrypt.hash(password, 12);
+  const result = Users.create.run(email.toLowerCase(), hash);
+
+  const token = jwt.sign({ userId: result.lastInsertRowid }, process.env.JWT_SECRET, { expiresIn: '30d' });
+  setTokenCookie(res, token);
+  res.json({ success: true, redirect: '/subscribe.html' });
+});
+
+// ── Connexion ────────────────────────────────────────────────────────────────
+router.post('/login', async (req, res) => {
+  const { email, password } = req.body;
+  if (!email || !password)
+    return res.status(400).json({ error: 'Email et mot de passe requis.' });
+
+  const user = Users.findByEmail.get(email.toLowerCase());
+  if (!user)
+    return res.status(401).json({ error: 'Email ou mot de passe incorrect.' });
+
+  const valid = await bcrypt.compare(password, user.password_hash);
+  if (!valid)
+    return res.status(401).json({ error: 'Email ou mot de passe incorrect.' });
+
+  const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, { expiresIn: '30d' });
+  setTokenCookie(res, token);
+
+  const redirect = Users.isActive(user) ? '/guide' : '/subscribe.html';
+  res.json({ success: true, redirect });
+});
+
+// ── Déconnexion ──────────────────────────────────────────────────────────────
+router.post('/logout', (req, res) => {
+  res.clearCookie('token');
+  res.json({ success: true, redirect: '/login.html' });
+});
+
+// ── Vérifier session ─────────────────────────────────────────────────────────
+router.get('/me', (req, res) => {
+  const token = req.cookies?.token;
+  if (!token) return res.json({ loggedIn: false });
   try {
-    payload = jwt.verify(token, process.env.JWT_SECRET);
-  } catch (e) {
-    res.clearCookie('token');
-    return res.redirect('/login.html?reason=session_expired');
+    const payload = jwt.verify(token, process.env.JWT_SECRET);
+    const user    = Users.findById.get(payload.userId);
+    if (!user) return res.json({ loggedIn: false });
+    res.json({
+      loggedIn:        true,
+      email:           user.email,
+      hasSubscription: Users.isActive(user),
+      subStatus:       user.sub_status,
+      expiresAt:       user.sub_expires_at,
+    });
+  } catch {
+    res.json({ loggedIn: false });
   }
+});
 
-  const user = Users.findById.get(payload.userId);
-  if (!user) {
-    res.clearCookie('token');
-    return res.redirect('/login.html?reason=user_not_found');
-  }
-
-  req.user = user;
-  next();
-}
-
-// Vérifie le JWT ET que l'abonnement est actif
-function requireSubscription(req, res, next) {
-  requireAuth(req, res, () => {
-    if (!Users.isActive(req.user)) {
-      return res.redirect('/subscribe.html?reason=no_subscription');
-    }
-    next();
+function setTokenCookie(res, token) {
+  res.cookie('token', token, {
+    httpOnly: true,
+    secure:   process.env.NODE_ENV === 'production',
+    sameSite: 'strict',
+    maxAge:   30 * 24 * 60 * 60 * 1000,
   });
 }
 
-// Renvoie une 401 en JSON (pour les appels API)
-function requireAuthAPI(req, res, next) {
-  const token = extractBearerToken(req) || req.cookies?.token;
-  if (!token) return res.status(401).json({ error: 'Non authentifié' });
-
-  try {
-    const payload = jwt.verify(token, process.env.JWT_SECRET);
-    const user = Users.findById.get(payload.userId);
-    if (!user) return res.status(401).json({ error: 'Utilisateur introuvable' });
-    req.user = user;
-    next();
-  } catch {
-    res.status(401).json({ error: 'Token invalide ou expiré' });
-  }
-}
-
-function extractBearerToken(req) {
-  const header = req.headers.authorization;
-  if (header && header.startsWith('Bearer ')) return header.slice(7);
-  return null;
-}
-
-module.exports = { requireAuth, requireSubscription, requireAuthAPI };
+module.exports = router;
