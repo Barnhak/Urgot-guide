@@ -1,71 +1,83 @@
-const Database = require('better-sqlite3');
-const path = require('path');
+const initSqlJs = require('sql.js');
+const fs        = require('fs');
+const path      = require('path');
 
-const db = new Database(path.join(__dirname, 'data.sqlite'));
+const DB_PATH = path.join(__dirname, 'data.sqlite');
 
-// Activer les foreign keys et le mode WAL (plus performant)
-db.pragma('journal_mode = WAL');
-db.pragma('foreign_keys = ON');
+let db;
 
-// Créer les tables si elles n'existent pas
-db.exec(`
-  CREATE TABLE IF NOT EXISTS users (
-    id              INTEGER PRIMARY KEY AUTOINCREMENT,
-    email           TEXT    NOT NULL UNIQUE,
-    password_hash   TEXT    NOT NULL,
-    created_at      TEXT    DEFAULT (datetime('now')),
+async function getDb() {
+  if (db) return db;
+  const SQL = await initSqlJs();
 
-    -- Abonnement PayPal
-    paypal_sub_id   TEXT    UNIQUE,
-    sub_status      TEXT    DEFAULT 'inactive',  -- inactive | active | cancelled | suspended
-    sub_expires_at  TEXT,                         -- date ISO de la prochaine facturation
-    sub_started_at  TEXT                          -- date de début de l'abo
-  );
+  if (fs.existsSync(DB_PATH)) {
+    const fileBuffer = fs.readFileSync(DB_PATH);
+    db = new SQL.Database(fileBuffer);
+  } else {
+    db = new SQL.Database();
+  }
 
-  CREATE TABLE IF NOT EXISTS sessions (
-    id         INTEGER PRIMARY KEY AUTOINCREMENT,
-    user_id    INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
-    token_hash TEXT    NOT NULL,
-    created_at TEXT    DEFAULT (datetime('now')),
-    expires_at TEXT    NOT NULL
-  );
-`);
+  // Sauvegarder sur disque à chaque modification
+  const originalRun = db.run.bind(db);
+  db.run = function(...args) {
+    const result = originalRun(...args);
+    fs.writeFileSync(DB_PATH, db.export());
+    return result;
+  };
 
-// ── Helpers utilisateurs ────────────────────────────────────────────────────
+  // Créer les tables
+  db.run(`
+    CREATE TABLE IF NOT EXISTS users (
+      id              INTEGER PRIMARY KEY AUTOINCREMENT,
+      email           TEXT    NOT NULL UNIQUE,
+      password_hash   TEXT    NOT NULL,
+      created_at      TEXT    DEFAULT (datetime('now')),
+      paypal_sub_id   TEXT    UNIQUE,
+      sub_status      TEXT    DEFAULT 'inactive',
+      sub_expires_at  TEXT,
+      sub_started_at  TEXT
+    )
+  `);
 
+  return db;
+}
+
+// Helpers synchrones pour compatibilité avec le reste du code
 const Users = {
-  findByEmail: db.prepare('SELECT * FROM users WHERE email = ?'),
-  findById:    db.prepare('SELECT * FROM users WHERE id = ?'),
-  findBySubId: db.prepare('SELECT * FROM users WHERE paypal_sub_id = ?'),
-
-  create: db.prepare(
-    'INSERT INTO users (email, password_hash) VALUES (?, ?)'
-  ),
-
-  activateSubscription: db.prepare(`
-    UPDATE users
-    SET sub_status     = 'active',
-        paypal_sub_id  = ?,
-        sub_started_at = datetime('now'),
-        sub_expires_at = ?
-    WHERE email = ?
-  `),
-
-  updateSubStatus: db.prepare(`
-    UPDATE users SET sub_status = ?, sub_expires_at = ?
-    WHERE paypal_sub_id = ?
-  `),
-
+  findByEmail: { get: (email) => {
+    const res = db.exec(`SELECT * FROM users WHERE email = '${email.replace(/'/g,"''")}'`);
+    return res[0]?.values[0] ? rowToObj(res[0]) : null;
+  }},
+  findById: { get: (id) => {
+    const res = db.exec(`SELECT * FROM users WHERE id = ${id}`);
+    return res[0]?.values[0] ? rowToObj(res[0]) : null;
+  }},
+  findBySubId: { get: (subId) => {
+    const res = db.exec(`SELECT * FROM users WHERE paypal_sub_id = '${subId}'`);
+    return res[0]?.values[0] ? rowToObj(res[0]) : null;
+  }},
+  create: { run: (email, hash) => {
+    db.run(`INSERT INTO users (email, password_hash) VALUES ('${email.replace(/'/g,"''")}', '${hash}')`);
+    const res = db.exec(`SELECT last_insert_rowid() as id`);
+    return { lastInsertRowid: res[0].values[0][0] };
+  }},
+  updateSubStatus: { run: (status, expires, subId) => {
+    db.run(`UPDATE users SET sub_status='${status}', sub_expires_at=${expires?`'${expires}'`:'NULL'} WHERE paypal_sub_id='${subId}'`);
+  }},
   isActive: (user) => {
     if (!user) return false;
     if (user.sub_status !== 'active') return false;
-    // Vérifier que la date d'expiration n'est pas passée
-    if (user.sub_expires_at) {
-      const expires = new Date(user.sub_expires_at);
-      if (expires < new Date()) return false;
-    }
+    if (user.sub_expires_at && new Date(user.sub_expires_at) < new Date()) return false;
     return true;
   },
 };
 
-module.exports = { db, Users };
+function rowToObj(res) {
+  const cols = res.columns;
+  const vals = res.values[0];
+  const obj  = {};
+  cols.forEach((c, i) => obj[c] = vals[i]);
+  return obj;
+}
+
+module.exports = { getDb, Users, get db() { return db; } };

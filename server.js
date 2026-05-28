@@ -1,4 +1,7 @@
 require('dotenv').config();
+// Initialiser la DB avant tout
+const { getDb } = require('./db');
+getDb().then(() => console.log('✅ Base de données prête'));
 const express    = require('express');
 const path       = require('path');
 const cookieParser = require('cookie-parser');
