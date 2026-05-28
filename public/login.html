@@ -9,52 +9,43 @@
 *{margin:0;padding:0;box-sizing:border-box}
 :root{--green:#4ADE80;--green-mid:#22C55E;--green-dark:#15803D;--bg:#060D07;--card:#0F2211;--card2:#132417;--border:#1A3D1E;--border-b:#2D6A33;--txt:#A8D4A0;--txt2:#4A7550;--bright:#E8F5E2;--red:#C84B4B;--acid:rgba(74,222,128,.3)}
 html,body{height:100%}
-body{background:var(--bg);color:var(--txt);font-family:'Rajdhani',sans-serif;display:flex;align-items:center;justify-content:center;min-height:100vh;
-  background-image:radial-gradient(ellipse 80% 40% at 50% -5%,rgba(74,222,128,.05) 0%,transparent 60%),
-  repeating-linear-gradient(0deg,transparent,transparent 49px,rgba(26,61,30,.07) 50px),
-  repeating-linear-gradient(90deg,transparent,transparent 49px,rgba(26,61,30,.07) 50px);}
-
-/* HERO BACKGROUND */
+body{background:var(--bg);color:var(--txt);font-family:'Rajdhani',sans-serif;display:flex;align-items:center;justify-content:center;min-height:100vh;background-image:radial-gradient(ellipse 80% 40% at 50% -5%,rgba(74,222,128,.05) 0%,transparent 60%),repeating-linear-gradient(0deg,transparent,transparent 49px,rgba(26,61,30,.07) 50px),repeating-linear-gradient(90deg,transparent,transparent 49px,rgba(26,61,30,.07) 50px);}
 .bg-splash{position:fixed;inset:0;background:url('https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Urgot_2.jpg') center/cover no-repeat;filter:brightness(.08) saturate(.4);z-index:0}
-
 .container{position:relative;z-index:1;width:100%;max-width:420px;padding:0 20px}
-
 .logo{text-align:center;margin-bottom:2.5rem}
 .logo-title{font-family:'Cinzel',serif;font-weight:900;font-size:28px;color:var(--bright);letter-spacing:.08em}
 .logo-title span{color:var(--green)}
 .logo-sub{font-family:'Cinzel',serif;font-size:10px;letter-spacing:.4em;text-transform:uppercase;color:var(--txt2);margin-top:.4rem}
-
 .card{background:linear-gradient(180deg,var(--card2),var(--card));border:1px solid var(--border);border-radius:6px;padding:2rem;position:relative;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.7)}
 .card::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--green-dark),transparent)}
-
 .card-title{font-family:'Cinzel',serif;font-weight:700;font-size:13px;letter-spacing:.22em;text-transform:uppercase;color:var(--bright);margin-bottom:1.5rem;display:flex;align-items:center;gap:10px}
 .card-title::before{content:"";width:6px;height:16px;background:var(--green);box-shadow:0 0 8px var(--acid);flex-shrink:0}
-
 .field{margin-bottom:1.2rem}
 .field label{display:block;font-family:'Cinzel',serif;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--txt2);margin-bottom:.5rem}
 .field input{width:100%;background:var(--bg);border:1px solid var(--border-b);border-radius:3px;color:var(--bright);font-family:'Rajdhani',sans-serif;font-size:15px;padding:10px 14px;outline:none;transition:border-color .2s,box-shadow .2s}
 .field input:focus{border-color:var(--green-mid);box-shadow:0 0 0 2px rgba(74,222,128,.1)}
 .field input::placeholder{color:var(--txt2)}
-
 .btn{width:100%;background:linear-gradient(135deg,var(--green-dark),#0d5c22);border:1px solid var(--green-dark);border-radius:3px;color:var(--bright);font-family:'Cinzel',serif;font-weight:700;font-size:12px;letter-spacing:.2em;text-transform:uppercase;padding:13px;cursor:pointer;transition:all .2s;margin-top:.5rem}
 .btn:hover{background:linear-gradient(135deg,var(--green-mid),var(--green-dark));box-shadow:0 0 20px rgba(74,222,128,.2)}
 .btn:disabled{opacity:.5;cursor:not-allowed}
-
 .error{background:rgba(200,75,75,.15);border:1px solid rgba(200,75,75,.4);border-radius:3px;padding:10px 14px;font-size:12px;color:#f08080;margin-bottom:1rem;display:none}
 .error.show{display:block}
-
 .footer-links{text-align:center;margin-top:1.5rem;font-size:12px;color:var(--txt2)}
 .footer-links a{color:var(--green);text-decoration:none;transition:color .2s}
 .footer-links a:hover{color:var(--green-mid)}
 .sep{margin:0 .5rem;opacity:.4}
-
 .reason-msg{text-align:center;margin-bottom:1rem;font-family:'Cinzel',serif;font-size:10px;letter-spacing:.12em;color:var(--txt2)}
 .reason-msg.warn{color:#f0a878}
+.divider{display:flex;align-items:center;gap:10px;margin:1.2rem 0}
+.divider-line{flex:1;height:1px;background:var(--border)}
+.divider-txt{font-family:'Cinzel',serif;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--txt2);white-space:nowrap}
+.btn-google{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:12px 14px;background:var(--bg);border:1px solid var(--border-b);border-radius:3px;color:var(--bright);font-family:'Cinzel',serif;font-weight:600;font-size:11px;letter-spacing:.12em;text-decoration:none;text-transform:uppercase;cursor:pointer;transition:border-color .2s,background .2s}
+.btn-google:hover{border-color:#4285f4;background:rgba(66,133,244,.08)}
+.btn-google img{width:18px;height:18px;flex-shrink:0}
 </style>
 </head>
 <body>
 <div class="bg-splash"></div>
-
 <div class="container">
   <div class="logo">
     <div class="logo-title">URGOT <span>GUIDE</span></div>
@@ -63,9 +54,19 @@ body{background:var(--bg);color:var(--txt);font-family:'Rajdhani',sans-serif;dis
 
   <div class="card">
     <div class="card-title">Connexion</div>
-
     <div class="reason-msg warn" id="reasonMsg"></div>
     <div class="error" id="errorMsg"></div>
+
+    <a href="/api/auth/google" class="btn-google">
+      <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google"/>
+      Continuer avec Google
+    </a>
+
+    <div class="divider">
+      <div class="divider-line"></div>
+      <span class="divider-txt">ou avec email</span>
+      <div class="divider-line"></div>
+    </div>
 
     <div class="field">
       <label>Adresse email</label>
@@ -85,14 +86,14 @@ body{background:var(--bg);color:var(--txt);font-family:'Rajdhani',sans-serif;dis
 </div>
 
 <script>
-// Afficher un message selon la raison de la redirection
 const params  = new URLSearchParams(window.location.search);
 const reason  = params.get('reason');
 const reasons = {
-  not_logged_in:    'Connecte-toi pour accéder au guide.',
-  session_expired:  'Ta session a expiré, reconnecte-toi.',
-  no_subscription:  'Tu dois avoir un abonnement actif.',
-  user_not_found:   'Compte introuvable.',
+  not_logged_in:   'Connecte-toi pour accéder au guide.',
+  session_expired: 'Ta session a expiré, reconnecte-toi.',
+  no_subscription: 'Tu dois avoir un abonnement actif.',
+  user_not_found:  'Compte introuvable.',
+  google_failed:   'Connexion Google échouée, réessaie.',
 };
 if (reasons[reason]) {
   const el = document.getElementById('reasonMsg');
@@ -101,39 +102,29 @@ if (reasons[reason]) {
 }
 
 async function login() {
-  const email    = document.getElementById('email').value.trim();
+  const email   = document.getElementById('email').value.trim();
   const password = document.getElementById('password').value;
-  const btn      = document.getElementById('loginBtn');
-  const errorEl  = document.getElementById('errorMsg');
-
+  const btn     = document.getElementById('loginBtn');
+  const errorEl = document.getElementById('errorMsg');
   errorEl.classList.remove('show');
-  btn.disabled    = true;
+  btn.disabled = true;
   btn.textContent = 'Connexion…';
-
   try {
     const res  = await fetch('/api/auth/login', {
-      method:      'POST',
-      headers:     { 'Content-Type': 'application/json' },
-      credentials: 'include',
-      body:        JSON.stringify({ email, password }),
+      method: 'POST', headers: {'Content-Type':'application/json'},
+      credentials: 'include', body: JSON.stringify({email, password}),
     });
     const data = await res.json();
-
     if (!res.ok) throw new Error(data.error || 'Erreur inconnue.');
-
     window.location.href = data.redirect || '/guide';
-  } catch (e) {
+  } catch(e) {
     errorEl.textContent = e.message;
     errorEl.classList.add('show');
-    btn.disabled    = false;
+    btn.disabled = false;
     btn.textContent = 'Se connecter';
   }
 }
-
-// Permettre Enter pour valider
-document.addEventListener('keydown', e => {
-  if (e.key === 'Enter') login();
-});
+document.addEventListener('keydown', e => { if(e.key==='Enter') login(); });
 </script>
 </body>
 </html>
