@@ -27,9 +27,7 @@ body{background:var(--bg);color:var(--txt);font-family:'Rajdhani',sans-serif;dis
 .field input::placeholder{color:var(--txt2)}
 .strength{margin-top:.4rem;display:flex;gap:4px}
 .strength-bar{height:3px;flex:1;border-radius:2px;background:var(--border);transition:background .3s}
-.strength-bar.weak{background:var(--red)}
-.strength-bar.medium{background:#c8a030}
-.strength-bar.strong{background:var(--green)}
+.strength-bar.weak{background:var(--red)} .strength-bar.medium{background:#c8a030} .strength-bar.strong{background:var(--green)}
 .strength-label{font-size:10px;color:var(--txt2);margin-top:.3rem}
 .btn{width:100%;background:linear-gradient(135deg,var(--green-dark),#0d5c22);border:1px solid var(--green-dark);border-radius:3px;color:var(--bright);font-family:'Cinzel',serif;font-weight:700;font-size:12px;letter-spacing:.2em;text-transform:uppercase;padding:13px;cursor:pointer;transition:all .2s;margin-top:.5rem}
 .btn:hover{background:linear-gradient(135deg,var(--green-mid),var(--green-dark));box-shadow:0 0 20px rgba(74,222,128,.2)}
@@ -41,6 +39,12 @@ body{background:var(--bg);color:var(--txt);font-family:'Rajdhani',sans-serif;dis
 .footer-links a:hover{color:var(--green-mid)}
 .sep{margin:0 .5rem;opacity:.4}
 .info{font-size:11px;color:var(--txt2);margin-top:1rem;padding:10px 12px;background:rgba(74,222,128,.04);border-left:2px solid var(--green-dark);border-radius:2px}
+.divider{display:flex;align-items:center;gap:10px;margin:1.2rem 0}
+.divider-line{flex:1;height:1px;background:var(--border)}
+.divider-txt{font-family:'Cinzel',serif;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--txt2);white-space:nowrap}
+.btn-google{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:12px 14px;background:var(--bg);border:1px solid var(--border-b);border-radius:3px;color:var(--bright);font-family:'Cinzel',serif;font-weight:600;font-size:11px;letter-spacing:.12em;text-decoration:none;text-transform:uppercase;cursor:pointer;transition:border-color .2s,background .2s}
+.btn-google:hover{border-color:#4285f4;background:rgba(66,133,244,.08)}
+.btn-google img{width:18px;height:18px;flex-shrink:0}
 </style>
 </head>
 <body>
@@ -54,6 +58,17 @@ body{background:var(--bg);color:var(--txt);font-family:'Rajdhani',sans-serif;dis
   <div class="card">
     <div class="card-title">Créer un compte</div>
     <div class="error" id="errorMsg"></div>
+
+    <a href="/api/auth/google" class="btn-google">
+      <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google"/>
+      S'inscrire avec Google
+    </a>
+
+    <div class="divider">
+      <div class="divider-line"></div>
+      <span class="divider-txt">ou avec email</span>
+      <div class="divider-line"></div>
+    </div>
 
     <div class="field">
       <label>Adresse email</label>
@@ -87,67 +102,47 @@ body{background:var(--bg);color:var(--txt);font-family:'Rajdhani',sans-serif;dis
 
 <script>
 function checkStrength() {
-  const v  = document.getElementById('password').value;
-  const bars  = [sb1,sb2,sb3,sb4].map(id => document.getElementById(id.id || id));
-  // recalcul simple
-  const b = [
-    document.getElementById('sb1'),
-    document.getElementById('sb2'),
-    document.getElementById('sb3'),
-    document.getElementById('sb4'),
-  ];
+  const v = document.getElementById('password').value;
+  const b = ['sb1','sb2','sb3','sb4'].map(id => document.getElementById(id));
   const lbl = document.getElementById('strengthLabel');
   let score = 0;
   if (v.length >= 8)  score++;
   if (v.length >= 12) score++;
   if (/[A-Z]/.test(v) && /[0-9]/.test(v)) score++;
   if (/[^A-Za-z0-9]/.test(v)) score++;
-
   const labels = ['','Faible','Moyen','Fort','Très fort'];
   const cls    = ['','weak','medium','strong','strong'];
-  b.forEach((bar, i) => {
-    bar.className = 'strength-bar' + (i < score ? ' ' + cls[score] : '');
-  });
-  lbl.textContent = v.length > 0 ? labels[score] || 'Faible' : '';
+  b.forEach((bar,i) => { bar.className='strength-bar'+(i<score?' '+cls[score]:''); });
+  lbl.textContent = v.length > 0 ? (labels[score]||'Faible') : '';
 }
 
 async function register() {
-  const email  = document.getElementById('email').value.trim();
-  const pass   = document.getElementById('password').value;
-  const pass2  = document.getElementById('password2').value;
-  const btn    = document.getElementById('registerBtn');
-  const errEl  = document.getElementById('errorMsg');
-
+  const email = document.getElementById('email').value.trim();
+  const pass  = document.getElementById('password').value;
+  const pass2 = document.getElementById('password2').value;
+  const btn   = document.getElementById('registerBtn');
+  const errEl = document.getElementById('errorMsg');
   errEl.classList.remove('show');
-
   if (pass !== pass2) {
     errEl.textContent = 'Les mots de passe ne correspondent pas.';
-    errEl.classList.add('show');
-    return;
+    errEl.classList.add('show'); return;
   }
-
-  btn.disabled    = true;
-  btn.textContent = 'Création du compte…';
-
+  btn.disabled = true; btn.textContent = 'Création du compte…';
   try {
     const res  = await fetch('/api/auth/register', {
-      method:      'POST',
-      headers:     { 'Content-Type': 'application/json' },
-      credentials: 'include',
-      body:        JSON.stringify({ email, password: pass }),
+      method: 'POST', headers: {'Content-Type':'application/json'},
+      credentials: 'include', body: JSON.stringify({email, password: pass}),
     });
     const data = await res.json();
     if (!res.ok) throw new Error(data.error || 'Erreur inconnue.');
     window.location.href = data.redirect || '/subscribe.html';
-  } catch (e) {
+  } catch(e) {
     errEl.textContent = e.message;
     errEl.classList.add('show');
-    btn.disabled    = false;
-    btn.textContent = 'Créer mon compte';
+    btn.disabled = false; btn.textContent = 'Créer mon compte';
   }
 }
-
-document.addEventListener('keydown', e => { if (e.key === 'Enter') register(); });
+document.addEventListener('keydown', e => { if(e.key==='Enter') register(); });
 </script>
 </body>
 </html>
