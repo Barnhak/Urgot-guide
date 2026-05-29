@@ -75,6 +75,10 @@ getDb().then(() => {
   app.use(express.static(path.join(__dirname, 'public')));
 
   // Pages protégées
+  // Images et assets publics dans protected (sans auth)
+  app.use('/guide/img', express.static(path.join(__dirname, 'protected', 'img')));
+  app.use('/guide/gif', express.static(path.join(__dirname, 'protected', 'gif')));
+  app.use('/guide/assets', express.static(path.join(__dirname, 'protected', 'assets')));
   app.use('/guide', requireSubscription, express.static(path.join(__dirname, 'protected')));
   app.get('/guide', requireSubscription, (req, res) => {
     res.sendFile(path.join(__dirname, 'protected', 'index.html'));
