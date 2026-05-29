@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Zaahen — Urgot Guide</title>
+  <link rel="icon" type="image/png" href="https://ddragon.leagueoflegends.com/cdn/14.24.1/img/champion/Urgot.png"/>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Rajdhani:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--green:#4ADE80;--green-mid:#22C55E;--green-dark:#15803D;--bg:#060D07;--bg-surface:#0B1A0D;--bg-card:#0F2211;--border:#1A3D1E;--border-bright:#2D6A33;--text:#A8D4A0;--text-dim:#4A7550;--text-bright:#E8F5E2}
+    html{scroll-behavior:smooth}
+    body{background:var(--bg);color:var(--text);font-family:'Rajdhani',sans-serif;font-size:16px;overflow-x:hidden;background-image:radial-gradient(ellipse 80% 40% at 50% -5%,rgba(74,222,128,0.04) 0%,transparent 60%),repeating-linear-gradient(0deg,transparent,transparent 49px,rgba(26,61,30,0.08) 50px),repeating-linear-gradient(90deg,transparent,transparent 49px,rgba(26,61,30,0.08) 50px);}
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:1rem 2.5rem;background:rgba(6,13,7,0.95);backdrop-filter:blur(8px);border-bottom:1px solid var(--border)}
+    .nav-logo{font-family:'Cinzel',serif;font-size:14px;letter-spacing:0.2em;color:var(--green);text-decoration:none}
+    .nav-links{display:flex;gap:2rem;list-style:none;align-items:center}
+    .nav-links a{font-size:12px;letter-spacing:0.15em;text-transform:uppercase;color:var(--text-dim);text-decoration:none;transition:color 0.2s}
+    .nav-links a:hover{color:var(--green)}
+    .nav-search{position:relative}
+    .nav-search input{background:rgba(15,34,17,0.8);border:1px solid var(--border-bright);border-radius:3px;color:var(--text-bright);font-family:'Rajdhani',sans-serif;font-size:12px;padding:5px 30px 5px 10px;width:180px;outline:none;transition:border-color 0.2s,width 0.3s}
+    .nav-search input:focus{border-color:var(--green-mid);width:220px}
+    .nav-search input::placeholder{color:var(--text-dim)}
+    .nav-search-icon{position:absolute;right:8px;top:50%;transform:translateY(-50%);font-size:11px;color:var(--green-mid);pointer-events:none}
+    .nav-dropdown{position:absolute;top:calc(100% + 6px);right:0;width:220px;background:var(--bg-card);border:1px solid var(--border-bright);border-radius:4px;max-height:280px;overflow-y:auto;display:none;box-shadow:0 8px 32px rgba(0,0,0,0.7);z-index:200}
+    .nav-dropdown h4{padding:7px 12px;font-family:'Cinzel',serif;font-size:8px;letter-spacing:0.25em;color:var(--text-dim);text-transform:uppercase;border-bottom:1px solid var(--border)}
+    .nav-dropdown-item{display:flex;align-items:center;gap:8px;padding:7px 12px;text-decoration:none;color:var(--text);font-size:13px;font-weight:500;border-bottom:1px solid rgba(26,61,30,0.3);transition:background 0.15s,color 0.15s}
+    .nav-dropdown-item:last-child{border-bottom:none}
+    .nav-dropdown-item:hover{background:var(--bg-surface);color:var(--green)}
+    .nav-dropdown-item img{width:24px;height:24px;border-radius:3px;border:1px solid var(--border);object-fit:cover}
+    .hero{position:relative;height:55vh;min-height:340px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+    .hero-bg{position:absolute;inset:0;background-image:url('https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Zaahen_0.jpg');background-size:cover;background-position:center top;filter:brightness(0.35) saturate(0.7);animation:heroZoom 20s ease-in-out infinite alternate}
+    @keyframes heroZoom{from{transform:scale(1.03)}to{transform:scale(1.07)}}
+    .hero-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(6,13,7,0.3) 0%,rgba(6,13,7,0) 35%,rgba(6,13,7,0.75) 80%,var(--bg) 100%)}
+    .hero-content{position:relative;text-align:center;animation:fadeDown 0.8s ease both}
+    .hero-champ-icon{width:72px;height:72px;border-radius:4px;border:2px solid var(--green-dark);margin:0 auto 1rem;overflow:hidden}
+    .hero-champ-icon img{width:100%;height:100%;object-fit:cover}
+    .hero-title{font-family:'Cinzel',serif;font-size:clamp(36px,7vw,72px);font-weight:900;color:var(--text-bright);letter-spacing:0.08em;text-shadow:0 0 60px rgba(74,222,128,0.15),0 4px 20px rgba(0,0,0,0.9)}
+    .hero-score{margin-top:0.75rem;font-family:'Cinzel',serif;font-size:14px;letter-spacing:0.2em;color:var(--green);text-transform:uppercase;text-shadow:0 0 20px rgba(74,222,128,0.4)}
+    .page{max-width:900px;margin:0 auto;padding:4rem 1.5rem 6rem}
+    .section-block{background:var(--bg-surface);border:1px solid var(--border);border-radius:4px;padding:2rem;margin-bottom:1.5rem;position:relative;animation:fadeUp 0.5s ease both}
+    .section-block::before{content:'';position:absolute;inset:0;border-radius:4px;border:1px solid transparent;background:linear-gradient(135deg,rgba(74,222,128,0.08),transparent 40%) border-box;-webkit-mask:linear-gradient(#fff 0 0) padding-box,linear-gradient(#fff 0 0);-webkit-mask-composite:destination-out;mask-composite:exclude;pointer-events:none}
+    .section-title{font-family:'Cinzel',serif;font-size:13px;letter-spacing:0.2em;text-transform:uppercase;color:var(--green);margin-bottom:1.5rem;display:flex;align-items:center;gap:10px}
+    .section-title::after{content:'';flex:1;height:1px;background:var(--border)}
+    .rune-summ-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+    @media(max-width:600px){.rune-summ-grid{grid-template-columns:1fr}}
+    .rune-block{display:flex;gap:14px;align-items:flex-start}
+    .rune-img{width:140px;flex-shrink:0;border-radius:4px;border:1px solid var(--border);overflow:hidden}
+    .rune-img img{width:100%;display:block}
+    .rune-text h4{font-family:'Cinzel',serif;font-size:11px;letter-spacing:0.15em;color:var(--green-mid);text-transform:uppercase;margin-bottom:8px}
+    .rune-text p{font-size:14px;line-height:1.7;color:var(--text)}
+    .summ-block h4{font-family:'Cinzel',serif;font-size:11px;letter-spacing:0.15em;color:var(--green-mid);text-transform:uppercase;margin-bottom:12px}
+    .summ-row{display:flex;gap:10px;align-items:center;margin-bottom:12px}
+    .summ-icons{display:flex;gap:6px}
+    .summ-icon{width:36px;height:36px;border-radius:4px;border:1px solid var(--border-bright);overflow:hidden;flex-shrink:0}
+    .summ-icon img{width:100%;height:100%;object-fit:cover;display:block}
+    .summ-or{font-size:11px;color:var(--text-dim);letter-spacing:0.1em}
+    .summ-text p{font-size:14px;line-height:1.7;color:var(--text)}
+    .paragraph{margin-bottom:1.25rem}
+    .paragraph p{font-size:15px;line-height:1.8;color:var(--text)}
+    .enemy-rune-text p{font-size:15px;line-height:1.8;color:var(--text);margin-bottom:1rem}
+    .enemy-rune-text p:last-child{margin-bottom:0}
+    footer{border-top:1px solid var(--border);padding:2rem 1rem;text-align:center;font-size:11px;letter-spacing:0.1em;color:var(--text-dim)}
+    footer a{color:var(--green-dark);text-decoration:none}
+    footer a:hover{color:var(--green-mid)}
+    @keyframes fadeDown{from{opacity:0;transform:translateY(-12px)}to{opacity:1;transform:none}}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  </style>
+</head>
+<body>
+  <nav>
+    <a class="nav-logo" href="../index.html">Urgot Guide</a>
+    <ul class="nav-links">
+      <li><a href="../mechanics.html">Mechanics</a></li>
+      <li><a href="../runes.html">Runes</a></li>
+      <li><a href="../matchup.html">MatchUp</a></li>
+      <li><a href="../calculator.html">Build Calculator</a></li>
+      <li><a href="../build.html">Build Guide</a></li>
+    </ul>
+    <div class="nav-search">
+      <input type="text" id="nav-search-input" placeholder="Search champion..." oninput="navFilter()"/>
+      <span class="nav-search-icon">&#128269;</span>
+      <div class="nav-dropdown" id="nav-dropdown"><h4>Champions</h4><div id="nav-list"></div></div>
+    </div>
+  </nav>
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <div class="hero-champ-icon"><img src="https://ddragon.leagueoflegends.com/cdn/16.9.1/img/champion/Zaahen.png" alt="Zaahen"/></div>
+      <h1 class="hero-title">Zaahen</h1>
+      <p class="hero-score">&#10022; Skill MatchUp 5/10</p>
+    </div>
+  </section>
+  <div class="page">
+    <div class="section-block">
+      <p class="section-title">Runes &amp; Summoners</p>
+      <div class="rune-summ-grid">
+        <div class="rune-block">
+          <div class="rune-img"><img src="https://barnhak.github.io/Urgot-guide/runes/rune-page1.png" alt="Rune page"/></div>
+          <div class="rune-text"><h4>Runes</h4><p>Like always on Urgot you go PTA, Triumph and Bloodline and Last Stand. And in secondary runes, Triple Tonic and Approach Velocity to gap close and have kill pressure.</p></div>
+        </div>
+        <div class="summ-block">
+          <h4>Summoners spells</h4>
+          <div class="summ-row"><div class="summ-icons"><div class="summ-icon"><img src="https://ddragon.leagueoflegends.com/cdn/16.9.1/img/spell/SummonerFlash.png" alt="Flash"/></div><div class="summ-icon"><img src="https://ddragon.leagueoflegends.com/cdn/16.9.1/img/spell/SummonerDot.png" alt="Ignite"/></div></div><span class="summ-or">or</span><div class="summ-icons"><div class="summ-icon"><img src="https://ddragon.leagueoflegends.com/cdn/16.9.1/img/spell/SummonerFlash.png" alt="Flash"/></div><div class="summ-icon"><img src="https://ddragon.leagueoflegends.com/cdn/16.9.1/img/spell/SummonerHaste.png" alt="Ghost"/></div></div></div>
+          <div class="summ-text"><p>Ignite is recommended — it counters his revive healing and helps you proc your R. Ghost is also viable for more mobility to run him down.</p></div>
+        </div>
+      </div>
+    </div>
+    <div class="section-block">
+      <p class="section-title">How to play VS</p>
+      <div class="paragraph"><p>Level 1 you can look for Auto → E → Auto Auto PTA trade then disengage — treat him like any Conqueror/Lethal Tempo champ: you can win short trades but don't extend. Try not to fight him in his minion wave, look to E as he goes for the first 3 melee CS. If you can E horizontally so you're not behind him that's even better — makes it easier to disengage. If he starts his E dash that's fine, just take prio and play for level 2. If he takes a big enough chunk level 1 you can look for E + Flash + W level 2.</p></div>
+<div class="paragraph"><p>Wincon is only doing small trades (Q + W + PTA) then disengaging before he can get his stacks/revive. Pre-9 don't E forwards unless he's around 50-60% HP with Ignite up. This lane is all about small trades and using our range. He's very strong in the extended trade but doesn't really have tools to force us to fight if we save our E — so it's crucial to save our E to disengage. We should never look to E forwards unless he's in lethal range (around 50% HP), as then we'll be forced to fight to the death and he can easily get his revive. Stand in your wave and just play to Q + W + PTA trade if he goes for CS. After every trade make sure to disengage and let his stacks fall off before trying to refight — being equal HP at 50% is good because you can one shot him much easier than he can if he has no stacks.</p></div>
+<div class="paragraph"><p>Be careful in the long lane pre-9 — always play to slow push/crash big waves or for the freeze. He can run you down so think of him like a Darius with more range. He does a surprising amount of damage even early game — try to make sure you have minion + HP advantage when it gets to his side. Focus on playing for a freeze as you can trade him hard there and he can't all-in you that close to your tower. If he tries to W pull you back in, E buffer away to disengage or into him if you think you can fight — this is the best way to land E.</p></div>
+<div class="paragraph"><p>Be careful of leading off with E as he can dodge it with his E — it's a shorter CD + super fast cast animation so he can reliably dodge it. His R buys him a lot of time with the healing and damage reduction — make sure you factor that in so your R doesn't time out. The first half of his R (the dash up) can completely cancel your R2. Once he's reached the top you can pull him with R2, so time your R accordingly and don't insta recast it. His Q2 auto can cancel your E but you can also buffer it just like any knockup. The outer edge of his E dash does more damage (like Darius Q) — try to stay close to him during all-ins to avoid this.</p></div>
+<div class="paragraph"><p>If you're struggling early, Bramble Vest or Plated Steelcaps will help you scale easily but are not mandatory since his healing isn't that insane until later on. He scales super hard and his revive makes him really annoying in teamfights — make sure to mark him in teamfights to E + R execute him before he can stack up his revive.</p></div>
+    </div>
+    
+  </div>
+  <footer>
+  Not affiliated with Riot Games &nbsp;·&nbsp;
+  <a href="https://www.twitch.tv/quante" target="_blank" rel="noopener">Quante — Twitch ↗</a>
+  &nbsp;·&nbsp;
+  <a href="https://x.com/quantelol" target="_blank" rel="noopener">Quante — Twitter ↗</a>
+  &nbsp;·&nbsp;
+  <a href="https://barnhak.github.io/Urgot-guide/feedback.html" style="color:var(--green-dark);text-decoration:none;transition:color 0.2s">Send Feedback ↗</a>
+</footer>
+<script>
+var BASE_DDR='https://ddragon.leagueoflegends.com/cdn/14.24.1/img/champion/';
+var champNames=['Aatrox','Akali','Ambessa','Anivia','Aurora','Camille','Cassiopeia',"Cho'Gath",'Darius','Dr. Mundo','Fiora','Gangplank','Garen','Gnar','Gragas','Gwen','Heimerdinger','Illaoi','Irelia','Jax','Jayce','Kayle','Kennen','Kled',"K\'Sante",'Lee Sin','Malphite','Maokai','Master Yi','Mordekaiser','Nasus','Olaf','Ornn','Pantheon','Poppy','Quinn','Renekton','Riven','Rumble','Ryze','Sett','Shen','Singed','Sion','Swain','Sylas','Tahm Kench','Teemo','Trundle','Tryndamere','Udyr','Varus','Vayne','Vladimir','Volibear','Warwick','Yasuo','Yone','Yorick','Zaahen','Zac'];
+function slugify(n){return n.toLowerCase().replace(/[^a-z0-9 -]/g,'').replace(/ +/g,'-');}
+function navFilter(){var val=document.getElementById('nav-search-input').value;var nl=document.getElementById('nav-list');var nd=document.getElementById('nav-dropdown');nl.innerHTML='';if(val.length<1){nd.style.display='none';return;}var f=champNames.filter(function(n){return n.toLowerCase().includes(val.toLowerCase());});nd.style.display=f.length?'block':'none';f.forEach(function(name){var a=document.createElement('a');a.className='nav-dropdown-item';a.href=slugify(name)+'.html';var img=document.createElement('img');img.src=BASE_DDR+name.replace(/[^a-zA-Z]/g,'')+'.png';img.alt=name;img.onerror=function(){this.style.display='none';};var span=document.createElement('span');span.textContent=name;a.appendChild(img);a.appendChild(span);nl.appendChild(a);});}
+document.addEventListener('click',function(e){if(!e.target.closest('.nav-search'))document.getElementById('nav-dropdown').style.display='none';});
+</script>
+</body>
+</html>
