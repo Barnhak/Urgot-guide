@@ -7,121 +7,117 @@
   <link rel="icon" type="image/png" href="https://ddragon.leagueoflegends.com/cdn/14.24.1/img/champion/Urgot.png"/>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Rajdhani:wght@300;400;500;600&display=swap" rel="stylesheet"/>
   <style>
-
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-    :root{
-      --green:#4ADE80;--green-mid:#22C55E;--green-dark:#15803D;
-      --bg:#060D07;--bg-surface:#0B1A0D;--bg-card:#0F2211;
-      --border:#1A3D1E;--border-bright:#2D6A33;
-      --text:#A8D4A0;--text-dim:#4A7550;--text-bright:#E8F5E2;
-      --blue:#0BC4E3;--orange:#E67E22;--gold:#C89B3C;
-    }
-    html{scroll-behavior:smooth}
-    body{background:var(--bg);color:var(--text);font-family:'Rajdhani',sans-serif;font-size:16px;overflow-x:hidden;
-      background-image:radial-gradient(ellipse 80% 40% at 50% -5%,rgba(74,222,128,0.04) 0%,transparent 60%),
-      repeating-linear-gradient(0deg,transparent,transparent 49px,rgba(26,61,30,0.08) 50px),
-      repeating-linear-gradient(90deg,transparent,transparent 49px,rgba(26,61,30,0.08) 50px);}
-
-    /* NAV */
-    nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:1rem 2.5rem;background:rgba(6,13,7,0.95);backdrop-filter:blur(8px);border-bottom:1px solid var(--border)}
-    .nav-logo{font-family:'Cinzel',serif;font-size:14px;letter-spacing:0.2em;color:var(--green);text-decoration:none}
-    .nav-links{display:flex;gap:2rem;list-style:none;align-items:center}
-    .nav-links a{font-size:12px;letter-spacing:0.15em;text-transform:uppercase;color:var(--text-dim);text-decoration:none;transition:color 0.2s}
-    .nav-links a:hover,.nav-links a.active{color:var(--green)}
-    .nav-search{position:relative}
-    .nav-search input{background:rgba(15,34,17,0.8);border:1px solid var(--border-bright);border-radius:3px;color:var(--text-bright);font-family:'Rajdhani',sans-serif;font-size:12px;padding:5px 30px 5px 10px;width:180px;outline:none;transition:border-color 0.2s,width 0.3s}
-    .nav-search input:focus{border-color:var(--green-mid);box-shadow:0 0 0 2px rgba(74,222,128,0.1);width:220px}
-    .nav-search input::placeholder{color:var(--text-dim)}
-    .nav-search-icon{position:absolute;right:8px;top:50%;transform:translateY(-50%);font-size:11px;color:var(--green-mid);pointer-events:none}
-    .nav-dropdown{position:absolute;top:calc(100% + 6px);right:0;width:220px;background:var(--bg-card);border:1px solid var(--border-bright);border-radius:4px;max-height:280px;overflow-y:auto;display:none;box-shadow:0 8px 32px rgba(0,0,0,0.7);z-index:200}
-    .nav-dropdown h4{padding:7px 12px;font-family:'Cinzel',serif;font-size:8px;letter-spacing:0.25em;color:var(--text-dim);text-transform:uppercase;border-bottom:1px solid var(--border)}
-    .nav-dropdown-item{display:flex;align-items:center;gap:8px;padding:7px 12px;text-decoration:none;color:var(--text);font-size:13px;font-weight:500;border-bottom:1px solid rgba(26,61,30,0.3);transition:background 0.15s,color 0.15s}
-    .nav-dropdown-item:last-child{border-bottom:none}
-    .nav-dropdown-item:hover{background:var(--bg-surface);color:var(--green)}
-    .nav-dropdown-item img{width:24px;height:24px;border-radius:3px;border:1px solid var(--border);object-fit:cover}
-
-    /* HERO */
-    .hero{position:relative;height:280px;min-height:280px;display:flex;align-items:center;justify-content:center;overflow:hidden}
-    .hero-bg{position:absolute;inset:0;background:url('https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Urgot_2.jpg') center 20% / cover no-repeat;filter:brightness(0.22) saturate(0.5);animation:heroZoom 20s ease-in-out infinite alternate}
-    @keyframes heroZoom{from{transform:scale(1.03)}to{transform:scale(1.08)}}
-    .hero-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(6,13,7,0.4) 0%,rgba(6,13,7,0) 40%,rgba(6,13,7,0.85) 85%,var(--bg) 100%)}
-    .hero-content{position:relative;text-align:center;animation:fadeDown 0.7s ease both}
-    .hero-eyebrow{font-family:'Cinzel',serif;font-size:10px;letter-spacing:0.4em;color:var(--green-mid);text-transform:uppercase;margin-bottom:0.6rem;opacity:0.8}
-    .hero-title{font-family:'Cinzel',serif;font-size:clamp(28px,5vw,52px);font-weight:900;color:var(--text-bright);letter-spacing:0.08em;text-shadow:0 0 60px rgba(74,222,128,0.15),0 4px 20px rgba(0,0,0,0.9)}
-    .hero-title span{color:var(--green);text-shadow:0 0 30px rgba(74,222,128,0.4)}
-    .hero-sub{font-size:13px;letter-spacing:0.15em;color:var(--text-dim);text-transform:uppercase;margin-top:0.6rem}
-
-    /* MAIN */
-    .main{max-width:1000px;margin:0 auto;padding:0 1.5rem 6rem}
-
-    .section-divider{display:flex;align-items:center;gap:14px;margin:1.5rem 0 1.5rem}
-    .section-divider span{font-family:'Cinzel',serif;font-size:11px;letter-spacing:0.3em;text-transform:uppercase;color:var(--green);white-space:nowrap}
-    .section-divider::before,.section-divider::after{content:'';flex:1;height:1px;background:var(--border)}
-
-    /* KEYSTONES */
-    .keystone-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:1.5rem}
-    @media(max-width:600px){.keystone-grid{grid-template-columns:1fr}}
-    .keystone-card{background:var(--bg-surface);border:1px solid var(--border);border-radius:4px;overflow:hidden;display:flex;flex-direction:column;transition:border-color 0.2s;position:relative}
-    .keystone-card:hover{border-color:var(--border-bright)}
-    .keystone-card::before{content:'';position:absolute;inset:0;border-radius:4px;border:1px solid transparent;background:linear-gradient(135deg,rgba(74,222,128,0.08),transparent 40%) border-box;-webkit-mask:linear-gradient(#fff 0 0) padding-box,linear-gradient(#fff 0 0);-webkit-mask-composite:destination-out;mask-composite:exclude;pointer-events:none}
-    .keystone-img{width:100%;height:200px;overflow:hidden}
-    .keystone-img img{width:100%;height:100%;object-fit:contain;object-position:center center;background:#0a0a1a;filter:none;transition:filter 0.3s}
-    .keystone-card:hover .keystone-img img{filter:brightness(1.05)}
-    .keystone-body{padding:1.1rem 1.25rem}
-    .keystone-badge{font-family:'Cinzel',serif;font-size:9px;letter-spacing:0.2em;color:var(--text-dim);text-transform:uppercase;margin-bottom:4px}
-    .keystone-name{font-family:'Cinzel',serif;font-size:14px;letter-spacing:0.1em;color:var(--green);margin-bottom:8px}
-    .keystone-desc{font-size:14px;line-height:1.7;color:var(--text)}
-
-    /* RUNE PAGES GRID */
-    .rune-pages-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
-    .rune-page-card{background:var(--bg-surface);border:1px solid var(--border);border-radius:4px;overflow:hidden;transition:border-color 0.3s,transform 0.3s;cursor:pointer}
-    .rune-page-card:hover{border-color:var(--border-bright);transform:translateY(-3px)}
-    .rune-page-card::before{content:'';position:absolute;inset:0;border-radius:4px;border:1px solid transparent;background:linear-gradient(135deg,rgba(74,222,128,0.08),transparent 40%) border-box;-webkit-mask:linear-gradient(#fff 0 0) padding-box,linear-gradient(#fff 0 0);-webkit-mask-composite:destination-out;mask-composite:exclude;pointer-events:none}
-    .rune-page-card{position:relative}
-    .rune-img-wrap{width:100%;overflow:hidden;border-bottom:1px solid var(--border)}
-    .rune-img-wrap img{width:100%;display:block}
-    .rune-card-body{padding:1rem 1.25rem}
-    .rune-card-tag{font-family:'Cinzel',serif;font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--text-dim);margin-bottom:4px}
-    .rune-card-name{font-family:'Cinzel',serif;font-size:13px;letter-spacing:0.12em;color:var(--green);margin-bottom:6px}
-    .rune-card-champs{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:8px}
-    .rune-champ-tag{font-size:11px;background:var(--bg-card);border:1px solid var(--border);border-radius:2px;padding:2px 7px;color:var(--text-dim)}
-    .rune-card-desc{font-size:13px;line-height:1.6;color:var(--text)}
-
-    /* RUNE DETAIL SECTIONS */
-    .rune-detail{background:var(--bg-surface);border:1px solid var(--border);border-radius:4px;margin-bottom:14px;position:relative}
-    .rune-detail::before{content:'';position:absolute;inset:0;border-radius:4px;border:1px solid transparent;background:linear-gradient(135deg,rgba(74,222,128,0.07),transparent 40%) border-box;-webkit-mask:linear-gradient(#fff 0 0) padding-box,linear-gradient(#fff 0 0);-webkit-mask-composite:destination-out;mask-composite:exclude;pointer-events:none}
-    .rune-detail-inner{display:grid;grid-template-columns:180px 1fr;gap:0}
-    @media(max-width:600px){.rune-detail-inner{grid-template-columns:1fr}}
-    .rune-detail-img{padding:1rem;display:flex;align-items:center;justify-content:center;border-right:1px solid var(--border)}
-    .rune-detail-img img{width:100%;border-radius:4px;display:block}
-    @media(max-width:600px){.rune-detail-img{border-right:none;border-bottom:1px solid var(--border);padding:1rem}}
-    .rune-detail-body{padding:1.25rem 1.5rem}
-    .rune-tree-label{font-family:'Cinzel',serif;font-size:9px;letter-spacing:0.2em;text-transform:uppercase;margin-bottom:4px}
-    .rune-tree-label.precision{color:#C89B3C}
-    .rune-tree-label.sorcery{color:#5A7FBF}
-    .rune-tree-label.resolve{color:#5AAA6E}
-    .rune-tree-label.domination{color:#C84B4B}
-    .rune-detail-name{font-family:'Cinzel',serif;font-size:14px;letter-spacing:0.12em;color:var(--green);margin-bottom:10px}
-    .rune-picks{display:flex;flex-direction:column;gap:6px;margin-bottom:10px}
-    .rune-row{display:flex;align-items:center;gap:8px}
-    .rune-row-label{font-family:'Cinzel',serif;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-dim);min-width:70px}
-    .rune-pill{font-size:12px;font-weight:500;background:var(--bg-card);border:1px solid var(--border-bright);border-radius:3px;padding:3px 10px;color:var(--text-bright)}
-    .rune-pill.main{border-color:var(--green-dark);color:var(--green-mid)}
-    .rune-desc{font-size:13px;line-height:1.65;color:var(--text-dim)}
-
-    footer{border-top:1px solid var(--border);padding:2rem 1rem;text-align:center;font-size:11px;letter-spacing:0.1em;color:var(--text-dim)}
-    footer a{color:var(--green-dark);text-decoration:none}
-    footer a:hover{color:var(--green-mid)}
-    @keyframes fadeDown{from{opacity:0;transform:translateY(-12px)}to{opacity:1;transform:none}}
-    @keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-  
-
-
+:root{
+  --green:#4ADE80;--green-mid:#22C55E;--green-dark:#15803D;
+  --bg:#060D07;--bg-surface:#0B1A0D;--bg-card:#0F2211;
+  --border:#1A3D1E;--border-bright:#2D6A33;
+  --text:#A8D4A0;--text-dim:#4A7550;--text-bright:#E8F5E2;
+  --blue:#0BC4E3;--orange:#E67E22;--gold:#C89B3C;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Rajdhani',sans-serif;font-size:16px;overflow-x:hidden;
+  background-image:radial-gradient(ellipse 80% 40% at 50% -5%,rgba(74,222,128,0.04) 0%,transparent 60%),
+  repeating-linear-gradient(0deg,transparent,transparent 49px,rgba(26,61,30,0.08) 50px),
+  repeating-linear-gradient(90deg,transparent,transparent 49px,rgba(26,61,30,0.08) 50px);}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:1rem 2.5rem;background:rgba(6,13,7,0.95);backdrop-filter:blur(8px);border-bottom:1px solid var(--border)}
+.nav-logo{font-family:'Cinzel',serif;font-size:14px;letter-spacing:0.2em;color:var(--green);text-decoration:none}
+.nav-links{display:flex;gap:2rem;list-style:none;align-items:center}
+.nav-links a{font-size:12px;letter-spacing:0.15em;text-transform:uppercase;color:var(--text-dim);text-decoration:none;transition:color 0.2s}
+.nav-links a:hover,.nav-links a.active{color:var(--green)}
+.nav-logout{background:none;border:1px solid var(--border);border-radius:3px;color:var(--text-dim);font-family:'Rajdhani',sans-serif;font-size:12px;letter-spacing:0.15em;text-transform:uppercase;padding:4px 12px;cursor:pointer;transition:all 0.2s}
+.nav-logout:hover{border-color:var(--green-dark);color:var(--green)}
+.nav-search{position:relative}
+.nav-search input{background:rgba(15,34,17,0.8);border:1px solid var(--border-bright);border-radius:3px;color:var(--text-bright);font-family:'Rajdhani',sans-serif;font-size:12px;padding:5px 30px 5px 10px;width:180px;outline:none;transition:border-color 0.2s,width 0.3s}
+.nav-search input:focus{border-color:var(--green-mid);width:220px}
+.nav-search input::placeholder{color:var(--text-dim)}
+.nav-search-icon{position:absolute;right:8px;top:50%;transform:translateY(-50%);font-size:11px;color:var(--green-mid);pointer-events:none}
+.nav-dropdown{position:absolute;top:calc(100% + 6px);right:0;width:220px;background:var(--bg-card);border:1px solid var(--border-bright);border-radius:4px;max-height:280px;overflow-y:auto;display:none;box-shadow:0 8px 32px rgba(0,0,0,0.7);z-index:200}
+.nav-dropdown h4{padding:7px 12px;font-family:'Cinzel',serif;font-size:8px;letter-spacing:0.25em;color:var(--text-dim);text-transform:uppercase;border-bottom:1px solid var(--border)}
+.nav-dropdown-item{display:flex;align-items:center;gap:8px;padding:7px 12px;text-decoration:none;color:var(--text);font-size:13px;font-weight:500;border-bottom:1px solid rgba(26,61,30,0.3);transition:background 0.15s,color 0.15s}
+.nav-dropdown-item:last-child{border-bottom:none}
+.nav-dropdown-item:hover{background:var(--bg-surface);color:var(--green)}
+.nav-dropdown-item img{width:24px;height:24px;border-radius:3px;border:1px solid var(--border);object-fit:cover}
+.hero{position:relative;height:280px;min-height:280px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:url('https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Urgot_2.jpg') center 20% / cover no-repeat;filter:brightness(0.22) saturate(0.5);animation:heroZoom 20s ease-in-out infinite alternate}
+@keyframes heroZoom{from{transform:scale(1.03)}to{transform:scale(1.08)}}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(6,13,7,0.4) 0%,rgba(6,13,7,0) 40%,rgba(6,13,7,0.85) 85%,var(--bg) 100%)}
+.hero-content{position:relative;text-align:center;animation:fadeDown 0.7s ease both}
+.hero-eyebrow{font-family:'Cinzel',serif;font-size:10px;letter-spacing:0.4em;color:var(--green-mid);text-transform:uppercase;margin-bottom:0.6rem;opacity:0.8}
+.hero-title{font-family:'Cinzel',serif;font-size:clamp(28px,5vw,52px);font-weight:900;color:var(--text-bright);letter-spacing:0.08em;text-shadow:0 0 60px rgba(74,222,128,0.15),0 4px 20px rgba(0,0,0,0.9)}
+.hero-title span{color:var(--green)}
+.hero-sub{font-size:13px;letter-spacing:0.15em;color:var(--text-dim);text-transform:uppercase;margin-top:0.6rem}
+.main{max-width:1000px;margin:0 auto;padding:0 1.5rem 6rem}
+.section-divider{display:flex;align-items:center;gap:14px;margin:1.5rem 0}
+.section-divider span{font-family:'Cinzel',serif;font-size:11px;letter-spacing:0.3em;text-transform:uppercase;color:var(--green);white-space:nowrap}
+.section-divider::before,.section-divider::after{content:'';flex:1;height:1px;background:var(--border)}
+.keystone-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:1.5rem}
+@media(max-width:600px){.keystone-grid{grid-template-columns:1fr}}
+.keystone-card{background:var(--bg-surface);border:1px solid var(--border);border-radius:4px;overflow:hidden;display:flex;flex-direction:column;transition:border-color 0.2s}
+.keystone-card:hover{border-color:var(--border-bright)}
+.keystone-img{width:100%;height:200px;overflow:hidden;background:#0a0a1a;display:flex;align-items:center;justify-content:center}
+.keystone-img img{width:100%;height:100%;object-fit:contain}
+.keystone-body{padding:1.1rem 1.25rem}
+.keystone-badge{font-family:'Cinzel',serif;font-size:9px;letter-spacing:0.2em;color:var(--text-dim);text-transform:uppercase;margin-bottom:4px}
+.keystone-name{font-family:'Cinzel',serif;font-size:14px;letter-spacing:0.1em;color:var(--green);margin-bottom:8px}
+.keystone-desc{font-size:14px;line-height:1.7;color:var(--text)}
+.rune-pages-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;margin-bottom:2rem}
+.rune-page-card{background:var(--bg-surface);border:1px solid var(--border);border-radius:4px;overflow:hidden;transition:border-color 0.3s,transform 0.3s}
+.rune-page-card:hover{border-color:var(--border-bright);transform:translateY(-3px)}
+.rune-img-wrap{width:100%;overflow:hidden;border-bottom:1px solid var(--border)}
+.rune-img-wrap img{width:100%;display:block}
+.rune-card-body{padding:1rem 1.25rem}
+.rune-card-tag{font-family:'Cinzel',serif;font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--text-dim);margin-bottom:4px}
+.rune-card-name{font-family:'Cinzel',serif;font-size:13px;letter-spacing:0.12em;color:var(--green);margin-bottom:6px}
+.rune-card-champs{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:8px}
+.rune-champ-tag{font-size:11px;background:var(--bg-card);border:1px solid var(--border);border-radius:2px;padding:2px 7px;color:var(--text-dim)}
+.rune-card-desc{font-size:13px;line-height:1.6;color:var(--text)}
+.rune-detail{background:var(--bg-surface);border:1px solid var(--border);border-radius:4px;margin-bottom:14px}
+.rune-detail-inner{display:grid;grid-template-columns:180px 1fr;gap:0}
+@media(max-width:600px){.rune-detail-inner{grid-template-columns:1fr}}
+.rune-detail-img{padding:1rem;display:flex;align-items:center;justify-content:center;border-right:1px solid var(--border)}
+.rune-detail-img img{width:100%;border-radius:4px;display:block}
+@media(max-width:600px){.rune-detail-img{border-right:none;border-bottom:1px solid var(--border)}}
+.rune-detail-body{padding:1.25rem 1.5rem}
+.rune-tree-label{font-family:'Cinzel',serif;font-size:9px;letter-spacing:0.2em;text-transform:uppercase;margin-bottom:4px}
+.rune-tree-label.precision{color:#C89B3C}
+.rune-tree-label.sorcery{color:#5A7FBF}
+.rune-tree-label.resolve{color:#5AAA6E}
+.rune-detail-name{font-family:'Cinzel',serif;font-size:14px;letter-spacing:0.12em;color:var(--green);margin-bottom:10px}
+.rune-picks{display:flex;flex-direction:column;gap:6px;margin-bottom:10px}
+.rune-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.rune-row-label{font-family:'Cinzel',serif;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-dim);min-width:70px}
+.rune-pill{font-size:12px;font-weight:500;background:var(--bg-card);border:1px solid var(--border-bright);border-radius:3px;padding:3px 10px;color:var(--text-bright)}
+.rune-pill.main{border-color:var(--green-dark);color:var(--green-mid)}
+.rune-note{font-size:12px;color:var(--text-dim)}
+.rune-desc{font-size:13px;line-height:1.65;color:var(--text-dim)}
+footer{border-top:1px solid var(--border);padding:2rem 1rem;text-align:center;font-size:11px;letter-spacing:0.1em;color:var(--text-dim)}
+footer a{color:var(--green-dark);text-decoration:none}
+footer a:hover{color:var(--green-mid)}
+@keyframes fadeDown{from{opacity:0;transform:translateY(-12px)}to{opacity:1;transform:none}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
   </style>
 </head>
 <body>
 
-<section class="hero" style="height:280px;min-height:280px;">
+<nav>
+  <a class="nav-logo" href="/guide">Urgot Guide</a>
+  <ul class="nav-links">
+    <li><a href="/guide/mechanics.html">Mechanics</a></li>
+    <li><a href="/guide/runes.html" class="active">Runes</a></li>
+    <li><a href="/guide/matchup.html">MatchUp</a></li>
+    <li><a href="/guide/calculator.html">Build Calculator</a></li>
+    <li><a href="/guide/build.html">Build Guide</a></li>
+    <li><button class="nav-logout" onclick="logout()">Déconnexion</button></li>
+  </ul>
+  <div class="nav-search">
+    <input type="text" id="nav-search-input" placeholder="Search champion..." oninput="navFilter()"/>
+    <span class="nav-search-icon">&#128269;</span>
+    <div class="nav-dropdown" id="nav-dropdown"><h4>Champions</h4><div id="nav-list"></div></div>
+  </div>
+</nav>
+
+<section class="hero">
   <div class="hero-bg"></div>
   <div class="hero-overlay"></div>
   <div class="hero-content">
@@ -130,16 +126,16 @@
     <p class="hero-sub">Keystones, pages & rune details</p>
   </div>
 </section>
-      <div class="main">
 
-  <!-- KEYSTONES -->
+<div class="main">
+
   <div class="section-divider" style="margin-top:1rem"><span>✦ Urgot Keystones</span></div>
 
   <div class="keystone-grid">
     <div class="keystone-card">
       <div class="keystone-img">
-        <img src="https://www.mobafire.com/images/rune/keystones/press-the-attack.png" alt="Press the Attack"
-          onerror="this.src='https://barnhak.github.io/Urgot-guide/PTA.png';this.style.objectPosition='50% 30%'"/>
+        <img src="/PTA.png" alt="Press the Attack"
+          onerror="this.src='https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Precision/PressTheAttack/PressTheAttack.png'"/>
       </div>
       <div class="keystone-body">
         <div class="keystone-badge">Main Keystone — 99% of games</div>
@@ -149,8 +145,8 @@
     </div>
     <div class="keystone-card">
       <div class="keystone-img">
-        <img src="https://www.mobafire.com/images/rune/keystones/arcane-comet.png" alt="Deathfire Touch"
-          onerror="this.src='https://barnhak.github.io/Urgot-guide/deathfire.png';this.style.objectPosition='50% 50%'"/>
+        <img src="/deathfire.png" alt="Deathfire Touch"
+          onerror="this.src='https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Sorcery/ArcaneComet/ArcaneComet.png'"/>
       </div>
       <div class="keystone-body">
         <div class="keystone-badge">Niche Keystone</div>
@@ -160,29 +156,20 @@
     </div>
   </div>
 
-  <!-- RUNE PAGES -->
   <div class="section-divider"><span>✦ Rune Pages</span></div>
 
-  <div class="rune-pages-grid" style="margin-bottom:2rem">
-
+  <div class="rune-pages-grid">
     <div class="rune-page-card">
-      <div class="rune-img-wrap">
-        <img src="https://barnhak.github.io/Urgot-guide/runes/rune-page1.png" alt="Standard page"/>
-      </div>
+      <div class="rune-img-wrap"><img src="/guide/runes/rune-page1.png" alt="Standard page"/></div>
       <div class="rune-card-body">
         <div class="rune-card-tag">Page 1 — Default</div>
         <div class="rune-card-name">Standard</div>
-        <div class="rune-card-champs">
-          <span class="rune-champ-tag">Most matchups</span>
-        </div>
+        <div class="rune-card-champs"><span class="rune-champ-tag">Most matchups</span></div>
         <div class="rune-card-desc">The go-to page for Urgot in the vast majority of games. PTA with Triumph, Bloodline, Last Stand. Secondary: Triple Tonic + Approach Velocity.</div>
       </div>
     </div>
-
     <div class="rune-page-card">
-      <div class="rune-img-wrap">
-        <img src="https://barnhak.github.io/Urgot-guide/runes/rune-page2.png" alt="Cut Down page"/>
-      </div>
+      <div class="rune-img-wrap"><img src="/guide/runes/rune-page2.png" alt="Cut Down page"/></div>
       <div class="rune-card-body">
         <div class="rune-card-tag">Page 2</div>
         <div class="rune-card-name">Cut Down</div>
@@ -193,249 +180,191 @@
           <span class="rune-champ-tag">Vladimir</span><span class="rune-champ-tag">Sett</span>
           <span class="rune-champ-tag">Singed</span>
         </div>
-        <div class="rune-card-desc">Replaces Last Stand with Cut Down to burst high-HP opponents. Also takes Cosmic Insight in secondary for more kill pressure.</div>
+        <div class="rune-card-desc">Replaces Last Stand with Cut Down to burst high-HP opponents.</div>
       </div>
     </div>
-
     <div class="rune-page-card">
-      <div class="rune-img-wrap">
-        <img src="https://barnhak.github.io/Urgot-guide/runes/rune-page3.png" alt="Tanks page"/>
-      </div>
+      <div class="rune-img-wrap"><img src="/guide/runes/rune-page3.png" alt="Tanks page"/></div>
       <div class="rune-card-body">
         <div class="rune-card-tag">Page 3</div>
         <div class="rune-card-name">Vs Tanks</div>
         <div class="rune-card-champs">
           <span class="rune-champ-tag">Ornn</span><span class="rune-champ-tag">Malphite</span>
           <span class="rune-champ-tag">Dr. Mundo</span><span class="rune-champ-tag">Cho'Gath</span>
-          <span class="rune-champ-tag">Zac</span><span class="rune-champ-tag">Tahm Kench</span>
           <span class="rune-champ-tag">K'Sante</span><span class="rune-champ-tag">Maokai</span>
-          <span class="rune-champ-tag">Poppy</span>
         </div>
         <div class="rune-card-desc">Takes Magic Boots and Approach Velocity in secondary. Magic Boots saves 300g vs tanks where boots aren't priority.</div>
       </div>
     </div>
-
     <div class="rune-page-card">
-      <div class="rune-img-wrap">
-        <img src="https://barnhak.github.io/Urgot-guide/runes/rune-page4.png" alt="Resolution page"/>
-      </div>
+      <div class="rune-img-wrap"><img src="/guide/runes/rune-page4.png" alt="Resolution page"/></div>
       <div class="rune-card-body">
         <div class="rune-card-tag">Page 4</div>
         <div class="rune-card-name">Resolution</div>
-        <div class="rune-card-champs">
-          <span class="rune-champ-tag">Renekton</span><span class="rune-champ-tag">Shen</span>
-        </div>
-        <div class="rune-card-desc">Replaces standard secondary with Bone Plating and Overgrowth to survive early burst and scale defensively.</div>
+        <div class="rune-card-champs"><span class="rune-champ-tag">Renekton</span><span class="rune-champ-tag">Shen</span></div>
+        <div class="rune-card-desc">Replaces secondary with Bone Plating and Overgrowth to survive early burst and scale defensively.</div>
       </div>
     </div>
-
     <div class="rune-page-card">
-      <div class="rune-img-wrap">
-        <img src="https://barnhak.github.io/Urgot-guide/runes/rune-page5.png" alt="Rumble page"/>
-      </div>
+      <div class="rune-img-wrap"><img src="/guide/runes/rune-page5.png" alt="Rumble page"/></div>
       <div class="rune-card-body">
         <div class="rune-card-tag">Page 5</div>
         <div class="rune-card-name">Vs Rumble</div>
-        <div class="rune-card-champs">
-          <span class="rune-champ-tag">Rumble</span>
-        </div>
-        <div class="rune-card-desc">Takes Second Wind and Unflinching in secondary to sustain Rumble's constant poke and thermometer damage.</div>
+        <div class="rune-card-champs"><span class="rune-champ-tag">Rumble</span></div>
+        <div class="rune-card-desc">Takes Second Wind and Unflinching to sustain Rumble's constant poke and thermometer damage.</div>
       </div>
     </div>
-
     <div class="rune-page-card">
-      <div class="rune-img-wrap">
-        <img src="https://barnhak.github.io/Urgot-guide/runes/rune-page6.png" alt="Olaf page"/>
-      </div>
+      <div class="rune-img-wrap"><img src="/guide/runes/rune-page6.png" alt="Olaf page"/></div>
       <div class="rune-card-body">
         <div class="rune-card-tag">Page 6</div>
         <div class="rune-card-name">Vs Olaf — Sorcery</div>
-        <div class="rune-card-champs">
-          <span class="rune-champ-tag">Olaf</span>
-        </div>
-        <div class="rune-card-desc">Full Sorcery secondary with Nimbus Cloak and Celerity — gives massive MS when you cast a summ, key to outrunning Olaf's R. Replaces Triple Tonic entirely.</div>
+        <div class="rune-card-champs"><span class="rune-champ-tag">Olaf</span></div>
+        <div class="rune-card-desc">Nimbus Cloak + Celerity gives massive MS when you cast a summ — key to outrunning Olaf's R.</div>
       </div>
     </div>
-
     <div class="rune-page-card">
-      <div class="rune-img-wrap">
-        <img src="https://barnhak.github.io/Urgot-guide/runes/rune-page7.png" alt="Heimerdinger page"/>
-      </div>
+      <div class="rune-img-wrap"><img src="/guide/runes/rune-page7.png" alt="Heimerdinger page"/></div>
       <div class="rune-card-body">
         <div class="rune-card-tag">Page 7</div>
         <div class="rune-card-name">Vs Heimerdinger</div>
-        <div class="rune-card-champs">
-          <span class="rune-champ-tag">Heimerdinger</span>
-        </div>
-        <div class="rune-card-desc">Uses Deathfire Touch (Comet replaced) as keystone to sustain poke against Heimer's turrets. You farm at range and poke him down before flashing in.</div>
+        <div class="rune-card-champs"><span class="rune-champ-tag">Heimerdinger</span></div>
+        <div class="rune-card-desc">Uses Deathfire Touch as keystone to sustain poke against Heimer's turrets.</div>
       </div>
     </div>
-
     <div class="rune-page-card">
-      <div class="rune-img-wrap">
-        <img src="https://barnhak.github.io/Urgot-guide/runes/rune-page8.png" alt="Yorick page"/>
-      </div>
+      <div class="rune-img-wrap"><img src="/guide/runes/rune-page8.png" alt="Yorick page"/></div>
       <div class="rune-card-body">
         <div class="rune-card-tag">Page 8</div>
         <div class="rune-card-name">Vs Yorick</div>
-        <div class="rune-card-champs">
-          <span class="rune-champ-tag">Yorick</span>
-        </div>
-        <div class="rune-card-desc">Specific page to counter Yorick's passive sustain and ghouls. Secondary adapted for the matchup's particular demands.</div>
+        <div class="rune-card-champs"><span class="rune-champ-tag">Yorick</span></div>
+        <div class="rune-card-desc">Specific page to counter Yorick's passive sustain and ghouls.</div>
       </div>
     </div>
-
   </div>
 
-  <!-- RUNE DETAILS -->
   <div class="section-divider"><span>✦ Rune Details</span></div>
 
-  <!-- PRECISION -->
-  <div class="rune-detail" style="animation:fadeUp 0.4s ease both 0.05s">
+  <div class="rune-detail">
     <div class="rune-detail-inner">
-      <div class="rune-detail-img">
-        <img src="https://barnhak.github.io/Urgot-guide/runes/rune-page1.png" alt="Precision tree"/>
-      </div>
+      <div class="rune-detail-img"><img src="/guide/runes/rune-page1.png" alt="Precision tree"/></div>
       <div class="rune-detail-body">
         <div class="rune-tree-label precision">Precision Tree — Primary</div>
         <div class="rune-detail-name">Standard Precision Choices</div>
         <div class="rune-picks">
-          <div class="rune-row">
-            <span class="rune-row-label">Keystone</span>
-            <span class="rune-pill main">Press the Attack</span>
-          </div>
-          <div class="rune-row">
-            <span class="rune-row-label">Row 1</span>
-            <span class="rune-pill main">Triumph</span>
-            <span style="font-size:12px;color:var(--text-dim);margin-left:4px">vs Presence of Mind if you need mana</span>
-          </div>
-          <div class="rune-row">
-            <span class="rune-row-label">Row 2</span>
-            <span class="rune-pill main">Bloodline</span>
-            <span style="font-size:12px;color:var(--text-dim);margin-left:4px">Lifesteal for sustain</span>
-          </div>
-          <div class="rune-row">
-            <span class="rune-row-label">Row 3</span>
-            <span class="rune-pill main">Last Stand</span>
-            <span class="rune-pill" style="margin-left:6px">Cut Down</span>
-            <span style="font-size:12px;color:var(--text-dim);margin-left:4px">vs high HP</span>
-          </div>
+          <div class="rune-row"><span class="rune-row-label">Keystone</span><span class="rune-pill main">Press the Attack</span></div>
+          <div class="rune-row"><span class="rune-row-label">Row 1</span><span class="rune-pill main">Triumph</span><span class="rune-note">vs Presence of Mind if you need mana</span></div>
+          <div class="rune-row"><span class="rune-row-label">Row 2</span><span class="rune-pill main">Bloodline</span></div>
+          <div class="rune-row"><span class="rune-row-label">Row 3</span><span class="rune-pill main">Last Stand</span><span class="rune-pill">Cut Down</span><span class="rune-note">vs high HP</span></div>
         </div>
-        <div class="rune-desc">Triumph restores HP on kill which is huge for chaining kills. Bloodline gives lifesteal to stay in lane. Last Stand is best when you're low HP fighting, Cut Down is better vs high HP targets like tanks or Darius/Aatrox.</div>
+        <div class="rune-desc">Triumph restores HP on kill. Bloodline gives lifesteal to stay in lane. Last Stand is best when you're low HP fighting, Cut Down is better vs high HP targets.</div>
       </div>
     </div>
   </div>
 
-  <!-- SECONDARY STANDARD -->
-  <div class="rune-detail" style="animation:fadeUp 0.4s ease both 0.08s">
+  <div class="rune-detail">
     <div class="rune-detail-inner">
-      <div class="rune-detail-img">
-        <img src="https://barnhak.github.io/Urgot-guide/runes/rune-page1.png" alt="Secondary standard"/>
-      </div>
+      <div class="rune-detail-img"><img src="/guide/runes/rune-page1.png" alt="Secondary standard"/></div>
       <div class="rune-detail-body">
         <div class="rune-tree-label sorcery">Sorcery Tree — Secondary (Standard)</div>
         <div class="rune-detail-name">Triple Tonic + Approach Velocity</div>
         <div class="rune-picks">
-          <div class="rune-row">
-            <span class="rune-row-label">Row 1</span>
-            <span class="rune-pill main">Triple Tonic</span>
-          </div>
-          <div class="rune-row">
-            <span class="rune-row-label">Row 2</span>
-            <span class="rune-pill main">Approach Velocity</span>
-          </div>
+          <div class="rune-row"><span class="rune-row-label">Row 1</span><span class="rune-pill main">Triple Tonic</span></div>
+          <div class="rune-row"><span class="rune-row-label">Row 2</span><span class="rune-pill main">Approach Velocity</span></div>
         </div>
-        <div class="rune-desc">Triple Tonic gives 3 pots at start which is huge sustain, and also gives ability haste. Approach Velocity lets you close the gap when you slow with Q — essential for chasing and executing enemies.</div>
+        <div class="rune-desc">Triple Tonic gives 3 pots at start + ability haste. Approach Velocity lets you close the gap when you slow with Q — essential for chasing and executing enemies.</div>
       </div>
     </div>
   </div>
 
-  <!-- SECONDARY SORCERY OLAF -->
-  <div class="rune-detail" style="animation:fadeUp 0.4s ease both 0.11s">
+  <div class="rune-detail">
     <div class="rune-detail-inner">
-      <div class="rune-detail-img">
-        <img src="https://barnhak.github.io/Urgot-guide/runes/rune-page6.png" alt="Olaf page sorcery"/>
-      </div>
+      <div class="rune-detail-img"><img src="/guide/runes/rune-page6.png" alt="Olaf sorcery"/></div>
       <div class="rune-detail-body">
         <div class="rune-tree-label sorcery">Sorcery Tree — Secondary (Vs Olaf)</div>
         <div class="rune-detail-name">Nimbus Cloak + Celerity</div>
         <div class="rune-picks">
-          <div class="rune-row">
-            <span class="rune-row-label">Row 1</span>
-            <span class="rune-pill main">Nimbus Cloak</span>
-          </div>
-          <div class="rune-row">
-            <span class="rune-row-label">Row 2</span>
-            <span class="rune-pill main">Celerity</span>
-          </div>
+          <div class="rune-row"><span class="rune-row-label">Row 1</span><span class="rune-pill main">Nimbus Cloak</span></div>
+          <div class="rune-row"><span class="rune-row-label">Row 2</span><span class="rune-pill main">Celerity</span></div>
         </div>
-        <div class="rune-desc">Only vs Olaf. Nimbus Cloak gives insane Move Speed (like a mini Ghost) when you cast a summoner spell — essential to escape his R. Celerity boosts your bonus MS by 7% which is a lot when combined with Nimbus Cloak.</div>
+        <div class="rune-desc">Only vs Olaf. Nimbus Cloak gives insane MS when you cast a summoner spell — essential to escape his R. Celerity boosts your bonus MS by 7%.</div>
       </div>
     </div>
   </div>
 
-  <!-- SECONDARY RESOLVE -->
-  <div class="rune-detail" style="animation:fadeUp 0.4s ease both 0.14s">
+  <div class="rune-detail">
     <div class="rune-detail-inner">
-      <div class="rune-detail-img">
-        <img src="https://barnhak.github.io/Urgot-guide/runes/rune-page4.png" alt="Resolve secondary"/>
-      </div>
+      <div class="rune-detail-img"><img src="/guide/runes/rune-page4.png" alt="Resolve secondary"/></div>
       <div class="rune-detail-body">
         <div class="rune-tree-label resolve">Resolve Tree — Secondary (Resolution)</div>
         <div class="rune-detail-name">Bone Plating + Overgrowth</div>
         <div class="rune-picks">
-          <div class="rune-row">
-            <span class="rune-row-label">Row 1</span>
-            <span class="rune-pill main">Bone Plating</span>
-          </div>
-          <div class="rune-row">
-            <span class="rune-row-label">Row 2</span>
-            <span class="rune-pill main">Overgrowth</span>
-          </div>
+          <div class="rune-row"><span class="rune-row-label">Row 1</span><span class="rune-pill main">Bone Plating</span></div>
+          <div class="rune-row"><span class="rune-row-label">Row 2</span><span class="rune-pill main">Overgrowth</span></div>
         </div>
-        <div class="rune-desc">Bone Plating reduces incoming burst damage from combos — perfect vs Renekton and Shen who spam multi-hit combos. Overgrowth scales your HP across the game giving you more durability for executing R.</div>
+        <div class="rune-desc">Bone Plating reduces incoming burst — perfect vs Renekton and Shen. Overgrowth scales your HP across the game.</div>
       </div>
     </div>
   </div>
 
-  <!-- SECONDARY SECOND WIND -->
-  <div class="rune-detail" style="animation:fadeUp 0.4s ease both 0.17s">
+  <div class="rune-detail">
     <div class="rune-detail-inner">
-      <div class="rune-detail-img">
-        <img src="https://barnhak.github.io/Urgot-guide/runes/rune-page5.png" alt="Second Wind page"/>
-      </div>
+      <div class="rune-detail-img"><img src="/guide/runes/rune-page5.png" alt="Second Wind"/></div>
       <div class="rune-detail-body">
         <div class="rune-tree-label resolve">Resolve Tree — Secondary (Vs Rumble)</div>
         <div class="rune-detail-name">Second Wind + Unflinching</div>
         <div class="rune-picks">
-          <div class="rune-row">
-            <span class="rune-row-label">Row 1</span>
-            <span class="rune-pill main">Second Wind</span>
-          </div>
-          <div class="rune-row">
-            <span class="rune-row-label">Row 2</span>
-            <span class="rune-pill main">Unflinching</span>
-          </div>
+          <div class="rune-row"><span class="rune-row-label">Row 1</span><span class="rune-pill main">Second Wind</span></div>
+          <div class="rune-row"><span class="rune-row-label">Row 2</span><span class="rune-pill main">Unflinching</span></div>
         </div>
-        <div class="rune-desc">Second Wind regenerates HP after taking damage from champions — crucial for surviving Rumble's Q burn poke. Unflinching helps you resist the slow from his E so you can reposition during fights.</div>
+        <div class="rune-desc">Second Wind regenerates HP after taking damage — crucial for surviving Rumble's Q burn poke. Unflinching helps resist his E slow.</div>
       </div>
     </div>
   </div>
 
 </div>
 
-</body>
 <footer>
-    Not affiliated with Riot Games &nbsp;·&nbsp;
-    <a href="https://www.twitch.tv/quante" target="_blank" rel="noopener">Quante — Twitch ↗</a>
-    &nbsp;·&nbsp;
-    <a href="https://x.com/quantelol" target="_blank" rel="noopener">Quante — Twitter ↗</a>
-    &nbsp;·&nbsp;
-    <a href="../feedback.html" style="color:var(--green-dark);text-decoration:none;transition:color 0.2s">Send Feedback ↗</a>
-  </footer>
-<script>var champNames=['Aatrox','Akali','Ambessa','Anivia','Aurora','Camille','Cassiopeia',"Cho'Gath",'Darius','Dr. Mundo','Fiora','Gangplank','Garen','Gnar','Gragas','Gwen','Heimerdinger','Illaoi','Irelia','Jax','Jayce','Kayle','Kennen','Kled',"K'Sante",'Lee Sin','Malphite','Maokai','Master Yi','Mordekaiser','Nasus','Olaf','Ornn','Pantheon','Poppy','Quinn','Renekton','Riven','Rumble','Ryze','Sett','Shen','Singed','Sion','Swain','Sylas','Tahm Kench','Teemo','Trundle','Tryndamere','Udyr','Varus','Vayne','Vladimir','Volibear','Warwick','Yasuo','Yone','Yorick','Zaahen','Zac'];
+  Not affiliated with Riot Games &nbsp;·&nbsp;
+  <a href="https://www.twitch.tv/quante" target="_blank" rel="noopener">Quante — Twitch ↗</a>
+  &nbsp;·&nbsp;
+  <a href="https://x.com/quantelol" target="_blank" rel="noopener">Quante — Twitter ↗</a>
+  &nbsp;·&nbsp;
+  <a href="/guide/feedback.html">Send Feedback ↗</a>
+</footer>
+
+<script>
+var champNames=['Aatrox','Akali','Ambessa','Anivia','Aurora','Camille','Cassiopeia',"Cho'Gath",'Darius','Dr. Mundo','Fiora','Gangplank','Garen','Gnar','Gragas','Gwen','Heimerdinger','Illaoi','Irelia','Jax','Jayce','Kayle','Kennen','Kled',"K'Sante",'Lee Sin','Malphite','Maokai','Master Yi','Mordekaiser','Nasus','Olaf','Ornn','Pantheon','Poppy','Quinn','Renekton','Riven','Rumble','Ryze','Sett','Shen','Singed','Sion','Swain','Sylas','Tahm Kench','Teemo','Trundle','Tryndamere','Udyr','Varus','Vayne','Vladimir','Volibear','Warwick','Yasuo','Yone','Yorick','Zaahen','Zac'];
 var BASE_DDR='https://ddragon.leagueoflegends.com/cdn/14.24.1/img/champion/';
 function slugify(n){return n.toLowerCase().replace(/ & /g,'-').replace(/[^\w\s-]/g,'').replace(/\s+/g,'-').normalize('NFD').replace(/[\u0300-\u036f]/g,'');}
-function navFilter(){var val=document.getElementById('nav-search-input').value;var nl=document.getElementById('nav-list');var nd=document.getElementById('nav-dropdown');nl.innerHTML='';if(val.length<1){nd.style.display='none';return;}var f=champNames.filter(function(n){return n.toLowerCase().includes(val.toLowerCase());});nd.style.display=f.length?'block':'none';f.forEach(function(name){var a=document.createElement('a');a.className='nav-dropdown-item';a.href='matchup/'+slugify(name)+'.html';var img=document.createElement('img');img.src=BASE_DDR+name.replace(/[^a-zA-Z]/g,'')+'.png';img.alt=name;img.onerror=function(){this.style.display='none';};var span=document.createElement('span');span.textContent=name;a.appendChild(img);a.appendChild(span);nl.appendChild(a);});}
-document.addEventListener('click',function(e){if(!e.target.closest('.nav-search'))document.getElementById('nav-dropdown').style.display='none';});</script>
+function navFilter(){
+  var val=document.getElementById('nav-search-input').value;
+  var nl=document.getElementById('nav-list');
+  var nd=document.getElementById('nav-dropdown');
+  nl.innerHTML='';
+  if(val.length<1){nd.style.display='none';return;}
+  var f=champNames.filter(function(n){return n.toLowerCase().includes(val.toLowerCase());});
+  nd.style.display=f.length?'block':'none';
+  f.forEach(function(name){
+    var a=document.createElement('a');
+    a.className='nav-dropdown-item';
+    a.href='/guide/matchup/'+slugify(name)+'.html';
+    var img=document.createElement('img');
+    img.src=BASE_DDR+name.replace(/[^a-zA-Z]/g,'')+'.png';
+    img.alt=name;
+    img.onerror=function(){this.style.display='none';};
+    var span=document.createElement('span');
+    span.textContent=name;
+    a.appendChild(img);a.appendChild(span);nl.appendChild(a);
+  });
+}
+async function logout(){
+  await fetch('/api/auth/logout',{method:'POST',credentials:'include'});
+  window.location.href='/login.html';
+}
+document.addEventListener('click',function(e){
+  if(!e.target.closest('.nav-search'))document.getElementById('nav-dropdown').style.display='none';
+});
+</script>
+</body>
 </html>
