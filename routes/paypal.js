@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const fetch  = require('node-fetch');
-const { Users } = require('../db');
+const jwt    = require('jsonwebtoken');
+const { Users, pool } = require('../db');
 
 const PAYPAL_BASE = process.env.PAYPAL_ENV === 'live'
   ? 'https://api.paypal.com'
