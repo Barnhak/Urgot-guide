@@ -1,12 +1,17 @@
 const jwt = require('jsonwebtoken');
 const { Users } = require('../db');
 
-function requireAuth(req, res, next) {
+const ADMIN_EMAILS = [
+  'l.rouxel22300@gmail.com',
+  'barnhak123@gmail.com',
+];
+
+async function requireAuth(req, res, next) {
   const token = req.cookies?.token || extractBearerToken(req);
   if (!token) return res.redirect('/login.html?reason=not_logged_in');
   try {
     const payload = jwt.verify(token, process.env.JWT_SECRET);
-    const user    = Users.findById.get(payload.userId);
+    const user    = await Users.findById.get(payload.userId);
     if (!user) return res.redirect('/login.html?reason=user_not_found');
     req.user = user;
     next();
@@ -15,21 +20,28 @@ function requireAuth(req, res, next) {
   }
 }
 
-const ADMIN_EMAILS = [
-  'l.rouxel22300@gmail.com','barnhak123@gmail.com','u8703338435@gmail.com',   // ← remplace par ton vrai email
-];
+async function requireSubscription(req, res, next) {
+  const token = req.cookies?.token || extractBearerToken(req);
+  if (!token) return res.redirect('/login.html?reason=not_logged_in');
+  try {
+    const payload = jwt.verify(token, process.env.JWT_SECRET);
+    const user    = await Users.findById.get(payload.userId);
+    if (!user) return res.redirect('/login.html?reason=user_not_found');
+    req.user = user;
 
-function requireSubscription(req, res, next) {
-  requireAuth(req, res, () => {
-    // Admin bypass — accès gratuit
-    if (ADMIN_EMAILS.map(e => e.toLowerCase()).includes((req.user.email || '').toLowerCase())) {
+    // Admin bypass
+    const userEmail = (user.email || '').toLowerCase();
+    if (ADMIN_EMAILS.map(e => e.toLowerCase()).includes(userEmail)) {
       return next();
     }
-    if (!Users.isActive(req.user)) {
+
+    if (!Users.isActive(user)) {
       return res.redirect('/subscribe.html?reason=no_subscription');
     }
     next();
-  });
+  } catch {
+    return res.redirect('/login.html?reason=session_expired');
+  }
 }
 
 function extractBearerToken(req) {
