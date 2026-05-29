@@ -32,7 +32,7 @@ app.use((req, res, next) => {
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', process.env.SITE_URL || '*');
   res.setHeader('Access-Control-Allow-Credentials', 'true');
-  res.setHeader('Access-Control-Allow-Methods', 'GET,POST,OPTIONS');
+  res.setHeader('Access-Control-Allow-Methods', 'GET,POST,OPTIONS,DELETE');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type,Authorization');
   if (req.method === 'OPTIONS') return res.sendStatus(200);
   next();
@@ -74,17 +74,31 @@ getDb().then(() => {
   // Pages publiques
   app.use(express.static(path.join(__dirname, 'public')));
 
-  // Pages protégées
-  // Images et assets publics dans protected (sans auth)
-  app.use('/guide/img', express.static(path.join(__dirname, 'protected', 'img')));
-  app.use('/guide/gif', express.static(path.join(__dirname, 'protected', 'gif')));
+  // Assets protégés accessibles sans auth (images, gifs, etc.)
+  app.use('/guide/gif',    express.static(path.join(__dirname, 'protected', 'gif')));
+  app.use('/guide/img',    express.static(path.join(__dirname, 'protected', 'img')));
   app.use('/guide/assets', express.static(path.join(__dirname, 'protected', 'assets')));
+  app.use('/guide/runes',  express.static(path.join(__dirname, 'protected', 'runes')));
+
+  // Pages protégées — static (CSS, JS, images inline)
   app.use('/guide', requireSubscription, express.static(path.join(__dirname, 'protected')));
+
+  // Page d'accueil du guide
   app.get('/guide', requireSubscription, (req, res) => {
     res.sendFile(path.join(__dirname, 'protected', 'index.html'));
   });
+
+  // Sous-dossiers (matchup/aatrox.html, etc.)
+  app.get('/guide/:folder/:file', requireSubscription, (req, res) => {
+    const file = path.join(__dirname, 'protected', req.params.folder, req.params.file);
+    res.sendFile(file, err => { if (err) res.status(404).send('Page introuvable'); });
+  });
+
+  // Fichiers directs — ajoute .html automatiquement si pas d'extension
   app.get('/guide/:file', requireSubscription, (req, res) => {
-    const file = path.join(__dirname, 'protected', req.params.file);
+    let filename = req.params.file;
+    if (!path.extname(filename)) filename += '.html';
+    const file = path.join(__dirname, 'protected', filename);
     res.sendFile(file, err => { if (err) res.status(404).send('Page introuvable'); });
   });
 
