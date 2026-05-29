@@ -2,7 +2,7 @@ const router   = require('express').Router();
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const jwt  = require('jsonwebtoken');
-const { Users } = require('../db');
+const { Users, pool } = require('../db');
 
 passport.use(new GoogleStrategy({
   clientID:     process.env.GOOGLE_CLIENT_ID,
@@ -11,24 +11,25 @@ passport.use(new GoogleStrategy({
 },
 async (accessToken, refreshToken, profile, done) => {
   const email = profile.emails[0].value.toLowerCase();
-  let user = Users.findByEmail.get(email);
+  let user = await Users.findByEmail.get(email);
   if (!user) {
-    const result = Users.create.run(email, 'GOOGLE_OAUTH');
-    user = Users.findById.get(result.lastInsertRowid);
+    const result = await Users.create.run(email, 'GOOGLE_OAUTH');
+    user = await Users.findById.get(result.lastInsertRowid);
   }
   return done(null, user);
 }));
 
 passport.serializeUser((user, done) => done(null, user.id));
-passport.deserializeUser((id, done) => done(null, Users.findById.get(id)));
+passport.deserializeUser(async (id, done) => {
+  const user = await Users.findById.get(id);
+  done(null, user);
+});
 
-// Redirige vers Google
 router.get('/', passport.authenticate('google', {
   scope: ['profile', 'email'],
   prompt: 'select_account',
 }));
 
-// Callback après Google
 router.get('/callback',
   passport.authenticate('google', { failureRedirect: '/login.html?reason=google_failed' }),
   (req, res) => {
