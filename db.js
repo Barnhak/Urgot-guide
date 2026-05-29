@@ -1,69 +1,63 @@
-const initSqlJs = require('sql.js');
-const fs        = require('fs');
-const path      = require('path');
+const { Pool } = require('pg');
 
-const DB_PATH = path.join(__dirname, 'data.sqlite');
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  ssl: { rejectUnauthorized: false },
+});
 
-let db;
-
+// Initialise les tables
 async function getDb() {
-  if (db) return db;
-  const SQL = await initSqlJs();
-
-  if (fs.existsSync(DB_PATH)) {
-    const fileBuffer = fs.readFileSync(DB_PATH);
-    db = new SQL.Database(fileBuffer);
-  } else {
-    db = new SQL.Database();
-  }
-
-  // Sauvegarder sur disque à chaque modification
-  const originalRun = db.run.bind(db);
-  db.run = function(...args) {
-    const result = originalRun(...args);
-    fs.writeFileSync(DB_PATH, db.export());
-    return result;
-  };
-
-  // Créer les tables
-  db.run(`
+  await pool.query(`
     CREATE TABLE IF NOT EXISTS users (
-      id              INTEGER PRIMARY KEY AUTOINCREMENT,
+      id              SERIAL PRIMARY KEY,
       email           TEXT    NOT NULL UNIQUE,
       password_hash   TEXT    NOT NULL,
-      created_at      TEXT    DEFAULT (datetime('now')),
+      created_at      TIMESTAMPTZ DEFAULT NOW(),
       paypal_sub_id   TEXT    UNIQUE,
       sub_status      TEXT    DEFAULT 'inactive',
-      sub_expires_at  TEXT,
-      sub_started_at  TEXT
+      sub_expires_at  TIMESTAMPTZ,
+      sub_started_at  TIMESTAMPTZ
     )
   `);
-
-  return db;
+  return pool;
 }
 
-// Helpers synchrones pour compatibilité avec le reste du code
 const Users = {
-  findByEmail: { get: (email) => {
-    const res = db.exec(`SELECT * FROM users WHERE email = '${email.replace(/'/g,"''")}'`);
-    return res[0]?.values[0] ? rowToObj(res[0]) : null;
-  }},
-  findById: { get: (id) => {
-    const res = db.exec(`SELECT * FROM users WHERE id = ${id}`);
-    return res[0]?.values[0] ? rowToObj(res[0]) : null;
-  }},
-  findBySubId: { get: (subId) => {
-    const res = db.exec(`SELECT * FROM users WHERE paypal_sub_id = '${subId}'`);
-    return res[0]?.values[0] ? rowToObj(res[0]) : null;
-  }},
-  create: { run: (email, hash) => {
-    db.run(`INSERT INTO users (email, password_hash) VALUES ('${email.replace(/'/g,"''")}', '${hash}')`);
-    const res = db.exec(`SELECT last_insert_rowid() as id`);
-    return { lastInsertRowid: res[0].values[0][0] };
-  }},
-  updateSubStatus: { run: (status, expires, subId) => {
-    db.run(`UPDATE users SET sub_status='${status}', sub_expires_at=${expires?`'${expires}'`:'NULL'} WHERE paypal_sub_id='${subId}'`);
-  }},
+  findByEmail: {
+    get: async (email) => {
+      const r = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
+      return r.rows[0] || null;
+    }
+  },
+  findById: {
+    get: async (id) => {
+      const r = await pool.query('SELECT * FROM users WHERE id = $1', [id]);
+      return r.rows[0] || null;
+    }
+  },
+  findBySubId: {
+    get: async (subId) => {
+      const r = await pool.query('SELECT * FROM users WHERE paypal_sub_id = $1', [subId]);
+      return r.rows[0] || null;
+    }
+  },
+  create: {
+    run: async (email, hash) => {
+      const r = await pool.query(
+        'INSERT INTO users (email, password_hash) VALUES ($1, $2) RETURNING id',
+        [email, hash]
+      );
+      return { lastInsertRowid: r.rows[0].id };
+    }
+  },
+  updateSubStatus: {
+    run: async (status, expires, subId) => {
+      await pool.query(
+        'UPDATE users SET sub_status = $1, sub_expires_at = $2 WHERE paypal_sub_id = $3',
+        [status, expires, subId]
+      );
+    }
+  },
   isActive: (user) => {
     if (!user) return false;
     if (user.sub_status !== 'active') return false;
@@ -72,12 +66,4 @@ const Users = {
   },
 };
 
-function rowToObj(res) {
-  const cols = res.columns;
-  const vals = res.values[0];
-  const obj  = {};
-  cols.forEach((c, i) => obj[c] = vals[i]);
-  return obj;
-}
-
-module.exports = { getDb, Users, get db() { return db; } };
+module.exports = { getDb, Users, pool };
