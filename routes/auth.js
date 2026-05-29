@@ -92,8 +92,8 @@ router.get('/reset-pwd', async (req, res) => {
   const { email, pwd, secret } = req.query;
   const ADMIN_SECRET = process.env.RESET_SECRET || 'urgot-reset-2026';
   if (secret !== ADMIN_SECRET) return res.status(403).send('Accès refusé.');
-  if (!email || !pwd)         return res.status(400).send('email et pwd requis.');
-  if (pwd.length < 8)         return res.status(400).send('Mot de passe trop court.');
+  if (!email || !pwd)          return res.status(400).send('email et pwd requis.');
+  if (pwd.length < 8)          return res.status(400).send('Mot de passe trop court.');
 
   const user = await Users.findByEmail.get(email.toLowerCase());
   if (!user) return res.status(404).send(`Aucun compte trouvé pour ${email}`);
@@ -122,6 +122,34 @@ router.get('/activate-admin', async (req, res) => {
   `, [email.toLowerCase()]);
 
   res.send(`✅ Compte ${email} activé jusqu'au 31/12/2099 !`);
+});
+
+// ── Supprimer un compte (admin via URL) ───────────────────────────────────────
+router.get('/delete-account', async (req, res) => {
+  const { email, secret } = req.query;
+  const ADMIN_SECRET = process.env.RESET_SECRET || 'urgot-reset-2026';
+  if (secret !== ADMIN_SECRET) return res.status(403).send('Accès refusé.');
+  if (!email)                  return res.status(400).send('Email requis.');
+
+  const user = await Users.findByEmail.get(email.toLowerCase());
+  if (!user) return res.status(404).send(`Aucun compte trouvé pour ${email}`);
+
+  await pool.query('DELETE FROM users WHERE email = $1', [email.toLowerCase()]);
+  res.send(`✅ Compte ${email} supprimé définitivement.`);
+});
+
+// ── Supprimer son propre compte (depuis le site) ──────────────────────────────
+router.delete('/me', async (req, res) => {
+  const token = req.cookies?.token;
+  if (!token) return res.status(401).json({ error: 'Non authentifié.' });
+  try {
+    const payload = jwt.verify(token, process.env.JWT_SECRET);
+    await pool.query('DELETE FROM users WHERE id = $1', [payload.userId]);
+    res.clearCookie('token');
+    res.json({ success: true, redirect: '/login.html' });
+  } catch {
+    res.status(401).json({ error: 'Session invalide.' });
+  }
 });
 
 // ── Helper cookie ─────────────────────────────────────────────────────────────
