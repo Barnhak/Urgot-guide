@@ -59,7 +59,7 @@ nav{position:sticky;top:0;z-index:200;display:flex;align-items:center;justify-co
 .slot .sph{font-size:10px;color:var(--txt2)}
 .slot .rm{position:absolute;top:0;right:0;width:14px;height:14px;background:var(--red);color:#fff;display:flex;align-items:center;justify-content:center;font-size:8px;cursor:pointer;opacity:0;transition:.15s}
 .slot:hover .rm{opacity:1}
-.shop-filters{display:flex;gap:4px;flex-wrap:wrap;align-items:center}
+.shop-filters{display:flex;gap:4px;align-items:center;flex-wrap:nowrap;overflow-x:auto}
 .shop-search{background:var(--bg);border:1px solid var(--border-b);border-radius:3px;color:var(--bright);
   font-family:'Rajdhani',sans-serif;font-size:13px;padding:4px 10px;outline:none;width:150px;transition:border-color .2s}
 .shop-search:focus{border-color:var(--green-mid)}
@@ -127,9 +127,9 @@ nav{position:sticky;top:0;z-index:200;display:flex;align-items:center;justify-co
 #champs-row{display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid var(--border)}
 .champ-panel{padding:1rem;display:flex;gap:1rem;align-items:flex-start;border-right:1px solid var(--border)}
 .champ-panel.cp-right{border-right:none;flex-direction:row-reverse}
-.champ-portrait{width:120px;height:150px;border-radius:5px;border:2px solid var(--border-b);overflow:hidden;background:var(--bg-s);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:border-color .2s;flex-shrink:0}
+.champ-portrait{width:130px;height:200px;border-radius:5px;border:2px solid var(--border-b);overflow:hidden;background:var(--bg-s);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:border-color .2s;flex-shrink:0}
 .champ-portrait:hover{border-color:var(--green-mid)}
-.champ-portrait img{width:100%;height:100%;object-fit:cover;object-position:top center}
+.champ-portrait img{width:100%;height:100%;object-fit:cover;object-position:center top}
 .champ-info{flex:1}
 .champ-name{font-family:'Cinzel',serif;font-size:13px;letter-spacing:.12em;color:var(--bright);margin-bottom:.2rem}
 .champ-change{font-size:10px;color:var(--txt2);cursor:pointer;transition:color .2s;margin-bottom:.4rem}
@@ -216,7 +216,7 @@ nav{position:sticky;top:0;z-index:200;display:flex;align-items:center;justify-co
     <div class="item-slots" id="item-slots-display"></div>
     <div class="shop-filters">
       <input class="shop-search" id="shop-search" placeholder="Item…" oninput="renderShop()"/>
-      <div id="shop-cats"></div>
+      <div id="shop-cats" style="display:flex;gap:4px;flex-wrap:nowrap;overflow-x:auto"></div>
     </div>
   </div>
   <div class="shop-grid" id="shop-grid"><div class="shop-loading">Chargement des items…</div></div>
@@ -519,7 +519,7 @@ let ALL_ITEMS=[];
 
 const AH_BY_NAME={"Abyssal Mask":15,"Archangel's Staff":25,"Axiom Arc":25,"Black Cleaver":20,"Bloodletter's Curse":15,"Caulfield's Warhammer":10,"Chempunk Chainsword":15,"Cosmic Drive":25,"Cryptbloom":20,"Death's Dance":15,"Echoes of Helia":20,"Eclipse":15,"Essence Reaver":25,"Fiendish Codex":10,"Fimbulwinter":20,"Frozen Heart":20,"Glacial Buckler":10,"Hextech Rocketbelt":15,"Horizon Focus":25,"Hubris":10,"Iceborn Gauntlet":15,"Imperial Mandate":25,"Ionian Boots of Lucidity":15,"Kindlegem":10,"Knight's Vow":10,"Lich Bane":10,"Locket of the Iron Solari":15,"Lost Chapter":10,"Luden's Echo":10,"Luden's Companion":10,"Malignance":25,"Maw of Malmortius":15,"Moonstone Renewer":15,"Morellonomicon":15,"Muramana":15,"Profane Hydra":18,"Ravenous Hydra":20,"Redemption":10,"Seraph's Embrace":25,"Serylda's Grudge":15,"Shurelya's Battlesong":15,"Spirit Visage":10,"Sundered Sky":20,"Sunfire Aegis":15,"Trinity Force":20,"Umbral Glaive":15,"Voltaic Cyclosword":10,"Zeke's Convergence":20,"Liandry's Torment":20,"Spear of Shojin":25,"Experimental Hexplate":30,"Titanic Hydra":20,"Protoplasm Harness":15,"Winter's Approach":15,"Stridebreaker":20,"Manamune":15,"Whispering Circlet":10};
 
-const MANUAL_STATS={"Berserker's Greaves":{as:0.35,ms_flat:45},"Boots of Swiftness":{ms_flat:55},"Ionian Boots of Lucidity":{ah:15,ms_flat:45},"Mercury's Treads":{mr:25,ten:30,ms_flat:45},"Plated Steelcaps":{armor:20,ms_flat:45},"Sorcerer's Shoes":{mrpen:18,ms_flat:45},"Black Cleaver":{hp:400,ad:40,ah:20,special:'cleaver'},"Bloodmail":{hp:550,ad:30},"Overlord's Bloodmail":{hp:550,ad:30},"Death's Dance":{ad:55,armor:45,ah:15},"Serylda's Grudge":{ad:45,armor:20,ah:15,special:'serylda'},"Sterak's Gage":{hp:500},"Muramana":{ad:35,ah:15,mana:860},"Ravenous Hydra":{hp:150,ad:65,ah:20,ls:8},"Spear of Shojin":{hp:300,ad:55,ah:25},"Trinity Force":{hp:333,ad:30,as:0.35,ah:20,ms_flat:5},"Titanic Hydra":{hp:500,ad:35,ah:20},"Rabadon's Deathcap":{ap:120},"Seraph's Embrace":{ap:80,ah:25,mana:1000},"Manamune":{ad:35,ah:15,mana:500},"Stridebreaker":{hp:400,ad:45,ah:20},"Sundered Sky":{hp:450,ad:30,ah:20},"Sunfire Aegis":{hp:450,armor:35,ah:15},"Frozen Heart":{armor:80,mana:400,ah:20},"Spirit Visage":{hp:350,mr:55,ah:10},"Thornmail":{hp:250,armor:80},"Heartsteel":{hp:1000},"Warmog's Armor":{hp:800},"Jak'Sho, The Protean":{hp:400,armor:30,mr:30,ah:15},"Randuin's Omen":{hp:400,armor:80},"Kaenic Rookern":{hp:500,mr:65},"Void Staff":{ap:90,mrpen_pct:40},"Cryptbloom":{ap:75,ah:20,mrpen_pct:30},"Horizon Focus":{ap:85,ah:25},"Luden's Echo":{ap:100,ah:10,mana:600},"Luden's Companion":{ap:100,ah:10,mana:600},"Shadowflame":{ap:100},"Malignance":{ap:80,ah:25},"Liandry's Torment":{ap:90,hp:300,ah:20},"Lich Bane":{ap:75,ah:10,ms_flat:5},"Cosmic Drive":{ap:70,ah:25,hp:350,ms_flat:10},"Morellonomicon":{ap:75,ah:15},"Blackfire Torch":{ap:80,ah:20},"Stormsurge":{ap:95,ms_pct:0.04},"Zhonya's Hourglass":{ap:80,armor:45,ah:10},"Hextech Rocketbelt":{ap:80,hp:250,ah:15},"Banshee's Veil":{ap:105,mr:40},"Amplifying Tome":{ap:20},"Blasting Wand":{ap:40},"Needlessly Large Rod":{ap:65},"Fiendish Codex":{ap:25,ah:10},"Lost Chapter":{ap:40,ah:10,mana:300},"Rod of Ages":{ap:60,hp:300,mana:400},"Rylai's Crystal Scepter":{ap:80,hp:350}};
+const MANUAL_STATS={"Berserker's Greaves":{as:0.35,ms_flat:45},"Boots of Swiftness":{ms_flat:55},"Ionian Boots of Lucidity":{ah:15,ms_flat:45},"Mercury's Treads":{mr:25,ten:30,ms_flat:45},"Plated Steelcaps":{armor:20,ms_flat:45},"Sorcerer's Shoes":{mrpen:18,ms_flat:45},"Black Cleaver":{hp:400,ad:40,ah:20,special:'cleaver',note:"Carve: -5% armor par coup (max 6 stacks = -30%)"},"Bloodmail":{hp:550,ad:30},"Overlord's Bloodmail":{hp:550,ad:30,note:"Tyranny: 2.5% bonus HP → bonus AD. Retribution: jusqu'à +12% AD basé sur les HP manquants."},"Death's Dance":{ad:55,armor:45,ah:15,note:"30% des dégâts physiques reçus sont différés en saignement sur 3s. Kills: heal 15% HP max."},"Serylda's Grudge":{ad:45,armor:20,ah:15,special:'serylda'},"Sterak's Gage":{hp:500,note:"+50% de l'AD de base comme bonus AD. Lifeline: bouclier 75% bonus AD sous 30% HP."},"Muramana":{ad:35,ah:15,mana:860,note:"+6% de mana max comme bonus AD. Choc: autos/sorts infligent 1.5% mana max dégâts bonus."},"Ravenous Hydra":{hp:150,ad:65,ah:20,ls:8,note:"Cleave: 60% AD AoE sur les autos. +8% omnivamp."},"Spear of Shojin":{hp:300,ad:55,ah:25,note:"Après un sort: 3 prochaines autos réduisent le CD de ce sort de 30% par coup."},"Trinity Force":{hp:333,ad:30,as:0.35,ah:20,ms_flat:5,note:"Spellblade: prochaine auto = 200% AD de base bonus phys après un sort."},"Titanic Hydra":{hp:500,ad:35,ah:20,note:"On-hit: 1% HP max + 3% en cône. Actif: prochaine auto = 100% HP max + 3% HP max AoE."},"Rabadon's Deathcap":{ap:120},"Seraph's Embrace":{ap:80,ah:25,mana:1000,note:"3% de mana max comme bonus AP. Actif: bouclier = 25% mana max (120s CD)."},"Manamune":{ad:35,ah:15,mana:500},"Stridebreaker":{hp:400,ad:45,ah:20,note:"Actif: dash + ralentit les ennemis proches de 50-60% pour 3s (20s CD)."},"Sundered Sky":{hp:450,ad:30,ah:20},"Sunfire Aegis":{hp:450,armor:35,ah:15,note:"Immolate: inflige 25 + 1% HP max dégâts magiques/s aux ennemis proches."},"Frozen Heart":{armor:80,mana:400,ah:20},"Spirit Visage":{hp:350,mr:55,ah:10},"Thornmail":{hp:250,armor:80,note:"Réfléchit 25 + 10% armure dégâts magiques sur les autos. Applique 40% Grievous Wounds."},"Heartsteel":{hp:1000,note:"Toutes les 4s: prochaine auto = 100 + 6% bonus HP bonus phys + 10% gain permanent de HP max."},"Warmog's Armor":{hp:800},"Jak'Sho, The Protean":{hp:400,armor:30,mr:30,ah:15},"Randuin's Omen":{hp:400,armor:80},"Kaenic Rookern":{hp:500,mr:65,note:"Stocke 10% des dégâts magiques post-mitigation (max 300) comme bouclier."},"Void Staff":{ap:90,mrpen_pct:40,note:"+40% de pénétration magique."},"Cryptbloom":{ap:75,ah:20,mrpen_pct:30},"Horizon Focus":{ap:85,ah:25},"Luden's Echo":{ap:100,ah:10,mana:600},"Luden's Companion":{ap:100,ah:10,mana:600},"Shadowflame":{ap:100},"Malignance":{ap:80,ah:25},"Liandry's Torment":{ap:90,hp:300,ah:20},"Lich Bane":{ap:75,ah:10,ms_flat:5},"Cosmic Drive":{ap:70,ah:25,hp:350,ms_flat:10},"Morellonomicon":{ap:75,ah:15},"Blackfire Torch":{ap:80,ah:20},"Stormsurge":{ap:95,ms_pct:0.04},"Zhonya's Hourglass":{ap:80,armor:45,ah:10},"Hextech Rocketbelt":{ap:80,hp:250,ah:15},"Banshee's Veil":{ap:105,mr:40},"Amplifying Tome":{ap:20},"Blasting Wand":{ap:40},"Needlessly Large Rod":{ap:65},"Fiendish Codex":{ap:25,ah:10},"Lost Chapter":{ap:40,ah:10,mana:300},"Rod of Ages":{ap:60,hp:300,mana:400},"Rylai's Crystal Scepter":{ap:80,hp:350}};
 
 const ITEM_PASSIVES={"Sterak's Gage":{applyStats:(A)=>{A.ad+=A.baseAD*0.45;}},"Black Cleaver":{special:'cleaver',applyStats:(A)=>{A.armorShred=0.30;}},"Serylda's Grudge":{special:'serylda',applyStats:(A)=>{A.armPenPct+=0.35;}},"Rabadon's Deathcap":{applyStats:(A)=>{A.ap=Math.round(A.ap*1.35);}},"Seraph's Embrace":{applyStats:(A)=>{A.ap+=A.mana*0.03;}},"Manamune":{applyStats:(A)=>{A.ad+=A.mana*0.02;}},"Muramana":{applyStats:(A)=>{A.ad+=A.mana*0.06;}},"Overlord's Bloodmail":{applyStats:(A)=>{A.ad+=A.bonusHP*0.025;}},"Bloodmail":{applyStats:(A)=>{A.ad+=A.bonusHP*0.025;}},"Jak'Sho, The Protean":{applyStats:(A)=>{A.armor*=1.12;A.mr*=1.12;}}};
 
@@ -599,7 +599,7 @@ async function loadItems(){
       leth:man.leth||0,apen:man.apen||0,
       mana:man.mana!==undefined?man.mana:(st.FlatMPPoolMod||0),
       mrpen_pct:man.mrpen_pct||0,ten:man.ten||0,
-      special:man.special||null,applyStats:pass?pass.applyStats:null};
+      special:man.special||null,note:man.note||null,applyStats:pass?pass.applyStats:null};
   }).filter(x=>x!==null).sort((a,b)=>a.gold-b.gold||a.name.localeCompare(b.name));
   renderShopCats();
   renderShop();
@@ -656,7 +656,9 @@ function showTT(it,e){
   if(it.ms_flat)rows+=statRow('💨','MS','+'+it.ms_flat);
   if(it.mana)rows+=statRow('💧','Mana','+'+Math.round(it.mana));
   document.getElementById('tt-stats').innerHTML=rows||'<span style="color:var(--txt2);font-size:11px">Pas de stats directes</span>';
-  const noteEl=document.getElementById('tt-note');noteEl.style.display='none';
+  const noteEl=document.getElementById('tt-note');
+  if(it.note){noteEl.innerHTML=it.note.replace(/^([^:]+):/,'<b>$1</b>:');noteEl.style.display='block';}
+  else noteEl.style.display='none';
   const tt=document.getElementById('tooltip');tt.classList.add('show');
   tt.style.left=Math.min(e.clientX+14,window.innerWidth-270)+'px';tt.style.top=Math.max(0,e.clientY-10)+'px';
 }
@@ -679,6 +681,12 @@ const S={
 // ═══════════════════════════════════════════════════════════
 // DDDRAGON — CHAMPION LOADING
 // ═══════════════════════════════════════════════════════════
+function wikiRender(champName){
+  // Converts champion name to wiki render URL
+  const n=champName.replace(/ /g,'_').replace(/'/g,"%27").replace(/\./g,'.');
+  return `https://wiki.leagueoflegends.com/en-us/images/${n}_Render.png`;
+}
+
 async function loadChamps(){
   try{
     // Resolve latest version first
@@ -813,7 +821,7 @@ function renderChampPanel(side){
   const name=sd.champ?sd.champ.name:'Mannequin';
   const encoded=name!=='Mannequin'&&!!CHAMP_SPELLS[name];
   const color=side==='left'?'var(--blue)':'var(--orange)';
-  const portraitHtml=sd.champ?`<img src="${sd.champ.loadingImg}" onerror="this.src='${sd.champ.img}'"/>`
+  const portraitHtml=sd.champ?`<img src="${wikiRender(sd.champ.name)}" onerror="this.src='${sd.champ.loadingImg}';this.onerror=null"/>`
     :dummySVG(side);
   const stats=[['HP',Math.round(s.hp)],['AD',Math.round(s.ad)],['AP',Math.round(s.ap)],['Armure',Math.round(s.armor)],['RM',Math.round(s.mr)],['AS',s.as.toFixed(2)],['Crit',Math.round(s.crit||0)+'%'],['MS',Math.round(s.ms)]];
   el.innerHTML=`
