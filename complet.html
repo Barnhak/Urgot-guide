@@ -569,58 +569,38 @@ async function fetchJSON(urls){
 
 async function loadItems(){
   document.getElementById('shop-grid').innerHTML='<div class="shop-loading">Chargement des items…</div>';
-  const meraki=await fetchJSON([
-    'https://cdn.merakianalytics.com/riot/lol/resources/latest/en-US/items.json',
-    'https://corsproxy.io/?url='+encodeURIComponent('https://cdn.merakianalytics.com/riot/lol/resources/latest/en-US/items.json'),
-    'https://api.allorigins.win/raw?url='+encodeURIComponent('https://cdn.merakianalytics.com/riot/lol/resources/latest/en-US/items.json'),
-  ]);
+  const ddEN=await fetchJSON(`https://ddragon.leagueoflegends.com/cdn/${DDV}/data/en_US/item.json`);
+  if(!ddEN){document.getElementById('shop-grid').innerHTML='<div class="shop-loading">Impossible de charger les items.</div>';return;}
   const seen=new Set();
-  if(meraki){
-    ALL_ITEMS=Object.values(meraki).filter(it=>{
-      if(!it||!it.id)return false;
-      const maps=it.maps||{};if(maps['11']===false)return false;
-      const shop=it.shop||{};if(shop.purchasable===false)return false;
-      if(it.requiredChampion)return false;
-      if(/Trinket|Ward|Oracle|Stealth Ward|Farsight/i.test(it.name||''))return false;
-      const total=(shop.prices&&shop.prices.total)||0;
-      const isCons=/Potion|Biscuit|Elixir|Cookie/i.test(it.name||'');
-      if(!isCons&&total<=0)return false;
-      return true;
-    }).map(it=>{
-      const nameEN=it.name,ddId=it.id;
-      const cats=getItemCats(nameEN,ddId);if(!cats)return null;
-      const k=norm(nameEN);if(seen.has(k))return null;seen.add(k);
-      const s=it.stats||{};
-      const man=MAN_IDX[k]||{};
-      const pass=PASS_IDX[k]||null;
-      const obj={id:ddId,name:nameEN,cats,gold:(it.shop&&it.shop.prices&&it.shop.prices.total)||0,
-        img:`https://ddragon.leagueoflegends.com/cdn/${DDV}/img/item/${ddId}.png`,
-        hp:man.hp!==undefined?man.hp:mflat(s,'health'),
-        ad:man.ad!==undefined?man.ad:mflat(s,'attackDamage'),
-        armor:man.armor!==undefined?man.armor:mflat(s,'armor'),
-        mr:man.mr!==undefined?man.mr:mflat(s,'magicResistance'),
-        ah:man.ah!==undefined?man.ah:(AH_IDX[k]||0),
-        as:man.as!==undefined?man.as:mpct(s,'attackSpeed')/100,
-        crit:man.crit!==undefined?man.crit:Math.round(mpct(s,'criticalStrikeChance')),
-        ls:man.ls!==undefined?man.ls:Math.round(mpct(s,'lifesteal')),
-        ms_flat:man.ms_flat!==undefined?man.ms_flat:mflat(s,'movespeed'),
-        ms_pct:man.ms_pct!==undefined?man.ms_pct:mpct(s,'movespeed')/100,
-        leth:man.leth!==undefined?man.leth:mflat(s,'lethality'),
-        apen:man.apen!==undefined?man.apen:Math.round(mpct(s,'armorPenetration')),
-        mana:man.mana!==undefined?man.mana:mflat(s,'mana'),
-        ap:man.ap!==undefined?man.ap:0,
-        mrpen:man.mrpen||0,mrpen_pct:man.mrpen_pct||0,ten:man.ten||0,
-        omni:Math.round(mpct(s,'omnivamp')),
-        special:man.special||null,
-        passiveKey:pass?nameEN:null,
-        applyStats:pass?pass.applyStats:null,
-      };
-      return obj;
-    }).filter(x=>x!==null).sort((a,b)=>a.gold-b.gold||a.name.localeCompare(b.name));
-  } else {
-    document.getElementById('shop-grid').innerHTML='<div class="shop-loading">Impossible de charger les items.</div>';
-    return;
-  }
+  ALL_ITEMS=Object.entries(ddEN.data).filter(([id,it])=>{
+    const maps=it.maps||{};if(!maps['11'])return false;
+    const g=it.gold||{};if(!g.purchasable)return false;
+    if(it.requiredChampion)return false;
+    const tags=it.tags||[];if(tags.includes('Trinket'))return false;
+    if(/Ward|Oracle|Stealth|Farsight/i.test(it.name||''))return false;
+    return true;
+  }).map(([id,it])=>{
+    const nameEN=it.name,cats=getItemCats(nameEN,+id);if(!cats)return null;
+    const k=norm(nameEN);if(seen.has(k))return null;seen.add(k);
+    const st=it.stats||{},man=MAN_IDX[k]||{},pass=PASS_IDX[k]||null;
+    return{id:+id,name:nameEN,cats,gold:(it.gold&&it.gold.total)||0,
+      img:`https://ddragon.leagueoflegends.com/cdn/${DDV}/img/item/${id}.png`,
+      hp:man.hp!==undefined?man.hp:(st.FlatHPPoolMod||0),
+      ad:man.ad!==undefined?man.ad:(st.FlatPhysicalDamageMod||0),
+      ap:man.ap!==undefined?man.ap:0,
+      armor:man.armor!==undefined?man.armor:(st.FlatArmorMod||0),
+      mr:man.mr!==undefined?man.mr:(st.FlatSpellBlockMod||0),
+      ah:man.ah!==undefined?man.ah:(AH_IDX[k]||0),
+      as:man.as!==undefined?man.as:(st.PercentAttackSpeedMod||0),
+      crit:man.crit!==undefined?man.crit:Math.round((st.FlatCritChanceMod||0)*100),
+      ls:man.ls!==undefined?man.ls:Math.round((st.PercentLifeStealMod||0)*100),
+      ms_flat:man.ms_flat!==undefined?man.ms_flat:(st.FlatMovementSpeedMod||0),
+      ms_pct:man.ms_pct!==undefined?man.ms_pct:(st.PercentMovementSpeedMod||0),
+      leth:man.leth||0,apen:man.apen||0,
+      mana:man.mana!==undefined?man.mana:(st.FlatMPPoolMod||0),
+      mrpen_pct:man.mrpen_pct||0,ten:man.ten||0,
+      special:man.special||null,applyStats:pass?pass.applyStats:null};
+  }).filter(x=>x!==null).sort((a,b)=>a.gold-b.gold||a.name.localeCompare(b.name));
   renderShopCats();
   renderShop();
 }
