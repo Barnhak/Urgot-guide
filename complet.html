@@ -270,7 +270,19 @@ nav{position:sticky;top:0;z-index:200;display:flex;align-items:center;justify-co
 // ═══════════════════════════════════════════════════════════
 const CD='https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/perk-images/styles/';
 const SM='https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/perk-images/statmods/';
-const DDR='https://ddragon.leagueoflegends.com/cdn/14.24.1/';
+let DDR='https://ddragon.leagueoflegends.com/cdn/14.24.1/';
+let DDV='14.24.1';
+
+async function fetchJSON(urls){
+  const list=Array.isArray(urls)?urls:[urls];
+  for(const url of list){try{const r=await fetch(url,{mode:'cors'});if(r.ok)return await r.json();}catch(e){}}
+  for(const url of list){
+    for(const mk of[u=>'https://corsproxy.io/?url='+encodeURIComponent(u),u=>'https://api.allorigins.win/raw?url='+encodeURIComponent(u)]){
+      try{const r=await fetch(mk(url));if(r.ok)return await r.json();}catch(e){}
+    }
+  }
+  return null;
+}
 
 const TREES={
   precision:{label:'Precision',icon:CD+'7201_precision.png',
@@ -558,9 +570,11 @@ async function fetchJSON(urls){
 
 async function loadItems(){
   document.getElementById('shop-grid').innerHTML='<div class="shop-loading">Chargement des items…</div>';
-  const vData=await fetchJSON('https://ddragon.leagueoflegends.com/api/versions.json');
-  if(Array.isArray(vData)&&vData.length)DDV=vData[0];
-  const meraki=await fetchJSON('https://cdn.merakianalytics.com/riot/lol/resources/latest/en-US/items.json');
+  const meraki=await fetchJSON([
+    'https://cdn.merakianalytics.com/riot/lol/resources/latest/en-US/items.json',
+    'https://corsproxy.io/?url='+encodeURIComponent('https://cdn.merakianalytics.com/riot/lol/resources/latest/en-US/items.json'),
+    'https://api.allorigins.win/raw?url='+encodeURIComponent('https://cdn.merakianalytics.com/riot/lol/resources/latest/en-US/items.json'),
+  ]);
   const seen=new Set();
   if(meraki){
     ALL_ITEMS=Object.values(meraki).filter(it=>{
@@ -688,8 +702,11 @@ const S={
 // ═══════════════════════════════════════════════════════════
 async function loadChamps(){
   try{
-    const r=await fetch(DDR+'data/en_US/championFull.json');
-    const d=await r.json();
+    // Resolve latest version first
+    const vData=await fetchJSON('https://ddragon.leagueoflegends.com/api/versions.json');
+    if(Array.isArray(vData)&&vData.length){DDV=vData[0];DDR=`https://ddragon.leagueoflegends.com/cdn/${DDV}/`;}
+    const d=await fetchJSON([DDR+'data/en_US/championFull.json',`https://ddragon.leagueoflegends.com/cdn/${DDV}/data/fr_FR/championFull.json`]);
+    if(!d){console.warn('DDragon champions failed');return;}
     Object.values(d.data).forEach(c=>{
       S.allChamps[c.id]={id:c.id,name:c.name,key:c.key,
         img:DDR+'img/champion/'+c.image.full,
