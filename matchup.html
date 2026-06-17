@@ -41,6 +41,7 @@
       font-size: 12px; padding: 5px 30px 5px 10px; width: 180px; outline: none;
       transition: border-color 0.2s, box-shadow 0.2s, width 0.3s;
     }
+    
     .nav-search input:focus { border-color: var(--green-mid); box-shadow: 0 0 0 2px rgba(74,222,128,0.1); width: 220px; }
     .nav-search input::placeholder { color: var(--text-dim); }
     .nav-search-icon { position: absolute; right: 8px; top: 50%; transform: translateY(-50%); font-size: 11px; color: var(--green-mid); pointer-events: none; }
@@ -114,23 +115,23 @@
   </style>
 </head>
 <body>
-  <nav>
-    <a class="nav-logo" href="index.html">Urgot Guide</a>
-    <ul class="nav-links">
-      <li><a href="/mechanics.html">Mechanics</a></li>
-      <li><a href="/matchup.html">Matchup</a></li>
-      <li><a href="/synergies.html">Synergies</a></li>
-      <li><a href="/build.html#build">Build Guide</a></li>
-      <li><a href="/build.html#runes">Runes</a></li>
-      <li><a href="/build.html#calculator">Calculator</a></li>
-      <li><a href="/build.html#forge">Forge</a></li>
-    </ul>
-    <div class="nav-search">
-      <input type="text" id="nav-search-input" placeholder="Search champion..." oninput="navFilter()"/>
-      <span class="nav-search-icon">&#128269;</span>
-      <div class="nav-dropdown" id="nav-dropdown"><h4>Champions</h4><div id="nav-list"></div></div>
-    </div>
-  </nav>
+<nav>
+  <a class="nav-logo" href="index.html">Urgot Guide</a>
+  <ul class="nav-links">
+    <li><a href="/mechanics.html">Mechanics</a></li>
+    <li><a href="/matchup.html">Matchup</a></li>
+    <li><a href="/synergies.html">Synergies</a></li>
+    <li><a href="/build.html#build">Build Guide</a></li>
+    <li><a href="/build.html#runes">Runes</a></li>
+    <li><a href="/build.html#calculator">Calculator</a></li>
+    <li><a href="/build.html#forge">Forge</a></li>
+  </ul>
+  <div class="nav-search">
+    <input type="text" id="nav-search-input" placeholder="Search champion..." oninput="navFilter()"/>
+    <span class="nav-search-icon">&#128269;</span>
+    <div class="nav-dropdown" id="nav-dropdown"><h4>Champions</h4><div id="nav-list"></div></div>
+  </div>
+</nav>
 
 <section class="hero">
     <div class="hero-bg"></div>
