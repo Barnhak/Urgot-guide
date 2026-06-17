@@ -432,49 +432,58 @@ function renderCounter() {
 }
 
 // ── TOOLTIP ──────────────────────────────────────────────────────────
-(function() {
-  var bubble  = document.getElementById('tip-bubble');
-  var tipName = document.getElementById('tip-name');
-  var tipText = document.getElementById('tip-text');
-  var hideTimer;
+// Init lazy : on récupère les éléments au premier événement
+// pour éviter que l'IIFE tourne avant que le DOM soit complet
+var _tip = null;
+function getTip() {
+  if (!_tip) _tip = {
+    bubble:  document.getElementById('tip-bubble'),
+    name:    document.getElementById('tip-name'),
+    text:    document.getElementById('tip-text'),
+    timer:   null,
+  };
+  return _tip;
+}
 
-  document.addEventListener('mouseover', function(e) {
-    var chip = e.target.closest('.champ-chip[data-tip]');
-    if (!chip) return;
-    clearTimeout(hideTimer);
-    tipName.textContent = chip.dataset.name;
-    tipText.textContent = chip.dataset.tip;
-    bubble.classList.add('visible');
-    positionBubble(e, chip);
-  });
+document.addEventListener('mouseover', function(e) {
+  var chip = e.target.closest('.champ-chip[data-tip]');
+  if (!chip) return;
+  var t = getTip();
+  if (!t.bubble) return;
+  clearTimeout(t.timer);
+  t.name.textContent = chip.dataset.name;
+  t.text.textContent = chip.dataset.tip;
+  t.bubble.classList.add('visible');
+  moveTip(e);
+});
 
-  document.addEventListener('mousemove', function(e) {
-    if (bubble.classList.contains('visible')) positionBubble(e);
-  });
+document.addEventListener('mousemove', function(e) {
+  var t = getTip();
+  if (t.bubble && t.bubble.classList.contains('visible')) moveTip(e);
+});
 
-  document.addEventListener('mouseout', function(e) {
-    var chip = e.target.closest('.champ-chip[data-tip]');
-    if (!chip) return;
-    hideTimer = setTimeout(function() { bubble.classList.remove('visible'); }, 80);
-  });
+document.addEventListener('mouseout', function(e) {
+  var chip = e.target.closest('.champ-chip[data-tip]');
+  if (!chip) return;
+  var t = getTip();
+  if (!t.bubble) return;
+  t.timer = setTimeout(function() { t.bubble.classList.remove('visible'); }, 80);
+});
 
-  function positionBubble(e, chip) {
-    var bw = bubble.offsetWidth  || 240;
-    var bh = bubble.offsetHeight || 60;
-    var x  = e.clientX - bw / 2;
-    var y  = e.clientY + 18;
-    // Keep inside viewport
-    x = Math.max(8, Math.min(x, window.innerWidth  - bw - 8));
-    y = Math.max(8, Math.min(y, window.innerHeight - bh - 8));
-    // If too close to bottom, show above cursor
-    if (e.clientY + 18 + bh > window.innerHeight - 8) {
-      y = e.clientY - bh - 14;
-      bubble.style.setProperty('--arrow-top', 'auto');
-    }
-    bubble.style.left = x + 'px';
-    bubble.style.top  = y + 'px';
-  }
-})();
+function moveTip(e) {
+  var t = getTip();
+  var b = t.bubble;
+  var bw = b.offsetWidth  || 240;
+  var bh = b.offsetHeight || 60;
+  var x  = e.clientX - bw / 2;
+  var y  = e.clientY + 18;
+  x = Math.max(8, Math.min(x, window.innerWidth  - bw - 8));
+  if (e.clientY + 18 + bh > window.innerHeight - 8) y = e.clientY - bh - 14;
+  else y = Math.min(y, window.innerHeight - bh - 8);
+  b.style.left = x + 'px';
+  b.style.top  = y + 'px';
+}
+
 
 
 function init() {
