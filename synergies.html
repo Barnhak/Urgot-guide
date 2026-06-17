@@ -98,21 +98,7 @@ footer a:hover{color:var(--green-mid)}
 @keyframes fadeDown{from{opacity:0;transform:translateY(-12px)}to{opacity:1;transform:none}}
 @media(max-width:600px){.comp-grid{grid-template-columns:1fr}.role-tabs{flex-wrap:wrap}}
 
-    /* ── SUB-NAV ── */
-    .sub-nav {
-      display: flex; align-items: center; gap: 3px;
-      padding: 3px; background: var(--bg-surface);
-      border-bottom: 1px solid var(--border);
-      position: sticky; top: 57px; z-index: 90;
-    }
-    .sub-nav-link {
-      font-family: "Cinzel", serif; font-size: 11px; letter-spacing: 0.15em;
-      text-transform: uppercase; padding: 11px 24px; text-decoration: none;
-      color: var(--text-dim); transition: all 0.2s; border-bottom: 2px solid transparent;
-      white-space: nowrap;
-    }
-    .sub-nav-link:hover { color: var(--text); }
-    .sub-nav-link.active { color: var(--green); border-bottom-color: var(--green); }
+    
 
 </style>
 </head>
@@ -120,19 +106,14 @@ footer a:hover{color:var(--green-mid)}
 <nav>
   <a class="nav-logo" href="index.html">Urgot Guide</a>
   <ul class="nav-links">
-    <li><a href="/mechanics.html">Mechanics</a></li>
-    <li><a href="/matchup.html">Matchup</a></li>
-    <li><a href="/synergies.html">Synergies</a></li>
-    <li><a href="/build.html#build">Build Guide</a></li>
-    <li><a href="/build.html#runes">Runes</a></li>
-    <li><a href="/build.html#calculator">Calculator</a></li>
-    <li><a href="/build.html#forge">Forge</a></li>
-  </ul>
-  <div class="nav-search">
-    <input type="text" id="nav-search-input" placeholder="Search champion..." oninput="navFilter()"/>
-    <span class="nav-search-icon">&#128269;</span>
-    <div class="nav-dropdown" id="nav-dropdown"><h4>Champions</h4><div id="nav-list"></div></div>
-  </div>
+      <li><a href="mechanics.html">Mechanics</a></li>
+      <li><a href="matchup.html">Matchup</a></li>
+      <li><a href="synergies.html">Synergies</a></li>
+      <li><a href="build.html#build">Build Guide</a></li>
+      <li><a href="build.html#runes">Runes</a></li>
+      <li><a href="build.html#calculator">Calculator</a></li>
+      <li><a href="build.html#forge">Forge</a></li>
+    </ul>
 </nav>
 
 <section class="hero">
