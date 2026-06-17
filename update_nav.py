@@ -1,49 +1,27 @@
-import os, re, sys
+import os, re
 
-ROOT = sys.argv[1] if len(sys.argv) > 1 else "."
+NAV = '''<ul class="nav-links">
+  <li><a href="../mechanics.html">Mechanics</a></li>
+  <li><a href="../matchup.html">Matchup</a></li>
+  <li><a href="../synergies.html">Synergies</a></li>
+  <li><a href="../build.html#build">Build Guide</a></li>
+  <li><a href="../build.html#runes">Runes</a></li>
+  <li><a href="../build.html#calculator">Calculator</a></li>
+  <li><a href="../build.html#forge">Forge</a></li>
+</ul>'''
 
-# Cible le href="../matchup.html" ou href="matchup.html" etc.
-# et insère le lien Synergies juste après le </li> correspondant
+n = 0
+for root, dirs, files in os.walk('.'):
+    dirs[:] = [d for d in dirs if d not in {'.git','node_modules','.cache'}]
+    for f in files:
+        if not f.endswith('.html'): continue
+        p = os.path.join(root, f)
+        c = open(p, encoding='utf-8', errors='replace').read()
+        if 'nav-links' not in c: continue
+        new = re.sub(r'<ul class="nav-links">.*?</ul>', NAV, c, flags=re.DOTALL)
+        if new != c:
+            open(p, 'w', encoding='utf-8').write(new)
+            n += 1
+            print(f'  ✓ {p}')
 
-PATTERNS = [
-    # Sous-dossiers : href="../matchup.html"
-    (r'(<li><a [^>]*href=["\']\.\.\/matchup\.html["\'][^>]*>[^<]*</a></li>)',
-     r'\1\n      <li><a href="../synergies.html">Synergies</a></li>'),
-    # Racine : href="matchup.html"
-    (r'(<li><a [^>]*href=["\']matchup\.html["\'][^>]*>[^<]*</a></li>)',
-     r'\1\n      <li><a href="synergies.html">Synergies</a></li>'),
-    # Chemin absolu : href="/Urgot-guide/matchup.html"
-    (r'(<li><a [^>]*href=["\'][^"\']*\/matchup\.html["\'][^>]*>[^<]*</a></li>)',
-     r'\1\n      <li><a href="/Urgot-guide/synergies.html">Synergies</a></li>'),
-]
-
-updated, already, no_match = [], [], []
-
-for dirpath, dirnames, filenames in os.walk(ROOT):
-    dirnames[:] = [d for d in dirnames if d not in {'.git','node_modules','.cache'}]
-    for fname in filenames:
-        if not fname.endswith('.html'): continue
-        fpath = os.path.join(dirpath, fname)
-        try:
-            content = open(fpath, encoding='utf-8', errors='replace').read()
-        except: continue
-
-        if 'synergies.html' in content:
-            already.append(fpath); continue
-
-        new = content
-        for pat, rep in PATTERNS:
-            result = re.sub(pat, rep, new, flags=re.IGNORECASE)
-            if result != new:
-                new = result; break
-
-        if new != content:
-            open(fpath, 'w', encoding='utf-8').write(new)
-            updated.append(fpath)
-        else:
-            no_match.append(fpath)
-
-print(f"✅ Mis à jour : {len(updated)}")
-for f in updated: print(f"   {f}")
-print(f"⏭  Déjà OK   : {len(already)}")
-print(f"⚪ Pas de nav : {len(no_match)}")
+print(f'\n✅ {n} fichiers mis à jour')
