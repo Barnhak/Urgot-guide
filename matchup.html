@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>MatchUp — Urgot Guide</title>
-    <link rel="icon" type="image/png" href="https://ddragon.leagueoflegends.com/cdn/14.24.1/img/champion/Urgot.png"/>
+  <link rel="icon" type="image/png" href="https://ddragon.leagueoflegends.com/cdn/14.24.1/img/champion/Urgot.png"/>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Rajdhani:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -53,15 +53,14 @@
     .nav-dropdown::-webkit-scrollbar { width: 3px; }
     .nav-dropdown::-webkit-scrollbar-thumb { background: var(--border-bright); }
     .nav-dropdown h4 { padding: 7px 12px; font-family: "Cinzel", serif; font-size: 8px; letter-spacing: 0.25em; color: var(--text-dim); text-transform: uppercase; border-bottom: 1px solid var(--border); }
-    
+    .nav-dropdown-item { position:relative;display:block;padding:0;height:52px;overflow:hidden;border-bottom:1px solid rgba(26,61,30,0.3);text-decoration:none; }
     .nav-dropdown-item:last-child { border-bottom: none; }
-    .nav-dropdown-item:hover { background: var(--bg-surface); color: var(--green); }
-    .nav-dropdown-item{position:relative;display:block;padding:0;height:52px;overflow:hidden;border-bottom:1px solid rgba(26,61,30,0.3);text-decoration:none}
-    .nav-dropdown-item:last-child{border-bottom:none}
-    .nav-dropdown-item img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;display:block;filter:brightness(0.55) saturate(0.7);transition:filter 0.2s}
-    .nav-dropdown-item:hover img{filter:brightness(0.75) saturate(1)}
-    .nav-dropdown-item span{position:relative;z-index:1;display:flex;align-items:center;height:52px;padding:0 12px;font-size:13px;font-weight:600;color:var(--text-bright);text-shadow:0 1px 6px rgba(0,0,0,0.9);letter-spacing:0.05em;transition:color 0.2s}
-    .nav-dropdown-item:hover span{color:var(--green)}
+    .nav-dropdown-item img { position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;display:block;filter:brightness(0.55) saturate(0.7);transition:filter 0.2s; }
+    .nav-dropdown-item:hover img { filter:brightness(0.75) saturate(1); }
+    .nav-dropdown-item span { position:relative;z-index:1;display:flex;align-items:center;height:52px;padding:0 12px;font-size:13px;font-weight:600;color:var(--text-bright);text-shadow:0 1px 6px rgba(0,0,0,0.9);letter-spacing:0.05em;transition:color 0.2s; }
+    .nav-dropdown-item:hover span { color: var(--green); }
+
+    /* HERO */
     .hero { position: relative; height: 50vh; min-height: 320px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
     .hero-bg { position: absolute; inset: 0; background: url("https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Urgot_2.jpg") center 30% / cover no-repeat; filter: brightness(0.3) saturate(0.6); animation: heroZoom 20s ease-in-out infinite alternate; }
     @keyframes heroZoom { from{transform:scale(1.03)} to{transform:scale(1.08)} }
@@ -70,17 +69,47 @@
     .hero-eyebrow { font-family: "Cinzel", serif; font-size: 10px; letter-spacing: 0.4em; color: var(--green-mid); text-transform: uppercase; margin-bottom: 0.75rem; opacity: 0.8; }
     .hero-title { font-family: "Cinzel", serif; font-size: clamp(32px, 6vw, 60px); font-weight: 900; color: var(--text-bright); letter-spacing: 0.06em; text-shadow: 0 0 60px rgba(74,222,128,0.15), 0 4px 20px rgba(0,0,0,0.8); }
     .hero-title span { color: var(--green); text-shadow: 0 0 30px rgba(74,222,128,0.4); }
+
+    /* ── SUB-NAV ── */
+    .sub-nav {
+      display: flex; align-items: center; gap: 3px;
+      padding: 3px; background: var(--bg-surface);
+      border-bottom: 1px solid var(--border);
+      position: sticky; top: 57px; z-index: 90;
+    }
+    .sub-nav-link {
+      font-family: "Cinzel", serif; font-size: 11px; letter-spacing: 0.15em;
+      text-transform: uppercase; padding: 11px 24px; text-decoration: none;
+      color: var(--text-dim); transition: all 0.2s; border-bottom: 2px solid transparent;
+      white-space: nowrap;
+    }
+    .sub-nav-link:hover { color: var(--text); }
+    .sub-nav-link.active { color: var(--green); border-bottom-color: var(--green); }
+
+    /* MAIN */
     .main { max-width: 1100px; margin: 0 auto; padding: 3rem 1.5rem 5rem; }
-    .filter-bar { display: flex; align-items: center; gap: 12px; margin-bottom: 2.5rem; animation: fadeUp 0.5s ease both; }
+
+    /* FILTER BAR */
+    .filter-bar { display: flex; align-items: center; gap: 12px; margin-bottom: 2.5rem; animation: fadeUp 0.5s ease both; flex-wrap: wrap; }
     .filter-input-wrap { position: relative; flex: 1; max-width: 340px; }
     .filter-input-wrap input { width: 100%; padding: 10px 40px 10px 14px; background: var(--bg-surface); border: 1px solid var(--border-bright); border-radius: 4px; color: var(--text-bright); font-family: "Rajdhani", sans-serif; font-size: 14px; font-weight: 500; outline: none; transition: border-color 0.2s, box-shadow 0.2s; }
     .filter-input-wrap input:focus { border-color: var(--green-mid); box-shadow: 0 0 0 2px rgba(74,222,128,0.1); }
     .filter-input-wrap input::placeholder { color: var(--text-dim); }
     .filter-icon { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); color: var(--green-mid); pointer-events: none; }
     .filter-count { font-family: "Cinzel", serif; font-size: 10px; letter-spacing: 0.15em; color: var(--text-dim); }
-        .champ-grid { display: grid; grid-template-columns: 1fr; gap: 3px; }
-    
-    
+
+    /* TIER LIST BUTTON */
+    .tierlist-btn {
+      font-family: "Cinzel", serif; font-size: 11px; letter-spacing: 0.15em;
+      text-transform: uppercase; color: var(--green); text-decoration: none;
+      border: 1px solid var(--green-dark); border-radius: 3px;
+      padding: 8px 18px; transition: all 0.2s; white-space: nowrap;
+      display: inline-flex; align-items: center; gap: 6px;
+    }
+    .tierlist-btn:hover { background: rgba(74,222,128,0.08); border-color: var(--green-mid); color: var(--text-bright); }
+
+    /* GRID */
+    .champ-grid { display: grid; grid-template-columns: 1fr; gap: 3px; }
     .champ-card { display: block; text-decoration: none; position: relative; overflow: hidden; background: var(--bg-card); height: 200px; transition: transform 0.25s; animation: fadeUp 0.4s ease both; cursor: pointer; }
     .champ-card:hover { transform: scale(1.06); z-index: 10; }
     .champ-img-wrap { position: absolute; inset: 0; }
@@ -92,6 +121,7 @@
     .champ-card::after { content: ""; position: absolute; inset: 0; border: 1px solid transparent; transition: border-color 0.25s; pointer-events: none; z-index: 2; }
     .champ-card:hover::after { border-color: var(--green-mid); }
     .no-results { grid-column: 1/-1; text-align: center; padding: 3rem; color: var(--text-dim); font-family: "Cinzel", serif; font-size: 13px; letter-spacing: 0.15em; }
+
     footer { border-top: 1px solid var(--border); padding: 2rem 1rem; text-align: center; font-size: 11px; letter-spacing: 0.1em; color: var(--text-dim); }
     footer a { color: var(--green-dark); text-decoration: none; }
     footer a:hover { color: var(--green-mid); }
@@ -100,23 +130,30 @@
   </style>
 </head>
 <body>
-  <!-- NAV -->
   <nav>
-  <a class="nav-logo" href="index.html">Urgot Guide</a>
-  <ul class="nav-links">
+    <a class="nav-logo" href="index.html">Urgot Guide</a>
+    <ul class="nav-links">
       <li><a href="/Urgot-guide/mechanics.html">Mechanics</a></li>
-      <li><a href="/Urgot-guide/matchup.html">Matchup</a></li>
+      <li><a href="/Urgot-guide/matchup.html" class="active">Matchup</a></li>
       <li><a href="/Urgot-guide/build#build">Build Guide</a></li>
-      <li><a href="/Urgot-guide/build#runes" class="active">Runes</a></li>
+      <li><a href="/Urgot-guide/build#runes">Runes</a></li>
       <li><a href="/Urgot-guide/build#calculator">Calculator</a></li>
       <li><a href="/Urgot-guide/build#forge">Forge</a></li>
     </ul>
-  <div class="nav-search">
-    <input type="text" id="nav-search-input" placeholder="Search champion..." oninput="navFilter()"/>
-    <span class="nav-search-icon">&#128269;</span>
-    <div class="nav-dropdown" id="nav-dropdown"><h4>Champions</h4><div id="nav-list"></div></div>
+    <div class="nav-search">
+      <input type="text" id="nav-search-input" placeholder="Search champion..." oninput="navFilter()"/>
+      <span class="nav-search-icon">&#128269;</span>
+      <div class="nav-dropdown" id="nav-dropdown"><h4>Champions</h4><div id="nav-list"></div></div>
+    </div>
+  </nav>
+
+  <!-- SUB-NAV MATCHUP / SYNERGIES -->
+  <div class="sub-nav">
+    <a href="matchup.html" class="sub-nav-link active">⚔ Matchup</a>
+    <a href="synergies.html" class="sub-nav-link">🤝 Synergies</a>
+    <a href="tierlist.html" class="sub-nav-link">📊 Tier List</a>
   </div>
-</nav>
+
   <section class="hero">
     <div class="hero-bg"></div>
     <div class="hero-overlay"></div>
@@ -125,6 +162,7 @@
       <h1 class="hero-title">Match<span>Up</span></h1>
     </div>
   </section>
+
   <main class="main">
     <div class="filter-bar">
       <div class="filter-input-wrap">
@@ -132,18 +170,20 @@
         <span class="filter-icon">&#128269;</span>
       </div>
       <span class="filter-count" id="filter-count"></span>
+      <a href="tierlist.html" class="tierlist-btn">⚔ Tier List</a>
     </div>
     <div class="champ-grid" id="champ-grid"></div>
   </main>
-  <!-- FOOTER -->
+
   <footer>
-  Not affiliated with Riot Games &nbsp;·&nbsp;
-  <a href="https://www.twitch.tv/quante" target="_blank" rel="noopener">Quante — Twitch ↗</a>
-  &nbsp;·&nbsp;
-  <a href="https://x.com/quantelol" target="_blank" rel="noopener">Quante — Twitter ↗</a>
-  &nbsp;·&nbsp;
-  <a href="../feedback.html" style="color:var(--green-dark);text-decoration:none;transition:color 0.2s">Send Feedback ↗</a>
-</footer>
+    Not affiliated with Riot Games &nbsp;·&nbsp;
+    <a href="https://www.twitch.tv/quante" target="_blank" rel="noopener">Quante — Twitch ↗</a>
+    &nbsp;·&nbsp;
+    <a href="https://x.com/quantelol" target="_blank" rel="noopener">Quante — Twitter ↗</a>
+    &nbsp;·&nbsp;
+    <a href="../feedback.html" style="color:var(--green-dark);text-decoration:none;transition:color 0.2s">Send Feedback ↗</a>
+  </footer>
+
 <script>
 const champions = [
   { name:"Aatrox",       img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Aatrox_0.jpg",       pos:"45% 10%" },
@@ -193,7 +233,7 @@ const champions = [
   { name:"Swain",        img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Swain_0.jpg",        pos:"62% top" },
   { name:"Sylas",        img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Sylas_0.jpg",        pos:"55% 5%" },
   { name:"Tahm Kench",   img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/TahmKench_0.jpg",    pos:"60% 25%" },
-  { name:"Teemo",        img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Teemo_0.jpg",        pos:"55% 60" },
+  { name:"Teemo",        img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Teemo_0.jpg",        pos:"55% 60%" },
   { name:"Trundle",      img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Trundle_0.jpg",      pos:"55% 15%" },
   { name:"Tryndamere",   img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Tryndamere_0.jpg",   pos:"59% top" },
   { name:"Udyr",         img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Udyr_0.jpg",         pos:"55% top" },
@@ -210,13 +250,11 @@ const champions = [
 ].sort(function(a,b){ return a.name.localeCompare(b.name); });
 
 function slugify(name) {
-  return name.toLowerCase()
-    .replace(/ & /g,"-").replace(/[^\w\s-]/g,"")
-    .replace(/\s+/g,"-").normalize("NFD").replace(/[\u0300-\u036f]/g,"");
+  return name.toLowerCase().replace(/ & /g,"-").replace(/[^\w\s-]/g,"").replace(/\s+/g,"-").normalize("NFD").replace(/[\u0300-\u036f]/g,"");
 }
 
 function renderGrid(filter) {
-  var grid = document.getElementById("champ-grid");
+  var grid  = document.getElementById("champ-grid");
   var count = document.getElementById("filter-count");
   var filtered = filter
     ? champions.filter(function(c){ return c.name.toLowerCase().includes(filter.toLowerCase()); })
@@ -224,21 +262,19 @@ function renderGrid(filter) {
   count.textContent = filtered.length + " champion" + (filtered.length > 1 ? "s" : "");
   grid.innerHTML = "";
   if (!filtered.length) {
-    grid.innerHTML = "<div class=\"no-results\">No champion found</div>";
+    grid.innerHTML = '<div class="no-results">No champion found</div>';
     return;
   }
   filtered.forEach(function(champ, i) {
     var url = "matchup/" + slugify(champ.name) + ".html";
-    var a = document.createElement("a");
+    var a   = document.createElement("a");
     a.className = "champ-card";
     a.href = url;
     a.style.animationDelay = (i * 0.02) + "s";
     var img = document.createElement("img");
-    img.src = champ.img;
-    img.alt = champ.name;
-    img.loading = "lazy";
+    img.src = champ.img; img.alt = champ.name; img.loading = "lazy";
     img.style.objectPosition = champ.pos;
-    img.onerror = function() { this.src = "https://ddragon.leagueoflegends.com/cdn/img/champion/splash/" + champ.name.replace(/[^a-zA-Z]/g,"") + "_0.jpg"; };
+    img.onerror = function(){ this.src = "https://ddragon.leagueoflegends.com/cdn/img/champion/splash/" + champ.name.replace(/[^a-zA-Z]/g,"") + "_0.jpg"; };
     var wrap = document.createElement("div");
     wrap.className = "champ-img-wrap";
     wrap.appendChild(img);
@@ -251,7 +287,7 @@ function renderGrid(filter) {
   });
 }
 
-function filterChamps() { renderGrid(document.getElementById("filter-input").value); }
+function filterChamps(){ renderGrid(document.getElementById("filter-input").value); }
 
 function navFilter() {
   var val = document.getElementById("nav-search-input").value;
@@ -263,15 +299,12 @@ function navFilter() {
   navDropdown.style.display = filtered.length ? "block" : "none";
   filtered.forEach(function(champ) {
     var url = "matchup/" + slugify(champ.name) + ".html";
-    var a = document.createElement("a");
-    a.className = "nav-dropdown-item"; a.href = url; var img = document.createElement("img");
-    img.src = champ.img;
-    img.alt = champ.name;
+    var a = document.createElement("a"); a.className = "nav-dropdown-item"; a.href = url;
+    var img = document.createElement("img"); img.src = champ.img; img.alt = champ.name;
     img.style.objectPosition = champ.pos;
     img.onerror = function(){ this.style.display="none"; };
     a.appendChild(img);
-    var span = document.createElement("span");
-    span.textContent = champ.name;
+    var span = document.createElement("span"); span.textContent = champ.name;
     a.appendChild(span);
     navList.appendChild(a);
   });
