@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Synergies — Urgot Guide</title>
+<link rel="icon" type="image/png" href="https://ddragon.leagueoflegends.com/cdn/14.24.1/img/champion/Urgot.png"/>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Rajdhani:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --green:#4ADE80;--green-mid:#22C55E;--green-dark:#15803D;--green-dim:#166534;
+  --bg:#060D07;--bg-surface:#0B1A0D;--bg-card:#0F2211;
+  --border:#1A3D1E;--border-bright:#2D6A33;
+  --text:#A8D4A0;--text-dim:#4A7550;--text-bright:#E8F5E2;
+  --blue:#0BC4E3;--orange:#E67E22;--gold:#C89B3C;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Rajdhani',sans-serif;font-size:16px;overflow-x:hidden;
+  background-image:radial-gradient(ellipse 80% 40% at 50% -5%,rgba(74,222,128,0.04) 0%,transparent 60%),
+    repeating-linear-gradient(0deg,transparent,transparent 49px,rgba(26,61,30,0.08) 50px),
+    repeating-linear-gradient(90deg,transparent,transparent 49px,rgba(26,61,30,0.08) 50px);}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--border-bright);border-radius:2px}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:1rem 2.5rem;background:rgba(6,13,7,0.95);backdrop-filter:blur(8px);border-bottom:1px solid var(--border)}
+.nav-logo{font-family:'Cinzel',serif;font-size:14px;letter-spacing:0.2em;color:var(--green);text-decoration:none}
+.nav-links{display:flex;gap:2rem;list-style:none;align-items:center}
+.nav-links a{font-size:12px;letter-spacing:0.15em;text-transform:uppercase;color:var(--text-dim);text-decoration:none;transition:color 0.2s}
+.nav-links a:hover,.nav-links a.active{color:var(--green)}
+
+.hero{position:relative;height:34vh;min-height:200px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:url('https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Urgot_0.jpg') center 30%/cover no-repeat;filter:brightness(0.2) saturate(0.5);animation:heroZoom 20s ease-in-out infinite alternate}
+@keyframes heroZoom{from{transform:scale(1.03)}to{transform:scale(1.08)}}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(6,13,7,0.3) 0%,rgba(6,13,7,0) 40%,rgba(6,13,7,0.9) 90%,var(--bg) 100%)}
+.hero-content{position:relative;text-align:center;animation:fadeDown 0.7s ease both}
+.hero-eyebrow{font-family:'Cinzel',serif;font-size:10px;letter-spacing:0.4em;color:var(--green-mid);text-transform:uppercase;margin-bottom:0.5rem;opacity:0.8}
+.hero-title{font-family:'Cinzel',serif;font-size:clamp(26px,5vw,48px);font-weight:900;color:var(--text-bright);letter-spacing:0.08em;text-shadow:0 0 60px rgba(74,222,128,0.15),0 4px 20px rgba(0,0,0,0.9)}
+.hero-title span{color:var(--green);text-shadow:0 0 30px rgba(74,222,128,0.4)}
+.hero-sub{font-size:12px;letter-spacing:0.15em;color:var(--text-dim);text-transform:uppercase;margin-top:0.5rem}
+
+.main{max-width:1100px;margin:0 auto;padding:3rem 1.5rem 5rem}
+
+/* SECTION HEADER */
+.section-header{display:flex;align-items:center;gap:14px;margin-bottom:1.25rem;margin-top:2.5rem}
+.section-header:first-child{margin-top:0}
+.section-icon{font-size:22px}
+.section-title{font-family:'Cinzel',serif;font-size:13px;letter-spacing:0.2em;color:var(--green);text-transform:uppercase}
+.section-header::after{content:'';flex:1;height:1px;background:linear-gradient(to right,var(--border-bright),transparent)}
+
+/* ROLE TABS */
+.role-tabs{display:flex;gap:3px;margin-bottom:1.25rem;background:var(--bg-surface);padding:3px;border-radius:4px;border:1px solid var(--border);width:fit-content}
+.role-tab{font-family:'Cinzel',serif;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;padding:7px 18px;border:none;background:transparent;color:var(--text-dim);cursor:pointer;border-radius:3px;transition:all 0.15s;white-space:nowrap}
+.role-tab.active{background:var(--green-dim);color:var(--green)}
+.role-tab:hover:not(.active){color:var(--text)}
+
+/* SYNERGY TIER LIST */
+.syn-tier-list{display:flex;flex-direction:column;gap:5px}
+.syn-row{display:flex;align-items:stretch;border-radius:4px;overflow:hidden;border:1px solid var(--border);min-height:70px;position:relative}
+.syn-row::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--row-accent)}
+.syn-label{width:110px;flex-shrink:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:8px 6px;border-right:1px solid var(--border);background:var(--row-bg)}
+.syn-label-name{font-family:'Cinzel',serif;font-size:10px;letter-spacing:0.08em;text-transform:uppercase;font-weight:700;text-align:center;line-height:1.3}
+.syn-champs{display:flex;flex-wrap:wrap;align-items:center;gap:5px;padding:8px 12px;background:var(--bg-card);flex:1}
+
+.syn-best{--row-bg:rgba(21,128,61,0.12);--row-accent:#15803D}
+.syn-best .syn-label-name{color:#4ADE80}
+.syn-good{--row-bg:rgba(34,197,94,0.06);--row-accent:#22C55E}
+.syn-good .syn-label-name{color:#86efac}
+.syn-ok{--row-bg:rgba(234,179,8,0.06);--row-accent:#ca8a04}
+.syn-ok .syn-label-name{color:#facc15}
+.syn-avoid{--row-bg:rgba(239,68,68,0.06);--row-accent:#dc2626}
+.syn-avoid .syn-label-name{color:#f87171}
+
+/* CHAMP CHIP */
+.champ-chip{position:relative;width:52px;height:52px;border-radius:3px;overflow:hidden;cursor:default;flex-shrink:0;border:2px solid rgba(255,255,255,0.05);transition:transform 0.15s}
+.champ-chip:hover{transform:scale(1.1);z-index:5}
+.champ-chip img{width:100%;height:100%;object-fit:cover;object-position:center top;display:block}
+.champ-chip-name{position:absolute;bottom:0;left:0;right:0;font-size:8px;text-align:center;padding:2px;background:rgba(0,0,0,0.82);color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.champ-chip:hover::after{content:attr(data-name);position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);background:rgba(6,13,7,0.96);border:1px solid var(--border-bright);border-radius:3px;padding:3px 8px;font-size:11px;font-weight:600;color:var(--text-bright);white-space:nowrap;pointer-events:none;z-index:10;font-family:'Rajdhani',sans-serif}
+
+/* COMP CARDS */
+.comp-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:10px;margin-top:1.5rem}
+.comp-card{background:var(--bg-surface);border:1px solid var(--border);border-radius:4px;padding:1rem 1.25rem;position:relative;overflow:hidden;transition:border-color 0.2s}
+.comp-card:hover{border-color:var(--border-bright)}
+.comp-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--card-accent,var(--green-dim))}
+.comp-card-title{font-family:'Cinzel',serif;font-size:11px;letter-spacing:0.15em;text-transform:uppercase;margin-bottom:8px}
+.comp-card-champs{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:8px}
+.comp-card-note{font-size:12px;color:var(--text-dim);line-height:1.5}
+
+.best-card{--card-accent:#15803D}.best-card .comp-card-title{color:var(--green)}
+.good-card{--card-accent:#22C55E}.good-card .comp-card-title{color:#86efac}
+
+.notice{background:rgba(74,222,128,0.04);border:1px solid rgba(74,222,128,0.15);border-radius:4px;padding:10px 14px;font-size:13px;color:var(--text-dim);margin-bottom:1.5rem;display:flex;align-items:center;gap:8px;line-height:1.5}
+.notice strong{color:var(--green-mid)}
+
+footer{border-top:1px solid var(--border);padding:2rem 1rem;text-align:center;font-size:11px;letter-spacing:0.08em;color:var(--text-dim);margin-top:2rem}
+footer a{color:var(--green-dark);text-decoration:none}
+footer a:hover{color:var(--green-mid)}
+@keyframes fadeDown{from{opacity:0;transform:translateY(-12px)}to{opacity:1;transform:none}}
+@media(max-width:600px){.comp-grid{grid-template-columns:1fr}.role-tabs{flex-wrap:wrap}}
+</style>
+</head>
+<body>
+<nav>
+  <a class="nav-logo" href="index.html">Urgot Guide</a>
+  <ul class="nav-links">
+    <li><a href="mechanics.html">Mechanics</a></li>
+    <li><a href="matchup.html">Matchup</a></li>
+    <li><a href="synergies.html" class="active">Synergies</a></li>
+    <li><a href="protected/build.html">Build Guide</a></li>
+  </ul>
+</nav>
+
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <p class="hero-eyebrow">Urgot Guide</p>
+    <h1 class="hero-title">Synergies <span>& Compos</span></h1>
+    <p class="hero-sub">Meilleurs alliés • Compositions gagnantes</p>
+  </div>
+</section>
+
+<div class="main">
+  <div class="notice">
+    <span>⚙</span>
+    <span>Urgot excelle dans les compositions <strong>engage/frontline</strong> et les <strong>poke + execute</strong>. Ses synergies tier lists sont classées par impact en teamfight.</span>
+  </div>
+
+  <!-- SYNERGY TIER LISTS BY ROLE -->
+  <div class="section-header"><span class="section-icon">🏆</span><h2 class="section-title">Meilleures synergies par rôle</h2></div>
+
+  <div class="role-tabs">
+    <button class="role-tab active" onclick="switchRole('jg',this)">Jungle</button>
+    <button class="role-tab" onclick="switchRole('mid',this)">Mid</button>
+    <button class="role-tab" onclick="switchRole('adc',this)">ADC</button>
+    <button class="role-tab" onclick="switchRole('sup',this)">Support</button>
+  </div>
+
+  <div id="role-content"></div>
+
+  <!-- BEST TEAM COMPOSITIONS -->
+  <div class="section-header" style="margin-top:3rem"><span class="section-icon">⚔</span><h2 class="section-title">Compositions d'équipe idéales</h2></div>
+
+  <div class="comp-grid" id="comp-grid"></div>
+
+  <!-- ENEMY COMPS TO AVOID -->
+  <div class="section-header" style="margin-top:3rem"><span class="section-icon">⚠</span><h2 class="section-title">Compositions adverses difficiles</h2></div>
+  <div class="comp-grid" id="avoid-grid"></div>
+</div>
+
+<footer>
+  Not affiliated with Riot Games &nbsp;·&nbsp;
+  <a href="https://www.twitch.tv/quante" target="_blank">Quante — Twitch ↗</a>
+  &nbsp;·&nbsp;
+  <a href="https://x.com/quantelol" target="_blank">Quante — Twitter ↗</a>
+</footer>
+
+<script>
+let DDV = "15.1.1";
+const DDC = n => `https://ddragon.leagueoflegends.com/cdn/${DDV}/img/champion/${n}.png`;
+fetch("https://ddragon.leagueoflegends.com/api/versions.json")
+  .then(r=>r.json()).then(v=>{DDV=v[0];init();}).catch(()=>{init();});
+
+const CHAMP_DDR = {
+  "Aurelion Sol":"AurelionSol","Bel'Veth":"Belveth","Cho'Gath":"Chogath",
+  "Dr. Mundo":"DrMundo","Jarvan IV":"JarvanIV","K'Sante":"KSante",
+  "Lee Sin":"LeeSin","Master Yi":"MasterYi","Tahm Kench":"TahmKench",
+  "Twisted Fate":"TwistedFate","Wukong":"MonkeyKing","Xin Zhao":"XinZhao",
+  "Rek'Sai":"RekSai","Kha'Zix":"Khazix",
+};
+function champKey(n){ return CHAMP_DDR[n]||n.replace(/['\s.&]/g,''); }
+
+// ── SYNERGY DATA ──────────────────────────────────────────────────────
+const SYNERGIES = {
+  jg: [
+    { tier:'best',  label:'Idéal',   champs:['Hecarim','Jarvan IV','Vi','Sejuani','Amumu'],
+      note:'Engage + AoE CC → parfait pour set up ton E + R. Hecarim est le meilleur : ghost in → knockup → tu execute.' },
+    { tier:'good',  label:'Bon',     champs:['Volibear','Lee Sin','Warwick','Wukong','Gragas'],
+      note:'Bonnes synergies engage ou peel. Lee Sin kick = setup R parfait. Warwick gapclose = dive combo.' },
+    { tier:'ok',    label:'Correct', champs:['Nocturne','Graves','Shyvana','Udyr','Trundle'],
+      note:'Moins de synergie directe mais s\'intègrent bien dans les compositions où Urgot splite.' },
+    { tier:'avoid', label:'Éviter',  champs:['Kindred','Nidalee','Karthus'],
+      note:'Compositions poke/scale qui ne profitent pas de ta présence en lane ni en teamfight.' },
+  ],
+  mid: [
+    { tier:'best',  label:'Idéal',   champs:['Orianna','Malzahar','Syndra','Twisted Fate'],
+      note:'CC massif qui amplifie ton R. Orianna ball + ton E = combo léthal. Malzahar suppression = execute assuré.' },
+    { tier:'good',  label:'Bon',     champs:['Lissandra','Galio','Yasuo','Yone'],
+      note:'CC utile + bon follow sur ton engage. Galio ult = super counter-engage pendant que tu kite.' },
+    { tier:'ok',    label:'Correct', champs:['Viktor','Cassiopeia','Zed','Ahri'],
+      note:'S\'intègrent dans les compos mais peu de synergie directe avec ton kit.' },
+    { tier:'avoid', label:'Éviter',  champs:['Azir','Taliyah','Aurelion Sol'],
+      note:'Compositions scaling tardif qui jouent différemment. Peu de synergie sur tes timings de spike.' },
+  ],
+  adc: [
+    { tier:'best',  label:'Idéal',   champs:['Jinx','Kog\'Maw','Aphelios'],
+      note:'Hypercarries que ton frontline protège. Tu absorbes le dive, eux fontaines de dégâts. Win condition classique.' },
+    { tier:'good',  label:'Bon',     champs:['Caitlyn','Jhin','Miss Fortune'],
+      note:'ADC poke qui profitent du pick potential que tu crées. Miss Fortune R + ton E = wombo parfait.' },
+    { tier:'ok',    label:'Correct', champs:['Ashe','Xayah','Sivir'],
+      note:'Bonnes ADC généralement, peu de synergie directe mais rien en conflit.' },
+    { tier:'avoid', label:'Éviter',  champs:['Kalista','Samira','Vayne'],
+      note:'Veulent jouer ensemble (Kalista) ou sont fragiles en dive (Samira). Vayne = composition similaire à toi.' },
+  ],
+  sup: [
+    { tier:'best',  label:'Idéal',   champs:['Nautilus','Leona','Thresh','Alistar'],
+      note:'Engage sup = combo parfait. Nautilus hook → ton E → execute. Double engage qui force des flashes à chaque fight.' },
+    { tier:'good',  label:'Bon',     champs:['Blitzcrank','Rell','Morgana','Maokai'],
+      note:'CC massif qui facilite tes trades. Blitz hook = kill gratuit si E land. Rell magnétise les ennemis sur toi.' },
+    { tier:'ok',    label:'Correct', champs:['Lulu','Karma','Senna'],
+      note:'Peel et boucliers utiles, surtout si tu joues split/tanky. Senna heals compensent ton absence de sustain.' },
+    { tier:'avoid', label:'Éviter',  champs:['Yuumi','Soraka','Janna'],
+      note:'Compositions peel/heal qui ne setup pas d\'engage. Janna ulte dans le mauvais sens de ta composition.' },
+  ],
+};
+
+const COMPS_GOOD = [
+  { title:'Engage Dive', cls:'best-card',
+    champs:['Hecarim','Orianna','Jinx','Nautilus'],
+    note:'Hecarim in → Orianna ball → Urgot E → Nautilus hook → Jinx cleanup. Engage en cascade impossible à stop.' },
+  { title:'Poke + Execute', cls:'best-card',
+    champs:['Jarvan IV','Twisted Fate','Caitlyn','Thresh'],
+    note:'Poke lane, pick TF global, Caitlyn poke → tu finis tout avec E+R. Comp polyvalente très forte.' },
+  { title:'Frontline Protect', cls:'good-card',
+    champs:['Amumu','Syndra','Kog\'Maw','Lulu'],
+    note:'Urgot tank en top, Amumu engage, Lulu bulle Kog, Syndra CC lock. Tu absorbes tout pendant que Kog pump.' },
+  { title:'Wombo Combo', cls:'good-card',
+    champs:['Malphite','Yone','Miss Fortune','Leona'],
+    note:'Malphite R + Yone E2 + Miss Fortune R + ton E = 5 morts. Engage AoE instantané, teamfight à sens unique.' },
+];
+
+const COMPS_AVOID = [
+  { title:'Dive All-In', cls:'best-card',
+    champs:['Darius','Hecarim','Irelia','Thresh'],
+    note:'Eux aussi jouent dive. En teamfight ils arrivent sur toi avant que tu puisse E. Difficile de setup ton execute.' },
+  { title:'Poke Kite', cls:'best-card',
+    champs:['Jayce','Ezreal','Caitlyn','Lulu'],
+    note:'Te forcent à jouer sans rien faire. Tu es trop lent pour t\'approcher sans E. Ton E = CD long = fenêtres inexistantes.' },
+  { title:'Shields/Heals', cls:'good-card',
+    champs:['Vladimir','Soraka','Yuumi','Kog\'Maw'],
+    note:'Trop de sustain = impossible d\'execute. Ils reset avant que ton R s\'active. Serpent\'s Fang obligatoire.' },
+];
+
+// ── RENDER ────────────────────────────────────────────────────────────
+function chip(name) {
+  const div = document.createElement('div');
+  div.className = 'champ-chip';
+  div.dataset.name = name;
+  const img = document.createElement('img');
+  img.src = DDC(champKey(name));
+  img.loading = 'lazy';
+  img.onerror = function(){ this.style.display='none'; };
+  const lbl = document.createElement('div');
+  lbl.className = 'champ-chip-name';
+  lbl.textContent = name;
+  div.appendChild(img);
+  div.appendChild(lbl);
+  return div;
+}
+
+function renderRole(role) {
+  const data = SYNERGIES[role];
+  const container = document.getElementById('role-content');
+  container.innerHTML = '';
+  const list = document.createElement('div');
+  list.className = 'syn-tier-list';
+  data.forEach(row => {
+    const r = document.createElement('div');
+    r.className = 'syn-row syn-' + row.tier;
+    const lbl = document.createElement('div');
+    lbl.className = 'syn-label';
+    lbl.innerHTML = '<div class="syn-label-name">' + row.label + '</div>';
+    const champs = document.createElement('div');
+    champs.className = 'syn-champs';
+    row.champs.forEach(n => champs.appendChild(chip(n)));
+    // Note
+    const note = document.createElement('div');
+    note.style.cssText = 'padding:8px 12px;background:var(--bg-card);border-left:1px solid var(--border);display:flex;align-items:center;max-width:340px;font-size:12px;color:var(--text-dim);line-height:1.5';
+    note.textContent = row.note;
+    r.appendChild(lbl);
+    r.appendChild(champs);
+    r.appendChild(note);
+    list.appendChild(r);
+  });
+  container.appendChild(list);
+}
+
+function switchRole(role, btn) {
+  document.querySelectorAll('.role-tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  renderRole(role);
+}
+
+function renderComps(data, containerId) {
+  const grid = document.getElementById(containerId);
+  grid.innerHTML = '';
+  data.forEach(comp => {
+    const card = document.createElement('div');
+    card.className = 'comp-card ' + comp.cls;
+    const title = document.createElement('div');
+    title.className = 'comp-card-title';
+    title.textContent = comp.title;
+    const champs = document.createElement('div');
+    champs.className = 'comp-card-champs';
+    comp.champs.forEach(n => champs.appendChild(chip(n)));
+    const note = document.createElement('div');
+    note.className = 'comp-card-note';
+    note.textContent = comp.note;
+    card.appendChild(title);
+    card.appendChild(champs);
+    card.appendChild(note);
+    grid.appendChild(card);
+  });
+}
+
+function init() {
+  renderRole('jg');
+  renderComps(COMPS_GOOD, 'comp-grid');
+  renderComps(COMPS_AVOID, 'avoid-grid');
+}
+init();
+</script>
+</body>
+</html>
