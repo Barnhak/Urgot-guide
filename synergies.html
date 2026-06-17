@@ -100,6 +100,58 @@ footer a:hover{color:var(--green-mid)}
 
     
 
+
+  /* ── TOOLTIP BULLE ─────────────────── */
+  .tip-bubble {
+    position: fixed;
+    background: var(--bg-card);
+    border: 1px solid var(--border-bright);
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 12px;
+    color: var(--text);
+    line-height: 1.5;
+    max-width: 240px;
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0;
+    transform: translateY(4px);
+    transition: opacity 0.15s, transform 0.15s;
+    box-shadow: 0 6px 24px rgba(0,0,0,0.6);
+  }
+  .tip-bubble.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .tip-bubble::before {
+    content: '';
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 6px solid transparent;
+    border-bottom-color: var(--border-bright);
+    pointer-events: none;
+  }
+  .tip-bubble::after {
+    content: '';
+    position: absolute;
+    bottom: calc(100% - 1px);
+    left: 50%;
+    transform: translateX(-50%);
+    border: 6px solid transparent;
+    border-bottom-color: var(--bg-card);
+    pointer-events: none;
+  }
+  .tip-name {
+    font-weight: 700;
+    color: var(--green);
+    margin-bottom: 3px;
+    font-size: 11px;
+    letter-spacing: 0.05em;
+  }
+
 </style>
 </head>
 <body>
@@ -164,11 +216,6 @@ footer a:hover{color:var(--green-mid)}
     <span>Archetypes et champions qui <strong>punissent Urgot</strong> — classés par dangerosité. Modifiable facilement dans le code <code style="background:rgba(74,222,128,0.08);padding:1px 5px;border-radius:2px;font-size:11px">COUNTERS</code>.</span>
   </div>
 
-  <!-- ONGLETS archetype / champions -->
-  <div class="role-tabs" id="counter-tabs">
-    <button class="role-tab active" onclick="switchCounter('archetype',this)">🧩 Archétypes</button>
-    <button class="role-tab" onclick="switchCounter('champ',this)">⚔ Champions</button>
-  </div>
   <div id="counter-content"></div>
 
 </div>
@@ -267,10 +314,11 @@ const COMPS_AVOID = [
 ];
 
 // ── RENDER ────────────────────────────────────────────────────────────
-function chip(name) {
+function chip(name, tip) {
   const div = document.createElement('div');
   div.className = 'champ-chip';
   div.dataset.name = name;
+  if (tip) div.dataset.tip = tip;
   const img = document.createElement('img');
   img.src = DDC(champKey(name));
   img.loading = 'lazy';
@@ -297,7 +345,7 @@ function renderRole(role) {
     lbl.innerHTML = '<div class="syn-label-name">' + row.label + '</div>';
     const champs = document.createElement('div');
     champs.className = 'syn-champs';
-    row.champs.forEach(n => champs.appendChild(chip(n)));
+    row.champs.forEach(n => champs.appendChild(chip(n, row.note)));
     // Note
     const note = document.createElement('div');
     note.style.cssText = 'padding:8px 12px;background:var(--bg-card);border-left:1px solid var(--border);display:flex;align-items:center;max-width:340px;font-size:12px;color:var(--text-dim);line-height:1.5';
@@ -327,7 +375,7 @@ function renderComps(data, containerId) {
     title.textContent = comp.title;
     const champs = document.createElement('div');
     champs.className = 'comp-card-champs';
-    comp.champs.forEach(n => champs.appendChild(chip(n)));
+    comp.champs.forEach(n => champs.appendChild(chip(n, comp.note)));
     const note = document.createElement('div');
     note.className = 'comp-card-note';
     note.textContent = comp.note;
@@ -339,55 +387,39 @@ function renderComps(data, containerId) {
 }
 
 
-// ── COUNTER DATA ──────────────────────────────────────────────────────
-const COUNTERS = {
-  archetype: [
-    { tier:"best",  label:"Très fort",
-      champs:["Vayne","Varus","Teemo","Heimerdinger","Kennen"],
-      note:"Poke à distance ou kite parfait. Tu ne peux pas t'approcher. Leurs dégâts passent à travers ton armor." },
-    { tier:"good",  label:"Fort",
-      champs:["Fiora","Irelia","Yorick","Illaoi","Rumble"],
-      note:"Duellistes qui te battent en 1v1 passé un certain point. Ton E ne suffit pas à inverser le trade." },
-    { tier:"ok",    label:"Gênant",
-      champs:["Olaf","Tryndamere","Gangplank","K'Sante","Ambessa"],
-      note:"Champions avec de la mobilité ou qui ignorent tes CC. Ton E est moins efficace, les fights sont serrés." },
-    { tier:"avoid", label:"Légèrement",
-      champs:["Aatrox","Akali","Mordekaiser","Yasuo","Yone"],
-      note:"Dangereux mais gérable avec le bon jeu. Tu peux trouver des fenêtres avantageuses en jouant proprement." },
-  ],
-  champ: [
-    { tier:"best",  label:"Très fort",
-      champs:["Vayne","Varus","Teemo","Heimerdinger","Kennen","Rumble"],
-      note:"Kite ou poke à distance — ta portée de Q ne suffit pas à les atteindre. Composition idéale contre toi." },
-    { tier:"good",  label:"Fort",
-      champs:["Fiora","Irelia","Illaoi","Yorick","Tryndamere"],
-      note:"Duellistes spécialisés qui te battent en 1v1. Leur kit nie directement le tien (parry, Maiden, ult immune...)." },
-    { tier:"ok",    label:"Gênant",
-      champs:["Olaf","Gangplank","K'Sante","Ambessa","Singed"],
-      note:"Matchups difficiles mais pas insurmontables. Demandent une connaissance approfondie des échanges." },
-    { tier:"avoid", label:"Légèrement",
-      champs:["Aatrox","Akali","Ryze","Mordekaiser","Cassiopeia"],
-      note:"Matchups serrés — peuvent gagner la lane mais tu les outscales en teamfight si tu joues proprement." },
-  ],
-};
+// ── COUNTER DATA (par rôle) ───────────────────────────────────────────
+const COUNTERS_BY_ROLE = [
+  { role:"TOP", cls:"syn-best",
+    champs:["Fiora","Irelia","Yorick","Illaoi","Vayne","Varus","Rumble","Kennen","Teemo","Heimerdinger","Tryndamere","Olaf"],
+    note:"Poke à distance, duellistes ou kite — les plus dangereux en toplane" },
+  { role:"JGL", cls:"syn-good",
+    champs:["Hecarim","Lee Sin","Vi","Rengar","Nocturne","Olaf"],
+    note:"Dives sur toi facilement ou setup des all-in que tu ne peux pas absorber" },
+  { role:"MID", cls:"syn-ok",
+    champs:["Yasuo","Yone","Akali","Cassiopeia","Zed","Talon"],
+    note:"Roam forts ou AP burst qui punissent ta team si tu splitpush" },
+  { role:"ADC", cls:"syn-ok",
+    champs:["Vayne","Caitlyn","Ezreal","Jhin","Jinx"],
+    note:"Kite parfait — en teamfight tu ne peux pas les attraper sans E" },
+  { role:"SUP", cls:"syn-avoid",
+    champs:["Janna","Lulu","Soraka","Yuumi","Renata Glasc"],
+    note:"Peel massif qui protège leurs carries et empêche ton execute de proc" },
+];
 
-var counterTab = 'archetype';
-
-function renderCounter(tab) {
-  var data = COUNTERS[tab];
+function renderCounter() {
   var container = document.getElementById('counter-content');
   container.innerHTML = '';
   var list = document.createElement('div');
   list.className = 'syn-tier-list';
-  data.forEach(function(row) {
+  COUNTERS_BY_ROLE.forEach(function(row) {
     var r = document.createElement('div');
-    r.className = 'syn-row syn-' + row.tier;
+    r.className = 'syn-row ' + row.cls;
     var lbl = document.createElement('div');
     lbl.className = 'syn-label';
-    lbl.innerHTML = '<div class="syn-label-name">' + row.label + '</div>';
+    lbl.innerHTML = '<div class="syn-label-name">' + row.role + '</div>';
     var champs = document.createElement('div');
     champs.className = 'syn-champs';
-    row.champs.forEach(function(n) { champs.appendChild(chip(n)); });
+    row.champs.forEach(function(n) { champs.appendChild(chip(n, row.note)); });
     var note = document.createElement('div');
     note.style.cssText = 'padding:8px 12px;background:var(--bg-card);border-left:1px solid var(--border);display:flex;align-items:center;max-width:340px;font-size:12px;color:var(--text-dim);line-height:1.5';
     note.textContent = row.note;
@@ -399,20 +431,61 @@ function renderCounter(tab) {
   container.appendChild(list);
 }
 
-function switchCounter(tab, btn) {
-  document.querySelectorAll('#counter-tabs .role-tab').forEach(function(t) { t.classList.remove('active'); });
-  btn.classList.add('active');
-  counterTab = tab;
-  renderCounter(tab);
-}
+// ── TOOLTIP ──────────────────────────────────────────────────────────
+(function() {
+  var bubble  = document.getElementById('tip-bubble');
+  var tipName = document.getElementById('tip-name');
+  var tipText = document.getElementById('tip-text');
+  var hideTimer;
+
+  document.addEventListener('mouseover', function(e) {
+    var chip = e.target.closest('.champ-chip[data-tip]');
+    if (!chip) return;
+    clearTimeout(hideTimer);
+    tipName.textContent = chip.dataset.name;
+    tipText.textContent = chip.dataset.tip;
+    bubble.classList.add('visible');
+    positionBubble(e, chip);
+  });
+
+  document.addEventListener('mousemove', function(e) {
+    if (bubble.classList.contains('visible')) positionBubble(e);
+  });
+
+  document.addEventListener('mouseout', function(e) {
+    var chip = e.target.closest('.champ-chip[data-tip]');
+    if (!chip) return;
+    hideTimer = setTimeout(function() { bubble.classList.remove('visible'); }, 80);
+  });
+
+  function positionBubble(e, chip) {
+    var bw = bubble.offsetWidth  || 240;
+    var bh = bubble.offsetHeight || 60;
+    var x  = e.clientX - bw / 2;
+    var y  = e.clientY + 18;
+    // Keep inside viewport
+    x = Math.max(8, Math.min(x, window.innerWidth  - bw - 8));
+    y = Math.max(8, Math.min(y, window.innerHeight - bh - 8));
+    // If too close to bottom, show above cursor
+    if (e.clientY + 18 + bh > window.innerHeight - 8) {
+      y = e.clientY - bh - 14;
+      bubble.style.setProperty('--arrow-top', 'auto');
+    }
+    bubble.style.left = x + 'px';
+    bubble.style.top  = y + 'px';
+  }
+})();
+
 
 function init() {
   renderRole('jg');
   renderComps(COMPS_GOOD, 'comp-grid');
   renderComps(COMPS_AVOID, 'avoid-grid');
-  renderCounter('archetype');
+  renderCounter();
 }
 init();
 </script>
+
+<div class="tip-bubble" id="tip-bubble"><div class="tip-name" id="tip-name"></div><div id="tip-text"></div></div>
 </body>
 </html>
