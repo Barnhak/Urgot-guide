@@ -7,215 +7,20 @@
   <link rel="icon" type="image/png" href="https://ddragon.leagueoflegends.com/cdn/14.24.1/img/champion/Urgot.png"/>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Rajdhani:wght@300;400;500;600&display=swap" rel="stylesheet"/>
   <style>
-
-
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    :root {
-      --green: #4ADE80; --green-mid: #22C55E; --green-dark: #15803D;
-      --gold: #C89B3C; --gold-light: #F0E6B2; --gold-dark: #785A28;
-      --bg: #060D07; --bg-surface: #0B1A0D; --bg-card: #0F2211;
-      --border: #1A3D1E; --border-bright: #2D6A33; --border-gold: #785A28;
-      --text: #A8D4A0; --text-dim: #4A7550; --text-bright: #E8F5E2;
-      --blue: #0BC4E3; --blue-dark: #0A3A4A;
-      --red: #C84B4B; --red-dark: #2E0A0A;
-      --purple: #9B59B6; --purple-dark: #1A0A2E;
-      --orange: #E67E22; --orange-dark: #2E1A0A;
-    }
-    html { scroll-behavior: smooth; }
-    body {
-      background: var(--bg); color: var(--text);
-      font-family: 'Rajdhani', sans-serif; font-size: 16px;
-      min-height: 100vh; overflow-x: hidden;
-      background-image:
-        radial-gradient(ellipse 80% 40% at 50% -5%, rgba(74,222,128,0.04) 0%, transparent 60%),
-        repeating-linear-gradient(0deg, transparent, transparent 49px, rgba(26,61,30,0.08) 50px),
-        repeating-linear-gradient(90deg, transparent, transparent 49px, rgba(26,61,30,0.08) 50px);
-    }
-
-    /* ── NAV ─────────────────────────────────────────────── */
-    nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 1rem 2.5rem;
-      background: rgba(6,13,7,0.95); backdrop-filter: blur(8px);
-      border-bottom: 1px solid var(--border);
-    }
-    .nav-logo { font-family: 'Cinzel', serif; font-size: 14px; letter-spacing: 0.2em; color: var(--green); text-decoration: none; }
-    .nav-links { display: flex; gap: 2rem; list-style: none; align-items: center; }
-    .nav-links a { font-size: 12px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-dim); text-decoration: none; transition: color 0.2s; }
-    .nav-links a:hover, .nav-links a.active { color: var(--green); }
-    .nav-search { position: relative; }
-    .nav-search input { background: rgba(15,34,17,0.8); border: 1px solid var(--border-bright); border-radius: 3px; color: var(--text-bright); font-family: 'Rajdhani', sans-serif; font-size: 12px; padding: 5px 30px 5px 10px; width: 180px; outline: none; transition: border-color 0.2s, width 0.3s; }
-    .nav-search input:focus { border-color: var(--green-mid); box-shadow: 0 0 0 2px rgba(74,222,128,0.1); width: 220px; }
-    .nav-search input::placeholder { color: var(--text-dim); }
-    .nav-search-icon { position: absolute; right: 8px; top: 50%; transform: translateY(-50%); font-size: 11px; color: var(--green-mid); pointer-events: none; }
-    .nav-dropdown { position: absolute; top: calc(100% + 6px); right: 0; width: 220px; background: var(--bg-card); border: 1px solid var(--border-bright); border-radius: 4px; max-height: 280px; overflow-y: auto; display: none; box-shadow: 0 8px 32px rgba(0,0,0,0.7); z-index: 200; }
-    .nav-dropdown::-webkit-scrollbar { width: 3px; }
-    .nav-dropdown::-webkit-scrollbar-thumb { background: var(--border-bright); }
-    .nav-dropdown h4 { padding: 7px 12px; font-family: 'Cinzel', serif; font-size: 8px; letter-spacing: 0.25em; color: var(--text-dim); text-transform: uppercase; border-bottom: 1px solid var(--border); }
-    .nav-dropdown-item { display: flex; align-items: center; gap: 8px; padding: 7px 12px; text-decoration: none; color: var(--text); font-size: 13px; font-weight: 500; border-bottom: 1px solid rgba(26,61,30,0.3); transition: background 0.15s, color 0.15s; }
-    .nav-dropdown-item:last-child { border-bottom: none; }
-    .nav-dropdown-item:hover { background: var(--bg-surface); color: var(--green); }
-    .nav-dropdown-item img { width: 24px; height: 24px; border-radius: 3px; border: 1px solid var(--border); object-fit: cover; }
-
-    /* ── HERO ─────────────────────────────────────────────── */
-    .hero {
-      position: relative; height: 38vh; min-height: 240px;
-      display: flex; align-items: center; justify-content: center; overflow: hidden;
-    }
-    
-    .hero-bg {
-      position: absolute; inset: 0;
-      background: url('https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Urgot_2.jpg') center 30% / cover no-repeat;
-      filter: brightness(0.25) saturate(0.6);
-      animation: heroZoom 20s ease-in-out infinite alternate;
-    }
-    @keyframes heroZoom { from{transform:scale(1.03)} to{transform:scale(1.07)} }
-    .hero-overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(6,13,7,0.4) 0%, rgba(6,13,7,0) 40%, rgba(6,13,7,0.8) 85%, var(--bg) 100%); }
-    .hero-content { position: relative; text-align: center; animation: fadeDown 0.7s ease both; }
-    .hero-eyebrow { font-family: 'Cinzel', serif; font-size: 10px; letter-spacing: 0.4em; color: var(--green-mid); text-transform: uppercase; margin-bottom: 0.6rem; opacity: 0.8; }
-    .hero-title { font-family: 'Cinzel', serif; font-size: clamp(24px, 5vw, 48px); font-weight: 900; color: var(--text-bright); letter-spacing: 0.08em; text-shadow: 0 0 60px rgba(74,222,128,0.15), 0 4px 20px rgba(0,0,0,0.9); }
-    .hero-title span { color: var(--green); text-shadow: 0 0 30px rgba(74,222,128,0.4); }
-    .hero-sub { font-size: 13px; letter-spacing: 0.15em; color: var(--text-dim); text-transform: uppercase; margin-top: 0.6rem; }
-
-    /* ── MAIN ─────────────────────────────────────────────── */
-    .main { max-width: 860px; margin: 0 auto; padding: 2.5rem 1.5rem 4rem; }
-
-    .section {
-      background: var(--bg-surface); border: 1px solid var(--border);
-      border-radius: 4px; padding: 1.5rem; margin-bottom: 1.25rem;
-      position: relative; animation: fadeUp 0.4s ease both;
-    }
-    .section::before {
-      content: ''; position: absolute; inset: 0; border-radius: 4px;
-      border: 1px solid transparent;
-      background: linear-gradient(135deg, rgba(74,222,128,0.08), transparent 40%) border-box;
-      -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
-      -webkit-mask-composite: destination-out; mask-composite: exclude; pointer-events: none;
-    }
-    .section-title { font-family: 'Cinzel', serif; font-size: 10px; letter-spacing: 0.2em; color: var(--green-dark); text-transform: uppercase; margin-bottom: 1.25rem; }
-
-    /* inputs */
-    .input-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; margin-bottom: 1rem; }
-    .input-group label { display: block; font-size: 11px; letter-spacing: 0.1em; color: var(--text-dim); text-transform: uppercase; margin-bottom: 4px; }
-    .input-wrap { position: relative; display: flex; align-items: center; }
-    .champ-preview { position: absolute; left: 6px; width: 26px; height: 26px; border-radius: 3px; overflow: hidden; border: 1px solid var(--border-bright); background: var(--bg-card); display: none; flex-shrink: 0; }
-    .champ-preview img { width: 100%; height: 100%; object-fit: cover; object-position: center top; }
-    .champ-preview.visible { display: block; }
-    .input-group input { width: 100%; background: var(--bg); border: 1px solid var(--border); border-radius: 3px; color: var(--text-bright); font-family: 'Rajdhani', sans-serif; font-size: 14px; font-weight: 500; padding: 8px 10px; outline: none; transition: border-color 0.2s, box-shadow 0.2s, padding-left 0.15s; }
-    .input-group input.has-icon { padding-left: 38px; }
-    .input-group input:focus { border-color: var(--border-bright); box-shadow: 0 0 0 2px rgba(74,222,128,0.1); }
-    .input-group input::placeholder { color: var(--text-dim); font-weight: 400; }
-
-    /* tags */
-    .comp-label { font-size: 11px; color: var(--text-dim); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 6px; }
-    .comp-tags { display: flex; flex-wrap: wrap; gap: 6px; min-height: 30px; align-items: center; }
-    .tag { font-size: 12px; font-weight: 600; letter-spacing: 0.08em; padding: 4px 12px; border-radius: 2px; }
-    .tag-ad     { background: rgba(200,75,75,0.12);  color: #E07070; border: 1px solid rgba(200,75,75,0.3); }
-    .tag-ap     { background: var(--purple-dark);    color: var(--purple); border: 1px solid rgba(155,89,182,0.3); }
-    .tag-cc     { background: var(--blue-dark);      color: var(--blue);   border: 1px solid rgba(11,196,227,0.3); }
-    .tag-crit   { background: rgba(74,222,128,0.08); color: var(--green);  border: 1px solid rgba(74,222,128,0.25); }
-    .tag-burst  { background: rgba(180,30,180,0.1);  color: #D070D0;       border: 1px solid rgba(180,30,180,0.3); }
-    .tag-burn   { background: var(--orange-dark);    color: var(--orange); border: 1px solid rgba(230,126,34,0.3); }
-    .tag-shield { background: rgba(11,196,227,0.08); color: var(--blue);   border: 1px solid rgba(11,196,227,0.25); }
-    .tag-heal   { background: rgba(74,222,128,0.06); color: var(--green-mid); border: 1px solid rgba(74,222,128,0.2); }
-    .tag-execute{ background: rgba(200,75,75,0.15);  color: #FF6060;       border: 1px solid rgba(200,75,75,0.4); }
-    .tag-empty  { font-size: 12px; color: var(--text-dim); font-style: italic; }
-
-    /* btn */
-    .btn-wrap { text-align: center; margin-top: 1.25rem; }
-    .btn { font-family: 'Cinzel', serif; font-size: 12px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--green); background: transparent; border: 1px solid var(--green-dark); border-radius: 3px; padding: 11px 36px; cursor: pointer; position: relative; overflow: hidden; transition: color 0.2s, border-color 0.2s; }
-    .btn::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(74,222,128,0.1), transparent); opacity: 0; transition: opacity 0.2s; }
-    .btn:hover { color: var(--text-bright); border-color: var(--green-mid); }
-    .btn:hover::before { opacity: 1; }
-    .btn:active { transform: scale(0.97); }
-
-    /* result header */
-    .result-header { font-family: 'Cinzel', serif; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--green-dark); margin-bottom: 0.75rem; display: flex; align-items: center; gap: 8px; }
-    .result-header::after { content: ''; flex: 1; height: 1px; background: var(--border); }
-
-    /* build layout */
-    .build-layout { display: grid; grid-template-columns: 1fr 220px; gap: 14px; align-items: start; }
-    @media(max-width: 640px) { .build-layout { grid-template-columns: 1fr; } }
-
-    /* items */
-    .items-grid { display: flex; flex-direction: column; gap: 8px; }
-    .item-row { background: var(--bg-card); border: 1px solid var(--border); border-radius: 4px; padding: 8px 12px; display: flex; align-items: center; gap: 10px; transition: border-color 0.2s; }
-    .item-row:hover { border-color: var(--border-bright); }
-    .item-icon { width: 40px; height: 40px; border-radius: 4px; overflow: hidden; border: 1px solid var(--border-bright); flex-shrink: 0; background: var(--bg-card); }
-    .item-icon img { width: 100%; height: 100%; object-fit: cover; display: block; }
-    .item-slot { font-family: 'Cinzel', serif; font-size: 10px; letter-spacing: 0.1em; color: var(--green-dark); text-transform: uppercase; min-width: 48px; }
-    .item-name { font-size: 14px; font-weight: 600; color: var(--text-bright); }
-    .item-note { font-size: 12px; color: var(--text-dim); margin-top: 1px; line-height: 1.4; }
-
-    /* situ panel */
-    .situ-panel { background: var(--bg-surface); border: 1px solid var(--border); border-radius: 4px; padding: 1rem; position: relative; }
-    .situ-panel::before { content: ''; position: absolute; inset: 0; border-radius: 4px; border: 1px solid transparent; background: linear-gradient(135deg, rgba(74,222,128,0.07), transparent 40%) border-box; -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0); -webkit-mask-composite: destination-out; mask-composite: exclude; pointer-events: none; }
-    .situ-title { font-family: 'Cinzel', serif; font-size: 9px; letter-spacing: 0.2em; color: var(--green-dark); text-transform: uppercase; margin-bottom: 10px; }
-    .situ-item { background: var(--bg-card); border: 1px solid var(--border); border-radius: 3px; padding: 8px 10px; margin-bottom: 7px; transition: border-color 0.2s; display: flex; align-items: flex-start; gap: 8px; }
-    .situ-item:last-child { margin-bottom: 0; }
-    .situ-item:hover { border-color: var(--border-bright); }
-    .situ-icon { width: 36px; height: 36px; border-radius: 3px; overflow: hidden; border: 1px solid var(--border-bright); flex-shrink: 0; background: var(--bg-card); }
-    .situ-icon img { width: 100%; height: 100%; object-fit: cover; display: block; }
-    .situ-text { flex: 1; }
-    .situ-tag { display: inline-block; font-size: 10px; font-weight: 600; padding: 2px 7px; border-radius: 2px; margin-bottom: 4px; letter-spacing: 0.06em; }
-    .situ-tag-shield  { background: rgba(11,196,227,0.1);  color: var(--blue); border: 1px solid rgba(11,196,227,0.25); }
-    .situ-tag-heal    { background: rgba(74,222,128,0.08); color: var(--green-mid); border: 1px solid rgba(74,222,128,0.2); }
-    .situ-tag-execute { background: rgba(200,75,75,0.15);  color: #FF6060; border: 1px solid rgba(200,75,75,0.4); }
-    .situ-item-name { font-size: 13px; font-weight: 600; color: var(--text-bright); margin-bottom: 2px; }
-    .situ-item-cond { font-size: 11px; color: var(--text-dim); line-height: 1.4; }
-    .situ-empty { font-size: 12px; color: var(--text-dim); font-style: italic; text-align: center; padding: 0.75rem 0; }
-
-    /* warn / guide */
-    .warn-box { background: rgba(74,222,128,0.05); border: 1px solid rgba(74,222,128,0.15); border-radius: 3px; padding: 8px 12px; font-size: 13px; color: var(--text); margin-bottom: 8px; }
-    .guide-box { background: rgba(74,222,128,0.06); border: 1px solid rgba(74,222,128,0.2); border-radius: 3px; padding: 9px 14px; font-size: 13px; color: var(--green-mid); margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
-    .guide-box a { color: var(--green-mid); text-decoration: none; font-weight: 600; }
-    .guide-box a:hover { color: var(--green); text-decoration: underline; }
-    .error { background: var(--red-dark); border: 1px solid rgba(200,75,75,0.3); border-radius: 3px; padding: 10px 14px; font-size: 13px; color: var(--red); text-align: center; margin-top: 1rem; }
-
-    /* catégories */
-    .cat-section { background: var(--bg-surface); border: 1px solid var(--border); border-radius: 4px; padding: 1.25rem 1.5rem; margin-bottom: 1.25rem; position: relative; }
-    .cat-section::before { content: ''; position: absolute; inset: 0; border-radius: 4px; border: 1px solid transparent; background: linear-gradient(135deg, rgba(74,222,128,0.07), transparent 40%) border-box; -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0); -webkit-mask-composite: destination-out; mask-composite: exclude; pointer-events: none; }
-    .cat-grid { display: flex; flex-direction: column; gap: 8px; }
-    .cat-row { display: flex; align-items: flex-start; gap: 10px; }
-    .cat-label { font-family: 'Cinzel', serif; font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; min-width: 64px; padding-top: 5px; }
-    .cat-label-ad     { color: #E07070; }
-    .cat-label-ap     { color: var(--purple); }
-    .cat-label-cc     { color: var(--blue); }
-    .cat-label-crit   { color: var(--green); }
-    .cat-label-burst  { color: #D070D0; }
-    .cat-label-burn   { color: var(--orange); }
-    .cat-label-shield { color: var(--blue); }
-    .cat-label-heal   { color: var(--green-mid); }
-    .cat-label-execute{ color: #FF6060; }
-    .cat-champs { display: flex; flex-wrap: wrap; gap: 5px; }
-    .cat-champ { display: flex; align-items: center; gap: 4px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 3px; padding: 3px 7px 3px 3px; font-size: 12px; color: var(--text-bright); }
-    .cat-champ img { width: 20px; height: 20px; border-radius: 2px; object-fit: cover; object-position: center top; }
-
-    footer { border-top: 1px solid var(--border); padding: 2rem 1rem; text-align: center; font-size: 11px; letter-spacing: 0.08em; color: var(--text-dim); margin-top: 1rem; }
-    footer a { color: var(--green-dark); text-decoration: none; }
-    footer a:hover { color: var(--green-mid); }
-
-    @media(max-width:500px) { .input-grid { grid-template-columns: 1fr 1fr; } }
-    @keyframes fadeDown { from{opacity:0;transform:translateY(-10px)} to{opacity:1;transform:none} }
-    @keyframes fadeUp   { from{opacity:0;transform:translateY(8px)}  to{opacity:1;transform:none} }
-  
-
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
     :root{
-      --green:#4ADE80;--green-mid:#22C55E;--green-dark:#15803D;--green-dim:#166534;--green-deep:#052e16;
-      --bg:#060D07;--bg-surface:#0B1A0D;--bg-card:#0F2211;--bg-card2:#122614;
+      --green:#4ADE80;--green-mid:#22C55E;--green-dark:#15803D;--green-dim:#166534;
+      --bg:#060D07;--bg-surface:#0B1A0D;--bg-card:#0F2211;
       --border:#1A3D1E;--border-bright:#2D6A33;
       --text:#A8D4A0;--text-dim:#4A7550;--text-bright:#E8F5E2;
       --blue:#0BC4E3;--red:#C84B4B;--orange:#E67E22;--purple:#9B59B6;--gold:#C89B3C;
+      --red-dark:#2E0A0A;--orange-dark:#2E1A0A;--purple-dark:#1A0A2E;--blue-dark:#0A3A4A;
     }
     html{scroll-behavior:smooth}
     body{background:var(--bg);color:var(--text);font-family:'Rajdhani',sans-serif;font-size:16px;overflow-x:hidden;
       background-image:radial-gradient(ellipse 80% 40% at 50% -5%,rgba(74,222,128,0.04) 0%,transparent 60%),
         repeating-linear-gradient(0deg,transparent,transparent 49px,rgba(26,61,30,0.08) 50px),
         repeating-linear-gradient(90deg,transparent,transparent 49px,rgba(26,61,30,0.08) 50px);}
-
-    /* ── NAV ── */
     nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:1rem 2.5rem;background:rgba(6,13,7,0.95);backdrop-filter:blur(8px);border-bottom:1px solid var(--border)}
     .nav-logo{font-family:'Cinzel',serif;font-size:14px;letter-spacing:0.2em;color:var(--green);text-decoration:none}
     .nav-links{display:flex;gap:2rem;list-style:none;align-items:center}
@@ -232,10 +37,8 @@
     .nav-dropdown-item:last-child{border-bottom:none}
     .nav-dropdown-item:hover{background:var(--bg-surface);color:var(--green)}
     .nav-dropdown-item img{width:24px;height:24px;border-radius:3px;border:1px solid var(--border);object-fit:cover}
-
-    /* ── HERO ── */
     .hero{position:relative;height:38vh;min-height:240px;display:flex;align-items:center;justify-content:center;overflow:hidden}
-    .hero-bg{position:absolute;inset:0;background:url('https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Urgot_2.jpg') center 20% / cover no-repeat;filter:brightness(0.22) saturate(0.5);animation:heroZoom 20s ease-in-out infinite alternate}
+    .hero-bg{position:absolute;inset:0;background:url('https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Urgot_2.jpg') center 20%/cover no-repeat;filter:brightness(0.22) saturate(0.5);animation:heroZoom 20s ease-in-out infinite alternate}
     @keyframes heroZoom{from{transform:scale(1.03)}to{transform:scale(1.08)}}
     .hero-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(6,13,7,0.4) 0%,rgba(6,13,7,0) 40%,rgba(6,13,7,0.85) 85%,var(--bg) 100%)}
     .hero-content{position:relative;text-align:center;animation:fadeDown 0.7s ease both}
@@ -243,169 +46,177 @@
     .hero-title{font-family:'Cinzel',serif;font-size:clamp(28px,5vw,52px);font-weight:900;color:var(--text-bright);letter-spacing:0.08em;text-shadow:0 0 60px rgba(74,222,128,0.15),0 4px 20px rgba(0,0,0,0.9)}
     .hero-title span{color:var(--green);text-shadow:0 0 30px rgba(74,222,128,0.4)}
     .hero-sub{font-size:13px;letter-spacing:0.15em;color:var(--text-dim);text-transform:uppercase;margin-top:0.6rem}
-
-    /* ── MAIN ── */
-    .main{max-width:960px;margin:0 auto;padding:3rem 1.5rem 6rem}
-
-    /* ── SECTION CARDS (starter/boots) ── */
-    .section-block{background:var(--bg-surface);border:1px solid var(--border);border-radius:4px;padding:2rem;margin-bottom:1.5rem;position:relative;animation:fadeUp 0.5s ease both}
-    .section-block::before{content:'';position:absolute;inset:0;border-radius:4px;border:1px solid transparent;background:linear-gradient(135deg,rgba(74,222,128,0.08),transparent 40%) border-box;-webkit-mask:linear-gradient(#fff 0 0) padding-box,linear-gradient(#fff 0 0);-webkit-mask-composite:destination-out;mask-composite:exclude;pointer-events:none}
-    .section-label{font-family:'Cinzel',serif;font-size:10px;letter-spacing:0.25em;text-transform:uppercase;color:var(--text-dim);margin-bottom:1.25rem}
-
-    .items-row{display:flex;flex-wrap:wrap;gap:14px}
-    .item-card{display:flex;align-items:flex-start;gap:12px;background:var(--bg-card);border:1px solid var(--border);border-radius:4px;padding:12px 14px;flex:1;min-width:220px;transition:border-color 0.2s}
-    .item-card:hover{border-color:var(--border-bright)}
-    .item-icon{width:48px;height:48px;border-radius:4px;border:1px solid var(--border-bright);overflow:hidden;flex-shrink:0;background:var(--bg)}
+    .main{max-width:960px;margin:0 auto;padding:6rem 1.5rem 6rem}
+    .section{background:var(--bg-surface);border:1px solid var(--border);border-radius:4px;padding:1.5rem;margin-bottom:1.25rem;position:relative;animation:fadeUp 0.4s ease both}
+    .section::before{content:'';position:absolute;inset:0;border-radius:4px;border:1px solid transparent;background:linear-gradient(135deg,rgba(74,222,128,0.08),transparent 40%) border-box;-webkit-mask:linear-gradient(#fff 0 0) padding-box,linear-gradient(#fff 0 0);-webkit-mask-composite:destination-out;mask-composite:exclude;pointer-events:none}
+    .section-title{font-family:'Cinzel',serif;font-size:10px;letter-spacing:0.2em;color:var(--green-dark);text-transform:uppercase;margin-bottom:1.25rem}
+    .input-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin-bottom:1rem}
+    .input-group label{display:block;font-size:11px;letter-spacing:0.1em;color:var(--text-dim);text-transform:uppercase;margin-bottom:4px}
+    .input-wrap{position:relative;display:flex;align-items:center}
+    .champ-preview{position:absolute;left:6px;width:26px;height:26px;border-radius:3px;overflow:hidden;border:1px solid var(--border-bright);background:var(--bg-card);display:none;flex-shrink:0}
+    .champ-preview img{width:100%;height:100%;object-fit:cover;object-position:center top}
+    .champ-preview.visible{display:block}
+    .input-group input{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:3px;color:var(--text-bright);font-family:'Rajdhani',sans-serif;font-size:14px;font-weight:500;padding:8px 10px;outline:none;transition:border-color 0.2s,box-shadow 0.2s,padding-left 0.15s}
+    .input-group input.has-icon{padding-left:38px}
+    .input-group input:focus{border-color:var(--border-bright);box-shadow:0 0 0 2px rgba(74,222,128,0.1)}
+    .input-group input::placeholder{color:var(--text-dim);font-weight:400}
+    .comp-label{font-size:11px;color:var(--text-dim);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:6px}
+    .comp-tags{display:flex;flex-wrap:wrap;gap:6px;min-height:30px;align-items:center;margin-bottom:6px}
+    .tag{font-size:12px;font-weight:600;letter-spacing:0.08em;padding:4px 12px;border-radius:2px}
+    .tag-ad{background:rgba(200,75,75,0.12);color:#E07070;border:1px solid rgba(200,75,75,0.3)}
+    .tag-ap{background:var(--purple-dark);color:var(--purple);border:1px solid rgba(155,89,182,0.3)}
+    .tag-cc{background:var(--blue-dark);color:var(--blue);border:1px solid rgba(11,196,227,0.3)}
+    .tag-crit{background:rgba(74,222,128,0.08);color:var(--green);border:1px solid rgba(74,222,128,0.25)}
+    .tag-burst{background:rgba(180,30,180,0.1);color:#D070D0;border:1px solid rgba(180,30,180,0.3)}
+    .tag-burn{background:var(--orange-dark);color:var(--orange);border:1px solid rgba(230,126,34,0.3)}
+    .tag-shield{background:rgba(11,196,227,0.08);color:var(--blue);border:1px solid rgba(11,196,227,0.25)}
+    .tag-heal{background:rgba(74,222,128,0.06);color:var(--green-mid);border:1px solid rgba(74,222,128,0.2)}
+    .tag-execute{background:rgba(200,75,75,0.15);color:#FF6060;border:1px solid rgba(200,75,75,0.4)}
+    .tag-empty{font-size:12px;color:var(--text-dim);font-style:italic}
+    .btn-wrap{text-align:center;margin-top:1.25rem}
+    .btn{font-family:'Cinzel',serif;font-size:12px;letter-spacing:0.15em;text-transform:uppercase;color:var(--green);background:transparent;border:1px solid var(--green-dark);border-radius:3px;padding:11px 36px;cursor:pointer;position:relative;overflow:hidden;transition:color 0.2s,border-color 0.2s}
+    .btn::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(74,222,128,0.1),transparent);opacity:0;transition:opacity 0.2s}
+    .btn:hover{color:var(--text-bright);border-color:var(--green-mid)}
+    .btn:hover::before{opacity:1}
+    .btn:active{transform:scale(0.97)}
+    .result-header{font-family:'Cinzel',serif;font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:var(--green-dark);margin-bottom:0.75rem;display:flex;align-items:center;gap:8px}
+    .result-header::after{content:'';flex:1;height:1px;background:var(--border)}
+    .build-layout{display:grid;grid-template-columns:1fr 220px;gap:14px;align-items:start}
+    @media(max-width:640px){.build-layout{grid-template-columns:1fr}}
+    .items-grid{display:flex;flex-direction:column;gap:8px}
+    .item-row{background:var(--bg-card);border:1px solid var(--border);border-radius:4px;padding:8px 12px;display:flex;align-items:center;gap:10px;transition:border-color 0.2s}
+    .item-row:hover{border-color:var(--border-bright)}
+    .item-icon{width:40px;height:40px;border-radius:4px;overflow:hidden;border:1px solid var(--border-bright);flex-shrink:0;background:var(--bg-card)}
     .item-icon img{width:100%;height:100%;object-fit:cover;display:block}
-    .item-info{}
-    .item-name{font-family:'Cinzel',serif;font-size:12px;letter-spacing:0.1em;color:var(--green-mid);margin-bottom:4px}
-    .item-desc{font-size:13px;color:var(--text);line-height:1.5}
-
-    /* ── COLLAPSIBLE CATEGORY ── */
-    .cat-wrapper{margin-bottom:12px;border-radius:4px;overflow:hidden;border:1px solid var(--border)}
-    .cat-header{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;cursor:pointer;background:var(--bg-surface);transition:background 0.2s;user-select:none;position:relative}
-    .cat-header::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--accent-color,var(--green-dark));transition:background 0.2s}
-    .cat-header:hover{background:var(--bg-card)}
-    .cat-title{font-family:'Cinzel',serif;font-size:13px;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent-color,var(--green))}
-    .cat-badge{font-size:11px;color:var(--text-dim);letter-spacing:0.05em;font-family:'Rajdhani',sans-serif}
-    .cat-arrow{color:var(--accent-color,var(--green));font-size:12px;transition:transform 0.35s;margin-left:12px}
-    .cat-header.open .cat-arrow{transform:rotate(180deg)}
-    .cat-body{max-height:0;overflow:hidden;transition:max-height 0.4s ease,padding 0.3s ease;background:var(--bg-card)}
-    .cat-body.open{max-height:2000px}
-    .cat-inner{padding:1.25rem 1.25rem 1.5rem;display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
-
-    .cat-item{display:flex;align-items:flex-start;gap:10px;background:var(--bg-surface);border:1px solid var(--border);border-radius:4px;padding:10px 12px;transition:border-color 0.2s}
-    .cat-item:hover{border-color:var(--border-bright)}
-    .cat-item-icon{width:44px;height:44px;border-radius:3px;border:1px solid var(--border-bright);overflow:hidden;flex-shrink:0;background:var(--bg)}
-    .cat-item-icon img{width:100%;height:100%;object-fit:cover;display:block}
-    .cat-item-info{}
-    .cat-item-name{font-family:'Cinzel',serif;font-size:11px;letter-spacing:0.1em;margin-bottom:3px}
-    .cat-item-desc{font-size:12px;color:var(--text-dim);line-height:1.45}
-
-    /* accent colors per category */
-    .cat-core .cat-header{--accent-color:var(--green)}
-    .cat-great .cat-header{--accent-color:#0BC4E3}
-    .cat-good .cat-header{--accent-color:var(--gold)}
-    .cat-situ .cat-header{--accent-color:var(--orange)}
-    .cat-bad .cat-header{--accent-color:var(--red)}
-    .cat-core .cat-item-name{color:var(--green)}
-    .cat-great .cat-item-name{color:#0BC4E3}
-    .cat-good .cat-item-name{color:var(--gold)}
-    .cat-situ .cat-item-name{color:var(--orange)}
-    .cat-bad .cat-item-name{color:var(--red)}
-
-    /* section divider */
-    .divider{display:flex;align-items:center;gap:14px;margin:2rem 0 1.5rem}
-    .divider span{font-family:'Cinzel',serif;font-size:9px;letter-spacing:0.3em;text-transform:uppercase;color:var(--text-dim);white-space:nowrap}
-    .divider::before,.divider::after{content:'';flex:1;height:1px;background:var(--border)}
-
-    /* first back grid */
-    .back-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px}
-    .back-card{background:var(--bg-card);border:1px solid var(--border);border-radius:4px;padding:14px;text-align:center;transition:border-color 0.2s}
-    .back-card:hover{border-color:var(--border-bright)}
-    .back-card-icons{display:flex;justify-content:center;gap:6px;margin-bottom:8px}
-    .back-card .item-icon{width:40px;height:40px}
-    .back-card-price{font-family:'Cinzel',serif;font-size:12px;color:var(--gold);letter-spacing:0.08em;margin-bottom:6px}
-    .back-card-desc{font-size:12px;color:var(--text-dim);line-height:1.45}
-    .back-card.highlight{border-color:var(--green-dark);background:rgba(74,222,128,0.04)}
-    .back-card.highlight .back-card-price{color:var(--green)}
-    .back-card.bad{border-color:rgba(200,75,75,0.3);background:rgba(200,75,75,0.04)}
-    .back-card.bad .back-card-price{color:var(--red)}
-    .back-card.bad .back-card-desc{color:#C84B4B}
-
-    footer{border-top:1px solid var(--border);padding:2rem 1rem;text-align:center;font-size:11px;letter-spacing:0.1em;color:var(--text-dim)}
+    .item-slot{font-family:'Cinzel',serif;font-size:10px;letter-spacing:0.1em;color:var(--green-dark);text-transform:uppercase;min-width:48px}
+    .item-name{font-size:14px;font-weight:600;color:var(--text-bright)}
+    .item-note{font-size:12px;color:var(--text-dim);margin-top:1px;line-height:1.4}
+    .situ-panel{background:var(--bg-surface);border:1px solid var(--border);border-radius:4px;padding:1rem;position:relative}
+    .situ-panel::before{content:'';position:absolute;inset:0;border-radius:4px;border:1px solid transparent;background:linear-gradient(135deg,rgba(74,222,128,0.07),transparent 40%) border-box;-webkit-mask:linear-gradient(#fff 0 0) padding-box,linear-gradient(#fff 0 0);-webkit-mask-composite:destination-out;mask-composite:exclude;pointer-events:none}
+    .situ-title{font-family:'Cinzel',serif;font-size:9px;letter-spacing:0.2em;color:var(--green-dark);text-transform:uppercase;margin-bottom:10px}
+    .situ-item{background:var(--bg-card);border:1px solid var(--border);border-radius:3px;padding:8px 10px;margin-bottom:7px;transition:border-color 0.2s;display:flex;align-items:flex-start;gap:8px}
+    .situ-item:last-child{margin-bottom:0}
+    .situ-item:hover{border-color:var(--border-bright)}
+    .situ-icon{width:36px;height:36px;border-radius:3px;overflow:hidden;border:1px solid var(--border-bright);flex-shrink:0;background:var(--bg-card)}
+    .situ-icon img{width:100%;height:100%;object-fit:cover;display:block}
+    .situ-text{flex:1}
+    .situ-tag{display:inline-block;font-size:10px;font-weight:600;padding:2px 7px;border-radius:2px;margin-bottom:4px;letter-spacing:0.06em}
+    .situ-tag-shield{background:rgba(11,196,227,0.1);color:var(--blue);border:1px solid rgba(11,196,227,0.25)}
+    .situ-tag-heal{background:rgba(74,222,128,0.08);color:var(--green-mid);border:1px solid rgba(74,222,128,0.2)}
+    .situ-item-name{font-size:13px;font-weight:600;color:var(--text-bright);margin-bottom:2px}
+    .situ-item-cond{font-size:11px;color:var(--text-dim);line-height:1.4}
+    .situ-empty{font-size:12px;color:var(--text-dim);font-style:italic;text-align:center;padding:0.75rem 0}
+    .warn-box{background:rgba(74,222,128,0.05);border:1px solid rgba(74,222,128,0.15);border-radius:3px;padding:8px 12px;font-size:13px;color:var(--text);margin-bottom:8px}
+    .guide-box{background:rgba(74,222,128,0.06);border:1px solid rgba(74,222,128,0.2);border-radius:3px;padding:9px 14px;font-size:13px;color:var(--green-mid);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+    .guide-box a{color:var(--green-mid);text-decoration:none;font-weight:600}
+    .guide-box a:hover{color:var(--green);text-decoration:underline}
+    .error{background:var(--red-dark);border:1px solid rgba(200,75,75,0.3);border-radius:3px;padding:10px 14px;font-size:13px;color:var(--red);text-align:center;margin-top:1rem}
+    .cat-section{background:var(--bg-surface);border:1px solid var(--border);border-radius:4px;padding:1.25rem 1.5rem;margin-bottom:1.25rem;position:relative}
+    .cat-section::before{content:'';position:absolute;inset:0;border-radius:4px;border:1px solid transparent;background:linear-gradient(135deg,rgba(74,222,128,0.07),transparent 40%) border-box;-webkit-mask:linear-gradient(#fff 0 0) padding-box,linear-gradient(#fff 0 0);-webkit-mask-composite:destination-out;mask-composite:exclude;pointer-events:none}
+    .cat-grid{display:flex;flex-direction:column;gap:8px}
+    .cat-row{display:flex;align-items:flex-start;gap:10px}
+    .cat-label{font-family:'Cinzel',serif;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;min-width:64px;padding-top:5px}
+    .cat-label-ad{color:#E07070}.cat-label-ap{color:var(--purple)}.cat-label-cc{color:var(--blue)}
+    .cat-label-crit{color:var(--green)}.cat-label-burst{color:#D070D0}.cat-label-burn{color:var(--orange)}
+    .cat-label-shield{color:var(--blue)}.cat-label-heal{color:var(--green-mid)}.cat-label-execute{color:#FF6060}
+    .cat-champs{display:flex;flex-wrap:wrap;gap:5px}
+    .cat-champ{display:flex;align-items:center;gap:4px;background:var(--bg-card);border:1px solid var(--border);border-radius:3px;padding:3px 7px 3px 3px;font-size:12px;color:var(--text-bright)}
+    .cat-champ img{width:20px;height:20px;border-radius:2px;object-fit:cover;object-position:center top}
+    footer{border-top:1px solid var(--border);padding:2rem 1rem;text-align:center;font-size:11px;letter-spacing:0.08em;color:var(--text-dim);margin-top:1rem}
     footer a{color:var(--green-dark);text-decoration:none}
     footer a:hover{color:var(--green-mid)}
-
+    @media(max-width:600px){.build-layout{grid-template-columns:1fr}.input-grid{grid-template-columns:1fr 1fr}}
     @keyframes fadeDown{from{opacity:0;transform:translateY(-12px)}to{opacity:1;transform:none}}
     @keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-    @media(max-width:600px){.items-row{flex-direction:column}.cat-inner{grid-template-columns:1fr}.nav-links{gap:1rem}}
-  
-
-    .panel-viewport{overflow:hidden;width:100%}
-    .panel-track{display:flex;width:200%;transition:transform 0.55s cubic-bezier(0.77,0,0.175,1)}
-    .panel-track.show-right{transform:translateX(-50%)}
-    .panel-page{width:50%;flex-shrink:0;min-width:0}
-    .page-toggle{position:fixed;bottom:2rem;right:2rem;z-index:200;display:flex;align-items:center;background:var(--bg-card);border:1px solid var(--border-bright);border-radius:50px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,0.6)}
-    .toggle-btn{font-family:'Cinzel',serif;font-size:11px;letter-spacing:0.15em;text-transform:uppercase;padding:10px 20px;border:none;background:transparent;color:var(--text-dim);cursor:pointer;transition:background 0.2s,color 0.2s;white-space:nowrap}
-    .toggle-btn.active{background:var(--green-dark);color:var(--text-bright)}
-    .toggle-btn:hover:not(.active){color:var(--green-mid)}
-    .toggle-sep{width:1px;background:var(--border-bright);height:20px;flex-shrink:0}
-  
   </style>
 </head>
 <body>
-<section class="hero">
-    <div class="hero-bg"></div>
-    <div class="hero-overlay"></div>
-    <div class="hero-content">
-      <p class="hero-eyebrow">Urgot Guide</p>
-      <h1 class="hero-title">Build <span>Calculator</span></h1>
-      <p class="hero-sub">Adaptive runes & build based on enemy composition</p>
-    </div>
-  </section>
+<nav>
+  <a class="nav-logo" href="../index.html">Urgot Guide</a>
+  <ul class="nav-links">
+    <li><a href="../mechanics.html">Mechanics</a></li>
+    <li><a href="../matchup.html">Matchup</a></li>
+    <li><a href="build.html#build">Build Guide</a></li>
+    <li><a href="build.html#runes">Runes</a></li>
+    <li><a href="build.html#calculator" class="active">Calculator</a></li>
+    <li><a href="build.html#forge">Forge</a></li>
+  </ul>
+  <div class="nav-search">
+    <input type="text" id="nav-search-input" placeholder="Search champion..." oninput="navFilter()"/>
+    <span class="nav-search-icon">&#128269;</span>
+    <div class="nav-dropdown" id="nav-dropdown"><h4>Champions</h4><div id="nav-list"></div></div>
+  </div>
+</nav>
 
-  <div class="main">
-    <div class="section">
-      <p class="section-title">✦ Enemy Composition</p>
-      <div class="input-grid">
-        <div class="input-group">
-          <label>Top (opponent)</label>
-          <div class="input-wrap">
-            <div class="champ-preview" id="prev-top"><img id="img-top" src="" alt="" /></div>
-            <input id="top" placeholder="ex: Darius" list="list-top" autocomplete="off" oninput="onInput()" />
-            <datalist id="list-top"></datalist>
-          </div>
-        </div>
-        <div class="input-group">
-          <label>Jungle</label>
-          <div class="input-wrap">
-            <div class="champ-preview" id="prev-jg"><img id="img-jg" src="" alt="" /></div>
-            <input id="jg" placeholder="ex: Lee Sin" list="list-jg" autocomplete="off" oninput="onInput()" />
-            <datalist id="list-jg"></datalist>
-          </div>
-        </div>
-        <div class="input-group">
-          <label>Mid</label>
-          <div class="input-wrap">
-            <div class="champ-preview" id="prev-mid"><img id="img-mid" src="" alt="" /></div>
-            <input id="mid" placeholder="ex: Syndra" list="list-mid" autocomplete="off" oninput="onInput()" />
-            <datalist id="list-mid"></datalist>
-          </div>
-        </div>
-        <div class="input-group">
-          <label>ADC</label>
-          <div class="input-wrap">
-            <div class="champ-preview" id="prev-adc"><img id="img-adc" src="" alt="" /></div>
-            <input id="adc" placeholder="ex: Jinx" list="list-adc" autocomplete="off" oninput="onInput()" />
-            <datalist id="list-adc"></datalist>
-          </div>
-        </div>
-        <div class="input-group">
-          <label>Support</label>
-          <div class="input-wrap">
-            <div class="champ-preview" id="prev-sup"><img id="img-sup" src="" alt="" /></div>
-            <input id="sup" placeholder="ex: Thresh" list="list-sup" autocomplete="off" oninput="onInput()" />
-            <datalist id="list-sup"></datalist>
-          </div>
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <p class="hero-eyebrow">Urgot Guide</p>
+    <h1 class="hero-title">Build <span>Calculator</span></h1>
+    <p class="hero-sub">Adaptive build based on enemy composition</p>
+  </div>
+</section>
+
+<div class="main">
+  <div class="section">
+    <p class="section-title">✦ Enemy Composition</p>
+    <div class="input-grid">
+      <div class="input-group">
+        <label>Top (opponent)</label>
+        <div class="input-wrap">
+          <div class="champ-preview" id="prev-top"><img id="img-top" src="" alt=""/></div>
+          <input id="top" placeholder="ex: Darius" list="list-top" autocomplete="off" oninput="onInput()"/>
+          <datalist id="list-top"></datalist>
         </div>
       </div>
-      <p class="comp-label">Team composition analysis</p>
-      <div class="comp-tags" id="comp-tags"><span class="tag-empty">Enter enemy draft...</span></div>
-      <div class="btn-wrap"><button class="btn" onclick="calculate()">Generate build</button></div>
-      <div id="error-msg"></div>
+      <div class="input-group">
+        <label>Jungle</label>
+        <div class="input-wrap">
+          <div class="champ-preview" id="prev-jg"><img id="img-jg" src="" alt=""/></div>
+          <input id="jg" placeholder="ex: Lee Sin" list="list-jg" autocomplete="off" oninput="onInput()"/>
+          <datalist id="list-jg"></datalist>
+        </div>
+      </div>
+      <div class="input-group">
+        <label>Mid</label>
+        <div class="input-wrap">
+          <div class="champ-preview" id="prev-mid"><img id="img-mid" src="" alt=""/></div>
+          <input id="mid" placeholder="ex: Syndra" list="list-mid" autocomplete="off" oninput="onInput()"/>
+          <datalist id="list-mid"></datalist>
+        </div>
+      </div>
+      <div class="input-group">
+        <label>ADC</label>
+        <div class="input-wrap">
+          <div class="champ-preview" id="prev-adc"><img id="img-adc" src="" alt=""/></div>
+          <input id="adc" placeholder="ex: Jinx" list="list-adc" autocomplete="off" oninput="onInput()"/>
+          <datalist id="list-adc"></datalist>
+        </div>
+      </div>
+      <div class="input-group">
+        <label>Support</label>
+        <div class="input-wrap">
+          <div class="champ-preview" id="prev-sup"><img id="img-sup" src="" alt=""/></div>
+          <input id="sup" placeholder="ex: Thresh" list="list-sup" autocomplete="off" oninput="onInput()"/>
+          <datalist id="list-sup"></datalist>
+        </div>
+      </div>
     </div>
-    <div id="results"></div>
+    <p class="comp-label">Team composition analysis</p>
+    <div class="comp-tags" id="comp-tags"><span class="tag-empty">Enter enemy draft...</span></div>
+    <div class="btn-wrap"><button class="btn" onclick="calculate()">Generate build</button></div>
+    <div id="error-msg"></div>
   </div>
+  <div id="results"></div>
+</div>
 
-  <footer>
-    Not affiliated with Riot Games &nbsp;·&nbsp;
-    <a href="https://www.twitch.tv/quante" target="_blank" rel="noopener">Quante — Twitch ↗</a>
-    &nbsp;·&nbsp;
-    <a href="https://x.com/quantelol" target="_blank" rel="noopener">Quante — Twitter ↗</a>
-    &nbsp;·&nbsp;
-    <a href="../feedback.html" style="color:var(--green-dark);text-decoration:none;transition:color 0.2s">Send Feedback ↗</a>
-  </footer>
+<footer>
+  Not affiliated with Riot Games &nbsp;·&nbsp;
+  <a href="https://www.twitch.tv/quante" target="_blank" rel="noopener">Quante — Twitch ↗</a>
+  &nbsp;·&nbsp;
+  <a href="https://x.com/quantelol" target="_blank" rel="noopener">Quante — Twitter ↗</a>
+</footer>
 
 <script>
 let DDV = "16.9.1";
@@ -414,9 +225,8 @@ const DDI = id => `https://ddragon.leagueoflegends.com/cdn/${DDV}/img/item/${id}
 fetch("https://ddragon.leagueoflegends.com/api/versions.json")
   .then(r => r.json()).then(v => { DDV = v[0]; }).catch(() => {});
 
-const BASE_URL   = "https://barnhak.github.io/Urgot-guide/";
-const RUNE_BASE  = BASE_URL + "runes/";
 const GUIDE_BASE = "matchup/";
+const RUNE_BASE  = "runes/";
 
 function champSlug(name) {
   return name.toLowerCase().replace(/['\u2019]/g,'').replace(/\s+/g,'-').replace(/[^a-z0-9-]/g,'');
@@ -427,101 +237,129 @@ const CHAMP_DDR = {
   "Dr. Mundo":"DrMundo","Jarvan IV":"JarvanIV","Kai'Sa":"Kaisa",
   "Kha'Zix":"Khazix","K'Sante":"KSante","LeBlanc":"Leblanc",
   "Lee Sin":"LeeSin","Master Yi":"MasterYi","Miss Fortune":"MissFortune",
-  "Nunu":"Nunu","Rek'Sai":"RekSai","Renata Glasc":"Renata",
+  "Nunu & Willump":"Nunu","Rek'Sai":"RekSai","Renata Glasc":"Renata",
   "Tahm Kench":"TahmKench","Twisted Fate":"TwistedFate","Vel'Koz":"Velkoz",
   "Wukong":"MonkeyKing","Xin Zhao":"XinZhao",
-  "Naafiri":"Naafiri","Hwei":"Hwei","Smolder":"Smolder","Ambessa":"Ambessa",
-  "Mel":"Mel","Yunara":"Yunara","Zaahen":"Zaahen"
+  "Milio":"Milio","Smolder":"Smolder","Hwei":"Hwei","Briar":"Briar",
+  "Nilah":"Nilah","Naafiri":"Naafiri","Aurora":"Aurora","Ambessa":"Ambessa","Mel":"Mel",
+  "Akshan":"Akshan","Skarner":"Skarner",
 };
 function champImg(name) {
-  const key = CHAMP_DDR[name] || name.replace(/['\s.]/g,'');
+  const key = CHAMP_DDR[name] || name.replace(/['\s.&]/g,'');
   return DDC(key);
 }
 
+// ── ITEM IDS ────────────────────────────────────────────────────────────
 const ITEM_IDS = {
-  "Black Cleaver":3071,"Gluttonous Greaves":223008,"Plated Steelcaps":3047,
-  "Mercury's Treads":3111,"Sorcerer's Shoes":3020,"Sterak's Gage":3053,
-  "Deadman's Plate":3742,"Randuin's Omen":3143,"Force of Nature":4401,
-  "Rookern":222504,"Jak'Sho, The Protean":6665,"Overlord's Bloodmail":2501,
-  "Serpent's Fang":6695,"Thornmail":3075,"Chempunk Chainsword":6609,
-  "Bramble Vest":3076,"Doran's Blade":1055,"Doran's Shield":1054,
+  "Black Cleaver":3071,
+  "Boots of Swiftness":3009,
+  "Gluttonous Greaves":223008,
+  "Plated Steelcaps":3047,
+  "Mercury's Treads":3111,
+  "Sorcerer's Shoes":3020,
+  "Sterak's Gage":3053,
+  "Deadman's Plate":3742,
+  "Randuin's Omen":3143,
+  "Force of Nature":4401,
+  "Kaenic Rookern":222504,
+  "Jak'Sho, The Protean":6665,
+  "Overlord's Bloodmail":2501,
+  "Serpent's Fang":6695,
+  "Thornmail":3075,
+  "Chempunk Chainsword":6609,
+  "Bramble Vest":3076,
+  "Doran's Blade":1055,
+  "Doran's Shield":1054,
 };
 function itemImg(name) { const id = ITEM_IDS[name]; return id ? DDI(id) : null; }
 
-const CHAMPS_BY_ROLE = {
-  top: ['Aatrox','Akali','Ambessa','Anivia','Aurora','Camille','Cassiopeia',"Cho'Gath",'Darius','Dr. Mundo','Fiora','Gangplank','Garen','Gnar','Gragas','Gwen','Heimerdinger','Illaoi','Irelia','Jax','Jayce','Kayle','Kennen','Kled',"K'Sante",'Lee Sin','Malphite','Maokai','Master Yi','Mordekaiser','Nasus','Olaf','Ornn','Pantheon','Poppy','Quinn','Renekton','Riven','Rumble','Ryze','Sett','Shen','Singed','Sion','Swain','Sylas','Tahm Kench','Teemo','Trundle','Tryndamere','Udyr','Varus','Vayne','Vladimir','Volibear','Warwick','Yasuo','Yone','Yorick','Zaahen','Zac'],
-  jg:  ["Aatrox","Ambessa","Amumu","Bel'Veth","Briar","Diana","Ekko","Dr. Mundo","Elise","Evelynn","Fiddlesticks","Gragas","Graves","Hecarim","Ivern","Jarvan IV","Jax","Karthus","Kayn","Kha'Zix","Kindred","Lee Sin","Lillia","Master Yi","Naafiri","Nidalee","Nocturne","Nunu","Olaf","Pantheon","Qiyana","Rammus","Rek'Sai","Rengar","Sejuani","Shaco","Shyvana","Skarner","Sylas","Talon","Taliyah","Trundle","Udyr","Vi","Viego","Volibear","Warwick","Wukong","Xin Zhao","Zac","Zed","Zyra"],
-  mid: ["Ahri","Akali","Akshan","Anivia","Annie","Aurelion Sol","Aurora","Azir","Brand","Cassiopeia","Corki","Diana","Ekko","Fizz","Galio","Hwei","Irelia","Kassadin","Katarina","LeBlanc","Lissandra","Lux","Malzahar","Mel","Naafiri","Orianna","Pantheon","Qiyana","Ryze","Smolder","Swain","Sylas","Syndra","Taliyah","Talon","Twisted Fate","Veigar","Vel'Koz","Vex","Viktor","Vladimir","Xerath","Yasuo","Yone","Zed","Zoe","Zyra"],
-  adc: ["Aphelios","Ashe","Brand","Caitlyn","Corki","Draven","Ezreal","Jhin","Jinx","Kai'Sa","Kalista","Kog'Maw","Lucian","Miss Fortune","Nilah","Samira","Senna","Sivir","Smolder","Swain","Tristana","Twitch","Varus","Vayne","Veigar","Xayah","Yasuo","Yunara","Zeri","Ziggs"],
-  sup: ["Alistar","Bard","Blitzcrank","Brand","Braum","Janna","Karma","Leona","Lulu","Lux","Maokai","Mel","Morgana","Nami","Nautilus","Neeko","Pantheon","Poppy","Pyke","Rakan","Rell","Renata Glasc","Senna","Seraphine","Sona","Soraka","Swain","Tahm Kench","Taric","Thresh","Vel'Koz","Xerath","Yuumi","Zilean","Zyra"]
-};
-
-// ── FIXED: Ahri added to CHAMP_TAGS ──
+// ── CHAMPION TAGS (complet & à jour) ────────────────────────────────────
 const CHAMP_TAGS = {
-  "Ahri":["AP","BURST","1CC","RANGE"],
-  "Aatrox":["AD","HEAL","BUMP","MELEE"],"Akali":["AP","BURST","MELEE"],"Alistar":["BUMP","2CC","MELEE","TANK"],
-  "Amumu":["AP","3CC","BURN","MELEE"],"Ambessa":["AD","BURST","SHIELD","BUMP","MELEE"],
-  "Anivia":["AP","BURN","1CC","RANGE"],"Annie":["AP","BURST","1CC","SHIELD","RANGE"],
-  "Aphelios":["AD","CRIT","RANGE"],"Ashe":["AD","CRIT","1CC","RANGE"],
-  "Aurelion Sol":["AP","BURN","BUMP","RANGE"],"Aurora":["AP","BURST","RANGE"],"Azir":["AP","BUMP","RANGE"],
-  "Bard":["2CC","AP","HEAL","RANGE"],"Bel'Veth":["AD","BUMP","MELEE"],"Blitzcrank":["SHIELD","BUMP","1CC","MELEE"],
-  "Brand":["AP","BURN","BURST","1CC","RANGE"],"Braum":["1CC","AP","BUMP","MELEE"],"Briar":["AD","2CC","HEAL","MELEE"],
+  "Aatrox":["AD","HEAL","BUMP","MELEE"],"Ahri":["AP","BURST","1CC","RANGE"],
+  "Akali":["AP","BURST","MELEE"],"Akshan":["AD","CRIT","SHIELD","RANGE"],
+  "Alistar":["BUMP","2CC","MELEE","TANK"],"Ambessa":["AD","BURST","SHIELD","BUMP","MELEE"],
+  "Amumu":["AP","3CC","BURN","MELEE"],"Anivia":["AP","BURN","1CC","RANGE"],
+  "Annie":["AP","BURST","1CC","SHIELD","RANGE"],"Aphelios":["AD","CRIT","RANGE"],
+  "Ashe":["AD","CRIT","1CC","RANGE"],"Aurelion Sol":["AP","BURN","BUMP","RANGE"],
+  "Aurora":["AP","BURST","RANGE"],"Azir":["AP","BUMP","RANGE"],
+  "Bard":["2CC","AP","HEAL","RANGE"],"Bel'Veth":["AD","BUMP","MELEE"],
+  "Blitzcrank":["SHIELD","BUMP","1CC","MELEE"],"Brand":["AP","BURN","BURST","1CC","RANGE"],
+  "Braum":["1CC","AP","BUMP","MELEE"],"Briar":["AD","2CC","HEAL","MELEE"],
   "Caitlyn":["AD","CRIT","1CC","RANGE"],"Camille":["AD","SHIELD","BUMP","MELEE"],
   "Cassiopeia":["AP","BURN","1CC","HEAL","RANGE"],"Cho'Gath":["AP","BUMP","EXECUTE","1CC","MELEE","TANK"],
   "Corki":["AD","CRIT","RANGE"],"Darius":["AD","HEAL","EXECUTE","BUMP","MELEE"],
-  "Diana":["AP","BURST","BUMP","SHIELD","MELEE"],"Dr. Mundo":["AD","HEAL","MELEE","TANK"],"Draven":["AD","CRIT","BUMP","RANGE"],
-  "Ekko":["AP","BURST","SHIELD","1CC","MELEE"],"Elise":["AP","BURST","1CC","MELEE"],
-  "Evelynn":["AP","BURST","1CC","MELEE"],"Ezreal":["AD","RANGE"],
-  "Fiddlesticks":["AP","BURN","3CC","HEAL","RANGE"],"Fiora":["AD","HEAL","1CC","MELEE"],"Fizz":["AP","BURST","BUMP","MELEE"],
-  "Galio":["AP","1CC","SHIELD","BUMP","MELEE"],"Garen":["AD","EXECUTE","MELEE"],"Gnar":["AD","2CC","MELEE"],
-  "Gragas":["AP","1CC","BUMP","MELEE"],"Graves":["AD","CRIT","RANGE"],"Gwen":["AP","BURST","HEAL","MELEE"],
-  "Hecarim":["AD","1CC","HEAL","MELEE"],"Heimerdinger":["AP","BURN","1CC","RANGE"],
-  "Hwei":["AP","BURN","BURST","1CC","SHIELD","RANGE"],"Illaoi":["AD","HEAL","MELEE"],"Irelia":["AD","HEAL","1CC","MELEE"],
+  "Diana":["AP","BURST","BUMP","SHIELD","MELEE"],"Dr. Mundo":["AD","HEAL","MELEE","TANK"],
+  "Draven":["AD","CRIT","BUMP","RANGE"],"Ekko":["AP","BURST","SHIELD","1CC","MELEE"],
+  "Elise":["AP","BURST","1CC","MELEE"],"Evelynn":["AP","BURST","1CC","MELEE"],
+  "Ezreal":["AD","RANGE"],"Fiddlesticks":["AP","BURN","3CC","HEAL","RANGE"],
+  "Fiora":["AD","HEAL","1CC","MELEE"],"Fizz":["AP","BURST","BUMP","MELEE"],
+  "Galio":["AP","1CC","SHIELD","BUMP","MELEE"],"Gangplank":["AD","BURN","CRIT","RANGE"],
+  "Garen":["AD","EXECUTE","MELEE"],"Gnar":["AD","2CC","MELEE"],
+  "Gragas":["AP","1CC","BUMP","MELEE"],"Graves":["AD","CRIT","RANGE"],
+  "Gwen":["AP","BURST","HEAL","MELEE"],"Hecarim":["AD","1CC","HEAL","MELEE"],
+  "Heimerdinger":["AP","BURN","1CC","RANGE"],"Hwei":["AP","BURN","BURST","1CC","SHIELD","RANGE"],
+  "Illaoi":["AD","HEAL","MELEE"],"Irelia":["AD","HEAL","1CC","MELEE"],
   "Ivern":["1CC","SHIELD","BUMP","RANGE"],"Janna":["AP","BUMP","HEAL","SHIELD","RANGE"],
-  "Jarvan IV":["AD","BUMP","SHIELD","MELEE"],"Jax":["AP","1CC","AD","MELEE"],"Jayce":["AD","BUMP","MELEE"],
-  "Jhin":["AD","CRIT","1CC","RANGE"],"Jinx":["AD","CRIT","1CC","RANGE"],
-  "K'Sante":["2CC","BUMP","SHIELD","MELEE","TANK"],"Kai'Sa":["AD","CRIT","AP","SHIELD","RANGE"],"Kalista":["AD","BUMP","RANGE"],
-  "Karma":["AP","1CC","SHIELD","RANGE"],"Kassadin":["AP","BURST","SHIELD","MELEE"],"Katarina":["AP","BURST","MELEE"],
-  "Kennen":["AP","5CC","RANGE"],"Kha'Zix":["AD","BURST","MELEE"],"Kindred":["AD","CRIT","RANGE"],"Kog'Maw":["AD","AP","RANGE"],
-  "LeBlanc":["AP","BURST","1CC","RANGE"],"Lee Sin":["AD","HEAL","BUMP","MELEE"],"Leona":["3CC","MELEE"],
-  "Lillia":["AP","BURN","1CC","MELEE"],"Lissandra":["AP","2CC","RANGE"],"Lucian":["AD","CRIT","RANGE"],
-  "Lulu":["1CC","SHIELD","BUMP","RANGE"],"Lux":["AP","BURST","SHIELD","1CC","RANGE"],
-  "Malphite":["AP","BUMP","SHIELD","MELEE","TANK"],"Malzahar":["AP","BURN","1CC","RANGE"],
-  "Maokai":["2CC","AP","HEAL","BUMP","MELEE","TANK"],"Master Yi":["AD","HEAL","MELEE"],
-  "Mel":["AP","BURST","SHIELD","1CC","RANGE"],"Miss Fortune":["AD","CRIT","RANGE"],
+  "Jarvan IV":["AD","BUMP","SHIELD","MELEE"],"Jax":["AP","1CC","AD","MELEE"],
+  "Jayce":["AD","BUMP","MELEE"],"Jhin":["AD","CRIT","1CC","RANGE"],
+  "Jinx":["AD","CRIT","1CC","RANGE"],"K'Sante":["2CC","BUMP","SHIELD","MELEE","TANK"],
+  "Kai'Sa":["AD","CRIT","AP","SHIELD","RANGE"],"Kalista":["AD","BUMP","RANGE"],
+  "Karma":["AP","1CC","SHIELD","RANGE"],"Karthus":["AP","BURN","RANGE"],
+  "Kassadin":["AP","BURST","SHIELD","MELEE"],"Katarina":["AP","BURST","MELEE"],
+  "Kayle":["AD","AP","RANGE"],"Kayn":["AD","HEAL","MELEE"],
+  "Kennen":["AP","5CC","RANGE"],"Kha'Zix":["AD","BURST","MELEE"],
+  "Kindred":["AD","CRIT","RANGE"],"Kled":["AD","1CC","MELEE"],
+  "Kog'Maw":["AD","AP","RANGE"],"LeBlanc":["AP","BURST","1CC","RANGE"],
+  "Lee Sin":["AD","HEAL","BUMP","MELEE"],"Leona":["3CC","MELEE"],
+  "Lillia":["AP","BURN","1CC","MELEE"],"Lissandra":["AP","2CC","RANGE"],
+  "Lucian":["AD","CRIT","RANGE"],"Lulu":["1CC","SHIELD","BUMP","RANGE"],
+  "Lux":["AP","BURST","SHIELD","1CC","RANGE"],"Malphite":["AP","BUMP","SHIELD","MELEE","TANK"],
+  "Malzahar":["AP","BURN","1CC","RANGE"],"Maokai":["2CC","AP","HEAL","BUMP","MELEE","TANK"],
+  "Master Yi":["AD","HEAL","MELEE"],"Mel":["AP","BURST","SHIELD","1CC","RANGE"],
+  "Milio":["HEAL","SHIELD","BUMP","RANGE"],"Miss Fortune":["AD","CRIT","RANGE"],
   "Mordekaiser":["AP","BURN","HEAL","SHIELD","MELEE"],"Morgana":["AP","2CC","BURN","SHIELD","RANGE"],
-  "Naafiri":["AD","BURST","MELEE"],"Nami":["1CC","HEAL","BUMP","RANGE"],"Nasus":["AD","HEAL","MELEE"],
-  "Nautilus":["1CC","BUMP","SHIELD","MELEE"],"Nidalee":["AP","BURST","HEAL","RANGE"],
+  "Naafiri":["AD","BURST","MELEE"],"Nami":["1CC","HEAL","BUMP","RANGE"],
+  "Nasus":["AD","HEAL","MELEE"],"Nautilus":["1CC","BUMP","SHIELD","MELEE"],
+  "Neeko":["AP","1CC","RANGE"],"Nidalee":["AP","BURST","HEAL","RANGE"],
   "Nilah":["AD","CRIT","BUMP","HEAL","MELEE"],"Nocturne":["AD","BURST","1CC","MELEE"],
-  "Nunu":["1CC","BUMP","HEAL","AP","MELEE"],"Olaf":["AD","HEAL","MELEE"],
+  "Nunu & Willump":["1CC","BUMP","HEAL","AP","MELEE"],"Olaf":["AD","HEAL","MELEE"],
   "Orianna":["AP","BUMP","SHIELD","RANGE"],"Ornn":["2CC","BUMP","AP","MELEE","TANK"],
   "Pantheon":["AD","BURST","1CC","MELEE"],"Poppy":["1CC","AD","BUMP","MELEE"],
   "Pyke":["AD","1CC","BURST","EXECUTE","BUMP","MELEE"],"Qiyana":["AD","BURST","2CC","MELEE"],
-  "Quinn":["AD","CRIT","RANGE"],"Rakan":["1CC","SHIELD","BUMP","MELEE"],"Rammus":["3CC","MELEE"],
-  "Rek'Sai":["AD","BUMP","MELEE"],"Renata Glasc":["2CC","SHIELD","RANGE"],"Renekton":["AD","HEAL","1CC","MELEE"],
-  "Rengar":["AD","BURST","MELEE"],"Rumble":["AP","BURN","SHIELD","MELEE"],"Ryze":["AP","1CC","RANGE"],
-  "Samira":["AD","CRIT","MELEE"],"Sejuani":["3CC","MELEE","TANK"],"Senna":["AD","SHIELD","CRIT","RANGE"],
-  "Seraphine":["AP","2CC","SHIELD","RANGE"],"Sett":["AD","SHIELD","1CC","MELEE"],
-  "Shaco":["AD","BURST","3CC","AP","MELEE"],"Shen":["AD","SHIELD","1CC","MELEE"],
-  "Shyvana":["AP","BURN","SHIELD","1CC","AD","MELEE"],"Singed":["AP","BURN","BUMP","1CC","MELEE"],
-  "Sion":["BUMP","SHIELD","MELEE"],"Sivir":["AD","CRIT","RANGE"],"Skarner":["3CC","SHIELD","MELEE","TANK"],
+  "Quinn":["AD","CRIT","RANGE"],"Rakan":["1CC","SHIELD","BUMP","MELEE"],
+  "Rammus":["3CC","MELEE"],"Rek'Sai":["AD","BUMP","MELEE"],"Rell":["3CC","MELEE","TANK"],
+  "Renata Glasc":["2CC","SHIELD","RANGE"],"Renekton":["AD","HEAL","1CC","MELEE"],
+  "Rengar":["AD","BURST","MELEE"],"Riven":["AD","BURST","SHIELD","MELEE"],
+  "Rumble":["AP","BURN","SHIELD","MELEE"],"Ryze":["AP","1CC","RANGE"],
+  "Samira":["AD","CRIT","MELEE"],"Sejuani":["3CC","MELEE","TANK"],
+  "Senna":["AD","SHIELD","CRIT","RANGE"],"Seraphine":["AP","2CC","SHIELD","RANGE"],
+  "Sett":["AD","SHIELD","1CC","MELEE"],"Shaco":["AD","BURST","3CC","AP","MELEE"],
+  "Shen":["AD","SHIELD","1CC","MELEE"],"Shyvana":["AP","BURN","SHIELD","1CC","AD","MELEE"],
+  "Singed":["AP","BURN","BUMP","1CC","MELEE"],"Sion":["BUMP","SHIELD","MELEE"],
+  "Sivir":["AD","CRIT","RANGE"],"Skarner":["3CC","SHIELD","MELEE","TANK"],
   "Smolder":["AD","CRIT","BURN","EXECUTE","RANGE"],"Sona":["1CC","SHIELD","HEAL","RANGE"],
   "Soraka":["HEAL","1CC","RANGE"],"Swain":["AP","BURN","HEAL","1CC","RANGE"],
-  "Syndra":["AP","BURST","EXECUTE","BUMP","1CC","RANGE"],"Tahm Kench":["2CC","HEAL","AP","SHIELD","BUMP","MELEE"],
-  "Taliyah":["AP","1CC","RANGE"],"Talon":["AD","BURST","MELEE"],"Teemo":["AP","BURN","RANGE"],
-  "Thresh":["2CC","SHIELD","MELEE"],"Tristana":["AD","CRIT","BUMP","RANGE"],"Trundle":["AD","HEAL","BUMP","MELEE"],
-  "Tryndamere":["AD","CRIT","HEAL","MELEE"],"Twisted Fate":["AP","1CC","RANGE"],"Twitch":["AD","CRIT","RANGE"],
-  "Udyr":["AP","AD","1CC","HEAL","SHIELD","MELEE"],"Varus":["AD","AP","BURST","1CC","RANGE"],
-  "Vayne":["AD","1CC","RANGE"],"Veigar":["AP","BURST","EXECUTE","1CC","RANGE"],"Vel'Koz":["AP","BURST","BUMP","RANGE"],
-  "Vi":["AD","BUMP","SHIELD","MELEE"],"Viego":["AD","HEAL","1CC","MELEE"],"Viktor":["AP","BURN","SHIELD","1CC","RANGE"],
-  "Vladimir":["AP","BURN","HEAL","RANGE"],"Volibear":["1CC","AP","HEAL","SHIELD","MELEE"],
-  "Warwick":["AD","HEAL","1CC","MELEE"],"Wukong":["AD","BUMP","MELEE"],"Xayah":["AD","CRIT","1CC","RANGE"],
+  "Sylas":["AP","BURST","HEAL","MELEE"],"Syndra":["AP","BURST","EXECUTE","BUMP","1CC","RANGE"],
+  "Tahm Kench":["2CC","HEAL","AP","SHIELD","BUMP","MELEE"],"Taliyah":["AP","1CC","RANGE"],
+  "Talon":["AD","BURST","MELEE"],"Taric":["1CC","SHIELD","MELEE"],
+  "Teemo":["AP","BURN","RANGE"],"Thresh":["2CC","SHIELD","MELEE"],
+  "Tristana":["AD","CRIT","BUMP","RANGE"],"Trundle":["AD","HEAL","BUMP","MELEE"],
+  "Tryndamere":["AD","CRIT","HEAL","MELEE"],"Twisted Fate":["AP","1CC","RANGE"],
+  "Twitch":["AD","CRIT","RANGE"],"Udyr":["AP","AD","1CC","HEAL","SHIELD","MELEE"],
+  "Urgot":["AD","EXECUTE","SHIELD","MELEE"],"Varus":["AD","AP","BURST","1CC","RANGE"],
+  "Vayne":["AD","1CC","RANGE"],"Veigar":["AP","BURST","EXECUTE","1CC","RANGE"],
+  "Vel'Koz":["AP","BURST","BUMP","RANGE"],"Vex":["AP","BURST","1CC","RANGE"],
+  "Vi":["AD","BUMP","SHIELD","MELEE"],"Viego":["AD","HEAL","1CC","MELEE"],
+  "Viktor":["AP","BURN","SHIELD","1CC","RANGE"],"Vladimir":["AP","BURN","HEAL","RANGE"],
+  "Volibear":["1CC","AP","HEAL","SHIELD","MELEE"],"Warwick":["AD","HEAL","1CC","MELEE"],
+  "Wukong":["AD","BUMP","MELEE"],"Xayah":["AD","CRIT","1CC","RANGE"],
   "Xerath":["AP","BURST","1CC","RANGE"],"Xin Zhao":["AD","HEAL","BUMP","MELEE"],
   "Yasuo":["AD","CRIT","SHIELD","BUMP","MELEE"],"Yone":["AD","CRIT","SHIELD","BUMP","MELEE"],
-  "Yorick":["AD","HEAL","MELEE"],"Yunara":["AD","AP","CRIT","RANGE"],"Yuumi":["HEAL","SHIELD","RANGE"],
-  "Zaahen":["AD","HEAL","1CC","MELEE"],"Zac":["AP","HEAL","BUMP","2CC","MELEE","TANK"],
-  "Zed":["AD","BURST","EXECUTE","MELEE"],"Zeri":["AD","CRIT","RANGE"],"Ziggs":["AP","BURST","BUMP","RANGE"],
-  "Zilean":["AP","1CC","RANGE"],"Zoe":["AP","BURST","1CC","RANGE"],"Zyra":["AP","BURN","1CC","BUMP","RANGE"]
+  "Yorick":["AD","HEAL","MELEE"],"Yuumi":["HEAL","SHIELD","RANGE"],
+  "Zac":["AP","HEAL","BUMP","2CC","MELEE","TANK"],"Zed":["AD","BURST","EXECUTE","MELEE"],
+  "Zeri":["AD","CRIT","RANGE"],"Ziggs":["AP","BURST","BUMP","RANGE"],
+  "Zilean":["AP","1CC","RANGE"],"Zoe":["AP","BURST","1CC","RANGE"],
+  "Zyra":["AP","BURN","1CC","BUMP","RANGE"],
 };
 
 function getCCValue(tags) {
@@ -529,24 +367,40 @@ function getCCValue(tags) {
   return 0;
 }
 
+// ── RUNE PAGES ──────────────────────────────────────────────────────────
 const RUNE_PAGES = {
-  page1:{label:"Standard",img:"rune-page1.png"},page2:{label:"Cut Down",img:"rune-page2.png"},
-  page3:{label:"Tanks",img:"rune-page3.png"},page4:{label:"Resolution",img:"rune-page4.png"},
-  page5:{label:"Rumble",img:"rune-page5.png"},page6:{label:"Olaf",img:"rune-page6.png"},
-  page7:{label:"Heimerdinger",img:"rune-page7.png"},page8:{label:"Yorick",img:"rune-page8.png"},
+  page1:{label:"Standard",img:"rune-page1.png"},
+  page2:{label:"Cut Down",img:"rune-page2.png"},
+  page3:{label:"Tanks",img:"rune-page3.png"},
+  page4:{label:"Resolution",img:"rune-page4.png"},
+  page5:{label:"Rumble",img:"rune-page5.png"},
+  page6:{label:"Olaf",img:"rune-page6.png"},
+  page7:{label:"Heimerdinger",img:"rune-page7.png"},
+  page8:{label:"Yorick",img:"rune-page8.png"},
 };
 const CHAMP_RUNE_MAP = {
   "aatrox":"page2","darius":"page2","aurora":"page2","irelia":"page2","varus":"page2","vayne":"page2","vladimir":"page2",
   "ornn":"page3","malphite":"page3","dr. mundo":"page3","cho'gath":"page3","zac":"page3","tahm kench":"page3","k'sante":"page3","maokai":"page3",
-  "renekton":"page4","shen":"page4","rumble":"page5","olaf":"page6","heimerdinger":"page7","yorick":"page8"
+  "renekton":"page4","shen":"page4","rumble":"page5","olaf":"page6","heimerdinger":"page7","yorick":"page8",
 };
 
-const BRAMBLE_CHAMPS  = ["irelia","zac","fiora","warwick","renekton","wukong"];
-const BOOTS_FIRST     = ["olaf"];
-const MERC_FIRST      = ["kennen"];
-const STEELCAPS_FIRST = ["ambessa","yasuo","tryndamere","gnar"];
-const ABATTEUR_CHAMPS = ["garen","k'sante","yorick"];
-const SHIELD_START    = ["teemo","rumble"];
+// ── CONSTANTS ─────────────────────────────────────────────────────────
+const BRAMBLE_CHAMPS   = ["irelia","zac","fiora","warwick","renekton","wukong"];
+const BOOTS_FIRST      = ["olaf"];       // Sorcerer's Shoes rush
+const MERC_FIRST       = ["kennen"];     // Merc rush
+const STEELCAPS_FIRST  = ["ambessa","yasuo","tryndamere","gnar"];
+const ABATTEUR_CHAMPS  = ["garen","yorick"];         // Gluttonous toujours
+const GLUTTONOUS_OPT   = ["malphite","k'sante"];     // Gluttonous optionnel
+const SHIELD_START     = ["teemo","rumble"];
+
+// ── CHAMPION LISTS (datalists) ─────────────────────────────────────────
+const CHAMPS_BY_ROLE = {
+  top: ["Aatrox","Akali","Ambessa","Anivia","Aurora","Camille","Cassiopeia","Cho'Gath","Darius","Dr. Mundo","Fiora","Gangplank","Garen","Gnar","Gragas","Gwen","Heimerdinger","Illaoi","Irelia","Jax","Jayce","Kayle","Kennen","Kled","K'Sante","Lee Sin","Malphite","Maokai","Master Yi","Mordekaiser","Nasus","Olaf","Ornn","Pantheon","Poppy","Quinn","Renekton","Riven","Rumble","Ryze","Sett","Shen","Singed","Sion","Swain","Sylas","Tahm Kench","Teemo","Trundle","Tryndamere","Udyr","Varus","Vayne","Vladimir","Volibear","Warwick","Yasuo","Yone","Yorick","Zac"],
+  jg:  ["Aatrox","Ambessa","Amumu","Bel'Veth","Briar","Diana","Ekko","Dr. Mundo","Elise","Evelynn","Fiddlesticks","Gragas","Graves","Hecarim","Ivern","Jarvan IV","Jax","Karthus","Kayn","Kha'Zix","Kindred","Lee Sin","Lillia","Master Yi","Naafiri","Nidalee","Nocturne","Nunu & Willump","Olaf","Pantheon","Qiyana","Rammus","Rek'Sai","Rengar","Sejuani","Shaco","Shyvana","Skarner","Sylas","Talon","Taliyah","Trundle","Udyr","Vi","Viego","Volibear","Warwick","Wukong","Xin Zhao","Zac","Zed","Zyra"],
+  mid: ["Ahri","Akali","Akshan","Anivia","Annie","Aurelion Sol","Aurora","Azir","Brand","Cassiopeia","Corki","Diana","Ekko","Fizz","Galio","Hwei","Irelia","Kassadin","Katarina","LeBlanc","Lissandra","Lux","Malzahar","Mel","Naafiri","Orianna","Pantheon","Qiyana","Ryze","Smolder","Swain","Sylas","Syndra","Taliyah","Talon","Twisted Fate","Veigar","Vel'Koz","Vex","Viktor","Vladimir","Xerath","Yasuo","Yone","Zed","Zoe","Zyra"],
+  adc: ["Aphelios","Ashe","Brand","Caitlyn","Corki","Draven","Ezreal","Jhin","Jinx","Kai'Sa","Kalista","Kog'Maw","Lucian","Miss Fortune","Nilah","Samira","Senna","Sivir","Smolder","Swain","Tristana","Twitch","Varus","Vayne","Xayah","Zeri","Ziggs"],
+  sup: ["Alistar","Bard","Blitzcrank","Brand","Braum","Janna","Karma","Leona","Lulu","Lux","Maokai","Mel","Milio","Morgana","Nami","Nautilus","Neeko","Pantheon","Poppy","Pyke","Rakan","Rell","Renata Glasc","Senna","Seraphine","Sona","Soraka","Swain","Tahm Kench","Taric","Thresh","Vel'Koz","Xerath","Yuumi","Zilean","Zyra"],
+};
 
 Object.entries(CHAMPS_BY_ROLE).forEach(function(e) {
   var dl = document.getElementById('list-' + e[0]);
@@ -613,140 +467,169 @@ function onInput() {
   document.getElementById('comp-tags').innerHTML = tags.length ? tags.join('') : '<span class="tag-empty">No particular profile detected</span>';
 }
 
+// ── BOOTS LOGIC ───────────────────────────────────────────────────────
 function getBoots(n, a) {
-  if (BOOTS_FIRST.includes(n))     return { name:"Sorcerer's Shoes",   note:"Rush vs "+n+" -- mobility" };
-  if (MERC_FIRST.includes(n))      return { name:"Mercury's Treads",   note:"Rush vs "+n+" -- Tenacity" };
-  if (STEELCAPS_FIRST.includes(n)) return { name:"Plated Steelcaps",   note:"Rush vs "+n+" -- armor" };
-  if (ABATTEUR_CHAMPS.includes(n)) return { name:"Gluttonous Greaves", note:"vs "+n+" -- omnivamp sustain" };
-  if (a.ccTotal >= 6)              return { name:"Mercury's Treads",   note:a.ccTotal+" CC total -- Tenacity mandatory" };
-  if (a.ad >= 3 || a.crit >= 2)   return { name:"Plated Steelcaps",   note:a.ad >= 3 ? "3+ AD -- armor priority" : a.crit+" crit enemies" };
-  if (a.ccPhysical >= 3)           return { name:"Mercury's Treads",   note:a.ccPhysical+" CC (physical) -- Tenacity" };
-  if (a.ap >= 2 && a.ad >= 2)      return { name:"Gluttonous Greaves", note:"Mixed damage comp -- omnivamp sustain" };
-  return                                  { name:"Gluttonous Greaves", note:"Standard -- omnivamp sustain" };
+  if (BOOTS_FIRST.includes(n))       return { name:"Sorcerer's Shoes",   note:"Rush vs " + n + " — bonus mobilité" };
+  if (MERC_FIRST.includes(n))        return { name:"Mercury's Treads",   note:"Rush vs " + n + " — Ténacité obligatoire" };
+  if (STEELCAPS_FIRST.includes(n))   return { name:"Plated Steelcaps",   note:"Rush vs " + n + " — armure prioritaire" };
+  if (ABATTEUR_CHAMPS.includes(n))   return { name:"Gluttonous Greaves", note:"vs " + n + " — omnivamp recommandé" };
+  if (GLUTTONOUS_OPT.includes(n))    return { name:"Gluttonous Greaves", note:"vs " + n + " — omnivamp (alt: Swifties)" };
+  if (a.ccTotal >= 6)                return { name:"Mercury's Treads",   note: a.ccTotal + " CC total — Ténacité obligatoire" };
+  if (a.ad >= 3 || a.crit >= 2)      return { name:"Plated Steelcaps",   note: a.ad >= 3 ? "3+ AD — priorité armure" : a.crit + " ennemis crit" };
+  if (a.ccPhysical >= 3)             return { name:"Mercury's Treads",   note: a.ccPhysical + " CC physiques — Ténacité" };
+  return                                    { name:"Boots of Swiftness", note:"Standard — +60 MS pour kiter et disengage" };
 }
 
+// ── SITUATIONAL ITEMS ─────────────────────────────────────────────────
 function getSituItems(a) {
   var situ = [];
-  if (a.shield >= 2) situ.push({ tag:"shield", tagLabel:a.shield+" Shields", type:"single", items:[{ name:"Serpent's Fang", note:"Reduces enemy shields by 50% -- replace a defensive item" }] });
-  if (a.heal >= 2)   situ.push({ tag:"heal",   tagLabel:a.heal+" Heals",     type:"double", items:[{ name:"Thornmail", note:"AD/tank comp -- Grievous Wounds on auto-attacks" },{ name:"Chempunk Chainsword", note:"AP/burst comp -- Grievous Wounds active + passive" }] });
+  if (a.shield >= 2) situ.push({ tag:"shield", tagLabel:a.shield+" Shields", type:"single",
+    items:[{ name:"Serpent's Fang", note:"Réduit les boucliers ennemis de 50% — remplace un item défensif" }] });
+  if (a.heal >= 2)   situ.push({ tag:"heal", tagLabel:a.heal+" Heals", type:"double",
+    items:[
+      { name:"Thornmail",           note:"Compo AD/tank — Grievous Wounds sur autos" },
+      { name:"Chempunk Chainsword", note:"Compo AP/burst — Grievous Wounds actif + passif" }
+    ] });
   return situ;
 }
 
+// ── BUILD LOGIC (reworked) ────────────────────────────────────────────
 function buildItems(top, a) {
   var n           = (top || "").toLowerCase();
   var bootsObj    = getBoots(n, a);
   var bramble     = BRAMBLE_CHAMPS.includes(n);
   var shieldStart = SHIELD_START.includes(n);
-  var warnings    = [], items = [];
   var topTags     = getTags(top);
   var topIsAD     = topTags.includes("AD") && !topTags.includes("AP");
   var topIsAP     = topTags.includes("AP") && !topTags.includes("AD");
-  var fonCondition = (a.burn >= 2) || (a.bump >= 1 && a.ccTotal >= 6);
-  var thornmail5   = bramble;
+  var topIsBurn   = topTags.includes("BURN");
+  var items = [], warnings = [];
 
-  // ══════════════════════════════════════════
-  // CAS SPÉCIAL : TRUNDLE
-  // ══════════════════════════════════════════
-  if (n === "trundle") {
-    warnings.push("🛡 Start: Doran's Blade -- Standard start");
-    warnings.push("🧊 vs Trundle: he steals your resistances -- prioritize health/damage over pure tank");
-    items.push({ slot:"Boots",  name:bootsObj.name,           note:bootsObj.note });
-    items.push({ slot:"Item 1", name:"Black Cleaver",          note:"Core Urgot -- armor reduction + health" });
-    items.push({ slot:"Item 2", name:"Sterak's Gage",          note:"Shield + health -- he can't steal shield value" });
-    items.push({ slot:"Item 3", name:"Overlord's Bloodmail",   note:"Damage to health conversion -- not stealable by Trundle" });
-    items.push({ slot:"Item 4", name:"Chempunk Chainsword",    note:"Grievous Wounds -- cuts his passive healing" });
-    if (a.ad >= 3)
-      items.push({ slot:"Item 5", name:"Deadman's Plate",       note:"3+ AD -- armor + engage" });
-    else if (a.ap >= 3)
-      items.push({ slot:"Item 5", name:"Rookern",               note:"3+ AP -- shield against AP damage" });
-    else
-      items.push({ slot:"Item 5", name:"Jak'Sho, The Protean",  note:"Mixed comp -- omnidirectional resistances" });
-    return { items, warnings };
+  // Force of Nature condition — étendu aux burn toplaners
+  var fonCondition = (a.burn >= 2) || (topIsBurn && topIsAP) || (a.bump >= 1 && a.ccTotal >= 6);
+
+  // Anti-duplication: track items already placed
+  var usedItems = new Set();
+  function addItem(slot, name, note) {
+    usedItems.add(name);
+    items.push({ slot:slot, name:name, note:note });
+  }
+  function safeItem(slot, first, firstNote, fallback, fallbackNote) {
+    if (!usedItems.has(first)) { addItem(slot, first, firstNote); }
+    else                       { addItem(slot, fallback, fallbackNote); }
   }
 
-  // ── Warnings (logique générale) ──
-  warnings.push("🛡 Start: " + (shieldStart ? "Doran's Shield -- vs "+top+" sustain against poke" : "Doran's Blade -- Standard start"));
-  if (BOOTS_FIRST.includes(n))      warnings.push("⚡ vs "+top+": rush Sorcerer's Shoes before Black Cleaver");
-  if (MERC_FIRST.includes(n))       warnings.push("👟 vs "+top+": rush Mercury's Treads before Black Cleaver");
-  if (STEELCAPS_FIRST.includes(n))  warnings.push("🥾 vs "+top+": rush Plated Steelcaps before Black Cleaver");
-  if (ABATTEUR_CHAMPS.includes(n))  warnings.push("⚔ vs "+top+": Cull / Gluttonous Greaves possible before Black Cleaver");
-  if (bramble)                       warnings.push("🌿 vs "+top+": rush Bramble Vest before Black Cleaver");
+  // ── START WARNING ──
+  warnings.push((shieldStart
+    ? "🛡 Start : Doran's Shield — sustain vs poke de " + top
+    : "⚔ Start : Doran's Blade — départ standard"));
+  if (BOOTS_FIRST.includes(n))      warnings.push("⚡ vs " + top + " : rush Sorcerer's Shoes avant Black Cleaver");
+  if (MERC_FIRST.includes(n))       warnings.push("👟 vs " + top + " : rush Mercury's Treads avant Black Cleaver");
+  if (STEELCAPS_FIRST.includes(n))  warnings.push("🥾 vs " + top + " : rush Plated Steelcaps avant Black Cleaver");
+  if (ABATTEUR_CHAMPS.includes(n))  warnings.push("⚔ vs " + top + " : Cull / Gluttonous Greaves possible avant BC");
+  if (bramble)                       warnings.push("🌿 vs " + top + " : rush Bramble Vest avant Black Cleaver");
 
-  items.push({ slot:"Boots",  name:bootsObj.name,  note:bootsObj.note });
-  items.push({ slot:"Item 1", name:"Black Cleaver", note:"Core Urgot -- armor reduction + health" });
+  // ── CAS SPÉCIAL : TRUNDLE ──
+  if (n === "trundle") {
+    warnings.push("🧊 vs Trundle : il vole tes résistances — priorise HP/dégâts > tank pur");
+    addItem("Boots",   bootsObj.name,          bootsObj.note);
+    addItem("Item 1",  "Black Cleaver",         "Core Urgot — réduction armor + HP");
+    addItem("Item 2",  "Sterak's Gage",         "Bouclier + HP — non volable par Trundle");
+    addItem("Item 3",  "Overlord's Bloodmail",  "Conversion dégâts → HP — non volable");
+    addItem("Item 4",  "Chempunk Chainsword",   "Grievous Wounds — coupe son heal passif");
+    if (a.ad >= 3)      addItem("Item 5", "Deadman's Plate",       "3+ AD — armure + engage");
+    else if (a.ap >= 3) addItem("Item 5", "Kaenic Rookern",         "3+ AP — bouclier AP");
+    else                addItem("Item 5", "Jak'Sho, The Protean",   "Résistances omnidirectionnelles");
+    return { items:items, warnings:warnings };
+  }
 
-  // ══════════════════════════════════════════
+  // ── BOOTS + BC (core) ──
+  addItem("Boots",  bootsObj.name,  bootsObj.note);
+  addItem("Item 1", "Black Cleaver", "Core Urgot — réduction armor + HP");
+
+  // ══════════════════════════
   // CASE A : 3+ AD
-  // ══════════════════════════════════════════
+  // ══════════════════════════
   if (a.ad >= 3) {
     if (topIsAD) {
-      items.push({ slot:"Item 2", name:"Deadman's Plate", note:"AD toplaner -- armor + engage (swap 2/3 to taste)" });
-      items.push({ slot:"Item 3", name:"Sterak's Gage",   note:"Shield + resistances (swap 2/3 to taste)" });
-      if (fonCondition) items.push({ slot:"Item 4", name:"Force of Nature",     note:"2+ burn or bump + CC≥6 -- mobility & MR" });
-      else              items.push({ slot:"Item 4", name:"Rookern",              note:"Shield against AP damage" });
-      if (thornmail5)        items.push({ slot:"Item 5", name:"Thornmail",            note:"Grievous Wounds -- anti-heal (bramble matchup)" });
-      else if (a.crit >= 2)  items.push({ slot:"Item 5", name:"Randuin's Omen",       note:"2+ crit enemies -- reduces crit damage taken" });
-      else if (a.melee >= 3) items.push({ slot:"Item 5", name:"Overlord's Bloodmail", note:"3+ melee enemies -- damage to health conversion" });
-      else                   items.push({ slot:"Item 5", name:"Jak'Sho, The Protean", note:"Omnidirectional resistances" });
+      addItem("Item 2", "Deadman's Plate", "Top AD — armure + engage (échangeable avec Sterak)");
+      addItem("Item 3", "Sterak's Gage",   "Bouclier + résistances (échangeable avec Deadman)");
     } else {
-      items.push({ slot:"Item 2", name:"Sterak's Gage", note:"Shield + resistances" });
-      if (fonCondition) items.push({ slot:"Item 3", name:"Force of Nature", note:"2+ burn or bump + CC≥6 -- mobility & MR" });
-      else              items.push({ slot:"Item 3", name:"Rookern",          note:"Shield against AP damage" });
-      if (a.ad >= 3 && a.crit >= 2) items.push({ slot:"Item 4", name:"Randuin's Omen",      note:"3+ AD + 2+ crit -- reduces crit damage taken" });
-      else if (a.ad >= 3)           items.push({ slot:"Item 4", name:"Deadman's Plate",      note:"3+ AD -- armor + engage" });
-      else                          items.push({ slot:"Item 4", name:"Jak'Sho, The Protean", note:"Omnidirectional resistances" });
-      if (thornmail5)        items.push({ slot:"Item 5", name:"Thornmail",            note:"Grievous Wounds -- anti-heal (bramble matchup)" });
-      else if (a.melee >= 3) items.push({ slot:"Item 5", name:"Overlord's Bloodmail", note:"3+ melee enemies -- damage to health conversion" });
-      else                   items.push({ slot:"Item 5", name:"Jak'Sho, The Protean", note:"Omnidirectional resistances" });
+      addItem("Item 2", "Sterak's Gage",   "Bouclier + résistances");
+      if (fonCondition) addItem("Item 3", "Force of Nature",  "AP/burn/CC — mobilité + MR");
+      else              addItem("Item 3", "Kaenic Rookern",   "Bouclier contre les dégâts AP");
     }
+    // Item 4
+    if (fonCondition && !usedItems.has("Force of Nature"))
+                          addItem("Item 4", "Force of Nature",       "AP/burn/CC — mobilité + MR");
+    else if (a.crit >= 2) addItem("Item 4", "Randuin's Omen",        "2+ crit — réduit les crits reçus");
+    else if (!topIsAD)    addItem("Item 4", "Deadman's Plate",        "Armure + engage");
+    else                  safeItem("Item 4", "Jak'Sho, The Protean", "Résistances omnidirectionnelles",
+                                             "Overlord's Bloodmail",  "Conversion dégâts → HP");
+    // Item 5
+    if (bramble)          addItem("Item 5", "Thornmail",             "Grievous Wounds — bramble matchup");
+    else if (a.crit >= 2) safeItem("Item 5","Randuin's Omen",        "2+ crit — réduit les crits reçus",
+                                             "Overlord's Bloodmail",  "Conversion dégâts → HP");
+    else if (a.melee >= 3)addItem("Item 5", "Overlord's Bloodmail",  "3+ mêlée — conversion dégâts → HP");
+    else                  safeItem("Item 5","Jak'Sho, The Protean",  "Résistances omnidirectionnelles",
+                                             "Overlord's Bloodmail",  "Conversion dégâts → HP");
 
-  // ══════════════════════════════════════════
+  // ══════════════════════════
   // CASE B : 3+ AP
-  // ══════════════════════════════════════════
+  // ══════════════════════════
   } else if (a.ap >= 3) {
-    items.push({ slot:"Item 2", name:"Sterak's Gage", note:"Shield + resistances" });
-    if (topIsAD && a.crit >= 2) items.push({ slot:"Item 3", name:"Randuin's Omen",  note:"AD toplaner + 2+ crit -- reduces crit damage taken" });
-    else if (topIsAD)           items.push({ slot:"Item 3", name:"Deadman's Plate",  note:"AD toplaner -- armor + engage" });
-    else                        items.push({ slot:"Item 3", name:"Rookern",           note:"AP toplaner -- shield against AP damage" });
-    if (thornmail5) {
-      if (a.melee >= 3) items.push({ slot:"Item 4", name:"Overlord's Bloodmail", note:"3+ melee -- damage to health conversion" });
-      else              items.push({ slot:"Item 4", name:"Jak'Sho, The Protean", note:"Omnidirectional resistances" });
-    } else {
-      if (topIsAP) items.push({ slot:"Item 4", name:"Deadman's Plate",  note:"AP toplaner -- armor coverage" });
-      else         items.push({ slot:"Item 4", name:"Force of Nature",   note:"3+ AP -- mobility and magic resistance" });
-    }
-    if (thornmail5)        items.push({ slot:"Item 5", name:"Thornmail",            note:"Grievous Wounds -- anti-heal (bramble matchup)" });
-    else if (a.melee >= 3) items.push({ slot:"Item 5", name:"Overlord's Bloodmail", note:"3+ melee -- damage to health conversion" });
-    else                   items.push({ slot:"Item 5", name:"Jak'Sho, The Protean", note:"Omnidirectional resistances" });
+    addItem("Item 2", "Sterak's Gage", "Bouclier + résistances");
+    if (topIsAD && a.crit >= 2) addItem("Item 3", "Randuin's Omen", "Top AD + 2+ crit — réduit les crits reçus");
+    else if (topIsAD)            addItem("Item 3", "Deadman's Plate", "Top AD — armure + engage");
+    else                         addItem("Item 3", "Kaenic Rookern",  "Top AP — bouclier contre les dégâts AP");
+    // Item 4
+    if (fonCondition)     addItem("Item 4", "Force of Nature",     "AP/burn/CC — mobilité + MR");
+    else if (topIsAP)     addItem("Item 4", "Deadman's Plate",     "Top AP — couverture armure");
+    else                  safeItem("Item 4","Jak'Sho, The Protean","Résistances omnidirectionnelles",
+                                            "Overlord's Bloodmail", "Conversion dégâts → HP");
+    // Item 5
+    if (bramble)           addItem("Item 5", "Thornmail",            "Grievous Wounds — bramble matchup");
+    else if (a.melee >= 3) addItem("Item 5", "Overlord's Bloodmail", "3+ mêlée — conversion dégâts → HP");
+    else                   safeItem("Item 5","Jak'Sho, The Protean","Résistances omnidirectionnelles",
+                                             "Overlord's Bloodmail", "Conversion dégâts → HP");
 
-  // ══════════════════════════════════════════
+  // ══════════════════════════
   // CASE C : Default
-  // ══════════════════════════════════════════
+  // ══════════════════════════
   } else {
-    items.push({ slot:"Item 2", name:"Sterak's Gage",  note:"Shield + resistances -- standard" });
-    items.push({ slot:"Item 3", name:"Deadman's Plate", note:"Armor + mobility" });
-    if (a.ap >= 2) {
-      if (fonCondition) items.push({ slot:"Item 4", name:"Force of Nature",     note:"AP + burn/bump -- mobility & MR" });
-      else              items.push({ slot:"Item 4", name:"Rookern",              note:"Shield against AP damage" });
+    addItem("Item 2", "Sterak's Gage", "Bouclier + résistances — standard");
+    if (fonCondition) {
+      // Force of Nature prioritaire (Singed, Rumble, etc.)
+      addItem("Item 3", "Force of Nature", "AP/burn — mobilité + MR essentielle");
+      if (topIsAD || a.ad >= 2) addItem("Item 4", "Deadman's Plate",      "Armure + engage");
+      else                      safeItem("Item 4","Kaenic Rookern",         "Bouclier AP supplémentaire",
+                                                  "Jak'Sho, The Protean",  "Résistances omnidirectionnelles");
     } else {
-      items.push({ slot:"Item 4", name:"Jak'Sho, The Protean", note:"Omnidirectional resistances" });
+      addItem("Item 3", "Deadman's Plate", "Armure + mobilité");
+      if (a.ap >= 2) addItem("Item 4", "Kaenic Rookern",      "Bouclier AP");
+      else           addItem("Item 4", "Jak'Sho, The Protean", "Résistances omnidirectionnelles");
     }
-    if (thornmail5)        items.push({ slot:"Item 5", name:"Thornmail",            note:"Grievous Wounds -- anti-heal (bramble matchup)" });
-    else if (a.melee >= 3) items.push({ slot:"Item 5", name:"Overlord's Bloodmail", note:"3+ melee -- damage to health conversion" });
-    else                   items.push({ slot:"Item 5", name:"Jak'Sho, The Protean", note:"Omnidirectional resistances" });
+    // Item 5 — anti-duplication
+    if (bramble)           addItem("Item 5", "Thornmail",            "Grievous Wounds — bramble matchup");
+    else if (a.melee >= 3) addItem("Item 5", "Overlord's Bloodmail", "3+ mêlée — conversion dégâts → HP");
+    else                   safeItem("Item 5","Jak'Sho, The Protean", "Résistances omnidirectionnelles",
+                                             "Overlord's Bloodmail",  "Conversion dégâts → HP");
   }
 
-  return { items, warnings };
+  return { items:items, warnings:warnings };
 }
 
+// ── RENDER ────────────────────────────────────────────────────────────
 function itemRowHTML(item, i) {
   var img = itemImg(item.name);
   var iconHTML = img
     ? '<div class="item-icon"><img src="'+img+'" alt="'+item.name+'" loading="lazy"/></div>'
     : '<div class="item-icon" style="display:flex;align-items:center;justify-content:center;font-size:18px;">⚔</div>';
   return '<div class="item-row" style="animation:fadeUp 0.3s ease both '+(i*0.05)+'s">'
-    +iconHTML+'<div class="item-slot">'+item.slot+'</div>'
-    +'<div><div class="item-name">'+item.name+'</div><div class="item-note">'+item.note+'</div></div></div>';
+    + iconHTML
+    + '<div class="item-slot">' + item.slot + '</div>'
+    + '<div><div class="item-name">' + item.name + '</div><div class="item-note">' + item.note + '</div></div>'
+    + '</div>';
 }
 
 function renderCategories(champs) {
@@ -763,38 +646,44 @@ function renderCategories(champs) {
   if (!filled.length) return '';
   var rows = '';
   CATS.forEach(function(cat) {
-    var matching = filled.filter(function(c) { var t=getTags(c); return cat.isCC ? getCCValue(t)>0 : t.includes(cat.key); });
+    var matching = filled.filter(function(c) {
+      var t = getTags(c);
+      return cat.isCC ? getCCValue(t) > 0 : t.includes(cat.key);
+    });
     if (!matching.length) return;
     var pills = matching.map(function(c) {
       return '<span class="cat-champ"><img src="'+champImg(c)+'" onerror="this.style.display=\'none\'" loading="lazy"/>'+c+'</span>';
     }).join('');
-    rows += '<div class="cat-row"><span class="cat-label '+cat.cls+'">'+cat.label+'</span><div class="cat-champs">'+pills+'</div></div>';
+    rows += '<div class="cat-row"><span class="cat-label ' + cat.cls + '">' + cat.label + '</span><div class="cat-champs">' + pills + '</div></div>';
   });
   if (!rows) return '';
-  return '<div class="cat-section"><div class="result-header">Champion categories</div><div class="cat-grid">'+rows+'</div></div>';
+  return '<div class="cat-section"><div class="result-header">Champion categories</div><div class="cat-grid">' + rows + '</div></div>';
 }
 
 function calculate() {
-  var champs=getChamps(), top=champs[0];
-  if (!top) { document.getElementById('error-msg').innerHTML='<div class="error">Enter at least the enemy top champion.</div>'; return; }
+  var champs = getChamps(), top = champs[0];
+  if (!top) { document.getElementById('error-msg').innerHTML = '<div class="error">Enter at least the enemy top champion.</div>'; return; }
   document.getElementById('error-msg').innerHTML = '';
   var topKnown = Object.keys(CHAMP_TAGS).find(function(k) { return k.toLowerCase() === top.toLowerCase(); }) || top;
-  var a=analyzeComp(champs), rune=RUNE_PAGES[CHAMP_RUNE_MAP[top.toLowerCase()]||"page1"];
-  var bi=buildItems(topKnown,a), situ=getSituItems(a), guideUrl=GUIDE_BASE+champSlug(topKnown)+'.html';
-  var html='';
+  var a = analyzeComp(champs);
+  var rune = RUNE_PAGES[CHAMP_RUNE_MAP[top.toLowerCase()] || "page1"];
+  var bi = buildItems(topKnown, a);
+  var situ = getSituItems(a);
+  var guideUrl = GUIDE_BASE + champSlug(topKnown) + '.html';
+  var html = '';
 
   html += '<div class="section" style="animation:fadeUp 0.4s ease both">'
-    +'<div class="result-header">Rune page — '+rune.label+'</div>'
-    +'<img src="'+RUNE_BASE+rune.img+'" alt="Rune page '+rune.label+'" style="width:100%;display:block;border-radius:4px;border:1px solid var(--border);" loading="lazy"/>'
-    +'</div>';
+    + '<div class="result-header">Rune page — ' + rune.label + '</div>'
+    + '<img src="' + RUNE_BASE + rune.img + '" alt="Rune page ' + rune.label + '" style="width:100%;display:block;border-radius:4px;border:1px solid var(--border);" loading="lazy"/>'
+    + '</div>';
 
   html += '<div class="build-layout">';
   html += '<div class="section" style="animation:fadeUp 0.4s ease both 0.1s">'
-    +'<div class="result-header">Recommended build</div>'
-    +'<div class="guide-box">📖 <a href="'+guideUrl+'">Urgot vs '+topKnown+' — Full matchup guide ↗</a></div>';
-  bi.warnings.forEach(function(w) { html += '<div class="warn-box">'+w+'</div>'; });
+    + '<div class="result-header">Recommended build</div>'
+    + '<div class="guide-box">📖 <a href="' + guideUrl + '">Urgot vs ' + topKnown + ' — Full matchup guide ↗</a></div>';
+  bi.warnings.forEach(function(w) { html += '<div class="warn-box">' + w + '</div>'; });
   html += '<div class="items-grid">';
-  bi.items.forEach(function(item,i) { html += itemRowHTML(item,i); });
+  bi.items.forEach(function(item, i) { html += itemRowHTML(item, i); });
   html += '</div></div>';
 
   html += '<div class="situ-panel"><p class="situ-title">✦ Situational</p>';
@@ -802,18 +691,18 @@ function calculate() {
     html += '<p class="situ-empty">No situational items</p>';
   } else {
     situ.forEach(function(s) {
-      var tc='situ-tag-'+s.tag;
-      if (s.type==='double') {
-        html += '<div class="situ-item" style="flex-direction:column;gap:6px;"><span class="situ-tag '+tc+'">'+s.tagLabel+'</span>';
-        s.items.forEach(function(it,j) {
-          var img=itemImg(it.name), icon=img?'<div class="situ-icon"><img src="'+img+'" alt="'+it.name+'" loading="lazy"/></div>':'';
-          if (j>0) html += '<div style="height:5px;"></div>';
-          html += '<div style="display:flex;align-items:flex-start;gap:8px;">'+icon+'<div><div class="situ-item-name">'+it.name+'</div><div class="situ-item-cond">'+it.note+'</div></div></div>';
+      var tc = 'situ-tag-' + s.tag;
+      if (s.type === 'double') {
+        html += '<div class="situ-item" style="flex-direction:column;gap:6px;"><span class="situ-tag ' + tc + '">' + s.tagLabel + '</span>';
+        s.items.forEach(function(it, j) {
+          var img2 = itemImg(it.name), ic = img2 ? '<div class="situ-icon"><img src="' + img2 + '" loading="lazy"/></div>' : '';
+          if (j > 0) html += '<div style="height:5px;"></div>';
+          html += '<div style="display:flex;align-items:flex-start;gap:8px;">' + ic + '<div><div class="situ-item-name">' + it.name + '</div><div class="situ-item-cond">' + it.note + '</div></div></div>';
         });
         html += '</div>';
       } else {
-        var img2=itemImg(s.items[0].name), iH=img2?'<div class="situ-icon"><img src="'+img2+'" alt="'+s.items[0].name+'" loading="lazy"/></div>':'';
-        html += '<div class="situ-item">'+iH+'<div class="situ-text"><span class="situ-tag '+tc+'">'+s.tagLabel+'</span><div class="situ-item-name">'+s.items[0].name+'</div><div class="situ-item-cond">'+s.items[0].note+'</div></div></div>';
+        var img3 = itemImg(s.items[0].name), ih = img3 ? '<div class="situ-icon"><img src="' + img3 + '" loading="lazy"/></div>' : '';
+        html += '<div class="situ-item">' + ih + '<div class="situ-text"><span class="situ-tag ' + tc + '">' + s.tagLabel + '</span><div class="situ-item-name">' + s.items[0].name + '</div><div class="situ-item-cond">' + s.items[0].note + '</div></div></div>';
       }
     });
   }
@@ -823,31 +712,32 @@ function calculate() {
   document.getElementById('results').scrollIntoView({ behavior:'smooth', block:'start' });
 }
 
-var champNames = ['Aatrox','Ahri','Akali','Ambessa','Anivia','Aurora','Camille','Cassiopeia',"Cho'Gath",'Darius','Dr. Mundo','Fiora','Gangplank','Garen','Gnar','Gragas','Gwen','Heimerdinger','Illaoi','Irelia','Jax','Jayce','Kayle','Kennen','Kled',"K'Sante",'Lee Sin','Malphite','Maokai','Master Yi','Mordekaiser','Nasus','Olaf','Ornn','Pantheon','Poppy','Quinn','Renekton','Riven','Rumble','Ryze','Sett','Shen','Singed','Sion','Swain','Sylas','Tahm Kench','Teemo','Trundle','Tryndamere','Udyr','Varus','Vayne','Vladimir','Volibear','Warwick','Yasuo','Yone','Yorick','Zaahen','Zac'];
-
-function slugify(name) { return name.toLowerCase().replace(/ & /g,'-').replace(/[^\w\s-]/g,'').replace(/\s+/g,'-').normalize('NFD').replace(/[\u0300-\u036f]/g,''); }
-
+// ── NAV SEARCH ────────────────────────────────────────────────────────
+var champNames = Object.keys(CHAMP_TAGS).sort();
+function slugify(name) {
+  return name.toLowerCase().replace(/ & /g,'-').replace(/[^\w\s-]/g,'').replace(/\s+/g,'-').normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+}
 function navFilter() {
-  var val=document.getElementById('nav-search-input').value,
-      navList=document.getElementById('nav-list'), navDropdown=document.getElementById('nav-dropdown');
-  navList.innerHTML = '';
-  if (val.length<1) { navDropdown.style.display='none'; return; }
+  var val = document.getElementById('nav-search-input').value,
+      nl = document.getElementById('nav-list'),
+      nd = document.getElementById('nav-dropdown');
+  nl.innerHTML = '';
+  if (val.length < 1) { nd.style.display = 'none'; return; }
   var filtered = champNames.filter(function(n) { return n.toLowerCase().includes(val.toLowerCase()); });
-  navDropdown.style.display = filtered.length ? 'block' : 'none';
-  filtered.forEach(function(name) {
-    var a=document.createElement('a'); a.className='nav-dropdown-item';
-    a.href='matchup/'+slugify(name)+'.html';
-    var img=document.createElement('img'); img.src=DDC(name.replace(/[^a-zA-Z]/g,'')); img.alt=name;
-    img.onerror=function(){this.style.display='none';};
-    var span=document.createElement('span'); span.textContent=name;
-    a.appendChild(img); a.appendChild(span); navList.appendChild(a);
+  nd.style.display = filtered.length ? 'block' : 'none';
+  filtered.slice(0,10).forEach(function(name) {
+    var a = document.createElement('a'); a.className = 'nav-dropdown-item';
+    a.href = 'matchup/' + slugify(name) + '.html';
+    var img = document.createElement('img'); img.src = champImg(name); img.alt = name;
+    img.onerror = function() { this.style.display = 'none'; };
+    var span = document.createElement('span'); span.textContent = name;
+    a.appendChild(img); a.appendChild(span); nl.appendChild(a);
   });
 }
-
-document.addEventListener('click', function(e) { if (!e.target.closest('.nav-search')) document.getElementById('nav-dropdown').style.display='none'; });
-document.addEventListener('keydown', function(e) { if (e.key==='Enter') calculate(); });
-
-
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('.nav-search')) document.getElementById('nav-dropdown').style.display = 'none';
+});
+document.addEventListener('keydown', function(e) { if (e.key === 'Enter') calculate(); });
 </script>
 </body>
 </html>
