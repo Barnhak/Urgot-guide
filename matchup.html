@@ -70,22 +70,6 @@
     .hero-title { font-family: "Cinzel", serif; font-size: clamp(32px, 6vw, 60px); font-weight: 900; color: var(--text-bright); letter-spacing: 0.06em; text-shadow: 0 0 60px rgba(74,222,128,0.15), 0 4px 20px rgba(0,0,0,0.8); }
     .hero-title span { color: var(--green); text-shadow: 0 0 30px rgba(74,222,128,0.4); }
 
-    /* ── SUB-NAV ── */
-    .sub-nav {
-      display: flex; align-items: center; gap: 3px;
-      padding: 3px; background: var(--bg-surface);
-      border-bottom: 1px solid var(--border);
-      position: sticky; top: 57px; z-index: 90;
-    }
-    .sub-nav-link {
-      font-family: "Cinzel", serif; font-size: 11px; letter-spacing: 0.15em;
-      text-transform: uppercase; padding: 11px 24px; text-decoration: none;
-      color: var(--text-dim); transition: all 0.2s; border-bottom: 2px solid transparent;
-      white-space: nowrap;
-    }
-    .sub-nav-link:hover { color: var(--text); }
-    .sub-nav-link.active { color: var(--green); border-bottom-color: var(--green); }
-
     /* MAIN */
     .main { max-width: 1100px; margin: 0 auto; padding: 3rem 1.5rem 5rem; }
 
@@ -147,14 +131,7 @@
     </div>
   </nav>
 
-  <!-- SUB-NAV MATCHUP / SYNERGIES -->
-  <div class="sub-nav">
-    <a href="matchup.html" class="sub-nav-link active">⚔ Matchup</a>
-    <a href="synergies.html" class="sub-nav-link">🤝 Synergies</a>
-    <a href="tierlist.html" class="sub-nav-link">📊 Tier List</a>
-  </div>
-
-  <section class="hero">
+<section class="hero">
     <div class="hero-bg"></div>
     <div class="hero-overlay"></div>
     <div class="hero-content">
