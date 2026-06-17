@@ -156,6 +156,26 @@
     ::-webkit-scrollbar { width: 3px; }
     ::-webkit-scrollbar-track { background: var(--bg); }
     ::-webkit-scrollbar-thumb { background: var(--border-bright); border-radius: 2px; }
+  .tl-tabs { display:flex;border-bottom:1px solid var(--border); }
+  .tl-tab { flex:1;padding:10px;text-align:center;font-family:'Cinzel',serif;font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:var(--text-dim);cursor:pointer;transition:all 0.2s;border-bottom:2px solid transparent; }
+  .tl-tab.active { color:var(--green);border-bottom-color:var(--green);background:rgba(74,222,128,0.04); }
+  .tl-tab:hover:not(.active) { color:var(--text); }
+  .tl-body { padding:1rem; }
+  .tl-row { display:flex;align-items:stretch;margin-bottom:6px;border-radius:4px;overflow:hidden;border:1px solid var(--border);min-height:70px; }
+  .tl-label { width:120px;flex-shrink:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:2px;font-family:'Cinzel',serif;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;text-align:center;padding:8px 6px;font-weight:700; }
+  .tl-label small { font-size:9px;font-weight:400;letter-spacing:0.05em;opacity:0.8;font-family:'Rajdhani',sans-serif; }
+  .tl-champs { display:flex;flex-wrap:wrap;align-items:center;gap:4px;padding:8px;background:var(--bg-card);flex:1; }
+  .tl-champ { position:relative;width:52px;height:52px;border-radius:4px;overflow:hidden;cursor:pointer;border:2px solid transparent;transition:all 0.15s;flex-shrink:0; }
+  .tl-champ:hover { transform:scale(1.08);border-color:var(--green);z-index:2; }
+  .tl-champ img { width:100%;height:100%;object-fit:cover;object-position:center top;display:block; }
+  .tl-champ-name { position:absolute;bottom:0;left:0;right:0;font-size:8px;text-align:center;padding:2px;background:rgba(0,0,0,0.75);color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis; }
+  .tl-personal-note { font-size:11px;color:var(--text-dim);font-style:italic;text-align:center;padding:1.5rem;border:1px dashed var(--border);border-radius:4px;margin-top:8px; }
+  .tl-tier-urgot { background:linear-gradient(135deg,#8B0000,#5B0000); }
+  .tl-tier-easy   { background:linear-gradient(135deg,#1a4a1a,#0d2e0d); color:#4ADE80; }
+  .tl-tier-fav    { background:linear-gradient(135deg,#2a3a1a,#1a2a0d); color:#86efac; }
+  .tl-tier-skill  { background:linear-gradient(135deg,#3a3a0a,#2a2a05); color:#facc15; }
+  .tl-tier-hard   { background:linear-gradient(135deg,#3a1a0a,#2a0d05); color:#f97316; }
+  .tl-tier-extreme{ background:linear-gradient(135deg,#3a0a0a,#2a0505); color:#ef4444; }
 
 </style>
 </head>
@@ -232,7 +252,7 @@
         </div>
       </div>
     </div>
-  </div>
+    <p class="comp-label">Team composition analysis</p>
     <div class="comp-tags" id="comp-tags"><span class="tag-empty">Enter enemy draft...</span></div>
     <div id="error-msg"></div>
   </div>
@@ -430,69 +450,11 @@ const CHAMPS_BY_ROLE = {
   sup: ["Alistar","Bard","Blitzcrank","Brand","Braum","Janna","Karma","Leona","Lulu","Lux","Maokai","Mel","Milio","Morgana","Nami","Nautilus","Neeko","Pantheon","Poppy","Pyke","Rakan","Rell","Renata Glasc","Senna","Seraphine","Sona","Soraka","Swain","Tahm Kench","Taric","Thresh","Vel'Koz","Xerath","Yuumi","Zilean","Zyra"],
 };
 
-
-
-
-
-
-var tlActiveTab = 'objective';
-
-function buildTierListHTML(tab) {
-  var rows = '';
-  TL_TIERS.forEach(function(tier) {
-    var champs = Object.entries(MATCHUP_TIERS)
-      .filter(function(e) { return e[1].score >= tier.min && e[1].score <= tier.max; })
-      .map(function(e) { return e[0]; });
-    if (!champs.length) return;
-
-    var champHTML = champs.map(function(name) {
-      var key = CHAMP_DDR[name] || name.replace(/['\s.&]/g,'');
-      var src = DDC(key);
-      return '<div class="tl-champ" title="' + name + '">'
-        + '<img src="' + src + '" loading="lazy"/>'
-        + '<div class="tl-champ-name">' + name + '</div>'
-        + '</div>';
-    }).join('');
-
-    rows += '<div class="tl-row">'
-      + '<div class="tl-label ' + tier.cls + '">'
-      + tier.label + (tier.sub ? '<small>' + tier.sub + '</small>' : '')
-      + '</div>'
-      + '<div class="tl-champs">' + champHTML + '</div>'
-      + '</div>';
-  });
-
-  if (tab === 'personal') {
-    rows += '<div class="tl-personal-note">🎮 Tier list personnelle à venir — basée sur le ressenti en jeu de Quante</div>';
-  }
-
-  return rows;
-}
-
-function openTierList() {
-  var modal = document.getElementById('tl-modal');
-  modal.classList.add('open');
-  renderTierList();
-}
-function closeTierList() {
-  document.getElementById('tl-modal').classList.remove('open');
-}
-function switchTLTab(tab) {
-  tlActiveTab = tab;
-  document.querySelectorAll('.tl-tab').forEach(function(t) {
-    t.classList.toggle('active', t.dataset.tab === tab);
-  });
-  document.getElementById('tl-body').innerHTML = buildTierListHTML(tab);
-}
-function renderTierList() {
-  document.getElementById('tl-body').innerHTML = buildTierListHTML(tlActiveTab);
-}
-
-// Close on backdrop click
-document.addEventListener('click', function(e) {
-  var modal = document.getElementById('tl-modal');
-  if (e.target === modal) closeTierList();
+// Datalists removed — using custom dropdown instead
 });
+
+
+
 
 // ── LIVE DROPDOWN AUTOCOMPLETE ──────────────────────────────────────
 var ALL_CHAMP_NAMES = Object.keys(CHAMP_TAGS).sort();
@@ -859,7 +821,7 @@ function calculate() {
 
   html += '<div class="section" style="animation:fadeUp 0.4s ease both">'
     + '<div class="result-header">Rune page — ' + rune.label + '</div>'
-    + '<img src="' + RUNE_BASE + rune.img + '" alt="Rune page ' + rune.label + '" style="width:100%;display:block;border-radius:4px;border:1px solid var(--border);" loading="lazy"/>'
+    + '<img src="' + RUNE_BASE + rune.img + '" alt="Rune page ' + rune.label + '" style="max-width:260px;width:100%;display:block;margin:0 auto;border-radius:4px;border:1px solid var(--border);" loading="lazy"/>'
     + '</div>';
 
   html += '<div class="build-layout">';
@@ -930,19 +892,5 @@ document.addEventListener('keydown', function(e) {
 });
 </script>
 
-<!-- TIER LIST MODAL -->
-<div class="tierlist-modal" id="tl-modal">
-  <div class="tierlist-box">
-    <div class="tierlist-header">
-      <h2>⚔ Urgot — Matchup Tier List</h2>
-      <button class="tierlist-close" onclick="closeTierList()">✕</button>
-    </div>
-    <div class="tl-tabs">
-      <div class="tl-tab active" data-tab="objective" onclick="switchTLTab('objective')">📊 Objectif</div>
-      <div class="tl-tab" data-tab="personal" onclick="switchTLTab('personal')">🎮 Personnel (Quante)</div>
-    </div>
-    <div class="tl-body" id="tl-body"></div>
-  </div>
-</div>
 </body>
 </html>
