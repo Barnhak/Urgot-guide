@@ -194,8 +194,7 @@
         <label>Top (opponent)</label>
         <div class="input-wrap">
           <div class="champ-preview" id="prev-top"><img id="img-top" src="" alt=""/></div>
-          <input id="top" placeholder="ex: Darius" list="list-top" autocomplete="off" oninput="onInput()"/>
-          <datalist id="list-top"></datalist>
+          <input id="top" placeholder="ex: Darius" autocomplete="off" oninput="onInput()"/>
           <div class="champ-drop" id="drop-top"></div>
         </div>
       </div>
@@ -203,8 +202,7 @@
         <label>Jungle</label>
         <div class="input-wrap">
           <div class="champ-preview" id="prev-jg"><img id="img-jg" src="" alt=""/></div>
-          <input id="jg" placeholder="ex: Lee Sin" list="list-jg" autocomplete="off" oninput="onInput()"/>
-          <datalist id="list-jg"></datalist>
+          <input id="jg" placeholder="ex: Lee Sin" autocomplete="off" oninput="onInput()"/>
           <div class="champ-drop" id="drop-jg"></div>
         </div>
       </div>
@@ -212,8 +210,7 @@
         <label>Mid</label>
         <div class="input-wrap">
           <div class="champ-preview" id="prev-mid"><img id="img-mid" src="" alt=""/></div>
-          <input id="mid" placeholder="ex: Syndra" list="list-mid" autocomplete="off" oninput="onInput()"/>
-          <datalist id="list-mid"></datalist>
+          <input id="mid" placeholder="ex: Syndra" autocomplete="off" oninput="onInput()"/>
           <div class="champ-drop" id="drop-mid"></div>
         </div>
       </div>
@@ -221,8 +218,7 @@
         <label>ADC</label>
         <div class="input-wrap">
           <div class="champ-preview" id="prev-adc"><img id="img-adc" src="" alt=""/></div>
-          <input id="adc" placeholder="ex: Jinx" list="list-adc" autocomplete="off" oninput="onInput()"/>
-          <datalist id="list-adc"></datalist>
+          <input id="adc" placeholder="ex: Jinx" autocomplete="off" oninput="onInput()"/>
           <div class="champ-drop" id="drop-adc"></div>
         </div>
       </div>
@@ -230,8 +226,7 @@
         <label>Support</label>
         <div class="input-wrap">
           <div class="champ-preview" id="prev-sup"><img id="img-sup" src="" alt=""/></div>
-          <input id="sup" placeholder="ex: Thresh" list="list-sup" autocomplete="off" oninput="onInput()"/>
-          <datalist id="list-sup"></datalist>
+          <input id="sup" placeholder="ex: Thresh" autocomplete="off" oninput="onInput()"/>
           <div class="champ-drop" id="drop-sup"></div>
         </div>
       </div>
@@ -435,9 +430,7 @@ const CHAMPS_BY_ROLE = {
   sup: ["Alistar","Bard","Blitzcrank","Brand","Braum","Janna","Karma","Leona","Lulu","Lux","Maokai","Mel","Milio","Morgana","Nami","Nautilus","Neeko","Pantheon","Poppy","Pyke","Rakan","Rell","Renata Glasc","Senna","Seraphine","Sona","Soraka","Swain","Tahm Kench","Taric","Thresh","Vel'Koz","Xerath","Yuumi","Zilean","Zyra"],
 };
 
-Object.entries(CHAMPS_BY_ROLE).forEach(function(e) {
-  var dl = document.getElementById('list-' + e[0]);
-  if (dl) e[1].forEach(function(c) { var o = document.createElement('option'); o.value = c; dl.appendChild(o); });
+// Datalists removed — using custom dropdown instead
 });
 
 // ── LIVE DROPDOWN AUTOCOMPLETE ──────────────────────────────────────
