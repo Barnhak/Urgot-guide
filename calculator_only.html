@@ -466,7 +466,7 @@ function setupDropdown(inputId, dropId, previewId, imgId) {
       item.className = 'champ-drop-item';
       item.dataset.name = name;
       var src = champImg(name);
-      item.innerHTML = '<img class="champ-drop-img" src="' + src + '" onerror="this.style.display='none'"/><span>' + name + '</span>';
+      item.innerHTML = '<img class="champ-drop-img" src="' + src + '" onerror="this.style.display=\'none\'"/><span>' + name + '</span>';
       item.addEventListener('mousedown', function(e) { e.preventDefault(); selectChamp(name); });
       drop.appendChild(item);
     });
@@ -854,7 +854,12 @@ function navFilter() {
 document.addEventListener('click', function(e) {
   if (!e.target.closest('.nav-search')) document.getElementById('nav-dropdown').style.display = 'none';
 });
-document.addEventListener('keydown', function(e) { if (e.key === 'Enter') calculate(); });
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') {
+    var anyOpen = document.querySelector('.champ-drop.open');
+    if (!anyOpen) calculate();
+  }
+});
 </script>
 </body>
 </html>
