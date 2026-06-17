@@ -156,37 +156,6 @@
     ::-webkit-scrollbar { width: 3px; }
     ::-webkit-scrollbar-track { background: var(--bg); }
     ::-webkit-scrollbar-thumb { background: var(--border-bright); border-radius: 2px; }
-  
-  /* ── TIER LIST ─────────────────── */
-  .tierlist-toggle { display:inline-flex;align-items:center;gap:8px;font-family:'Cinzel',serif;font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:var(--green);background:transparent;border:1px solid var(--green-dark);border-radius:3px;padding:6px 18px;cursor:pointer;transition:all 0.2s;margin-left:12px; }
-  .tierlist-toggle:hover { background:rgba(74,222,128,0.08);border-color:var(--green-mid); }
-  .tierlist-modal { display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:500;overflow-y:auto;padding:2rem 1rem; }
-  .tierlist-modal.open { display:flex;flex-direction:column;align-items:center; }
-  .tierlist-box { width:100%;max-width:900px;background:var(--bg-surface);border:1px solid var(--border);border-radius:6px;overflow:hidden; }
-  .tierlist-header { display:flex;align-items:center;justify-content:space-between;padding:1rem 1.5rem;border-bottom:1px solid var(--border);background:var(--bg-card); }
-  .tierlist-header h2 { font-family:'Cinzel',serif;font-size:16px;letter-spacing:0.1em;color:var(--green); }
-  .tierlist-close { background:none;border:1px solid var(--border-bright);border-radius:3px;color:var(--text-dim);font-size:18px;cursor:pointer;width:32px;height:32px;display:flex;align-items:center;justify-content:center;transition:all 0.15s; }
-  .tierlist-close:hover { color:var(--green);border-color:var(--green); }
-  .tl-tabs { display:flex;border-bottom:1px solid var(--border); }
-  .tl-tab { flex:1;padding:10px;text-align:center;font-family:'Cinzel',serif;font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:var(--text-dim);cursor:pointer;transition:all 0.2s;border-bottom:2px solid transparent; }
-  .tl-tab.active { color:var(--green);border-bottom-color:var(--green);background:rgba(74,222,128,0.04); }
-  .tl-tab:hover:not(.active) { color:var(--text); }
-  .tl-body { padding:1rem; }
-  .tl-row { display:flex;align-items:stretch;margin-bottom:6px;border-radius:4px;overflow:hidden;border:1px solid var(--border);min-height:70px; }
-  .tl-label { width:120px;flex-shrink:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:2px;font-family:'Cinzel',serif;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;text-align:center;padding:8px 6px;font-weight:700; }
-  .tl-label small { font-size:9px;font-weight:400;letter-spacing:0.05em;opacity:0.8;font-family:'Rajdhani',sans-serif; }
-  .tl-champs { display:flex;flex-wrap:wrap;align-items:center;gap:4px;padding:8px;background:var(--bg-card);flex:1; }
-  .tl-champ { position:relative;width:52px;height:52px;border-radius:4px;overflow:hidden;cursor:pointer;border:2px solid transparent;transition:all 0.15s;flex-shrink:0; }
-  .tl-champ:hover { transform:scale(1.08);border-color:var(--green);z-index:2; }
-  .tl-champ img { width:100%;height:100%;object-fit:cover;object-position:center top;display:block; }
-  .tl-champ-name { position:absolute;bottom:0;left:0;right:0;font-size:8px;text-align:center;padding:2px;background:rgba(0,0,0,0.75);color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis; }
-  .tl-personal-note { font-size:11px;color:var(--text-dim);font-style:italic;text-align:center;padding:1.5rem;border:1px dashed var(--border);border-radius:4px;margin-top:8px; }
-  .tl-tier-urgot { background:linear-gradient(135deg,#8B0000,#5B0000); }
-  .tl-tier-easy   { background:linear-gradient(135deg,#1a4a1a,#0d2e0d); color:#4ADE80; }
-  .tl-tier-fav    { background:linear-gradient(135deg,#2a3a1a,#1a2a0d); color:#86efac; }
-  .tl-tier-skill  { background:linear-gradient(135deg,#3a3a0a,#2a2a05); color:#facc15; }
-  .tl-tier-hard   { background:linear-gradient(135deg,#3a1a0a,#2a0d05); color:#f97316; }
-  .tl-tier-extreme{ background:linear-gradient(135deg,#3a0a0a,#2a0505); color:#ef4444; }
 
 </style>
 </head>
@@ -468,46 +437,7 @@ const CHAMPS_BY_ROLE = {
 });
 
 
-// ── TIER LIST DATA ────────────────────────────────────────────────────
-// Objectif basé sur les scores du guide (difficultyScore de 1 à 10)
-const MATCHUP_TIERS = {
-  "Urgot":   { score:0 },
-  // Easy (1-2)
-  "Singed":  { score:1 }, "Nasus":   { score:2 }, "Sylas":   { score:2 },
-  // Favoured (3-4)
-  "Garen":   { score:3 }, "Riven":   { score:4 }, "Malphite":{ score:4 },
-  "Teemo":   { score:4 }, "Maokai":  { score:4 }, "Cho'Gath":{ score:4 },
-  "Cassiopeia":{ score:4 }, "Anivia": { score:4 }, "Gragas":  { score:4 },
-  "Quinn":   { score:4 }, "Master Yi":{ score:4 }, "Shen":    { score:3 },
-  "Kayle":   { score:4 }, "Lee Sin": { score:5 }, "Ornn":    { score:4 },
-  // Skill (5)
-  "Jax":     { score:5 }, "Gnar":    { score:5 }, "Sett":    { score:5 },
-  "Camille": { score:5 }, "Renekton":{ score:5 }, "Jayce":   { score:5 },
-  "Volibear":{ score:5 }, "Irelia":  { score:5 }, "Trundle": { score:5 },
-  "Aatrox":  { score:5 }, "Swain":   { score:5 }, "Darius":  { score:5 },
-  "Udyr":    { score:5 }, "Gangplank":{ score:5 }, "Kled":   { score:5 },
-  "Sion":    { score:5 }, "Vladimir":{ score:5 }, "Pantheon":{ score:5 },
-  "Poppy":   { score:5 },
-  // Enemy favoured (6-7)
-  "Dr. Mundo":{ score:6 }, "K'Sante":{ score:7 }, "Kennen":  { score:7 },
-  "Olaf":    { score:7 }, "Gangplank":{ score:7 }, "Varus":   { score:7 },
-  "Vayne":   { score:7 }, "Mordekaiser":{ score:7 }, "Warwick":{ score:6 },
-  "Ryze":    { score:7 }, "Tryndamere":{ score:7 }, "Tahm Kench":{ score:6 },
-  // Hard (8-10)
-  "Fiora":   { score:9 }, "Heimerdinger":{ score:9 }, "Illaoi":{ score:8 },
-  "Rumble":  { score:9 }, "Yasuo":   { score:8 }, "Yone":    { score:8 },
-  "Yorick":  { score:10 }, "Akali":  { score:8 }, "Ambessa": { score:8 },
-  "Aurora":  { score:8 },
-};
 
-const TL_TIERS = [
-  { key:'urgot',   label:'Urgot',              sub:'',         cls:'tl-tier-urgot',  min:0,   max:0   },
-  { key:'easy',    label:'Easy',               sub:'1-2',      cls:'tl-tier-easy',   min:1,   max:2   },
-  { key:'fav',     label:'Urgot Favored',      sub:'3-4',      cls:'tl-tier-fav',    min:3,   max:4   },
-  { key:'skill',   label:'Skill Matchup',      sub:'5',        cls:'tl-tier-skill',  min:5,   max:5   },
-  { key:'hard',    label:'Enemy Favored',      sub:'6-7',      cls:'tl-tier-hard',   min:6,   max:7   },
-  { key:'extreme', label:'Hard',               sub:'8-10',     cls:'tl-tier-extreme',min:8,   max:10  },
-];
 
 var tlActiveTab = 'objective';
 
