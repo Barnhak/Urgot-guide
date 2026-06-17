@@ -97,6 +97,23 @@ footer a{color:var(--green-dark);text-decoration:none}
 footer a:hover{color:var(--green-mid)}
 @keyframes fadeDown{from{opacity:0;transform:translateY(-12px)}to{opacity:1;transform:none}}
 @media(max-width:600px){.comp-grid{grid-template-columns:1fr}.role-tabs{flex-wrap:wrap}}
+
+    /* ── SUB-NAV ── */
+    .sub-nav {
+      display: flex; align-items: center; gap: 3px;
+      padding: 3px; background: var(--bg-surface);
+      border-bottom: 1px solid var(--border);
+      position: sticky; top: 57px; z-index: 90;
+    }
+    .sub-nav-link {
+      font-family: "Cinzel", serif; font-size: 11px; letter-spacing: 0.15em;
+      text-transform: uppercase; padding: 11px 24px; text-decoration: none;
+      color: var(--text-dim); transition: all 0.2s; border-bottom: 2px solid transparent;
+      white-space: nowrap;
+    }
+    .sub-nav-link:hover { color: var(--text); }
+    .sub-nav-link.active { color: var(--green); border-bottom-color: var(--green); }
+
 </style>
 </head>
 <body>
@@ -146,6 +163,25 @@ footer a:hover{color:var(--green-mid)}
   <!-- ENEMY COMPS TO AVOID -->
   <div class="section-header" style="margin-top:3rem"><span class="section-icon">⚠</span><h2 class="section-title">Compositions adverses difficiles</h2></div>
   <div class="comp-grid" id="avoid-grid"></div>
+
+  <!-- CE QUI EST FORT CONTRE URGOT -->
+  <div class="section-header" style="margin-top:3rem">
+    <span class="section-icon">🎯</span>
+    <h2 class="section-title">Ce qui est fort contre Urgot</h2>
+  </div>
+
+  <div class="notice">
+    <span>⚠</span>
+    <span>Archetypes et champions qui <strong>punissent Urgot</strong> — classés par dangerosité. Modifiable facilement dans le code <code style="background:rgba(74,222,128,0.08);padding:1px 5px;border-radius:2px;font-size:11px">COUNTERS</code>.</span>
+  </div>
+
+  <!-- ONGLETS archetype / champions -->
+  <div class="role-tabs" id="counter-tabs">
+    <button class="role-tab active" onclick="switchCounter('archetype',this)">🧩 Archétypes</button>
+    <button class="role-tab" onclick="switchCounter('champ',this)">⚔ Champions</button>
+  </div>
+  <div id="counter-content"></div>
+
 </div>
 
 <footer>
@@ -173,72 +209,72 @@ function champKey(n){ return CHAMP_DDR[n]||n.replace(/['\s.&]/g,''); }
 // ── SYNERGY DATA ──────────────────────────────────────────────────────
 const SYNERGIES = {
   jg: [
-    { tier:'best',  label:'Idéal',   champs:['Hecarim','Jarvan IV','Vi','Sejuani','Amumu'],
-      note:'Engage + AoE CC → parfait pour set up ton E + R. Hecarim est le meilleur : ghost in → knockup → tu execute.' },
-    { tier:'good',  label:'Bon',     champs:['Volibear','Lee Sin','Warwick','Wukong','Gragas'],
-      note:'Bonnes synergies engage ou peel. Lee Sin kick = setup R parfait. Warwick gapclose = dive combo.' },
-    { tier:'ok',    label:'Correct', champs:['Nocturne','Graves','Shyvana','Udyr','Trundle'],
-      note:'Moins de synergie directe mais s\'intègrent bien dans les compositions où Urgot splite.' },
-    { tier:'avoid', label:'Éviter',  champs:['Kindred','Nidalee','Karthus'],
-      note:'Compositions poke/scale qui ne profitent pas de ta présence en lane ni en teamfight.' },
+    { tier:'best',  label:"Idéal",   champs:['Hecarim','Jarvan IV','Vi','Sejuani','Amumu'],
+      note:"Engage + AoE CC — parfait pour setup ton E + R. Hecarim est le meilleur : ghost in → knockup → execute." },
+    { tier:'good',  label:"Bon",     champs:['Volibear','Lee Sin','Warwick','Wukong','Gragas'],
+      note:"Bonnes synergies engage ou peel. Lee Sin kick = setup R parfait. Warwick gapclose = dive combo." },
+    { tier:'ok',    label:"Correct", champs:['Nocturne','Graves','Shyvana','Udyr','Trundle'],
+      note:"Moins de synergie directe mais bien dans les compositions où Urgot splite." },
+    { tier:'avoid', label:"Éviter",  champs:['Kindred','Nidalee','Karthus'],
+      note:"Compositions poke/scale qui ne profitent pas de ta présence en lane ni en teamfight." },
   ],
   mid: [
-    { tier:'best',  label:'Idéal',   champs:['Orianna','Malzahar','Syndra','Twisted Fate'],
-      note:'CC massif qui amplifie ton R. Orianna ball + ton E = combo léthal. Malzahar suppression = execute assuré.' },
-    { tier:'good',  label:'Bon',     champs:['Lissandra','Galio','Yasuo','Yone'],
-      note:'CC utile + bon follow sur ton engage. Galio ult = super counter-engage pendant que tu kite.' },
-    { tier:'ok',    label:'Correct', champs:['Viktor','Cassiopeia','Zed','Ahri'],
-      note:'S\'intègrent dans les compos mais peu de synergie directe avec ton kit.' },
-    { tier:'avoid', label:'Éviter',  champs:['Azir','Taliyah','Aurelion Sol'],
-      note:'Compositions scaling tardif qui jouent différemment. Peu de synergie sur tes timings de spike.' },
+    { tier:'best',  label:"Idéal",   champs:['Orianna','Malzahar','Syndra','Twisted Fate'],
+      note:"CC massif qui amplifie ton R. Orianna ball + ton E = combo léthal. Malzahar suppression = execute assuré." },
+    { tier:'good',  label:"Bon",     champs:['Lissandra','Galio','Yasuo','Yone'],
+      note:"CC utile + bon follow sur ton engage. Galio ult = super counter-engage pendant que tu kite." },
+    { tier:'ok',    label:"Correct", champs:['Viktor','Cassiopeia','Zed','Ahri'],
+      note:"S'intègrent dans les compos mais peu de synergie directe avec ton kit." },
+    { tier:'avoid', label:"Éviter",  champs:['Azir','Taliyah','Aurelion Sol'],
+      note:"Compositions scaling tardif qui jouent différemment. Peu de synergie sur tes timings de spike." },
   ],
   adc: [
-    { tier:'best',  label:'Idéal',   champs:['Jinx','Kog\'Maw','Aphelios'],
-      note:'Hypercarries que ton frontline protège. Tu absorbes le dive, eux fontaines de dégâts. Win condition classique.' },
-    { tier:'good',  label:'Bon',     champs:['Caitlyn','Jhin','Miss Fortune'],
-      note:'ADC poke qui profitent du pick potential que tu crées. Miss Fortune R + ton E = wombo parfait.' },
-    { tier:'ok',    label:'Correct', champs:['Ashe','Xayah','Sivir'],
-      note:'Bonnes ADC généralement, peu de synergie directe mais rien en conflit.' },
-    { tier:'avoid', label:'Éviter',  champs:['Kalista','Samira','Vayne'],
-      note:'Veulent jouer ensemble (Kalista) ou sont fragiles en dive (Samira). Vayne = composition similaire à toi.' },
+    { tier:'best',  label:"Idéal",   champs:['Jinx','Kog\'Maw','Aphelios'],
+      note:"Hypercarries que ton frontline protège. Tu absorbes le dive, eux fontaines de dégâts. Win condition classique." },
+    { tier:'good',  label:"Bon",     champs:['Caitlyn','Jhin','Miss Fortune'],
+      note:"ADC poke qui profitent du pick potential que tu crées. Miss Fortune R + ton E = wombo parfait." },
+    { tier:'ok',    label:"Correct", champs:['Ashe','Xayah','Sivir'],
+      note:"Bonnes ADC généralement, peu de synergie directe mais rien en conflit." },
+    { tier:'avoid', label:"Éviter",  champs:['Kalista','Samira','Vayne'],
+      note:"Veulent jouer ensemble (Kalista) ou sont fragiles en dive (Samira). Vayne = composition similaire à toi." },
   ],
   sup: [
-    { tier:'best',  label:'Idéal',   champs:['Nautilus','Leona','Thresh','Alistar'],
-      note:'Engage sup = combo parfait. Nautilus hook → ton E → execute. Double engage qui force des flashes à chaque fight.' },
-    { tier:'good',  label:'Bon',     champs:['Blitzcrank','Rell','Morgana','Maokai'],
-      note:'CC massif qui facilite tes trades. Blitz hook = kill gratuit si E land. Rell magnétise les ennemis sur toi.' },
-    { tier:'ok',    label:'Correct', champs:['Lulu','Karma','Senna'],
-      note:'Peel et boucliers utiles, surtout si tu joues split/tanky. Senna heals compensent ton absence de sustain.' },
-    { tier:'avoid', label:'Éviter',  champs:['Yuumi','Soraka','Janna'],
-      note:'Compositions peel/heal qui ne setup pas d\'engage. Janna ulte dans le mauvais sens de ta composition.' },
+    { tier:'best',  label:"Idéal",   champs:['Nautilus','Leona','Thresh','Alistar'],
+      note:"Engage sup = combo parfait. Nautilus hook → ton E → execute. Double engage qui force des flashes à chaque fight." },
+    { tier:'good',  label:"Bon",     champs:['Blitzcrank','Rell','Morgana','Maokai'],
+      note:"CC massif qui facilite tes trades. Blitz hook = kill gratuit si E land. Rell magnétise les ennemis sur toi." },
+    { tier:'ok',    label:"Correct", champs:['Lulu','Karma','Senna'],
+      note:"Peel et boucliers utiles, surtout si tu joues split/tanky. Senna heals compensent ton absence de sustain." },
+    { tier:'avoid', label:"Éviter",  champs:['Yuumi','Soraka','Janna'],
+      note:"Compositions peel/heal qui ne setup pas d'engage. Janna ulte dans le mauvais sens de ta composition." },
   ],
 };
 
 const COMPS_GOOD = [
   { title:'Engage Dive', cls:'best-card',
     champs:['Hecarim','Orianna','Jinx','Nautilus'],
-    note:'Hecarim in → Orianna ball → Urgot E → Nautilus hook → Jinx cleanup. Engage en cascade impossible à stop.' },
+    note:"Hecarim in → Orianna ball → Urgot E → Nautilus hook → Jinx cleanup. Engage en cascade impossible à stop." },
   { title:'Poke + Execute', cls:'best-card',
     champs:['Jarvan IV','Twisted Fate','Caitlyn','Thresh'],
-    note:'Poke lane, pick TF global, Caitlyn poke → tu finis tout avec E+R. Comp polyvalente très forte.' },
+    note:"Poke lane, pick TF global, Caitlyn poke → tu finis tout avec E+R. Comp polyvalente très forte." },
   { title:'Frontline Protect', cls:'good-card',
     champs:['Amumu','Syndra','Kog\'Maw','Lulu'],
-    note:'Urgot tank en top, Amumu engage, Lulu bulle Kog, Syndra CC lock. Tu absorbes tout pendant que Kog pump.' },
+    note:"Urgot tank en top, Amumu engage, Lulu bulle Kog, Syndra CC lock. Tu absorbes tout pendant que Kog pump." },
   { title:'Wombo Combo', cls:'good-card',
     champs:['Malphite','Yone','Miss Fortune','Leona'],
-    note:'Malphite R + Yone E2 + Miss Fortune R + ton E = 5 morts. Engage AoE instantané, teamfight à sens unique.' },
+    note:"Malphite R + Yone E2 + Miss Fortune R + ton E = 5 morts. Engage AoE instantané, teamfight à sens unique." },
 ];
 
 const COMPS_AVOID = [
   { title:'Dive All-In', cls:'best-card',
     champs:['Darius','Hecarim','Irelia','Thresh'],
-    note:'Eux aussi jouent dive. En teamfight ils arrivent sur toi avant que tu puisse E. Difficile de setup ton execute.' },
+    note:"Eux aussi jouent dive. En teamfight ils arrivent sur toi avant que tu puisse E. Difficile de setup ton execute." },
   { title:'Poke Kite', cls:'best-card',
     champs:['Jayce','Ezreal','Caitlyn','Lulu'],
-    note:'Te forcent à jouer sans rien faire. Tu es trop lent pour t\'approcher sans E. Ton E = CD long = fenêtres inexistantes.' },
+    note:"Te forcent à jouer sans rien faire. Tu es trop lent pour t'approcher sans E. Ton E = CD long = fenêtres inexistantes." },
   { title:'Shields/Heals', cls:'good-card',
     champs:['Vladimir','Soraka','Yuumi','Kog\'Maw'],
-    note:'Trop de sustain = impossible d\'execute. Ils reset avant que ton R s\'active. Serpent\'s Fang obligatoire.' },
+    note:"Trop de sustain = impossible d'execute. Ils reset avant que ton R s'active. Serpent's Fang obligatoire." },
 ];
 
 // ── RENDER ────────────────────────────────────────────────────────────
@@ -313,10 +349,79 @@ function renderComps(data, containerId) {
   });
 }
 
+
+// ── COUNTER DATA ──────────────────────────────────────────────────────
+const COUNTERS = {
+  archetype: [
+    { tier:"best",  label:"Très fort",
+      champs:["Vayne","Varus","Teemo","Heimerdinger","Kennen"],
+      note:"Poke à distance ou kite parfait. Tu ne peux pas t'approcher. Leurs dégâts passent à travers ton armor." },
+    { tier:"good",  label:"Fort",
+      champs:["Fiora","Irelia","Yorick","Illaoi","Rumble"],
+      note:"Duellistes qui te battent en 1v1 passé un certain point. Ton E ne suffit pas à inverser le trade." },
+    { tier:"ok",    label:"Gênant",
+      champs:["Olaf","Tryndamere","Gangplank","K'Sante","Ambessa"],
+      note:"Champions avec de la mobilité ou qui ignorent tes CC. Ton E est moins efficace, les fights sont serrés." },
+    { tier:"avoid", label:"Légèrement",
+      champs:["Aatrox","Akali","Mordekaiser","Yasuo","Yone"],
+      note:"Dangereux mais gérable avec le bon jeu. Tu peux trouver des fenêtres avantageuses en jouant proprement." },
+  ],
+  champ: [
+    { tier:"best",  label:"Très fort",
+      champs:["Vayne","Varus","Teemo","Heimerdinger","Kennen","Rumble"],
+      note:"Kite ou poke à distance — ta portée de Q ne suffit pas à les atteindre. Composition idéale contre toi." },
+    { tier:"good",  label:"Fort",
+      champs:["Fiora","Irelia","Illaoi","Yorick","Tryndamere"],
+      note:"Duellistes spécialisés qui te battent en 1v1. Leur kit nie directement le tien (parry, Maiden, ult immune...)." },
+    { tier:"ok",    label:"Gênant",
+      champs:["Olaf","Gangplank","K'Sante","Ambessa","Singed"],
+      note:"Matchups difficiles mais pas insurmontables. Demandent une connaissance approfondie des échanges." },
+    { tier:"avoid", label:"Légèrement",
+      champs:["Aatrox","Akali","Ryze","Mordekaiser","Cassiopeia"],
+      note:"Matchups serrés — peuvent gagner la lane mais tu les outscales en teamfight si tu joues proprement." },
+  ],
+};
+
+var counterTab = 'archetype';
+
+function renderCounter(tab) {
+  var data = COUNTERS[tab];
+  var container = document.getElementById('counter-content');
+  container.innerHTML = '';
+  var list = document.createElement('div');
+  list.className = 'syn-tier-list';
+  data.forEach(function(row) {
+    var r = document.createElement('div');
+    r.className = 'syn-row syn-' + row.tier;
+    var lbl = document.createElement('div');
+    lbl.className = 'syn-label';
+    lbl.innerHTML = '<div class="syn-label-name">' + row.label + '</div>';
+    var champs = document.createElement('div');
+    champs.className = 'syn-champs';
+    row.champs.forEach(function(n) { champs.appendChild(chip(n)); });
+    var note = document.createElement('div');
+    note.style.cssText = 'padding:8px 12px;background:var(--bg-card);border-left:1px solid var(--border);display:flex;align-items:center;max-width:340px;font-size:12px;color:var(--text-dim);line-height:1.5';
+    note.textContent = row.note;
+    r.appendChild(lbl);
+    r.appendChild(champs);
+    r.appendChild(note);
+    list.appendChild(r);
+  });
+  container.appendChild(list);
+}
+
+function switchCounter(tab, btn) {
+  document.querySelectorAll('#counter-tabs .role-tab').forEach(function(t) { t.classList.remove('active'); });
+  btn.classList.add('active');
+  counterTab = tab;
+  renderCounter(tab);
+}
+
 function init() {
   renderRole('jg');
   renderComps(COMPS_GOOD, 'comp-grid');
   renderComps(COMPS_AVOID, 'avoid-grid');
+  renderCounter('archetype');
 }
 init();
 </script>
