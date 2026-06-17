@@ -198,7 +198,7 @@ footer a:hover{color:var(--green-mid)}
 </footer>
 
 <script>
-let DDV = "15.1.1";
+let DDV = "16.1.9";
 const DDC = n => `https://ddragon.leagueoflegends.com/cdn/${DDV}/img/champion/${n}.png`;
 fetch("https://ddragon.leagueoflegends.com/api/versions.json")
   .then(r=>r.json()).then(v=>{DDV=v[0];renderAll();}).catch(()=>{renderAll();});
@@ -217,15 +217,15 @@ const TIERS_OBJ = [
   { id:'urgot',   name:'Urgot',         sub:'∞',    cls:'tier-urgot',
     champs:['Urgot'] },
   { id:'easy',    name:'Easy',          sub:'1-2',  cls:'tier-easy',
-    champs:['Singed','Sylas'] },
+    champs:['Singed','Sylas','Shen'] },
   { id:'fav',     name:'Urgot Favored', sub:'3-4',  cls:'tier-fav',
-    champs:['Shen','Camille','Cho\'Gath','Darius','Garen','Gragas','Kayle','Maokai','Master Yi','Quinn','Riven','Warwick','Zac'] },
+    champs:['Camille','Cho\'Gath','Garen','Gragas','Jax','Kayle','Maokai','Master Yi','Quinn','Riven','Warwick','Xin Zhao'] },
   { id:'skill',   name:'Skill Matchup', sub:'5',    cls:'tier-skill',
-    champs:['Dr. Mundo','Gwen','Jax','Jayce','Kled','Lee Sin','Nasus','Pantheon','Poppy','Renekton','Sett','Tahm Kench','Trundle','Udyr','Volibear','Yone'] },
+    champs:['Darius','Dr. Mundo','Gangplank','Gnar','Gwen','Jayce','Kled','Malphite','Nasus','Pantheon','Renekton','Sett','Tahm Kench','Trundle','Twisted Fate','Volibear','Yone','Zaahen','Zac'] },
   { id:'hard',    name:'Enemy Favored', sub:'6-7',  cls:'tier-hard',
-    champs:['Aatrox','Akali','Anivia','Aurora','Cassiopeia','Gangplank','Gnar','K\'Sante','Kennen','Malphite','Olaf','Ornn','Ryze','Sion','Swain','Teemo','Tryndamere','Vladimir'] },
+    champs:['Aatrox','Aurora','Cassiopeia','Fiora','Irelia','Ornn','Poppy','Sion','Swain','Teemo','Trundamere','Udyr','Vladimir','Wukong'] },
   { id:'extreme', name:'Hard',          sub:'8-10', cls:'tier-extreme',
-    champs:['Ambessa','Fiora','Heimerdinger','Illaoi','Irelia','Mordekaiser','Rumble','Varus','Vayne','Yasuo','Yorick'] },
+    champs:['Anivia','Akali','Akshan','Ambessa','Azir','Heimerdinger','Illaoi','Kennen','K\'Sante','Mordekaiser','Olaf','Rumble','Ryze','Varus','Vayne','Yasuo','Yorick'] },
 ];
 
 // Personal tier list (Quante)
@@ -233,15 +233,15 @@ const TIERS_PER = [
   { id:'urgot',   name:'Urgot',         sub:'∞',    cls:'tier-urgot',
     champs:['Urgot'] },
   { id:'easy',    name:'Easy',          sub:'1-2',  cls:'tier-easy',
-    champs:['Singed','Sylas','Nasus','Cho\'Gath','Darius'] },
+    champs:['Singed','Sylas','Shen','Cho\'Gath','Gragas','Nasus'] },
   { id:'fav',     name:'Urgot Favored', sub:'3-4',  cls:'tier-fav',
-    champs:['Garen','Riven','Camille','Kayle','Shen','Master Yi','Quinn','Maokai','Gragas','Warwick','Zac','Malphite','Renekton','Udyr','Gwen','Trundle','Poppy','Jayce'] },
+    champs:['Camille','Garen','Jax','Kayle','Maokai','Master Yi','Quinn','Riven','Warwick','Xin Zhao','Trundle','Jayce','Irelia','Teemo','Vladimir','Gnar','Kled'] },
   { id:'skill',   name:'Skill Matchup', sub:'5',    cls:'tier-skill',
-    champs:['Jax','Volibear','Gnar','Lee Sin','Kled','Sett','Sion','Ornn','Vladimir','Swain','Anivia','Teemo','Cassiopeia','Dr. Mundo','Tahm Kench','Pantheon','Yone'] },
+    champs:['Aatrox','Darius','Dr. Mundo','Gangplank','Gwen','Malphite','Pantheon','Renekton','Sett','Tahm Kench','Twisted Fate','Volibear','Yone','Zaahen','Zac','Fiora','Swain','Kennen','Olaf','Ambessa','Ornn','Udyr'] },
   { id:'hard',    name:'Enemy Favored', sub:'6-7',  cls:'tier-hard',
-    champs:['Aatrox','Akali','Aurora','Tryndamere','Gangplank','Olaf','K\'Sante','Ryze','Kennen'] },
+    champs:['Aurora','Cassiopeia','Aurora','Poppy','Tryndamere','Wukong','Varus','Ryze','Yorick','Yasuo'] },
   { id:'extreme', name:'Hard',          sub:'8-10', cls:'tier-extreme',
-    champs:['Mordekaiser','Illaoi','Irelia','Ambessa','Yasuo','Yone','Rumble','Fiora','Heimerdinger','Varus','Vayne','Yorick'] },
+    champs:['Anivia','Akali','Azir','Heimerdinger','Illaoi','K\'sante','Mordekaiser','Rumble','Vayne'] },
 ];
 
 // ── RENDER ────────────────────────────────────────────────────────────
