@@ -10,7 +10,6 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
       --green: #4ADE80; --green-mid: #22C55E; --green-dark: #15803D;
-      --gold: #C89B3C; --gold-dark: #785A28;
       --bg: #060D07; --bg-surface: #0B1A0D; --bg-card: #0F2211;
       --border: #1A3D1E; --border-bright: #2D6A33;
       --text: #A8D4A0; --text-dim: #4A7550; --text-bright: #E8F5E2;
@@ -35,22 +34,11 @@
     .nav-links a { font-size: 12px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-dim); text-decoration: none; transition: color 0.2s; }
     .nav-links a:hover, .nav-links a.active { color: var(--green); }
     .nav-search { position: relative; }
-    .nav-search input {
-      background: rgba(15,34,17,0.8); border: 1px solid var(--border-bright);
-      border-radius: 3px; color: var(--text-bright); font-family: "Rajdhani", sans-serif;
-      font-size: 12px; padding: 5px 30px 5px 10px; width: 180px; outline: none;
-      transition: border-color 0.2s, box-shadow 0.2s, width 0.3s;
-    }
-    
-    .nav-search input:focus { border-color: var(--green-mid); box-shadow: 0 0 0 2px rgba(74,222,128,0.1); width: 220px; }
+    .nav-search input { background: rgba(15,34,17,0.8); border: 1px solid var(--border-bright); border-radius: 3px; color: var(--text-bright); font-family: "Rajdhani", sans-serif; font-size: 12px; padding: 5px 30px 5px 10px; width: 180px; outline: none; transition: border-color 0.2s, width 0.3s; }
+    .nav-search input:focus { border-color: var(--green-mid); width: 220px; }
     .nav-search input::placeholder { color: var(--text-dim); }
     .nav-search-icon { position: absolute; right: 8px; top: 50%; transform: translateY(-50%); font-size: 11px; color: var(--green-mid); pointer-events: none; }
-    .nav-dropdown {
-      position: absolute; top: calc(100% + 6px); right: 0; width: 220px;
-      background: var(--bg-card); border: 1px solid var(--border-bright); border-radius: 4px;
-      max-height: 280px; overflow-y: auto; display: none;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.7); z-index: 200;
-    }
+    .nav-dropdown { position: absolute; top: calc(100% + 6px); right: 0; width: 220px; background: var(--bg-card); border: 1px solid var(--border-bright); border-radius: 4px; max-height: 280px; overflow-y: auto; display: none; box-shadow: 0 8px 32px rgba(0,0,0,0.7); z-index: 200; }
     .nav-dropdown::-webkit-scrollbar { width: 3px; }
     .nav-dropdown::-webkit-scrollbar-thumb { background: var(--border-bright); }
     .nav-dropdown h4 { padding: 7px 12px; font-family: "Cinzel", serif; font-size: 8px; letter-spacing: 0.25em; color: var(--text-dim); text-transform: uppercase; border-bottom: 1px solid var(--border); }
@@ -58,10 +46,9 @@
     .nav-dropdown-item:last-child { border-bottom: none; }
     .nav-dropdown-item img { position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;display:block;filter:brightness(0.55) saturate(0.7);transition:filter 0.2s; }
     .nav-dropdown-item:hover img { filter:brightness(0.75) saturate(1); }
-    .nav-dropdown-item span { position:relative;z-index:1;display:flex;align-items:center;height:52px;padding:0 12px;font-size:13px;font-weight:600;color:var(--text-bright);text-shadow:0 1px 6px rgba(0,0,0,0.9);letter-spacing:0.05em;transition:color 0.2s; }
+    .nav-dropdown-item span { position:relative;z-index:1;display:flex;align-items:center;height:52px;padding:0 12px;font-size:13px;font-weight:600;color:var(--text-bright);text-shadow:0 1px 6px rgba(0,0,0,0.9);transition:color 0.2s; }
     .nav-dropdown-item:hover span { color: var(--green); }
 
-    /* HERO */
     .hero { position: relative; height: 50vh; min-height: 320px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
     .hero-bg { position: absolute; inset: 0; background: url("https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Urgot_2.jpg") center 30% / cover no-repeat; filter: brightness(0.3) saturate(0.6); animation: heroZoom 20s ease-in-out infinite alternate; }
     @keyframes heroZoom { from{transform:scale(1.03)} to{transform:scale(1.08)} }
@@ -69,44 +56,50 @@
     .hero-content { position: relative; text-align: center; animation: fadeDown 0.8s ease both; }
     .hero-eyebrow { font-family: "Cinzel", serif; font-size: 10px; letter-spacing: 0.4em; color: var(--green-mid); text-transform: uppercase; margin-bottom: 0.75rem; opacity: 0.8; }
     .hero-title { font-family: "Cinzel", serif; font-size: clamp(32px, 6vw, 60px); font-weight: 900; color: var(--text-bright); letter-spacing: 0.06em; text-shadow: 0 0 60px rgba(74,222,128,0.15), 0 4px 20px rgba(0,0,0,0.8); }
-    .hero-title span { color: var(--green); text-shadow: 0 0 30px rgba(74,222,128,0.4); }
+    .hero-title span { color: var(--green); }
 
-    /* MAIN */
     .main { max-width: 1100px; margin: 0 auto; padding: 3rem 1.5rem 5rem; }
-
-    /* FILTER BAR */
     .filter-bar { display: flex; align-items: center; gap: 12px; margin-bottom: 2.5rem; animation: fadeUp 0.5s ease both; flex-wrap: wrap; }
     .filter-input-wrap { position: relative; flex: 1; max-width: 340px; }
-    .filter-input-wrap input { width: 100%; padding: 10px 40px 10px 14px; background: var(--bg-surface); border: 1px solid var(--border-bright); border-radius: 4px; color: var(--text-bright); font-family: "Rajdhani", sans-serif; font-size: 14px; font-weight: 500; outline: none; transition: border-color 0.2s, box-shadow 0.2s; }
+    .filter-input-wrap input { width: 100%; padding: 10px 40px 10px 14px; background: var(--bg-surface); border: 1px solid var(--border-bright); border-radius: 4px; color: var(--text-bright); font-family: "Rajdhani", sans-serif; font-size: 14px; font-weight: 500; outline: none; transition: border-color 0.2s; }
     .filter-input-wrap input:focus { border-color: var(--green-mid); box-shadow: 0 0 0 2px rgba(74,222,128,0.1); }
     .filter-input-wrap input::placeholder { color: var(--text-dim); }
     .filter-icon { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); color: var(--green-mid); pointer-events: none; }
     .filter-count { font-family: "Cinzel", serif; font-size: 10px; letter-spacing: 0.15em; color: var(--text-dim); }
-
-    /* TIER LIST BUTTON */
-    .tierlist-btn {
-      font-family: "Cinzel", serif; font-size: 11px; letter-spacing: 0.15em;
-      text-transform: uppercase; color: var(--green); text-decoration: none;
-      border: 1px solid var(--green-dark); border-radius: 3px;
-      padding: 8px 18px; transition: all 0.2s; white-space: nowrap;
-      display: inline-flex; align-items: center; gap: 6px;
-    }
+    .tierlist-btn { font-family: "Cinzel", serif; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--green); text-decoration: none; border: 1px solid var(--green-dark); border-radius: 3px; padding: 8px 18px; transition: all 0.2s; white-space: nowrap; display: inline-flex; align-items: center; gap: 6px; }
     .tierlist-btn:hover { background: rgba(74,222,128,0.08); border-color: var(--green-mid); color: var(--text-bright); }
 
     /* GRID */
     .champ-grid { display: grid; grid-template-columns: 1fr; gap: 3px; }
-    .champ-card { display: block; text-decoration: none; position: relative; overflow: hidden; background: var(--bg-card); height: 200px; transition: transform 0.25s; animation: fadeUp 0.4s ease both; cursor: pointer; }
-    .champ-card:hover { transform: scale(1.06); z-index: 10; }
+    .champ-card { display: block; text-decoration: none; position: relative; overflow: hidden; background: var(--bg-card); height: 88px; transition: transform 0.25s; animation: fadeUp 0.4s ease both; cursor: pointer; }
+    .champ-card:hover { transform: scale(1.02); z-index: 10; }
     .champ-img-wrap { position: absolute; inset: 0; }
-    .champ-img-wrap img { width: 100%; height: 100%; object-fit: cover; object-position: center 20%; display: block; filter: brightness(0.8) saturate(0.75); transition: filter 0.3s, transform 0.3s; }
-    .champ-card:hover .champ-img-wrap img { filter: brightness(1) saturate(1); transform: scale(1.08); }
-    .champ-img-wrap::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to right, rgba(6,13,7,0.85) 0%, rgba(6,13,7,0.5) 35%, transparent 65%); }
-    .champ-name { position: absolute; inset: 0; display: flex; align-items: center; padding: 0 2rem; font-family: "Cinzel", serif; font-size: 20px; font-weight: 700; letter-spacing: 0.15em; color: var(--text-bright); text-shadow: 0 2px 12px rgba(0,0,0,0.95); transition: color 0.2s; z-index: 1; }
-    .champ-card:hover .champ-name { color: var(--green); }
-    .champ-card::after { content: ""; position: absolute; inset: 0; border: 1px solid transparent; transition: border-color 0.25s; pointer-events: none; z-index: 2; }
+    .champ-img-wrap img { width: 100%; height: 100%; object-fit: cover; object-position: center 20%; display: block; filter: brightness(0.75) saturate(0.75); transition: filter 0.3s, transform 0.3s; }
+    .champ-card:hover .champ-img-wrap img { filter: brightness(1) saturate(1); transform: scale(1.04); }
+    .champ-img-wrap::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to right, rgba(6,13,7,0.9) 0%, rgba(6,13,7,0.55) 30%, transparent 60%); }
+    .champ-card::after { content: ""; position: absolute; inset: 0; border: 1px solid transparent; transition: border-color 0.25s; pointer-events: none; z-index: 3; }
     .champ-card:hover::after { border-color: var(--green-mid); }
-    .no-results { grid-column: 1/-1; text-align: center; padding: 3rem; color: var(--text-dim); font-family: "Cinzel", serif; font-size: 13px; letter-spacing: 0.15em; }
 
+    /* CARD CONTENT */
+    .card-content { position: absolute; inset: 0; display: flex; align-items: center; justify-content: space-between; padding: 0 1.5rem 0 1.75rem; z-index: 2; }
+    .champ-name { font-family: "Cinzel", serif; font-size: 18px; font-weight: 700; letter-spacing: 0.12em; color: var(--text-bright); text-shadow: 0 2px 12px rgba(0,0,0,0.95); transition: color 0.2s; }
+    .champ-card:hover .champ-name { color: var(--green); }
+
+    /* DIFFICULTY BADGE */
+    .diff-badge {
+      font-family: "Cinzel", serif; font-size: 10px; letter-spacing: 0.12em;
+      text-transform: uppercase; font-weight: 700;
+      padding: 5px 12px; border-radius: 3px;
+      border: 1px solid var(--badge-color, #4A7550);
+      color: var(--badge-color, #4A7550);
+      background: var(--badge-bg, rgba(74,117,80,0.1));
+      white-space: nowrap; flex-shrink: 0;
+      display: flex; align-items: center; gap: 5px;
+    }
+    .diff-badge::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--badge-color, #4A7550); flex-shrink: 0; }
+    .diff-score { font-size: 9px; opacity: 0.7; font-weight: 400; }
+
+    .no-results { grid-column: 1/-1; text-align: center; padding: 3rem; color: var(--text-dim); font-family: "Cinzel", serif; font-size: 13px; letter-spacing: 0.15em; }
     footer { border-top: 1px solid var(--border); padding: 2rem 1rem; text-align: center; font-size: 11px; letter-spacing: 0.1em; color: var(--text-dim); }
     footer a { color: var(--green-dark); text-decoration: none; }
     footer a:hover { color: var(--green-mid); }
@@ -118,14 +111,14 @@
 <nav>
   <a class="nav-logo" href="index.html">Urgot Guide</a>
   <ul class="nav-links">
-      <li><a href="mechanics.html">Mechanics</a></li>
-      <li><a href="matchup.html">Matchup</a></li>
-      <li><a href="synergies.html">Synergies</a></li>
-      <li><a href="build.html#build">Build Guide</a></li>
-      <li><a href="build.html#runes">Runes</a></li>
-      <li><a href="build.html#calculator">Calculator</a></li>
-      <li><a href="build.html#forge">Forge</a></li>
-    </ul>
+    <li><a href="mechanics.html">Mechanics</a></li>
+    <li><a href="matchup.html" class="active">Matchup</a></li>
+    <li><a href="synergies.html">Synergies</a></li>
+    <li><a href="build.html#build">Build Guide</a></li>
+    <li><a href="build.html#runes">Runes</a></li>
+    <li><a href="build.html#calculator">Calculator</a></li>
+    <li><a href="build.html#forge">Forge</a></li>
+  </ul>
   <div class="nav-search">
     <input type="text" id="nav-search-input" placeholder="Search champion..." oninput="navFilter()"/>
     <span class="nav-search-icon">&#128269;</span>
@@ -134,36 +127,62 @@
 </nav>
 
 <section class="hero">
-    <div class="hero-bg"></div>
-    <div class="hero-overlay"></div>
-    <div class="hero-content">
-      <p class="hero-eyebrow">Top Lane</p>
-      <h1 class="hero-title">Match<span>Up</span></h1>
-    </div>
-  </section>
+  <div class="hero-bg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <p class="hero-eyebrow">Top Lane</p>
+    <h1 class="hero-title">Match<span>Up</span></h1>
+  </div>
+</section>
 
-  <main class="main">
-    <div class="filter-bar">
-      <div class="filter-input-wrap">
-        <input type="text" id="filter-input" placeholder="Filter champions..." oninput="filterChamps()" />
-        <span class="filter-icon">&#128269;</span>
-      </div>
-      <span class="filter-count" id="filter-count"></span>
-      <a href="tierlist.html" class="tierlist-btn">⚔ Tier List</a>
+<main class="main">
+  <div class="filter-bar">
+    <div class="filter-input-wrap">
+      <input type="text" id="filter-input" placeholder="Filter champions..." oninput="filterChamps()" />
+      <span class="filter-icon">&#128269;</span>
     </div>
-    <div class="champ-grid" id="champ-grid"></div>
-  </main>
+    <span class="filter-count" id="filter-count"></span>
+    <a href="tierlist.html" class="tierlist-btn">⚔ Tier List</a>
+  </div>
+  <div class="champ-grid" id="champ-grid"></div>
+</main>
 
-  <footer>
-    Not affiliated with Riot Games &nbsp;·&nbsp;
-    <a href="https://www.twitch.tv/quante" target="_blank" rel="noopener">Quante — Twitch ↗</a>
-    &nbsp;·&nbsp;
-    <a href="https://x.com/quantelol" target="_blank" rel="noopener">Quante — Twitter ↗</a>
-    &nbsp;·&nbsp;
-    <a href="../feedback.html" style="color:var(--green-dark);text-decoration:none;transition:color 0.2s">Send Feedback ↗</a>
-  </footer>
+<footer>
+  Not affiliated with Riot Games &nbsp;·&nbsp;
+  <a href="https://www.twitch.tv/quante" target="_blank" rel="noopener">Quante — Twitch ↗</a>
+  &nbsp;·&nbsp;
+  <a href="https://x.com/quantelol" target="_blank" rel="noopener">Quante — Twitter ↗</a>
+</footer>
 
 <script>
+// ── DIFFICULTY SCORES ─────────────────────────────────────────────────
+const SCORES = {
+  "Singed":1,"Sylas":2,
+  "Shen":3,
+  "Camille":4,"Cho'Gath":4,"Darius":4,"Garen":4,"Gragas":4,
+  "Kayle":4,"Maokai":4,"Master Yi":4,"Quinn":4,"Riven":4,"Warwick":4,"Zac":4,
+  "Dr. Mundo":5,"Gwen":5,"Jax":5,"Jayce":5,"Kled":5,"Lee Sin":5,"Nasus":5,
+  "Pantheon":5,"Poppy":5,"Renekton":5,"Sett":5,"Tahm Kench":5,"Trundle":5,
+  "Udyr":5,"Volibear":5,"Yone":5,
+  "Anivia":6,"Aurora":6,"Cassiopeia":6,"Gnar":6,"Malphite":6,
+  "Ornn":6,"Sion":6,"Swain":6,"Teemo":6,"Vladimir":6,
+  "Aatrox":7,"Akali":7,"Gangplank":7,"K'Sante":7,"Kennen":7,
+  "Olaf":7,"Ryze":7,"Tryndamere":7,
+  "Ambessa":8,"Illaoi":8,"Irelia":8,"Mordekaiser":8,"Yasuo":8,
+  "Fiora":9,"Heimerdinger":9,"Rumble":9,"Varus":9,"Vayne":9,
+  "Yorick":10,
+  "Zaahen":5,
+};
+
+function getBadge(score) {
+  if (!score)    return { label:"?",       color:"#4A7550", bg:"rgba(74,117,80,0.1)" };
+  if (score<=2)  return { label:"Easy",    color:"#4ADE80", bg:"rgba(21,128,61,0.15)" };
+  if (score<=4)  return { label:"Favored", color:"#86efac", bg:"rgba(34,197,94,0.1)" };
+  if (score===5) return { label:"Skill",   color:"#facc15", bg:"rgba(234,179,8,0.12)" };
+  if (score<=7)  return { label:"Hard",    color:"#fb923c", bg:"rgba(249,115,22,0.12)" };
+  return               { label:"Extreme",  color:"#f87171", bg:"rgba(239,68,68,0.15)" };
+}
+
 const champions = [
   { name:"Aatrox",       img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Aatrox_0.jpg",       pos:"45% 10%" },
   { name:"Akali",        img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Akali_0.jpg",        pos:"60% top" },
@@ -245,11 +264,16 @@ function renderGrid(filter) {
     return;
   }
   filtered.forEach(function(champ, i) {
-    var url = "matchup/" + slugify(champ.name) + ".html";
-    var a   = document.createElement("a");
+    var score  = SCORES[champ.name] || 0;
+    var badge  = getBadge(score);
+    var url    = "matchup/" + slugify(champ.name) + ".html";
+
+    var a = document.createElement("a");
     a.className = "champ-card";
     a.href = url;
-    a.style.animationDelay = (i * 0.02) + "s";
+    a.style.animationDelay = (i * 0.015) + "s";
+
+    // Background image
     var img = document.createElement("img");
     img.src = champ.img; img.alt = champ.name; img.loading = "lazy";
     img.style.objectPosition = champ.pos;
@@ -257,11 +281,27 @@ function renderGrid(filter) {
     var wrap = document.createElement("div");
     wrap.className = "champ-img-wrap";
     wrap.appendChild(img);
-    var label = document.createElement("div");
-    label.className = "champ-name";
-    label.textContent = champ.name;
+
+    // Card content row
+    var content = document.createElement("div");
+    content.className = "card-content";
+
+    var nameEl = document.createElement("div");
+    nameEl.className = "champ-name";
+    nameEl.textContent = champ.name;
+
+    // Difficulty badge
+    var badgeEl = document.createElement("div");
+    badgeEl.className = "diff-badge";
+    badgeEl.style.setProperty("--badge-color", badge.color);
+    badgeEl.style.setProperty("--badge-bg", badge.bg);
+    badgeEl.innerHTML = badge.label + (score ? ' <span class="diff-score">' + score + '/10</span>' : '');
+
+    content.appendChild(nameEl);
+    content.appendChild(badgeEl);
+
     a.appendChild(wrap);
-    a.appendChild(label);
+    a.appendChild(content);
     grid.appendChild(a);
   });
 }
