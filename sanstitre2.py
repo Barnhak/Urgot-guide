@@ -1,38 +1,72 @@
 import os, re
 
-# 1. Ajouter patch-history.js a toutes les pages matchup
-n = 0
-for f in os.listdir('matchup'):
-    if not f.endswith('.html'): continue
-    p = os.path.join('matchup', f)
-    c = open(p, encoding='utf-8', errors='replace').read()
-    if 'patch-history.js' in c: continue
-    new = c.replace('</body>', '<script src="../patch-history.js"></script></body>')
-    if new != c:
-        open(p, 'w', encoding='utf-8').write(new)
-        n += 1
-print(f'Patch script added: {n} files')
+# ── NAV CORRECTES ────────────────────────────────────────────────────
+NAV_ROOT = '''<ul class="nav-links">
+      <li><a href="mechanics.html">Mechanics</a></li>
+      <li><a href="matchup.html">Matchup</a></li>
+      <li><a href="synergies.html">Synergies</a></li>
+      <li><a href="build.html#build">Build Guide</a></li>
+      <li><a href="build.html#runes">Runes</a></li>
+      <li><a href="build.html#calculator">Calculator</a></li>
+      <li><a href="build.html#forge">Forge</a></li>
+    </ul>'''
 
-# 2. Corriger le parsing dans patch-history.js
-js = open('patch-history.js', encoding='utf-8').read()
+NAV_SUB = '''<ul class="nav-links">
+      <li><a href="../mechanics.html">Mechanics</a></li>
+      <li><a href="../matchup.html">Matchup</a></li>
+      <li><a href="../synergies.html">Synergies</a></li>
+      <li><a href="../build.html#build">Build Guide</a></li>
+      <li><a href="../build.html#runes">Runes</a></li>
+      <li><a href="../build.html#calculator">Calculator</a></li>
+      <li><a href="../build.html#forge">Forge</a></li>
+    </ul>'''
 
-old = r"var vMatch = line.match(/^=+\s*(V[\d.S]+[a-z]?)\s*=+$/) ||" + "\n" + \
-      r"                 line.match(/^(V[\d.S]+[a-z]?)\s*$/);"
+def fix_encoding(text):
+    # Corrige le double-encodage UTF-8 → Windows-1252 → UTF-8
+    try:
+        return text.encode('windows-1252', errors='replace').decode('utf-8', errors='replace')
+    except:
+        return text
 
-new = r"var vMatch = line.match(/^=+\s*(V[\d.S.]+[a-z]?(?:\s*-[^=]*)?)\s*=+$/) ||" + "\n" + \
-      r"                 line.match(/^(V[\d.S.]+[a-z]?)(?:\s*-|\s*$)/);"
+nav_fixed = 0
+enc_fixed = 0
 
-if old in js:
-    js = js.replace(old, new, 1)
-    print('Parser regex fixed')
-else:
-    # Remplacement plus large si le format exact differe
-    js = re.sub(
-        r'var vMatch = line\.match\(/\^=\+.*?\$\/\)[^;]+;',
-        r'var vMatch = line.match(/^=+\\s*(V[\\d.S]+[a-z]?(?:\\s*-[^=]*)?)\\s*=+$/) ||\n                 line.match(/^(V[\\d.S]+[a-z]?)(?:\\s*-|\\s*$)/);',
-        js, flags=re.DOTALL
-    )
-    print('Parser regex replaced (fallback)')
+for dirpath, dirnames, filenames in os.walk('.'):
+    dirnames[:] = [d for d in dirnames if d not in {'.git', 'node_modules', '.cache'}]
+    for f in filenames:
+        if not f.endswith('.html'):
+            continue
+        p = os.path.join(dirpath, f)
 
-open('patch-history.js', 'w', encoding='utf-8').write(js)
-print('Done')
+        # Lire le fichier
+        try:
+            raw = open(p, encoding='utf-8', errors='replace').read()
+        except:
+            continue
+
+        if 'nav-links' not in raw:
+            continue
+
+        # 1. Fixer l'encodage si corrompu (â€" = signe de corruption)
+        if 'â€' in raw or 'â†' in raw or 'Ã' in raw:
+            raw = fix_encoding(raw)
+            enc_fixed += 1
+
+        # 2. Appliquer la bonne nav selon profondeur
+        # depth = nombre de séparateurs dans le chemin relatif
+        rel = os.path.relpath(p, '.')
+        depth = rel.count(os.sep)
+        nav = NAV_ROOT if depth == 0 else NAV_SUB
+
+        new = re.sub(r'<ul class="nav-links">.*?</ul>', nav, raw, flags=re.DOTALL)
+
+        if new != raw:
+            open(p, 'w', encoding='utf-8').write(new)
+            nav_fixed += 1
+            print(f'  ✓ {p}')
+        elif raw != open(p, encoding='utf-8', errors='replace').read():
+            # Encodage fixé mais pas la nav
+            open(p, 'w', encoding='utf-8').write(raw)
+
+print(f'\n✅ Nav fixée : {nav_fixed} fichiers')
+print(f'✅ Encodage fixé : {enc_fixed} fichiers')

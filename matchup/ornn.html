@@ -1,9 +1,9 @@
-﻿<!DOCTYPE html>
+?<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Ornn â€” Urgot Guide</title>
+  <title>Ornn — Urgot Guide</title>
   <link rel="icon" type="image/png" href="https://ddragon.leagueoflegends.com/cdn/14.24.1/img/champion/Urgot.png"/>
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -24,7 +24,7 @@
     .rune-summ-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}@media(max-width:600px){.rune-summ-grid{grid-template-columns:1fr}}.rune-block{display:flex;gap:14px;align-items:flex-start}.rune-img{width:140px;flex-shrink:0;border-radius:4px;border:1px solid var(--border);overflow:hidden}.rune-img img{width:100%;display:block}.rune-text h4{font-family:'Cinzel',serif;font-size:11px;letter-spacing:0.15em;color:var(--green-mid);text-transform:uppercase;margin-bottom:8px}.rune-text p{font-size:14px;line-height:1.7;color:var(--text)}
     .summ-block h4{font-family:'Cinzel',serif;font-size:11px;letter-spacing:0.15em;color:var(--green-mid);text-transform:uppercase;margin-bottom:12px}.summ-row{display:flex;gap:10px;align-items:center;margin-bottom:12px}.summ-icons{display:flex;gap:6px}.summ-icon{width:36px;height:36px;border-radius:4px;border:1px solid var(--border-bright);overflow:hidden;flex-shrink:0}.summ-icon img{width:100%;height:100%;object-fit:cover;display:block}.summ-or{font-size:11px;color:var(--text-dim);letter-spacing:0.1em}.summ-text p{font-size:14px;line-height:1.7;color:var(--text)}
     .paragraph{margin-bottom:1.25rem}.paragraph p{font-size:15px;line-height:1.8;color:var(--text)}
-    .video-trigger{display:inline;background:rgba(74,222,128,0.1);border:1px solid var(--green-dark);border-radius:3px;padding:1px 6px;color:var(--green);cursor:pointer;font-weight:600;transition:background 0.2s}.video-trigger::after{content:' â–¶';font-size:10px;opacity:0.7}.video-panel{max-height:0;overflow:hidden;transition:max-height 0.5s ease,opacity 0.4s ease;opacity:0}.video-panel.open{max-height:600px;opacity:1;margin-top:1rem}.video-inner{border-radius:4px;overflow:hidden;border:1px solid var(--border-bright);background:#000}.video-inner video{width:100%;display:block;max-height:420px}
+    .video-trigger{display:inline;background:rgba(74,222,128,0.1);border:1px solid var(--green-dark);border-radius:3px;padding:1px 6px;color:var(--green);cursor:pointer;font-weight:600;transition:background 0.2s}.video-trigger::after{content:' ▶';font-size:10px;opacity:0.7}.video-panel{max-height:0;overflow:hidden;transition:max-height 0.5s ease,opacity 0.4s ease;opacity:0}.video-panel.open{max-height:600px;opacity:1;margin-top:1rem}.video-inner{border-radius:4px;overflow:hidden;border:1px solid var(--border-bright);background:#000}.video-inner video{width:100%;display:block;max-height:420px}
     .enemy-rune-text p{font-size:15px;line-height:1.8;color:var(--text);margin-bottom:1rem}.enemy-rune-text p:last-child{margin-bottom:0}
     footer{border-top:1px solid var(--border);padding:2rem 1rem;text-align:center;font-size:11px;letter-spacing:0.1em;color:var(--text-dim)}footer a{color:var(--green-dark);text-decoration:none}footer a:hover{color:var(--green-mid)}
     @keyframes fadeDown{from{opacity:0;transform:translateY(-12px)}to{opacity:1;transform:none}}@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
@@ -34,13 +34,13 @@
   <nav>
     <a class="nav-logo" href="../index.html">Urgot Guide</a>
     <ul class="nav-links">
-      <li><a href="mechanics.html">Mechanics</a></li>
-      <li><a href="matchup.html">Matchup</a></li>
-      <li><a href="synergies.html">Synergies</a></li>
-      <li><a href="build.html#build">Build Guide</a></li>
-      <li><a href="build.html#runes">Runes</a></li>
-      <li><a href="build.html#calculator">Calculator</a></li>
-      <li><a href="build.html#forge">Forge</a></li>
+      <li><a href="../mechanics.html">Mechanics</a></li>
+      <li><a href="../matchup.html">Matchup</a></li>
+      <li><a href="../synergies.html">Synergies</a></li>
+      <li><a href="../build.html#build">Build Guide</a></li>
+      <li><a href="../build.html#runes">Runes</a></li>
+      <li><a href="../build.html#calculator">Calculator</a></li>
+      <li><a href="../build.html#forge">Forge</a></li>
     </ul>
     <div class="nav-search">
       <input type="text" id="nav-search-input" placeholder="Search champion..." oninput="navFilter()"/>
@@ -74,22 +74,22 @@
     </div>
     <div class="section-block">
       <p class="section-title">How to play VS</p>
-      <div class="paragraph"><p>Look to destroy Ornn level 1 with E + PTA but don't force it â€” he's really tanky and got the best base heal of the game so his sustain in fight is crazy.</p></div>
-<div class="paragraph"><p>Before first item Ornn is still tanky but not as much as you think, but never E in him or play it â€” his W is what makes him strong: it deals insane max HP damage and CC you + makes him immune to CC. So you need to play around that. Play also around his Q. Ornn will mainly poke you with his Q through lane until he gets you in lethal range. You can try to freeze Ornn and make him commit â€” if you build a CS lead it's very good.</p></div>
-<div class="paragraph"><p>You will never be able to one shot Ornn before 9, so either poke him and when he's around 50% HP all in him or play it in two times. The main way I use to lower Ornn HP is to deny him access to wave and when he Q him I bait him to E or W me so I buffer my E in his CC and I hard trade him. If you can proc 3 to 4 legs the trade is really good after his burst. Ornn is just a melee CS â€” he got long CD. So I abuse that fact and try trading when he has no CC.</p></div>
-<div class="paragraph"><p>Try denying him of building â€” a Q does the trick as you can gap close so he runs away and you can take control of the wave, so don't waste your Q on him for nothing.</p></div>
-<div class="paragraph"><p>After level 6 Ornn has an insane kill power â€” his W and R does insane damage with Brittle and he can go a triple CC combo: Q then R then E then R2 then W then auto which can deal around 60% to 80% of your HP and his R is an insane gank setup so be careful when walking up on lane.</p></div>
-<div class="paragraph"><p>At BC you destroy Ornn and hard outscale him in 1v1 â€” you're way too tanky and have so much damage and armor shred. But in team fight Ornn is slightly better as he brings scaling to his teammates and his CC makes him a beast so try to sidelane so he or someone else has to face you, they're more likely to send him.</p></div>
+      <div class="paragraph"><p>Look to destroy Ornn level 1 with E + PTA but don't force it — he's really tanky and got the best base heal of the game so his sustain in fight is crazy.</p></div>
+<div class="paragraph"><p>Before first item Ornn is still tanky but not as much as you think, but never E in him or play it — his W is what makes him strong: it deals insane max HP damage and CC you + makes him immune to CC. So you need to play around that. Play also around his Q. Ornn will mainly poke you with his Q through lane until he gets you in lethal range. You can try to freeze Ornn and make him commit — if you build a CS lead it's very good.</p></div>
+<div class="paragraph"><p>You will never be able to one shot Ornn before 9, so either poke him and when he's around 50% HP all in him or play it in two times. The main way I use to lower Ornn HP is to deny him access to wave and when he Q him I bait him to E or W me so I buffer my E in his CC and I hard trade him. If you can proc 3 to 4 legs the trade is really good after his burst. Ornn is just a melee CS — he got long CD. So I abuse that fact and try trading when he has no CC.</p></div>
+<div class="paragraph"><p>Try denying him of building — a Q does the trick as you can gap close so he runs away and you can take control of the wave, so don't waste your Q on him for nothing.</p></div>
+<div class="paragraph"><p>After level 6 Ornn has an insane kill power — his W and R does insane damage with Brittle and he can go a triple CC combo: Q then R then E then R2 then W then auto which can deal around 60% to 80% of your HP and his R is an insane gank setup so be careful when walking up on lane.</p></div>
+<div class="paragraph"><p>At BC you destroy Ornn and hard outscale him in 1v1 — you're way too tanky and have so much damage and armor shred. But in team fight Ornn is slightly better as he brings scaling to his teammates and his CC makes him a beast so try to sidelane so he or someone else has to face you, they're more likely to send him.</p></div>
     </div>
     
   </div>
  <footer>
-  Not affiliated with Riot Games &nbsp;Â·&nbsp;
-  <a href="https://www.twitch.tv/quante" target="_blank" rel="noopener">Quante â€” Twitch â†—</a>
-  &nbsp;Â·&nbsp;
-  <a href="https://x.com/quantelol" target="_blank" rel="noopener">Quante â€” Twitter â†—</a>
-  &nbsp;Â·&nbsp;
-  <a href="https://barnhak.github.io/Urgot-guide/feedback.html" style="color:var(--green-dark);text-decoration:none;transition:color 0.2s">Send Feedback â†—</a>
+  Not affiliated with Riot Games &nbsp;·&nbsp;
+  <a href="https://www.twitch.tv/quante" target="_blank" rel="noopener">Quante — Twitch ↗</a>
+  &nbsp;·&nbsp;
+  <a href="https://x.com/quantelol" target="_blank" rel="noopener">Quante — Twitter ↗</a>
+  &nbsp;·&nbsp;
+  <a href="https://barnhak.github.io/Urgot-guide/feedback.html" style="color:var(--green-dark);text-decoration:none;transition:color 0.2s">Send Feedback ↗</a>
 </footer> 
 <script>
 var BASE_DDR='https://ddragon.leagueoflegends.com/cdn/14.24.1/img/champion/';
