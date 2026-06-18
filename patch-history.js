@@ -68,8 +68,8 @@ function parsePatches(wikitext, maxEntries) {
     var line = lines[i].trim();
 
     // Détecte un numéro de version (ex: ==V25.06== ou V25.06)
-    var vMatch = line.match(/^=+\s*(V[\d.S]+[a-z]?)\s*=+$/) ||
-                 line.match(/^(V[\d.S]+[a-z]?)\s*$/);
+    var vMatch = line.match(/^=+\s*(V[\d.S]+[a-z]?(?:\s*-[^=]*)?)\s*=+$/) ||
+                 line.match(/^(V[\d.S]+[a-z]?)(?:\s*-|\s*$)/);
     if (vMatch) {
       if (current && current.items.length > 0) {
         patches.push(current);
