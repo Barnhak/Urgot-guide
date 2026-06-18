@@ -79,14 +79,14 @@
   <nav>
     <a class="nav-logo" href="../index.html">Urgot Guide</a>
     <ul class="nav-links">
-  <li><a href="../mechanics.html">Mechanics</a></li>
-  <li><a href="../matchup.html">Matchup</a></li>
-  <li><a href="../synergies.html">Synergies</a></li>
-  <li><a href="../build.html#build">Build Guide</a></li>
-  <li><a href="../build.html#runes">Runes</a></li>
-  <li><a href="../build.html#calculator">Calculator</a></li>
-  <li><a href="../build.html#forge">Forge</a></li>
-</ul>
+      <li><a href="mechanics.html">Mechanics</a></li>
+      <li><a href="matchup.html">Matchup</a></li>
+      <li><a href="synergies.html">Synergies</a></li>
+      <li><a href="build.html#build">Build Guide</a></li>
+      <li><a href="build.html#runes">Runes</a></li>
+      <li><a href="build.html#calculator">Calculator</a></li>
+      <li><a href="build.html#forge">Forge</a></li>
+    </ul>
     <div class="nav-search">
       <input type="text" id="nav-search-input" placeholder="Search champion..." oninput="navFilter()" />
       <span class="nav-search-icon">🔍</span>
@@ -150,5 +150,5 @@ function slugify(name){return name.toLowerCase().replace(/ & /g,'-').replace(/[^
 function navFilter(){var val=document.getElementById('nav-search-input').value;var navList=document.getElementById('nav-list');var navDropdown=document.getElementById('nav-dropdown');navList.innerHTML='';if(val.length<1){navDropdown.style.display='none';return;}var filtered=champNames.filter(function(n){return n.toLowerCase().includes(val.toLowerCase());});navDropdown.style.display=filtered.length?'block':'none';filtered.forEach(function(name){var a=document.createElement('a');a.className='nav-dropdown-item';a.href=slugify(name)+'.html';var img=document.createElement('img');img.src=BASE_DDR+name.replace(/[^a-zA-Z]/g,'')+'.png';img.alt=name;img.onerror=function(){this.style.display='none';};var span=document.createElement('span');span.textContent=name;a.appendChild(img);a.appendChild(span);navList.appendChild(a);});}
 document.addEventListener('click',function(e){if(!e.target.closest('.nav-search'))document.getElementById('nav-dropdown').style.display='none';});
 </script>
-</body>
+<script src="../patch-history.js"></script></body>
 </html>

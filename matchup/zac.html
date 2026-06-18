@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Zac — Urgot Guide</title>
+  <title>Zac â€” Urgot Guide</title>
   <link rel="icon" type="image/png" href="https://ddragon.leagueoflegends.com/cdn/14.24.1/img/champion/Urgot.png"/>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Rajdhani:wght@300;400;500;600&display=swap" rel="stylesheet"/>
   <style>
@@ -70,14 +70,14 @@
   <nav>
     <a class="nav-logo" href="../index.html">Urgot Guide</a>
     <ul class="nav-links">
-  <li><a href="../mechanics.html">Mechanics</a></li>
-  <li><a href="../matchup.html">Matchup</a></li>
-  <li><a href="../synergies.html">Synergies</a></li>
-  <li><a href="../build.html#build">Build Guide</a></li>
-  <li><a href="../build.html#runes">Runes</a></li>
-  <li><a href="../build.html#calculator">Calculator</a></li>
-  <li><a href="../build.html#forge">Forge</a></li>
-</ul>
+      <li><a href="mechanics.html">Mechanics</a></li>
+      <li><a href="matchup.html">Matchup</a></li>
+      <li><a href="synergies.html">Synergies</a></li>
+      <li><a href="build.html#build">Build Guide</a></li>
+      <li><a href="build.html#runes">Runes</a></li>
+      <li><a href="build.html#calculator">Calculator</a></li>
+      <li><a href="build.html#forge">Forge</a></li>
+    </ul>
     <div class="nav-search">
       <input type="text" id="nav-search-input" placeholder="Search champion..." oninput="navFilter()"/>
       <span class="nav-search-icon">&#128269;</span>
@@ -110,21 +110,21 @@
     </div>
     <div class="section-block">
       <p class="section-title">How to play VS</p>
-      <div class="paragraph"><p>Zac is an incredible scaling champ so he's weak level 1 — even more if he starts W (AOE spell) — so try to abuse him early, it's almost the only time you can freely E him.</p></div>
+      <div class="paragraph"><p>Zac is an incredible scaling champ so he's weak level 1 â€” even more if he starts W (AOE spell) â€” so try to abuse him early, it's almost the only time you can freely E him.</p></div>
 <div class="paragraph"><p>Like I said before, Zac has a hard healing passive (his blob) that you can cancel by stepping on hit but pre level 9 it's very hard to punish Zac so just farm except if you get a free kill on him.</p></div>
 <div class="paragraph"><p>Zac tether (Q) cancels your E so try staying behind minion to avoid it. He can full combo you on it. Due to his healing you NEED to use your range and proc PTA on him every time he goes to farm but don't force it and take bad trades. Zac has an incredible burst especially level 6+. Your chance to kill him in lane is near 0 so just scale and try to build a CS lead on him.</p></div>
 <div class="paragraph"><p>If you have TP you won't kill Zac without anti heal and stepping on the Blob so BUY anti heal.</p></div>
-<div class="paragraph"><p>You outscale Zac at 9+ and two items but he's a nightmare in teamfight so try keeping out to help your team — Zac is 10 times more mobile than you on the map.</p></div>
+<div class="paragraph"><p>You outscale Zac at 9+ and two items but he's a nightmare in teamfight so try keeping out to help your team â€” Zac is 10 times more mobile than you on the map.</p></div>
     </div>
     
   </div>
   <footer>
-  Not affiliated with Riot Games &nbsp;·&nbsp;
-  <a href="https://www.twitch.tv/quante" target="_blank" rel="noopener">Quante — Twitch ↗</a>
-  &nbsp;·&nbsp;
-  <a href="https://x.com/quantelol" target="_blank" rel="noopener">Quante — Twitter ↗</a>
-  &nbsp;·&nbsp;
-  <a href="https://barnhak.github.io/Urgot-guide/feedback.html" style="color:var(--green-dark);text-decoration:none;transition:color 0.2s">Send Feedback ↗</a>
+  Not affiliated with Riot Games &nbsp;Â·&nbsp;
+  <a href="https://www.twitch.tv/quante" target="_blank" rel="noopener">Quante â€” Twitch â†—</a>
+  &nbsp;Â·&nbsp;
+  <a href="https://x.com/quantelol" target="_blank" rel="noopener">Quante â€” Twitter â†—</a>
+  &nbsp;Â·&nbsp;
+  <a href="https://barnhak.github.io/Urgot-guide/feedback.html" style="color:var(--green-dark);text-decoration:none;transition:color 0.2s">Send Feedback â†—</a>
 </footer>
 <script>
 var BASE_DDR='https://ddragon.leagueoflegends.com/cdn/14.24.1/img/champion/';
@@ -133,5 +133,6 @@ function slugify(n){return n.toLowerCase().replace(/ and /g,'-').replace(/[^a-z0
 function navFilter(){var val=document.getElementById('nav-search-input').value;var nl=document.getElementById('nav-list');var nd=document.getElementById('nav-dropdown');nl.innerHTML='';if(val.length<1){nd.style.display='none';return;}var f=champNames.filter(function(n){return n.toLowerCase().includes(val.toLowerCase());});nd.style.display=f.length?'block':'none';f.forEach(function(name){var a=document.createElement('a');a.className='nav-dropdown-item';a.href=slugify(name)+'.html';var img=document.createElement('img');img.src=BASE_DDR+name.replace(/[^a-zA-Z]/g,'')+'.png';img.alt=name;img.onerror=function(){this.style.display='none';};var span=document.createElement('span');span.textContent=name;a.appendChild(img);a.appendChild(span);nl.appendChild(a);});}
 document.addEventListener('click',function(e){if(!e.target.closest('.nav-search'))document.getElementById('nav-dropdown').style.display='none';});
 </script>
-</body>
+<script src="../patch-history.js"></script></body>
 </html>
+

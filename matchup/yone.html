@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Yone — Urgot Guide</title>
+  <title>Yone â€” Urgot Guide</title>
   <link rel="icon" type="image/png" href="https://ddragon.leagueoflegends.com/cdn/14.24.1/img/champion/Urgot.png"/>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Rajdhani:wght@300;400;500;600&display=swap" rel="stylesheet"/>
   <style>
@@ -70,14 +70,14 @@
   <nav>
     <a class="nav-logo" href="../index.html">Urgot Guide</a>
     <ul class="nav-links">
-  <li><a href="../mechanics.html">Mechanics</a></li>
-  <li><a href="../matchup.html">Matchup</a></li>
-  <li><a href="../synergies.html">Synergies</a></li>
-  <li><a href="../build.html#build">Build Guide</a></li>
-  <li><a href="../build.html#runes">Runes</a></li>
-  <li><a href="../build.html#calculator">Calculator</a></li>
-  <li><a href="../build.html#forge">Forge</a></li>
-</ul>
+      <li><a href="mechanics.html">Mechanics</a></li>
+      <li><a href="matchup.html">Matchup</a></li>
+      <li><a href="synergies.html">Synergies</a></li>
+      <li><a href="build.html#build">Build Guide</a></li>
+      <li><a href="build.html#runes">Runes</a></li>
+      <li><a href="build.html#calculator">Calculator</a></li>
+      <li><a href="build.html#forge">Forge</a></li>
+    </ul>
     <div class="nav-search">
       <input type="text" id="nav-search-input" placeholder="Search champion..." oninput="navFilter()"/>
       <span class="nav-search-icon">&#128269;</span>
@@ -111,7 +111,7 @@
     <div class="section-block">
       <p class="section-title">How to play VS</p>
       <div class="paragraph"><p>Try fighting Yone level 1 by going behind him and sidestepping his Q before you E. Before level 2 you can really abuse Yone after he Q's but his Q outranges you.</p></div>
-<div class="paragraph"><p>When Yone gets his W you need to bait it out to trade and proc PTA. NEVER E if Yone still has his E. You want to E him on his Q3 but be aware that his bump range of Q3 is longer than the range you need to E and bump him. If Yone E and Q3 you, try Eing him to force his E2 — if not he will hard trade you. If done properly and Yone doesn't E2 instantly he will take a very bad trade. If Yone R you, you can buffer your E behind you to CC Yone at the end of his R.</p></div>
+<div class="paragraph"><p>When Yone gets his W you need to bait it out to trade and proc PTA. NEVER E if Yone still has his E. You want to E him on his Q3 but be aware that his bump range of Q3 is longer than the range you need to E and bump him. If Yone E and Q3 you, try Eing him to force his E2 â€” if not he will hard trade you. If done properly and Yone doesn't E2 instantly he will take a very bad trade. If Yone R you, you can buffer your E behind you to CC Yone at the end of his R.</p></div>
 <div class="paragraph"><p>To all in Yone you need to poke him to 75% HP and he needs to have his E on CD.</p></div>
 <div class="paragraph"><p>Until level 9 Yone is generally stronger in short and long trade but in a CC you can still destroy him on a good trade with your E.</p></div>
 <div class="paragraph"><p>In 1v1 after level 9 you win but Yone is an anti tank so he will do a lot of damage in very late. You can go more Lethal / damage build to OS him if you are confident in it.</p></div>
@@ -119,12 +119,12 @@
     
   </div>
   <footer>
-  Not affiliated with Riot Games &nbsp;·&nbsp;
-  <a href="https://www.twitch.tv/quante" target="_blank" rel="noopener">Quante — Twitch ↗</a>
-  &nbsp;·&nbsp;
-  <a href="https://x.com/quantelol" target="_blank" rel="noopener">Quante — Twitter ↗</a>
-  &nbsp;·&nbsp;
-  <a href="https://barnhak.github.io/Urgot-guide/feedback.html" style="color:var(--green-dark);text-decoration:none;transition:color 0.2s">Send Feedback ↗</a>
+  Not affiliated with Riot Games &nbsp;Â·&nbsp;
+  <a href="https://www.twitch.tv/quante" target="_blank" rel="noopener">Quante â€” Twitch â†—</a>
+  &nbsp;Â·&nbsp;
+  <a href="https://x.com/quantelol" target="_blank" rel="noopener">Quante â€” Twitter â†—</a>
+  &nbsp;Â·&nbsp;
+  <a href="https://barnhak.github.io/Urgot-guide/feedback.html" style="color:var(--green-dark);text-decoration:none;transition:color 0.2s">Send Feedback â†—</a>
 </footer>
 <script>
 var BASE_DDR='https://ddragon.leagueoflegends.com/cdn/14.24.1/img/champion/';
@@ -133,5 +133,6 @@ function slugify(n){return n.toLowerCase().replace(/ and /g,'-').replace(/[^a-z0
 function navFilter(){var val=document.getElementById('nav-search-input').value;var nl=document.getElementById('nav-list');var nd=document.getElementById('nav-dropdown');nl.innerHTML='';if(val.length<1){nd.style.display='none';return;}var f=champNames.filter(function(n){return n.toLowerCase().includes(val.toLowerCase());});nd.style.display=f.length?'block':'none';f.forEach(function(name){var a=document.createElement('a');a.className='nav-dropdown-item';a.href=slugify(name)+'.html';var img=document.createElement('img');img.src=BASE_DDR+name.replace(/[^a-zA-Z]/g,'')+'.png';img.alt=name;img.onerror=function(){this.style.display='none';};var span=document.createElement('span');span.textContent=name;a.appendChild(img);a.appendChild(span);nl.appendChild(a);});}
 document.addEventListener('click',function(e){if(!e.target.closest('.nav-search'))document.getElementById('nav-dropdown').style.display='none';});
 </script>
-</body>
+<script src="../patch-history.js"></script></body>
 </html>
+

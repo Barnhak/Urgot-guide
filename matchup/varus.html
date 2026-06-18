@@ -70,14 +70,14 @@
   <nav>
     <a class="nav-logo" href="../index.html">Urgot Guide</a>
     <ul class="nav-links">
-  <li><a href="../mechanics.html">Mechanics</a></li>
-  <li><a href="../matchup.html">Matchup</a></li>
-  <li><a href="../synergies.html">Synergies</a></li>
-  <li><a href="../build.html#build">Build Guide</a></li>
-  <li><a href="../build.html#runes">Runes</a></li>
-  <li><a href="../build.html#calculator">Calculator</a></li>
-  <li><a href="../build.html#forge">Forge</a></li>
-</ul>
+      <li><a href="mechanics.html">Mechanics</a></li>
+      <li><a href="matchup.html">Matchup</a></li>
+      <li><a href="synergies.html">Synergies</a></li>
+      <li><a href="build.html#build">Build Guide</a></li>
+      <li><a href="build.html#runes">Runes</a></li>
+      <li><a href="build.html#calculator">Calculator</a></li>
+      <li><a href="build.html#forge">Forge</a></li>
+    </ul>
     <div class="nav-search">
       <input type="text" id="nav-search-input" placeholder="Search champion..." oninput="navFilter()"/>
       <span class="nav-search-icon">&#128269;</span>
@@ -132,5 +132,5 @@ function slugify(n){return n.toLowerCase().replace(/[^a-z0-9 -]/g,'').replace(/ 
 function navFilter(){var val=document.getElementById('nav-search-input').value;var nl=document.getElementById('nav-list');var nd=document.getElementById('nav-dropdown');nl.innerHTML='';if(val.length<1){nd.style.display='none';return;}var f=champNames.filter(function(n){return n.toLowerCase().includes(val.toLowerCase());});nd.style.display=f.length?'block':'none';f.forEach(function(name){var a=document.createElement('a');a.className='nav-dropdown-item';a.href=slugify(name)+'.html';var img=document.createElement('img');img.src=BASE_DDR+name.replace(/[^a-zA-Z]/g,'')+'.png';img.alt=name;img.onerror=function(){this.style.display='none';};var span=document.createElement('span');span.textContent=name;a.appendChild(img);a.appendChild(span);nl.appendChild(a);});}
 document.addEventListener('click',function(e){if(!e.target.closest('.nav-search'))document.getElementById('nav-dropdown').style.display='none';});
 </script>
-</body>
+<script src="../patch-history.js"></script></body>
 </html>
