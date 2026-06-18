@@ -428,8 +428,11 @@ const COUNTERS_BY_ROLE = [
     champs:["Vayne","Caitlyn","Ezreal","Jhin","Jinx"],
     note:"Kite parfait — en teamfight tu ne peux pas les attraper sans E" },
   { role:"SUP", cls:"syn-avoid",
-    champs:["Janna","Lulu","Soraka","Yuumi","Renata Glasc"],
-    note:"Peel massif qui protège leurs carries et empêche ton execute de proc" },
+    champs:[
+      {name:"Zilean", note:"Make people inaccessible to you with his ms and his R counter your's"},
+      {name:"Milio", note:"Milio heal and shield is really annoying for Urgot and his R cancel your R2 (pull)"},
+      {name:"Braum", note:"Braum E is really annoying and hit cancel R1 and R2 if played well"},
+      {name:"Karma", note:"Karma Mantra E make it really hard to gap close and deal damage and she can W you very easily"}]
 ];
 
 function renderCounter() {
