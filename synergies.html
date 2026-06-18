@@ -152,20 +152,40 @@ footer a:hover{color:var(--green-mid)}
     letter-spacing: 0.05em;
   }
 
+
+  .nav-search{position:relative}
+  .nav-search input{background:rgba(15,34,17,0.8);border:1px solid var(--border-bright);border-radius:3px;color:var(--text-bright);font-family:'Rajdhani',sans-serif;font-size:12px;padding:5px 30px 5px 10px;width:180px;outline:none;transition:border-color 0.2s,width 0.3s}
+  .nav-search input:focus{border-color:var(--green-mid);width:220px}
+  .nav-search input::placeholder{color:var(--text-dim)}
+  .nav-search-icon{position:absolute;right:8px;top:50%;transform:translateY(-50%);font-size:11px;color:var(--green-mid);pointer-events:none}
+  .nav-dropdown{position:absolute;top:calc(100% + 6px);right:0;width:220px;background:var(--bg-card);border:1px solid var(--border-bright);border-radius:4px;max-height:280px;overflow-y:auto;display:none;box-shadow:0 8px 32px rgba(0,0,0,0.7);z-index:200}
+  .nav-dropdown h4{padding:7px 12px;font-family:'Cinzel',serif;font-size:8px;letter-spacing:0.25em;color:var(--text-dim);text-transform:uppercase;border-bottom:1px solid var(--border)}
+  .nav-dropdown-item{position:relative;display:block;padding:0;height:52px;overflow:hidden;border-bottom:1px solid rgba(26,61,30,0.3);text-decoration:none}
+  .nav-dropdown-item:last-child{border-bottom:none}
+  .nav-dropdown-item img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;display:block;filter:brightness(0.55) saturate(0.7);transition:filter 0.2s}
+  .nav-dropdown-item:hover img{filter:brightness(0.75) saturate(1)}
+  .nav-dropdown-item span{position:relative;z-index:1;display:flex;align-items:center;height:52px;padding:0 12px;font-size:13px;font-weight:600;color:var(--text-bright);text-shadow:0 1px 6px rgba(0,0,0,0.9);transition:color 0.2s}
+  .nav-dropdown-item:hover span{color:var(--green)}
+
 </style>
 </head>
 <body>
 <nav>
   <a class="nav-logo" href="index.html">Urgot Guide</a>
   <ul class="nav-links">
-      <li><a href="mechanics.html">Mechanics</a></li>
-      <li><a href="matchup.html">Matchup</a></li>
-      <li><a href="synergies.html">Synergies</a></li>
-      <li><a href="build.html#build">Build Guide</a></li>
-      <li><a href="build.html#runes">Runes</a></li>
-      <li><a href="build.html#calculator">Calculator</a></li>
-      <li><a href="build.html#forge">Forge</a></li>
-    </ul>
+    <li><a href="mechanics.html">Mechanics</a></li>
+    <li><a href="matchup.html">Matchup</a></li>
+    <li><a href="synergies.html" class="active">Synergies</a></li>
+    <li><a href="build.html#build">Build Guide</a></li>
+    <li><a href="build.html#runes">Runes</a></li>
+    <li><a href="build.html#calculator">Calculator</a></li>
+    <li><a href="build.html#forge">Forge</a></li>
+  </ul>
+  <div class="nav-search">
+    <input type="text" id="nav-search-input" placeholder="Search champion..." oninput="navFilter()"/>
+    <span class="nav-search-icon">&#128269;</span>
+    <div class="nav-dropdown" id="nav-dropdown"><h4>Champions</h4><div id="nav-list"></div></div>
+  </div>
 </nav>
 
 <section class="hero">
@@ -416,33 +436,17 @@ function renderComps(data, containerId) {
 // ── COUNTER DATA (par rôle) ───────────────────────────────────────────
 const COUNTERS_BY_ROLE = [
   { role:"TOP", cls:"syn-best",
-    champs:[
-      {name:"Vayne",  note:"Her range and wall make her really annoying and she has slow burn and a great burst"},
-      {name:"Yorick",   note:"Taliyah W counter your E so it's hard to gap close and she can push you out anyway"},
-      {name:"Mordekaiser",   note:"Insane range and poke building MR is useless because he will deal 90% true damage anyway"},
-      {name:"Rumble",   note:"Huhe range and kite making him really hard to acces his R can deny every try you have"},
-    ]},
+    champs:["Fiora","Irelia","Yorick","Illaoi","Vayne","Varus","Rumble","Kennen","Teemo","Heimerdinger","Tryndamere","Olaf"],
+    note:"Poke à distance, duellistes ou kite — les plus dangereux en toplane" },
   { role:"JGL", cls:"syn-good",
-    champs:[
-      {name:"Skarner",  note:"Your E doesn't allow you to escape skarner CC so he can chain CC you until death"},
-      {name:"Taliyah",   note:"Taliyah W counter your E so it's hard to gap close and she can push you out anyway"},
-      {name:"Vel\°'Koz",   note:"Insane range and poke building MR is useless because he will deal 90% true damage anyway"},
-      {name:"Azir",   note:"Huhe range and kite making him really hard to acces his R can deny every try you have"},
-    ]},
+    champs:["Hecarim","Lee Sin","Vi","Rengar","Nocturne","Olaf"],
+    note:"Dives sur toi facilement ou setup des all-in que tu ne peux pas absorber" },
   { role:"MID", cls:"syn-ok",
-    champs:[
-      {name:"Anivia",  note:"Her range and wall make her really annoying and she has slow burn and a great burst"},
-      {name:"Taliyah",   note:"Taliyah W counter your E so it's hard to gap close and she can push you out anyway"},
-      {name:"Vel\'Koz",   note:"Insane range and poke building MR is useless because he will deal 90% true damage anyway"},
-      {name:"Azir",   note:"Huhe range and kite making him really hard to acces his R can deny every try you have"},
-    ]},
+    champs:["Yasuo","Yone","Akali","Cassiopeia","Zed","Talon"],
+    note:"Roam forts ou AP burst qui punissent ta team si tu splitpush" },
   { role:"ADC", cls:"syn-ok",
-    champs:[
-      {name:"Smolder",  note:"He got huge mobility with E, slows and a lot of true and magic dmg with his stack so really annoying"},
-      {name:"Vayne",   note:"Insane mobility with her Q make her really hard to fight and her burst is insane"},
-      {name:"Caitlyn",   note:"Her range and E make her really hard to acces + her trap are annoying with your hitbox"},
-      
-    ]},
+    champs:["Vayne","Caitlyn","Ezreal","Jhin","Jinx"],
+    note:"Kite parfait — en teamfight tu ne peux pas les attraper sans E" },
   { role:"SUP", cls:"syn-avoid",
     champs:[
       {name:"Zilean",  note:"Make people inaccessible to you with his ms and his R counter your's"},
