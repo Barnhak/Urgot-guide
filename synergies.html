@@ -416,17 +416,33 @@ function renderComps(data, containerId) {
 // ── COUNTER DATA (par rôle) ───────────────────────────────────────────
 const COUNTERS_BY_ROLE = [
   { role:"TOP", cls:"syn-best",
-    champs:["Fiora","Irelia","Yorick","Illaoi","Vayne","Varus","Rumble","Kennen","Teemo","Heimerdinger","Tryndamere","Olaf"],
-    note:"Poke à distance, duellistes ou kite — les plus dangereux en toplane" },
+    champs:[
+      {name:"Vayne",  note:"Her range and wall make her really annoying and she has slow burn and a great burst"},
+      {name:"Yorick",   note:"Taliyah W counter your E so it's hard to gap close and she can push you out anyway"},
+      {name:"Mordekaiser",   note:"Insane range and poke building MR is useless because he will deal 90% true damage anyway"},
+      {name:"Rumble",   note:"Huhe range and kite making him really hard to acces his R can deny every try you have"},
+    ]},
   { role:"JGL", cls:"syn-good",
-    champs:["Hecarim","Lee Sin","Vi","Rengar","Nocturne","Olaf"],
-    note:"Dives sur toi facilement ou setup des all-in que tu ne peux pas absorber" },
+    champs:[
+      {name:"Skarner",  note:"Your E doesn't allow you to escape skarner CC so he can chain CC you until death"},
+      {name:"Taliyah",   note:"Taliyah W counter your E so it's hard to gap close and she can push you out anyway"},
+      {name:"Vel\°'Koz",   note:"Insane range and poke building MR is useless because he will deal 90% true damage anyway"},
+      {name:"Azir",   note:"Huhe range and kite making him really hard to acces his R can deny every try you have"},
+    ]},
   { role:"MID", cls:"syn-ok",
-    champs:["Yasuo","Yone","Akali","Cassiopeia","Zed","Talon"],
-    note:"Roam forts ou AP burst qui punissent ta team si tu splitpush" },
+    champs:[
+      {name:"Anivia",  note:"Her range and wall make her really annoying and she has slow burn and a great burst"},
+      {name:"Taliyah",   note:"Taliyah W counter your E so it's hard to gap close and she can push you out anyway"},
+      {name:"Vel\'Koz",   note:"Insane range and poke building MR is useless because he will deal 90% true damage anyway"},
+      {name:"Azir",   note:"Huhe range and kite making him really hard to acces his R can deny every try you have"},
+    ]},
   { role:"ADC", cls:"syn-ok",
-    champs:["Vayne","Caitlyn","Ezreal","Jhin","Jinx"],
-    note:"Kite parfait — en teamfight tu ne peux pas les attraper sans E" },
+    champs:[
+      {name:"Smolder",  note:"He got huge mobility with E, slows and a lot of true and magic dmg with his stack so really annoying"},
+      {name:"Vayne",   note:"Insane mobility with her Q make her really hard to fight and her burst is insane"},
+      {name:"Caitlyn",   note:"Her range and E make her really hard to acces + her trap are annoying with your hitbox"},
+      
+    ]},
   { role:"SUP", cls:"syn-avoid",
     champs:[
       {name:"Zilean",  note:"Make people inaccessible to you with his ms and his R counter your's"},
