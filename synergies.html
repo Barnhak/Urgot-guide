@@ -429,10 +429,11 @@ const COUNTERS_BY_ROLE = [
     note:"Kite parfait — en teamfight tu ne peux pas les attraper sans E" },
   { role:"SUP", cls:"syn-avoid",
     champs:[
-      {name:"Zilean", note:"Make people inaccessible to you with his ms and his R counter your's"},
-      {name:"Milio", note:"Milio heal and shield is really annoying for Urgot and his R cancel your R2 (pull)"},
-      {name:"Braum", note:"Braum E is really annoying and hit cancel R1 and R2 if played well"},
-      {name:"Karma", note:"Karma Mantra E make it really hard to gap close and deal damage and she can W you very easily"}]
+      {name:"Zilean",  note:"Make people inaccessible to you with his ms and his R counter your's"},
+      {name:"Milio",   note:"Milio heal and shield is really annoying for Urgot and his R cancel your R2 (pull)"},
+      {name:"Braum",   note:"Braum E is really annoying and hit cancel R1 and R2 if played well"},
+      {name:"Karma",   note:"Karma Mantra E make it really hard to gap close and deal damage and she can W you very easily"},
+    ]},
 ];
 
 function renderCounter() {
@@ -448,13 +449,21 @@ function renderCounter() {
     lbl.innerHTML = '<div class="syn-label-name">' + row.role + '</div>';
     var champs = document.createElement('div');
     champs.className = 'syn-champs';
-    row.champs.forEach(function(n) { champs.appendChild(chip(n, row.note)); });
-    var note = document.createElement('div');
-    note.style.cssText = 'padding:8px 12px;background:var(--bg-card);border-left:1px solid var(--border);display:flex;align-items:center;max-width:340px;font-size:12px;color:var(--text-dim);line-height:1.5';
-    note.textContent = row.note;
+    // Supporte string simple "Fiora" OU objet {name, note}
+    row.champs.forEach(function(c) {
+      var name = typeof c === 'string' ? c : c.name;
+      var note = typeof c === 'string' ? (row.note || '') : c.note;
+      champs.appendChild(chip(name, note));
+    });
     r.appendChild(lbl);
     r.appendChild(champs);
-    r.appendChild(note);
+    // Note de ligne uniquement si format string (pas {name,note})
+    if (row.note && typeof row.champs[0] === 'string') {
+      var note = document.createElement('div');
+      note.style.cssText = 'padding:8px 12px;background:var(--bg-card);border-left:1px solid var(--border);display:flex;align-items:center;max-width:340px;font-size:12px;color:var(--text-dim);line-height:1.5';
+      note.textContent = row.note;
+      r.appendChild(note);
+    }
     list.appendChild(r);
   });
   container.appendChild(list);
