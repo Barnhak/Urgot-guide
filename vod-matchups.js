@@ -65,8 +65,46 @@ function setContent(html) {
   if (el) el.innerHTML = html;
 }
 
+// ── CACHE localStorage (24h) ──────────────────────────────────────────
+var CACHE_TTL_MS = 24 * 60 * 60 * 1000;
+
+function cacheKey(enemyChampName) {
+  return 'vod-matchups:Urgot:' + enemyChampName;
+}
+
+function readCache(enemyChampName) {
+  try {
+    var raw = localStorage.getItem(cacheKey(enemyChampName));
+    if (!raw) return null;
+    var parsed = JSON.parse(raw);
+    if (!parsed || !parsed.timestamp || !parsed.games) return null;
+    if (Date.now() - parsed.timestamp > CACHE_TTL_MS) return null;
+    return parsed.games;
+  } catch (e) {
+    return null;
+  }
+}
+
+function writeCache(enemyChampName, games) {
+  try {
+    localStorage.setItem(cacheKey(enemyChampName), JSON.stringify({
+      timestamp: Date.now(),
+      games: games
+    }));
+  } catch (e) {
+    // localStorage plein ou indisponible (navigation privée) : on ignore silencieusement
+  }
+}
+
 // ── FETCH via Cargo API (self-join ScoreboardPlayers x2 sur le même GameId) ───
 function fetchVods(enemyChampName) {
+  var cached = readCache(enemyChampName);
+  if (cached) {
+    renderVods(cached, enemyChampName);
+    setStatus(cached.length + ' game' + (cached.length > 1 ? 's' : '') + ' pro (cache)');
+    return;
+  }
+
   setStatus('⟳ Chargement...');
 
   var enemy = cargoName(enemyChampName);
@@ -112,6 +150,7 @@ function fetchVods(enemyChampName) {
       var rows = data.cargoquery || [];
       if (!rows.length) throw new Error('no games found');
       var games = rows.map(function(row){ return row.title; });
+      writeCache(enemyChampName, games);
       renderVods(games, enemyChampName);
       setStatus(games.length + ' game' + (games.length > 1 ? 's' : '') + ' pro trouvée' + (games.length > 1 ? 's' : ''));
     })
