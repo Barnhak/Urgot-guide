@@ -120,7 +120,8 @@ function fetchVods(enemyChampName) {
 
   var where =
     'U.Champion="Urgot" AND U.Role="Top" AND ' +
-    'E.Champion="' + enemy.replace(/"/g, '\\"') + '" AND E.Role="Top"';
+    'E.Champion="' + enemy.replace(/"/g, '\\"') + '" AND E.Role="Top" AND ' +
+    'SG.VOD IS NOT NULL AND SG.VOD != ""';
 
   var params = {
     action: 'cargoquery',
@@ -157,7 +158,7 @@ function fetchVods(enemyChampName) {
     .catch(function(err) {
       console.warn('VodMatchups fetch error:', err);
       setContent(
-        '<p style="color:var(--text-dim)">Aucune VOD pro trouvée pour Urgot Top vs ' + enemyChampName + ' Top, ou données indisponibles pour le moment.</p>'
+        '<p style="color:var(--text-dim)">Pas de VOD publique enregistrée sur Leaguepedia pour Urgot Top vs ' + enemyChampName + ' Top (les games pro régionales/amateurs sont rarement diffusées). Réessayez plus tard, la base se met à jour régulièrement.</p>'
       );
       setStatus('');
     });
@@ -176,7 +177,6 @@ function renderVods(games, enemyChampName) {
   var html = '<div style="display:flex;flex-direction:column;gap:10px">';
 
   games.forEach(function(g) {
-    var hasVod = g.VOD && g.VOD.trim().length > 0;
     var dateTxt = formatDate(g.Date);
     var matchup = (g.Team1 || '?') + ' vs ' + (g.Team2 || '?');
 
@@ -187,14 +187,10 @@ function renderVods(games, enemyChampName) {
     html += '<div style="font-size:11px;color:var(--text-dim);margin-top:2px">Urgot — ' + (g.UrgotTeam || '?') + '</div>';
     html += '</div>';
 
-    if (hasVod) {
-      html += '<a href="' + g.VOD + '" target="_blank" rel="noopener" ' +
-        'style="font-family:\'Cinzel\',serif;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;' +
-        'color:var(--text-bright);background:var(--green-dark);border-radius:3px;padding:6px 14px;text-decoration:none;flex-shrink:0">' +
-        '▶ VOD ↗</a>';
-    } else {
-      html += '<span style="font-size:11px;color:var(--text-dim);flex-shrink:0">VOD indisponible</span>';
-    }
+    html += '<a href="' + g.VOD + '" target="_blank" rel="noopener" ' +
+      'style="font-family:\'Cinzel\',serif;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;' +
+      'color:var(--text-bright);background:var(--green-dark);border-radius:3px;padding:6px 14px;text-decoration:none;flex-shrink:0">' +
+      '▶ VOD ↗</a>';
 
     html += '</div>';
   });
