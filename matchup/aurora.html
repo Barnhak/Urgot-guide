@@ -1,4 +1,4 @@
-?<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8"/>
@@ -82,6 +82,9 @@
     .phase-body{font-size:13px;line-height:1.65;color:var(--text)}
     .phase-body ul{padding-left:1rem;margin-top:4px}
     .phase-body li{margin-bottom:3px}
+    .ability-cd-block{background:var(--bg-card);border:1px solid var(--border);border-radius:4px;padding:1rem 1.25rem;margin-bottom:1.5rem;display:flex;flex-wrap:wrap;gap:1.5rem}
+    .ability-cd-item{font-size:13px;color:var(--text)}
+    .ability-cd-item strong{color:var(--green-mid);font-family:'Cinzel',serif;font-size:11px;letter-spacing:0.08em}
     footer{border-top:1px solid var(--border);padding:2rem 1rem;text-align:center;font-size:11px;letter-spacing:0.1em;color:var(--text-dim)}
     footer a{color:var(--green-dark);text-decoration:none;transition:color 0.2s}
     footer a:hover{color:var(--green-mid)}
@@ -117,7 +120,13 @@
   </div>
 </section>
 <div class="page">
-  <div class="section-block">
+  <div class="ability-cd-block">
+    <div class="ability-cd-item"><strong>Q</strong> — 8 / 7.5 / 7 / 6.5 / 6</div>
+    <div class="ability-cd-item"><strong>W</strong> — 18 / 17 / 16 / 15 / 14</div>
+    <div class="ability-cd-item"><strong>E</strong> — 15 / 14 / 13 / 12 / 11</div>
+    <div class="ability-cd-item"><strong>R</strong> — 140 / 120 / 100</div>
+  </div>
+<div class="section-block">
     <p class="section-title">Runes &amp; Summoners</p>
     <div class="rune-summ-grid">
       <div class="rune-block">
@@ -190,7 +199,6 @@ var BASE_DDR='https://ddragon.leagueoflegends.com/cdn/14.24.1/img/champion/';
 var champNames=['Aatrox','Akali','Ambessa','Anivia','Aurora','Camille','Cassiopeia',"Cho'Gath",'Darius','Dr. Mundo','Fiora','Gangplank','Garen','Gnar','Gragas','Gwen','Heimerdinger','Illaoi','Irelia','Jax','Jayce','Kayle','Kennen','Kled',"K'Sante",'Lee Sin','Malphite','Maokai','Master Yi','Mordekaiser','Nasus','Olaf','Ornn','Pantheon','Poppy','Quinn','Renekton','Riven','Rumble','Ryze','Sett','Shen','Singed','Sion','Swain','Sylas','Tahm Kench','Teemo','Trundle','Tryndamere','Udyr','Varus','Vayne','Vladimir','Volibear','Warwick','Yasuo','Yone','Yorick','Zaahen','Zac'];
 function slugify(n){return n.toLowerCase().replace(/ & /g,'-').replace(/[^\w\s-]/g,'').replace(/\s+/g,'-').normalize('NFD').replace(/[\u0300-\u036f]/g,'');}
 function navFilter(){var val=document.getElementById('nav-search-input').value;var nl=document.getElementById('nav-list');var nd=document.getElementById('nav-dropdown');nl.innerHTML='';if(val.length<1){nd.style.display='none';return;}var f=champNames.filter(function(n){return n.toLowerCase().includes(val.toLowerCase());});nd.style.display=f.length?'block':'none';f.forEach(function(name){var a=document.createElement('a');a.className='nav-dropdown-item';a.href=slugify(name)+'.html';var img=document.createElement('img');img.src=BASE_DDR+name.replace(/[^a-zA-Z]/g,'')+'.png';img.alt=name;img.onerror=function(){this.style.display='none';};var span=document.createElement('span');span.textContent=name;a.appendChild(img);a.appendChild(span);nl.appendChild(a);});}
-document.addEventListener('click',function(e){if(!e.target.closest('.nav-search'))document.getElementById('nav-dropdown').style.display='none';});</script>
-<script src="../patch-history.js"></script></body>
+document.addEventListener('click',function(e){if(!e.target.closest('.nav-search'))document.getElementById('nav-dropdown').style.display='none';});</script></body>
 </html>
 

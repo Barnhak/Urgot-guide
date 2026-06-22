@@ -1,4 +1,4 @@
-?<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8"/>
@@ -21,8 +21,21 @@
     .hero-content{position:relative;text-align:center;animation:fadeDown 0.8s ease both}.hero-champ-icon{width:72px;height:72px;border-radius:4px;border:2px solid var(--green-dark);margin:0 auto 1rem;overflow:hidden}.hero-champ-icon img{width:100%;height:100%;object-fit:cover}.hero-title{font-family:'Cinzel',serif;font-size:clamp(36px,7vw,72px);font-weight:900;color:var(--text-bright);letter-spacing:0.08em;text-shadow:0 0 60px rgba(74,222,128,0.15),0 4px 20px rgba(0,0,0,0.9)}.hero-score{margin-top:0.75rem;font-family:'Cinzel',serif;font-size:14px;letter-spacing:0.2em;color:var(--green);text-transform:uppercase;text-shadow:0 0 20px rgba(74,222,128,0.4)}
     .page{max-width:900px;margin:0 auto;padding:4rem 1.5rem 6rem}.section-block{background:var(--bg-surface);border:1px solid var(--border);border-radius:4px;padding:2rem;margin-bottom:1.5rem;position:relative;animation:fadeUp 0.5s ease both}.section-block::before{content:'';position:absolute;inset:0;border-radius:4px;border:1px solid transparent;background:linear-gradient(135deg,rgba(74,222,128,0.08),transparent 40%) border-box;-webkit-mask:linear-gradient(#fff 0 0) padding-box,linear-gradient(#fff 0 0);-webkit-mask-composite:destination-out;mask-composite:exclude;pointer-events:none}
     .section-title{font-family:'Cinzel',serif;font-size:13px;letter-spacing:0.2em;text-transform:uppercase;color:var(--green);margin-bottom:1.5rem;display:flex;align-items:center;gap:10px}.section-title::after{content:'';flex:1;height:1px;background:var(--border)}
+    .ability-cd-block{background:var(--bg-card);border:1px solid var(--border);border-radius:4px;padding:1rem 1.25rem;margin-bottom:1.5rem;display:flex;flex-wrap:wrap;gap:1.5rem}
+    .ability-cd-item{font-size:13px;color:var(--text)}
+    .ability-cd-item strong{color:var(--green-mid);font-family:'Cinzel',serif;font-size:11px;letter-spacing:0.08em}
     .rune-summ-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}@media(max-width:600px){.rune-summ-grid{grid-template-columns:1fr}}.rune-block{display:flex;gap:14px;align-items:flex-start}.rune-img{width:140px;flex-shrink:0;border-radius:4px;border:1px solid var(--border);overflow:hidden}.rune-img img{width:100%;display:block}.rune-text h4{font-family:'Cinzel',serif;font-size:11px;letter-spacing:0.15em;color:var(--green-mid);text-transform:uppercase;margin-bottom:8px}.rune-text p{font-size:14px;line-height:1.7;color:var(--text)}
     .summ-block h4{font-family:'Cinzel',serif;font-size:11px;letter-spacing:0.15em;color:var(--green-mid);text-transform:uppercase;margin-bottom:12px}.summ-row{display:flex;gap:10px;align-items:center;margin-bottom:12px}.summ-icons{display:flex;gap:6px}.summ-icon{width:36px;height:36px;border-radius:4px;border:1px solid var(--border-bright);overflow:hidden;flex-shrink:0}.summ-icon img{width:100%;height:100%;object-fit:cover;display:block}.summ-or{font-size:11px;color:var(--text-dim);letter-spacing:0.1em}.summ-text p{font-size:14px;line-height:1.7;color:var(--text)}
+    .starter-block{margin-top:1rem;padding-top:1rem;border-top:1px solid var(--border)}
+    .starter-label{font-family:'Cinzel',serif;font-size:9px;letter-spacing:0.2em;color:var(--text-dim);text-transform:uppercase;margin-bottom:8px}
+    .starter-items{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+    .starter-item{display:flex;align-items:center;gap:6px;background:var(--bg-card);border:1px solid var(--border);border-radius:3px;padding:5px 10px 5px 5px;transition:border-color 0.2s}
+    .starter-item:hover{border-color:var(--border-bright)}
+    .starter-item-icon{width:32px;height:32px;border-radius:3px;border:1px solid var(--border-bright);overflow:hidden;flex-shrink:0}
+    .starter-item-icon img{width:100%;height:100%;object-fit:cover;display:block}
+    .starter-item-name{font-size:12px;font-weight:500;color:var(--text-bright)}
+    .starter-item-note{font-size:11px;color:var(--text-dim)}
+    .starter-sep{font-family:'Cinzel',serif;font-size:9px;letter-spacing:0.1em;color:var(--text-dim);padding:0 4px}
     .paragraph{margin-bottom:1.25rem}.paragraph p{font-size:15px;line-height:1.8;color:var(--text)}
     .video-trigger{display:inline;background:rgba(74,222,128,0.1);border:1px solid var(--green-dark);border-radius:3px;padding:1px 6px;color:var(--green);cursor:pointer;font-weight:600;transition:background 0.2s}.video-trigger::after{content:' ▶';font-size:10px;opacity:0.7}.video-panel{max-height:0;overflow:hidden;transition:max-height 0.5s ease,opacity 0.4s ease;opacity:0}.video-panel.open{max-height:600px;opacity:1;margin-top:1rem}.video-inner{border-radius:4px;overflow:hidden;border:1px solid var(--border-bright);background:#000}.video-inner video{width:100%;display:block;max-height:420px}
     .enemy-rune-text p{font-size:15px;line-height:1.8;color:var(--text);margin-bottom:1rem}.enemy-rune-text p:last-child{margin-bottom:0}
@@ -58,7 +71,12 @@
     </div>
   </section>
   <div class="page">
-    <div class="section-block">
+  <div class="ability-cd-block">
+    <div class="ability-cd-item"><strong>W</strong> — 17 / 16 / 15 / 13</div>
+    <div class="ability-cd-item"><strong>E</strong> — 10 / 9.5 / 9 / 8.5 / 8</div>
+    <div class="ability-cd-item"><strong>R</strong> — 100s</div>
+  </div>
+<div class="section-block">
       <p class="section-title">Runes &amp; Summoners</p>
       <div class="rune-summ-grid">
         <div class="rune-block">
@@ -69,6 +87,7 @@
           <h4>Summoners spells</h4>
           <div class="summ-row"><div class="summ-icons"><div class="summ-icon"><img src="https://ddragon.leagueoflegends.com/cdn/14.24.1/img/spell/SummonerFlash.png" alt="Flash"/></div><div class="summ-icon"><img src="https://ddragon.leagueoflegends.com/cdn/14.24.1/img/spell/SummonerHaste.png" alt="Ghost"/></div></div><span class="summ-or">or</span><div class="summ-icons"><div class="summ-icon"><img src="https://ddragon.leagueoflegends.com/cdn/14.24.1/img/spell/SummonerFlash.png" alt="Flash"/></div><div class="summ-icon"><img src="https://ddragon.leagueoflegends.com/cdn/14.24.1/img/spell/SummonerDot.png" alt="Ignite"/></div></div></div>
           <div class="summ-text"><p>You can go either Ghost or Ignite. Teleport is also fine.</p></div>
+        <div class="starter-block"><div class="starter-label">Starter item</div><div class="starter-items"><div class="starter-item"><div class="starter-item-icon"><img src="https://ddragon.leagueoflegends.com/cdn/14.24.1/img/item/1055.png" alt="Doran's Blade"/></div><div><div class="starter-item-name">Doran's Blade</div><div class="starter-item-note">Standard start</div></div></div></div></div>
         </div>
       </div>
     </div>
@@ -94,7 +113,6 @@ var champNames=['Aatrox','Akali','Ambessa','Anivia','Aurora','Camille','Cassiope
 function slugify(n){return n.toLowerCase().replace(/ and /g,'-').replace(/[^a-z0-9\s-]/g,'').replace(/\s+/g,'-');}
 function navFilter(){var val=document.getElementById('nav-search-input').value;var nl=document.getElementById('nav-list');var nd=document.getElementById('nav-dropdown');nl.innerHTML='';if(val.length<1){nd.style.display='none';return;}var f=champNames.filter(function(n){return n.toLowerCase().includes(val.toLowerCase());});nd.style.display=f.length?'block':'none';f.forEach(function(name){var a=document.createElement('a');a.className='nav-dropdown-item';a.href=slugify(name)+'.html';var img=document.createElement('img');img.src=BASE_DDR+name.replace(/[^a-zA-Z]/g,'')+'.png';img.alt=name;img.onerror=function(){this.style.display='none';};var span=document.createElement('span');span.textContent=name;a.appendChild(img);a.appendChild(span);nl.appendChild(a);});}
 document.addEventListener('click',function(e){if(!e.target.closest('.nav-search'))document.getElementById('nav-dropdown').style.display='none';});
-</script>
-<script src="../patch-history.js"></script></body>
+</script></body>
 </html>
 

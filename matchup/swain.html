@@ -1,4 +1,4 @@
-?<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8"/>
@@ -41,6 +41,9 @@
     .section-block::before{content:'';position:absolute;inset:0;border-radius:4px;border:1px solid transparent;background:linear-gradient(135deg,rgba(74,222,128,0.08),transparent 40%) border-box;-webkit-mask:linear-gradient(#fff 0 0) padding-box,linear-gradient(#fff 0 0);-webkit-mask-composite:destination-out;mask-composite:exclude;pointer-events:none}
     .section-title{font-family:'Cinzel',serif;font-size:13px;letter-spacing:0.2em;text-transform:uppercase;color:var(--green);margin-bottom:1.5rem;display:flex;align-items:center;gap:10px}
     .section-title::after{content:'';flex:1;height:1px;background:var(--border)}
+    .ability-cd-block{background:var(--bg-card);border:1px solid var(--border);border-radius:4px;padding:1rem 1.25rem;margin-bottom:1.5rem;display:flex;flex-wrap:wrap;gap:1.5rem}
+    .ability-cd-item{font-size:13px;color:var(--text)}
+    .ability-cd-item strong{color:var(--green-mid);font-family:'Cinzel',serif;font-size:11px;letter-spacing:0.08em}
     .rune-summ-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
     @media(max-width:600px){.rune-summ-grid{grid-template-columns:1fr}}
     .rune-block{display:flex;gap:14px;align-items:flex-start}
@@ -55,6 +58,16 @@
     .summ-icon img{width:100%;height:100%;object-fit:cover;display:block}
     .summ-or{font-size:11px;color:var(--text-dim);letter-spacing:0.1em}
     .summ-text p{font-size:14px;line-height:1.7;color:var(--text)}
+    .starter-block{margin-top:1rem;padding-top:1rem;border-top:1px solid var(--border)}
+    .starter-label{font-family:'Cinzel',serif;font-size:9px;letter-spacing:0.2em;color:var(--text-dim);text-transform:uppercase;margin-bottom:8px}
+    .starter-items{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+    .starter-item{display:flex;align-items:center;gap:6px;background:var(--bg-card);border:1px solid var(--border);border-radius:3px;padding:5px 10px 5px 5px;transition:border-color 0.2s}
+    .starter-item:hover{border-color:var(--border-bright)}
+    .starter-item-icon{width:32px;height:32px;border-radius:3px;border:1px solid var(--border-bright);overflow:hidden;flex-shrink:0}
+    .starter-item-icon img{width:100%;height:100%;object-fit:cover;display:block}
+    .starter-item-name{font-size:12px;font-weight:500;color:var(--text-bright)}
+    .starter-item-note{font-size:11px;color:var(--text-dim)}
+    .starter-sep{font-family:'Cinzel',serif;font-size:9px;letter-spacing:0.1em;color:var(--text-dim);padding:0 4px}
     .paragraph{margin-bottom:1.25rem}
     .paragraph p{font-size:15px;line-height:1.8;color:var(--text)}
     footer{border-top:1px solid var(--border);padding:2rem 1rem;text-align:center;font-size:11px;letter-spacing:0.1em;color:var(--text-dim)}
@@ -94,7 +107,13 @@
   </section>
 
   <div class="page">
-    <div class="section-block">
+  <div class="ability-cd-block">
+    <div class="ability-cd-item"><strong>Q</strong> — 7 / 6 / 5 / 4 / 3</div>
+    <div class="ability-cd-item"><strong>W</strong> — 22 / 21 / 20 / 19 / 18</div>
+    <div class="ability-cd-item"><strong>E</strong> — 12 / 11.5 / 11 / 10.5 / 10</div>
+    <div class="ability-cd-item"><strong>R</strong> — 120</div>
+  </div>
+<div class="section-block">
       <p class="section-title">Runes &amp; Summoners</p>
       <div class="rune-summ-grid">
         <div class="rune-block">
@@ -120,6 +139,7 @@
           <div class="summ-text">
             <p>Ignite is recommended for kill pressure and anti heal after your first item. Ghost is also viable — don't buy early anti heal (especially with Ignite), it's not needed. Get it after your first item though.</p>
           </div>
+          <div class="starter-block"><div class="starter-label">Starter item</div><div class="starter-items"><div class="starter-item"><div class="starter-item-icon"><img src="https://ddragon.leagueoflegends.com/cdn/14.24.1/img/item/1055.png" alt="Doran's Blade"/></div><div><div class="starter-item-name">Doran's Blade</div><div class="starter-item-note">Standard start</div></div></div></div></div>
         </div>
       </div>
     </div>
@@ -155,7 +175,6 @@ var champNames=['Aatrox','Akali','Ambessa','Anivia','Aurora','Camille','Cassiope
 function slugify(n){return n.toLowerCase().replace(/ & /g,'-').replace(/[^\w\s-]/g,'').replace(/\s+/g,'-').normalize('NFD').replace(/[\u0300-\u036f]/g,'');}
 function navFilter(){var val=document.getElementById('nav-search-input').value;var nl=document.getElementById('nav-list');var nd=document.getElementById('nav-dropdown');nl.innerHTML='';if(val.length<1){nd.style.display='none';return;}var f=champNames.filter(function(n){return n.toLowerCase().includes(val.toLowerCase());});nd.style.display=f.length?'block':'none';f.forEach(function(name){var a=document.createElement('a');a.className='nav-dropdown-item';a.href=slugify(name)+'.html';var img=document.createElement('img');img.src=BASE_DDR+name.replace(/[^a-zA-Z]/g,'')+'.png';img.alt=name;img.onerror=function(){this.style.display='none';};var span=document.createElement('span');span.textContent=name;a.appendChild(img);a.appendChild(span);nl.appendChild(a);});}
 document.addEventListener('click',function(e){if(!e.target.closest('.nav-search'))document.getElementById('nav-dropdown').style.display='none';});
-</script>
-<script src="../patch-history.js"></script></body>
+</script></body>
 </html>
 
