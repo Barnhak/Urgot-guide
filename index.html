@@ -190,7 +190,8 @@ var SPLASH_KEYS = {
   'Trundle':'Trundle_0','Tryndamere':'Tryndamere_0','Udyr':'Udyr_0','Varus':'Varus_0',
   'Vayne':'Vayne_0','Vladimir':'Vladimir_0','Volibear':'Volibear_0','Warwick':'Warwick_0',
   'Wukong':'MonkeyKing_0','Yasuo':'Yasuo_0','Yone':'Yone_0','Yorick':'Yorick_0',
-  'Zac':'Zac_0','Zaahen':'Zaahen_0'
+  'Zac':'Zac_0','Zaahen':'Zaahen_0',
+  'Rek\'Sai':'RekSai_0','Twisted Fate':'TwistedFate_0','Xin Zhao':'XinZhao_0','LeBlanc':'Leblanc_0'
 };
 
 function getSplash(name) {
@@ -198,7 +199,7 @@ function getSplash(name) {
   return SPLASH_BASE + (key ? key : name.replace(/[^a-zA-Z]/g,'') + '_0') + '.jpg';
 }
 
-var champNames=['Aatrox','Akali','Akshan','Ambessa','Anivia','Ashe','Aurora','Azir','Caitlyn','Camille','Cassiopeia',"Cho'Gath",'Darius','Dr. Mundo','Elise','Fiddlesticks','Fiora','Galio','Gangplank','Garen','Gnar','Gragas','Graves','Gwen','Heimerdinger','Illaoi','Irelia','Ivern','Jax','Jayce',"K'Sante",'Kalista','Karma','Kayle','Kayn','Kennen','Kled','LeBlanc','Lee Sin','Lissandra','Lulu','Malphite','Malzahar','Maokai','Master Yi','Mordekaiser','Naafiri','Nasus','Nautilus','Neeko','Nidalee','Nocturne','Olaf','Ornn','Pantheon','Poppy','Quinn','Rammus',"Rek'Sai",'Renekton','Rengar','Riven','Rumble','Ryze','Sejuani','Sett','Shaco','Shen','Singed','Sion','Skarner','Swain','Sylas','Tahm Kench','Teemo','Trundle','Tryndamere','Twisted Fate','Udyr','Varus','Vayne','Veigar','Viego','Viktor','Vladimir','Volibear','Warwick','Wukong','Xin Zhao','Yasuo','Yone','Yorick','Zaahen','Zac','Zed','Zeri','Zilean'];
+var champions=['Aatrox','Akali','Akshan','Ambessa','Anivia','Ashe','Aurora','Azir','Caitlyn','Camille','Cassiopeia',"Cho'Gath",'Darius','Dr. Mundo','Elise','Fiddlesticks','Fiora','Galio','Gangplank','Garen','Gnar','Gragas','Graves','Gwen','Heimerdinger','Illaoi','Irelia','Ivern','Jax','Jayce',"K'Sante",'Kalista','Karma','Kayle','Kayn','Kennen','Kled','LeBlanc','Lee Sin','Lissandra','Lulu','Malphite','Malzahar','Maokai','Master Yi','Mordekaiser','Naafiri','Nasus','Nautilus','Neeko','Nidalee','Nocturne','Olaf','Ornn','Pantheon','Poppy','Quinn','Rammus',"Rek'Sai",'Renekton','Rengar','Riven','Rumble','Ryze','Sejuani','Sett','Shaco','Shen','Singed','Sion','Skarner','Swain','Sylas','Tahm Kench','Teemo','Trundle','Tryndamere','Twisted Fate','Udyr','Varus','Vayne','Veigar','Viego','Viktor','Vladimir','Volibear','Warwick','Wukong','Xin Zhao','Yasuo','Yone','Yorick','Zaahen','Zac','Zed','Zeri','Zilean'];
 
 function slugify(name) {
   return name.toLowerCase().replace(/ & /g,'-').replace(/[^\w\s-]/g,'').replace(/\s+/g,'-').normalize('NFD').replace(/[\u0300-\u036f]/g,'');
