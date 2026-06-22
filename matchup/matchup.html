@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MatchUp — Urgot Guide</title>
+  <link rel="icon" type="image/png" href="https://ddragon.leagueoflegends.com/cdn/14.24.1/img/champion/Urgot.png"/>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Rajdhani:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --green: #4ADE80; --green-mid: #22C55E; --green-dark: #15803D;
+      --bg: #060D07; --bg-surface: #0B1A0D; --bg-card: #0F2211;
+      --border: #1A3D1E; --border-bright: #2D6A33;
+      --text: #A8D4A0; --text-dim: #4A7550; --text-bright: #E8F5E2;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg); color: var(--text);
+      font-family: "Rajdhani", sans-serif; font-size: 16px; overflow-x: hidden;
+      background-image:
+        radial-gradient(ellipse 80% 40% at 50% -5%, rgba(74,222,128,0.04) 0%, transparent 60%),
+        repeating-linear-gradient(0deg, transparent, transparent 49px, rgba(26,61,30,0.08) 50px),
+        repeating-linear-gradient(90deg, transparent, transparent 49px, rgba(26,61,30,0.08) 50px);
+    }
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1rem 2.5rem; background: rgba(6,13,7,0.95);
+      backdrop-filter: blur(8px); border-bottom: 1px solid var(--border);
+    }
+    .nav-logo { font-family: "Cinzel", serif; font-size: 14px; letter-spacing: 0.2em; color: var(--green); text-decoration: none; }
+    .nav-links { display: flex; gap: 2rem; list-style: none; align-items: center; }
+    .nav-links a { font-size: 12px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-dim); text-decoration: none; transition: color 0.2s; }
+    .nav-links a:hover, .nav-links a.active { color: var(--green); }
+    .nav-search { position: relative; }
+    .nav-search input { background: rgba(15,34,17,0.8); border: 1px solid var(--border-bright); border-radius: 3px; color: var(--text-bright); font-family: "Rajdhani", sans-serif; font-size: 12px; padding: 5px 30px 5px 10px; width: 180px; outline: none; transition: border-color 0.2s, width 0.3s; }
+    .nav-search input:focus { border-color: var(--green-mid); width: 220px; }
+    .nav-search input::placeholder { color: var(--text-dim); }
+    .nav-search-icon { position: absolute; right: 8px; top: 50%; transform: translateY(-50%); font-size: 11px; color: var(--green-mid); pointer-events: none; }
+    .nav-dropdown { position: absolute; top: calc(100% + 6px); right: 0; width: 220px; background: var(--bg-card); border: 1px solid var(--border-bright); border-radius: 4px; max-height: 280px; overflow-y: auto; display: none; box-shadow: 0 8px 32px rgba(0,0,0,0.7); z-index: 200; }
+    .nav-dropdown::-webkit-scrollbar { width: 3px; }
+    .nav-dropdown::-webkit-scrollbar-thumb { background: var(--border-bright); }
+    .nav-dropdown h4 { padding: 7px 12px; font-family: "Cinzel", serif; font-size: 8px; letter-spacing: 0.25em; color: var(--text-dim); text-transform: uppercase; border-bottom: 1px solid var(--border); }
+    .nav-dropdown-item { position:relative;display:block;padding:0;height:52px;overflow:hidden;border-bottom:1px solid rgba(26,61,30,0.3);text-decoration:none; }
+    .nav-dropdown-item:last-child { border-bottom: none; }
+    .nav-dropdown-item img { position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;display:block;filter:brightness(0.55) saturate(0.7);transition:filter 0.2s; }
+    .nav-dropdown-item:hover img { filter:brightness(0.75) saturate(1); }
+    .nav-dropdown-item span { position:relative;z-index:1;display:flex;align-items:center;height:52px;padding:0 12px;font-size:13px;font-weight:600;color:var(--text-bright);text-shadow:0 1px 6px rgba(0,0,0,0.9);transition:color 0.2s; }
+    .nav-dropdown-item:hover span { color: var(--green); }
+
+    .hero { position: relative; height: 50vh; min-height: 320px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+    .hero-bg { position: absolute; inset: 0; background: url("https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Urgot_2.jpg") center 30% / cover no-repeat; filter: brightness(0.3) saturate(0.6); animation: heroZoom 20s ease-in-out infinite alternate; }
+    @keyframes heroZoom { from{transform:scale(1.03)} to{transform:scale(1.08)} }
+    .hero-overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(6,13,7,0.4) 0%, rgba(6,13,7,0) 40%, rgba(6,13,7,0.8) 85%, var(--bg) 100%); }
+    .hero-content { position: relative; text-align: center; animation: fadeDown 0.8s ease both; }
+    .hero-eyebrow { font-family: "Cinzel", serif; font-size: 10px; letter-spacing: 0.4em; color: var(--green-mid); text-transform: uppercase; margin-bottom: 0.75rem; opacity: 0.8; }
+    .hero-title { font-family: "Cinzel", serif; font-size: clamp(32px, 6vw, 60px); font-weight: 900; color: var(--text-bright); letter-spacing: 0.06em; text-shadow: 0 0 60px rgba(74,222,128,0.15), 0 4px 20px rgba(0,0,0,0.8); }
+    .hero-title span { color: var(--green); }
+
+    .main { max-width: 1100px; margin: 0 auto; padding: 3rem 1.5rem 5rem; }
+    .filter-bar { display: flex; align-items: center; gap: 12px; margin-bottom: 2.5rem; animation: fadeUp 0.5s ease both; flex-wrap: wrap; }
+    .filter-input-wrap { position: relative; flex: 1; max-width: 340px; }
+    .filter-input-wrap input { width: 100%; padding: 10px 40px 10px 14px; background: var(--bg-surface); border: 1px solid var(--border-bright); border-radius: 4px; color: var(--text-bright); font-family: "Rajdhani", sans-serif; font-size: 14px; font-weight: 500; outline: none; transition: border-color 0.2s; }
+    .filter-input-wrap input:focus { border-color: var(--green-mid); box-shadow: 0 0 0 2px rgba(74,222,128,0.1); }
+    .filter-input-wrap input::placeholder { color: var(--text-dim); }
+    .filter-icon { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); color: var(--green-mid); pointer-events: none; }
+    .filter-count { font-family: "Cinzel", serif; font-size: 10px; letter-spacing: 0.15em; color: var(--text-dim); }
+    .tierlist-btn { font-family: "Cinzel", serif; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--green); text-decoration: none; border: 1px solid var(--green-dark); border-radius: 3px; padding: 8px 18px; transition: all 0.2s; white-space: nowrap; display: inline-flex; align-items: center; gap: 6px; }
+    .tierlist-btn:hover { background: rgba(74,222,128,0.08); border-color: var(--green-mid); color: var(--text-bright); }
+
+    /* ROLE TOGGLE */
+    .role-toggle { display: flex; align-items: center; background: var(--bg-card); border: 1px solid var(--border-bright); border-radius: 50px; overflow: hidden; flex-shrink: 0; }
+    .role-btn { font-family: "Cinzel", serif; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; padding: 8px 16px; border: none; background: transparent; color: var(--text-dim); cursor: pointer; transition: background 0.2s, color 0.2s; white-space: nowrap; }
+    .role-btn.active { background: var(--green-dark); color: var(--text-bright); }
+    .role-btn:hover:not(.active) { color: var(--green-mid); }
+    .role-sep { width: 1px; background: var(--border-bright); height: 16px; flex-shrink: 0; }
+
+    /* GRID */
+    .champ-grid { display: grid; grid-template-columns: 1fr; gap: 3px; }
+    .champ-card { display: block; text-decoration: none; position: relative; overflow: hidden; background: var(--bg-card); height: 200px; transition: transform 0.25s; animation: fadeUp 0.4s ease both; cursor: pointer; }
+    .champ-card:hover { transform: scale(1.06); z-index: 10; }
+    .champ-img-wrap { position: absolute; inset: 0; }
+    .champ-img-wrap img { width: 100%; height: 100%; object-fit: cover; object-position: center 20%; display: block; filter: brightness(0.75) saturate(0.75); transition: filter 0.3s, transform 0.3s; }
+    .champ-card:hover .champ-img-wrap img { filter: brightness(1) saturate(1); transform: scale(1.04); }
+    .champ-img-wrap::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to right, rgba(6,13,7,0.9) 0%, rgba(6,13,7,0.55) 30%, transparent 60%); }
+    .champ-card::after { content: ""; position: absolute; inset: 0; border: 1px solid transparent; transition: border-color 0.25s; pointer-events: none; z-index: 3; }
+    .champ-card:hover::after { border-color: var(--green-mid); }
+
+    /* CARD CONTENT */
+    .card-content { position: absolute; inset: 0; display: flex; align-items: center; justify-content: space-between; padding: 0 1.5rem 0 1.75rem; z-index: 2; }
+    .champ-name { font-family: "Cinzel", serif; font-size: 18px; font-weight: 700; letter-spacing: 0.12em; color: var(--text-bright); text-shadow: 0 2px 12px rgba(0,0,0,0.95); transition: color 0.2s; }
+    .champ-card:hover .champ-name { color: var(--green); }
+
+    /* DIFFICULTY BADGE */
+    .diff-badge {
+      font-family: "Cinzel", serif; font-size: 10px; letter-spacing: 0.12em;
+      text-transform: uppercase; font-weight: 700;
+      padding: 5px 12px; border-radius: 3px;
+      border: 1px solid var(--badge-color, #4A7550);
+      color: var(--badge-color, #4A7550);
+      background: var(--badge-bg, rgba(74,117,80,0.1));
+      white-space: nowrap; flex-shrink: 0;
+      display: flex; align-items: center; gap: 5px;
+    }
+    .diff-badge::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--badge-color, #4A7550); flex-shrink: 0; }
+    .diff-score { font-size: 9px; opacity: 0.7; font-weight: 400; }
+
+    .no-results { grid-column: 1/-1; text-align: center; padding: 3rem; color: var(--text-dim); font-family: "Cinzel", serif; font-size: 13px; letter-spacing: 0.15em; }
+    footer { border-top: 1px solid var(--border); padding: 2rem 1rem; text-align: center; font-size: 11px; letter-spacing: 0.1em; color: var(--text-dim); }
+    footer a { color: var(--green-dark); text-decoration: none; }
+    footer a:hover { color: var(--green-mid); }
+    @keyframes fadeDown { from{opacity:0;transform:translateY(-12px)} to{opacity:1;transform:none} }
+    @keyframes fadeUp   { from{opacity:0;transform:translateY(8px)}  to{opacity:1;transform:none} }
+  </style>
+</head>
+<body>
+<nav>
+  <a class="nav-logo" href="index.html">Urgot Guide</a>
+  <ul class="nav-links">
+      <li><a href="mechanics.html">Mechanics</a></li>
+      <li><a href="matchup.html">Matchup</a></li>
+      <li><a href="synergies.html">Synergies</a></li>
+      <li><a href="build.html#build">Build Guide</a></li>
+      <li><a href="build.html#runes">Runes</a></li>
+      <li><a href="build.html#calculator">Calculator</a></li>
+      <li><a href="build.html#forge">Forge</a></li>
+    </ul>
+  <div class="nav-search">
+    <input type="text" id="nav-search-input" placeholder="Search champion..." oninput="navFilter()"/>
+    <span class="nav-search-icon">&#128269;</span>
+    <div class="nav-dropdown" id="nav-dropdown"><h4>Champions</h4><div id="nav-list"></div></div>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <p class="hero-eyebrow">Top Lane</p>
+    <h1 class="hero-title">Match<span>Up</span></h1>
+  </div>
+</section>
+
+<main class="main">
+  <div class="filter-bar">
+    <div class="filter-input-wrap">
+      <input type="text" id="filter-input" placeholder="Filter champions..." oninput="filterChamps()" />
+      <span class="filter-icon">&#128269;</span>
+    </div>
+    <div class="role-toggle">
+      <button class="role-btn active" id="role-btn-top" onclick="setRoleMode('top')">Top</button>
+      <div class="role-sep"></div>
+      <button class="role-btn" id="role-btn-offmeta" onclick="setRoleMode('offmeta')">Off-meta</button>
+    </div>
+    <span class="filter-count" id="filter-count"></span>
+    <a href="tierlist.html" class="tierlist-btn">⚔ Tier List</a>
+  </div>
+  <div class="champ-grid" id="champ-grid"></div>
+</main>
+
+<footer>
+  Not affiliated with Riot Games &nbsp;·&nbsp;
+  <a href="https://www.twitch.tv/quante" target="_blank" rel="noopener">Quante — Twitch ↗</a>
+  &nbsp;·&nbsp;
+  <a href="https://x.com/quantelol" target="_blank" rel="noopener">Quante — Twitter ↗</a>
+</footer>
+
+<script>
+// ── DIFFICULTY SCORES ─────────────────────────────────────────────────
+const SCORES = {
+  "Singed":1,"Sylas":2,
+  "Shen":3,
+  "Camille":4,"Cho'Gath":4,"Darius":4,"Garen":4,"Gragas":4,
+  "Kayle":4,"Maokai":4,"Master Yi":4,"Quinn":4,"Riven":4,"Warwick":4,"Zac":4,
+  "Dr. Mundo":5,"Gwen":5,"Jax":5,"Jayce":5,"Kled":5,"Lee Sin":5,"Nasus":5,
+  "Pantheon":5,"Poppy":5,"Renekton":5,"Sett":5,"Tahm Kench":5,"Trundle":5,
+  "Udyr":5,"Volibear":5,"Yone":5,
+  "Anivia":6,"Aurora":6,"Cassiopeia":6,"Gnar":6,"Malphite":6,
+  "Ornn":6,"Sion":6,"Swain":6,"Teemo":6,"Vladimir":6,
+  "Aatrox":7,"Akali":7,"Gangplank":7,"K'Sante":7,"Kennen":7,
+  "Olaf":7,"Ryze":7,"Tryndamere":7,
+  "Ambessa":8,"Illaoi":8,"Irelia":8,"Mordekaiser":8,"Yasuo":8,
+  "Fiora":9,"Heimerdinger":9,"Rumble":9,"Varus":9,"Vayne":9,
+  "Yorick":10,
+  "Zaahen":5,
+};
+
+function getBadge(score) {
+  if (!score)    return { label:"?",       color:"#4A7550", bg:"rgba(74,117,80,0.1)" };
+  if (score<=2)  return { label:"Easy",    color:"#4ADE80", bg:"rgba(21,128,61,0.15)" };
+  if (score<=4)  return { label:"Favored", color:"#86efac", bg:"rgba(34,197,94,0.1)" };
+  if (score===5) return { label:"Skill",   color:"#facc15", bg:"rgba(234,179,8,0.12)" };
+  if (score<=7)  return { label:"Hard",    color:"#fb923c", bg:"rgba(249,115,22,0.12)" };
+  return               { label:"Extreme",  color:"#f87171", bg:"rgba(239,68,68,0.15)" };
+}
+
+const champions = [
+  { name:"Aatrox",       img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Aatrox_0.jpg",       pos:"45% 10%" },
+  { name:"Akali",        img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Akali_0.jpg",        pos:"60% top" },
+  { name:"Ambessa",      img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Ambessa_0.jpg",      pos:"60% top" },
+  { name:"Anivia",       img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Anivia_0.jpg",       pos:"center 40%" },
+  { name:"Aurora",       img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Aurora_0.jpg",       pos:"60% top" },
+  { name:"Camille",      img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Camille_0.jpg",      pos:"70% top" },
+  { name:"Cassiopeia",   img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Cassiopeia_0.jpg",   pos:"60% 42%" },
+  { name:"Cho'Gath",     img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Chogath_0.jpg",      pos:"65% 42%" },
+  { name:"Darius",       img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Darius_0.jpg",       pos:"60% top" },
+  { name:"Dr. Mundo",    img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/DrMundo_0.jpg",      pos:"55% top" },
+  { name:"Fiora",        img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Fiora_0.jpg",        pos:"60% top" },
+  { name:"Gangplank",    img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Gangplank_0.jpg",    pos:"60% 45%" },
+  { name:"Garen",        img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Garen_0.jpg",        pos:"60% 15%" },
+  { name:"Gnar",         img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Gnar_0.jpg",         pos:"65% center" },
+  { name:"Gragas",       img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Gragas_0.jpg",       pos:"60% top" },
+  { name:"Gwen",         img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Gwen_0.jpg",         pos:"60% top" },
+  { name:"Heimerdinger", img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Heimerdinger_0.jpg", pos:"60% center" },
+  { name:"Illaoi",       img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Illaoi_0.jpg",       pos:"57% top" },
+  { name:"Irelia",       img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Irelia_0.jpg",       pos:"60% top" },
+  { name:"Jax",          img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Jax_0.jpg",          pos:"57% 5%" },
+  { name:"Jayce",        img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Jayce_0.jpg",        pos:"60% 10%" },
+  { name:"Kayle",        img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Kayle_0.jpg",        pos:"60% top" },
+  { name:"Kennen",       img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Kennen_0.jpg",       pos:"57% 40%" },
+  { name:"Kled",         img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Kled_0.jpg",         pos:"52% top" },
+  { name:"K'Sante",      img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/KSante_0.jpg",       pos:"60% top" },
+  { name:"Lee Sin",      img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/LeeSin_0.jpg",       pos:"55% top" },
+  { name:"Malphite",     img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Malphite_0.jpg",     pos:"56% 55%" },
+  { name:"Maokai",       img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Maokai_0.jpg",       pos:"56% 30%" },
+  { name:"Master Yi",    img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/MasterYi_0.jpg",     pos:"54% 15%" },
+  { name:"Mordekaiser",  img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Mordekaiser_0.jpg",  pos:"55% top" },
+  { name:"Nasus",        img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Nasus_0.jpg",        pos:"56% top" },
+  { name:"Olaf",         img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Olaf_0.jpg",         pos:"57% 10%" },
+  { name:"Ornn",         img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Ornn_0.jpg",         pos:"55% 30%" },
+  { name:"Pantheon",     img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Pantheon_0.jpg",     pos:"55% 5%" },
+  { name:"Poppy",        img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Poppy_0.jpg",        pos:"61% 5%" },
+  { name:"Quinn",        img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Quinn_0.jpg",        pos:"57% 15%" },
+  { name:"Renekton",     img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Renekton_0.jpg",     pos:"56% 5%" },
+  { name:"Riven",        img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Riven_0.jpg",        pos:"60% top" },
+  { name:"Rumble",       img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Rumble_0.jpg",       pos:"58% 10%" },
+  { name:"Ryze",         img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Ryze_0.jpg",         pos:"60% 20%" },
+  { name:"Sett",         img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Sett_0.jpg",         pos:"54% top" },
+  { name:"Shen",         img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Shen_0.jpg",         pos:"60% top" },
+  { name:"Singed",       img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Singed_0.jpg",       pos:"57% top" },
+  { name:"Sion",         img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Sion_0.jpg",         pos:"60% top" },
+  { name:"Swain",        img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Swain_0.jpg",        pos:"62% top" },
+  { name:"Sylas",        img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Sylas_0.jpg",        pos:"55% 5%" },
+  { name:"Tahm Kench",   img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/TahmKench_0.jpg",    pos:"60% 25%" },
+  { name:"Teemo",        img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Teemo_0.jpg",        pos:"55% 60%" },
+  { name:"Trundle",      img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Trundle_0.jpg",      pos:"55% 15%" },
+  { name:"Tryndamere",   img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Tryndamere_0.jpg",   pos:"59% top" },
+  { name:"Udyr",         img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Udyr_0.jpg",         pos:"55% top" },
+  { name:"Varus",        img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Varus_0.jpg",        pos:"55% top" },
+  { name:"Vayne",        img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Vayne_0.jpg",        pos:"65% top" },
+  { name:"Vladimir",     img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Vladimir_0.jpg",     pos:"59% 5%" },
+  { name:"Volibear",     img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Volibear_0.jpg",     pos:"57% top" },
+  { name:"Warwick",      img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Warwick_0.jpg",      pos:"56% 35%" },
+  { name:"Yasuo",        img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Yasuo_0.jpg",        pos:"80% 30%" },
+  { name:"Yone",         img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Yone_0.jpg",         pos:"60% top" },
+  { name:"Yorick",       img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Yorick_0.jpg",       pos:"55% top" },
+  { name:"Zaahen",       img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Zaahen_0.jpg",       pos:"center top" },
+  { name:"Zac",          img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Zac_0.jpg",          pos:"55% center" },
+
+  // ── OFF-META (rôles normalement Mid/Jungle/ADC/Support, joués top occasionnellement) ──
+  { name:"Ahri", img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Ahri_0.jpg", pos:"center top", offMeta:true },
+  { name:"Akshan", img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Akshan_0.jpg", pos:"center top", offMeta:true },
+  { name:"Amumu", img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Amumu_0.jpg", pos:"center top", offMeta:true },
+  { name:"Annie", img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Annie_0.jpg", pos:"center top", offMeta:true },
+  { name:"Aphelios", img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Aphelios_0.jpg", pos:"center top", offMeta:true },
+  { name:"Ashe", img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Ashe_0.jpg", pos:"center top", offMeta:true },
+  { name:"Aurelion Sol", img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/AurelionSol_0.jpg", pos:"center top", offMeta:true },
+  { name:"Azir", img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Azir_0.jpg", pos:"center top", offMeta:true },
+  { name:"Bel'Veth", img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Belveth_0.jpg", pos:"center top", offMeta:true },
+  { name:"Brand", img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Brand_0.jpg", pos:"center top", offMeta:true },
+  { name:"Briar", img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Briar_0.jpg", pos:"center top", offMeta:true },
+  { name:"Caitlyn", img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Caitlyn_0.jpg", pos:"center top", offMeta:true },
+  { name:"Corki", img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Corki_0.jpg", pos:"center top", offMeta:true },
+  { name:"Diana", img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Diana_0.jpg", pos:"center top", offMeta:true },
+  { name:"Draven", img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Draven_0.jpg", pos:"center top", offMeta:true },
+  { name:"Ekko", img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Ekko_0.jpg", pos:"center top", offMeta:true },
+  { name:"Elise", img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Elise_0.jpg", pos:"center top", offMeta:true },
+  { name:"Evelynn", img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Evelynn_0.jpg", pos:"center top", offMeta:true },
+  { name:"Ezreal", img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Ezreal_0.jpg", pos:"center top", offMeta:true },
+  { name:"Fiddlesticks", img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Fiddlesticks_0.jpg", pos:"center top", offMeta:true },
+  { name:"Fizz", img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Fizz_0.jpg", pos:"center top", offMeta:true },
+  { name:"Galio", img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Galio_0.jpg", pos:"center top", offMeta:true },
+  { name:"Graves", img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Graves_0.jpg", pos:"center top", offMeta:true },
+  { name:"Hecarim", img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Hecarim_0.jpg", pos:"center top", offMeta:true },
+  { name:"Hwei", img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Hwei_0.jpg", pos:"center top", offMeta:true },
+  { name:"Ivern", img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Ivern_0.jpg", pos:"center top", offMeta:true },
+  { name:"Jarvan IV", img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/JarvanIV_0.jpg", pos:"center top", offMeta:true },
+  { name:"Jhin", img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Jhin_0.jpg", pos:"center top", offMeta:true },
+  { name:"Jinx", img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Jinx_0.jpg", pos:"center top", offMeta:true },
+  { name:"Kai'Sa", img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Kaisa_0.jpg", pos:"center top", offMeta:true },
+  { name:"Kalista", img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Kalista_0.jpg", pos:"center top", offMeta:true },
+  { name:"Karthus", img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Karthus_0.jpg", pos:"center top", offMeta:true },
+  { name:"Kassadin", img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Kassadin_0.jpg", pos:"center top", offMeta:true },
+  { name:"Katarina", img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Katarina_0.jpg", pos:"center top", offMeta:true },
+  { name:"Kayn", img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Kayn_0.jpg", pos:"center top", offMeta:true },
+  { name:"Kha'Zix", img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Khazix_0.jpg", pos:"center top", offMeta:true },
+  { name:"Kindred", img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Kindred_0.jpg", pos:"center top", offMeta:true },
+  { name:"Kog'Maw", img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/KogMaw_0.jpg", pos:"center top", offMeta:true },
+  { name:"LeBlanc", img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Leblanc_0.jpg", pos:"center top", offMeta:true },
+  { name:"Lillia", img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Lillia_0.jpg", pos:"center top", offMeta:true },
+  { name:"Lissandra", img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Lissandra_0.jpg", pos:"center top", offMeta:true },
+  { name:"Locke", img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Locke_0.jpg", pos:"center top", offMeta:true },
+  { name:"Lucian", img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Lucian_0.jpg", pos:"center top", offMeta:true },
+  { name:"Lux", img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Lux_0.jpg", pos:"center top", offMeta:true },
+  { name:"Malzahar", img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Malzahar_0.jpg", pos:"center top", offMeta:true },
+  { name:"Mel", img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Mel_0.jpg", pos:"center top", offMeta:true },
+  { name:"Miss Fortune", img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/MissFortune_0.jpg", pos:"center top", offMeta:true },
+  { name:"Morgana", img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Morgana_0.jpg", pos:"center top", offMeta:true },
+  { name:"Naafiri", img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Naafiri_0.jpg", pos:"center top", offMeta:true },
+  { name:"Nautilus", img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Nautilus_0.jpg", pos:"center top", offMeta:true },
+  { name:"Neeko", img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Neeko_0.jpg", pos:"center top", offMeta:true },
+  { name:"Nidalee", img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Nidalee_0.jpg", pos:"center top", offMeta:true },
+  { name:"Nilah", img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Nilah_0.jpg", pos:"center top", offMeta:true },
+  { name:"Nocturne", img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Nocturne_0.jpg", pos:"center top", offMeta:true },
+  { name:"Nunu & Willump", img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Nunu_0.jpg", pos:"center top", offMeta:true },
+  { name:"Orianna", img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Orianna_0.jpg", pos:"center top", offMeta:true },
+  { name:"Qiyana", img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Qiyana_0.jpg", pos:"center top", offMeta:true },
+  { name:"Rammus", img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Rammus_0.jpg", pos:"center top", offMeta:true },
+  { name:"Rek'Sai", img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/RekSai_0.jpg", pos:"center top", offMeta:true },
+  { name:"Rell", img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Rell_0.jpg", pos:"center top", offMeta:true },
+  { name:"Rengar", img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Rengar_0.jpg", pos:"center top", offMeta:true },
+  { name:"Samira", img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Samira_0.jpg", pos:"center top", offMeta:true },
+  { name:"Sejuani", img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Sejuani_0.jpg", pos:"center top", offMeta:true },
+  { name:"Senna", img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Senna_0.jpg", pos:"center top", offMeta:true },
+  { name:"Shaco", img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Shaco_0.jpg", pos:"center top", offMeta:true },
+  { name:"Shyvana", img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Shyvana_0.jpg", pos:"center top", offMeta:true },
+  { name:"Sivir", img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Sivir_0.jpg", pos:"center top", offMeta:true },
+  { name:"Skarner", img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Skarner_0.jpg", pos:"center top", offMeta:true },
+  { name:"Smolder", img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Smolder_0.jpg", pos:"center top", offMeta:true },
+  { name:"Syndra", img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Syndra_0.jpg", pos:"center top", offMeta:true },
+  { name:"Taliyah", img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Taliyah_0.jpg", pos:"center top", offMeta:true },
+  { name:"Talon", img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Talon_0.jpg", pos:"center top", offMeta:true },
+  { name:"Taric", img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Taric_0.jpg", pos:"center top", offMeta:true },
+  { name:"Tristana", img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Tristana_0.jpg", pos:"center top", offMeta:true },
+  { name:"Twisted Fate", img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/TwistedFate_0.jpg", pos:"center top", offMeta:true },
+  { name:"Twitch", img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Twitch_0.jpg", pos:"center top", offMeta:true },
+  { name:"Veigar", img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Veigar_0.jpg", pos:"center top", offMeta:true },
+  { name:"Vel'Koz", img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Velkoz_0.jpg", pos:"center top", offMeta:true },
+  { name:"Vex", img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Vex_0.jpg", pos:"center top", offMeta:true },
+  { name:"Vi", img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Vi_0.jpg", pos:"center top", offMeta:true },
+  { name:"Viego", img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Viego_0.jpg", pos:"center top", offMeta:true },
+  { name:"Viktor", img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Viktor_0.jpg", pos:"center top", offMeta:true },
+  { name:"Wukong", img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/MonkeyKing_0.jpg", pos:"center top", offMeta:true },
+  { name:"Xayah", img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Xayah_0.jpg", pos:"center top", offMeta:true },
+  { name:"Xerath", img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Xerath_0.jpg", pos:"center top", offMeta:true },
+  { name:"Xin Zhao", img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/XinZhao_0.jpg", pos:"center top", offMeta:true },
+  { name:"Yunara", img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Yunara_0.jpg", pos:"center top", offMeta:true },
+  { name:"Zed", img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Zed_0.jpg", pos:"center top", offMeta:true },
+  { name:"Zeri", img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Zeri_0.jpg", pos:"center top", offMeta:true },
+  { name:"Ziggs", img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Ziggs_0.jpg", pos:"center top", offMeta:true },
+  { name:"Zilean", img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Zilean_0.jpg", pos:"center top", offMeta:true },
+  { name:"Zoe", img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Zoe_0.jpg", pos:"center top", offMeta:true },
+  { name:"Zyra", img:"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Zyra_0.jpg", pos:"center top", offMeta:true },
+].sort(function(a,b){ return a.name.localeCompare(b.name); });
+
+function slugify(name) {
+  return name.toLowerCase().replace(/ & /g,"-").replace(/[^\w\s-]/g,"").replace(/\s+/g,"-").normalize("NFD").replace(/[\u0300-\u036f]/g,"");
+}
+
+var currentMode = "top"; // "top" ou "offmeta"
+
+function setRoleMode(mode) {
+  currentMode = mode;
+  document.getElementById("role-btn-top").classList.toggle("active", mode === "top");
+  document.getElementById("role-btn-offmeta").classList.toggle("active", mode === "offmeta");
+  renderGrid(document.getElementById("filter-input").value);
+}
+
+function renderGrid(filter) {
+  var grid  = document.getElementById("champ-grid");
+  var count = document.getElementById("filter-count");
+
+  var base;
+  if (filter) {
+    // La recherche texte traverse les deux modes — on cherche dans TOUS les champions
+    base = champions.filter(function(c){ return c.name.toLowerCase().includes(filter.toLowerCase()); });
+  } else {
+    // Sans recherche active, on filtre par mode courant
+    base = champions.filter(function(c){ return currentMode === "offmeta" ? !!c.offMeta : !c.offMeta; });
+  }
+
+  var filtered = base;
+  count.textContent = filtered.length + " champion" + (filtered.length > 1 ? "s" : "");
+  grid.innerHTML = "";
+  if (!filtered.length) {
+    grid.innerHTML = '<div class="no-results">No champion found</div>';
+    return;
+  }
+  filtered.forEach(function(champ, i) {
+    var score  = SCORES[champ.name] || 0;
+    var badge  = getBadge(score);
+    var url    = "matchup/" + slugify(champ.name) + ".html";
+
+    var a = document.createElement("a");
+    a.className = "champ-card";
+    a.href = url;
+    a.style.animationDelay = (i * 0.015) + "s";
+
+    // Background image
+    var img = document.createElement("img");
+    img.src = champ.img; img.alt = champ.name; img.loading = "lazy";
+    img.style.objectPosition = champ.pos;
+    img.onerror = function(){ this.src = "https://ddragon.leagueoflegends.com/cdn/img/champion/splash/" + champ.name.replace(/[^a-zA-Z]/g,"") + "_0.jpg"; };
+    var wrap = document.createElement("div");
+    wrap.className = "champ-img-wrap";
+    wrap.appendChild(img);
+
+    // Card content row
+    var content = document.createElement("div");
+    content.className = "card-content";
+
+    var nameEl = document.createElement("div");
+    nameEl.className = "champ-name";
+    nameEl.textContent = champ.name;
+
+    // Difficulty badge
+    var badgeEl = document.createElement("div");
+    badgeEl.className = "diff-badge";
+    badgeEl.style.setProperty("--badge-color", badge.color);
+    badgeEl.style.setProperty("--badge-bg", badge.bg);
+    badgeEl.innerHTML = badge.label + (score ? ' <span class="diff-score">' + score + '/10</span>' : '');
+
+    content.appendChild(nameEl);
+    content.appendChild(badgeEl);
+
+    a.appendChild(wrap);
+    a.appendChild(content);
+    grid.appendChild(a);
+  });
+}
+
+function filterChamps(){ renderGrid(document.getElementById("filter-input").value); }
+
+function navFilter() {
+  var val = document.getElementById("nav-search-input").value;
+  var navList = document.getElementById("nav-list");
+  var navDropdown = document.getElementById("nav-dropdown");
+  navList.innerHTML = "";
+  if (val.length < 1) { navDropdown.style.display = "none"; return; }
+  var filtered = champions.filter(function(c){ return c.name.toLowerCase().includes(val.toLowerCase()); });
+  navDropdown.style.display = filtered.length ? "block" : "none";
+  filtered.forEach(function(champ) {
+    var url = "matchup/" + slugify(champ.name) + ".html";
+    var a = document.createElement("a"); a.className = "nav-dropdown-item"; a.href = url;
+    var img = document.createElement("img"); img.src = champ.img; img.alt = champ.name;
+    img.style.objectPosition = champ.pos;
+    img.onerror = function(){ this.style.display="none"; };
+    a.appendChild(img);
+    var span = document.createElement("span"); span.textContent = champ.name;
+    a.appendChild(span);
+    navList.appendChild(a);
+  });
+}
+
+document.addEventListener("click", function(e) {
+  if (!e.target.closest(".nav-search")) document.getElementById("nav-dropdown").style.display = "none";
+});
+
+renderGrid("");
+</script>
+</body>
+</html>

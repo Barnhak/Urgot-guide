@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mechanics &amp; Tech — Urgot Guide</title>
+  <link rel="icon" type="image/png" href="https://ddragon.leagueoflegends.com/cdn/14.24.1/img/champion/Urgot.png"/>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Rajdhani:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --green:#4ADE80;--green-mid:#22C55E;--green-dark:#15803D;
+      --bg:#060D07;--bg-surface:#0B1A0D;--bg-card:#0F2211;
+      --border:#1A3D1E;--border-bright:#2D6A33;
+      --text:#A8D4A0;--text-dim:#4A7550;--text-bright:#E8F5E2;
+    }
+    html{scroll-behavior:smooth}
+    body{background:var(--bg);color:var(--text);font-family:'Rajdhani',sans-serif;font-size:16px;overflow-x:hidden;
+      background-image:radial-gradient(ellipse 80% 40% at 50% -5%,rgba(74,222,128,0.04) 0%,transparent 60%),
+      repeating-linear-gradient(0deg,transparent,transparent 49px,rgba(26,61,30,0.08) 50px),
+      repeating-linear-gradient(90deg,transparent,transparent 49px,rgba(26,61,30,0.08) 50px);}
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:1rem 2.5rem;background:rgba(6,13,7,0.95);backdrop-filter:blur(8px);border-bottom:1px solid var(--border)}
+    .nav-logo{font-family:'Cinzel',serif;font-size:14px;letter-spacing:0.2em;color:var(--green);text-decoration:none}
+    .nav-links{display:flex;gap:2rem;list-style:none;align-items:center}
+    .nav-links a{font-size:12px;letter-spacing:0.15em;text-transform:uppercase;color:var(--text-dim);text-decoration:none;transition:color 0.2s}
+    .nav-links a:hover,.nav-links a.active{color:var(--green)}
+    .nav-search{position:relative}
+    .nav-search input{background:rgba(15,34,17,0.8);border:1px solid var(--border-bright);border-radius:3px;color:var(--text-bright);font-family:'Rajdhani',sans-serif;font-size:12px;padding:5px 30px 5px 10px;width:180px;outline:none;transition:border-color 0.2s,width 0.3s}
+    .nav-search input:focus{border-color:var(--green-mid);width:220px}
+    .nav-search input::placeholder{color:var(--text-dim)}
+    .nav-search-icon{position:absolute;right:8px;top:50%;transform:translateY(-50%);font-size:11px;color:var(--green-mid);pointer-events:none}
+    .nav-dropdown{position:absolute;top:calc(100% + 6px);right:0;width:220px;background:var(--bg-card);border:1px solid var(--border-bright);border-radius:4px;max-height:280px;overflow-y:auto;display:none;box-shadow:0 8px 32px rgba(0,0,0,0.7);z-index:200}
+    .nav-dropdown h4{padding:7px 12px;font-family:'Cinzel',serif;font-size:8px;letter-spacing:0.25em;color:var(--text-dim);text-transform:uppercase;border-bottom:1px solid var(--border)}
+    .nav-dropdown-item{position:relative;display:block;padding:0;height:52px;overflow:hidden;border-bottom:1px solid rgba(26,61,30,0.3);text-decoration:none}
+    .nav-dropdown-item:last-child{border-bottom:none}
+    .nav-dropdown-item img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;display:block;filter:brightness(0.55) saturate(0.7);transition:filter 0.2s}
+    .nav-dropdown-item:hover img{filter:brightness(0.75) saturate(1)}
+    .nav-dropdown-item span{position:relative;z-index:1;display:flex;align-items:center;height:52px;padding:0 12px;font-size:13px;font-weight:600;color:var(--text-bright);text-shadow:0 1px 6px rgba(0,0,0,0.9);letter-spacing:0.05em;transition:color 0.2s}
+    .nav-dropdown-item:hover span{color:var(--green)}
+    .hero{position:relative;height:38vh;min-height:240px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+    .hero-bg{position:absolute;inset:0;background:url('https://barnhak.github.io/Urgot-guide/Urgot_0.png') center 20%/cover no-repeat;filter:brightness(0.22) saturate(0.5);animation:heroZoom 20s ease-in-out infinite alternate}
+    @keyframes heroZoom{from{transform:scale(1.03)}to{transform:scale(1.08)}}
+    .hero-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(6,13,7,0.4) 0%,rgba(6,13,7,0) 40%,rgba(6,13,7,0.85) 85%,var(--bg) 100%)}
+    .hero-content{position:relative;text-align:center;animation:fadeDown 0.7s ease both}
+    .hero-eyebrow{font-family:'Cinzel',serif;font-size:10px;letter-spacing:0.4em;color:var(--green-mid);text-transform:uppercase;margin-bottom:0.6rem;opacity:0.8}
+    .hero-title{font-family:'Cinzel',serif;font-size:clamp(28px,5vw,52px);font-weight:900;color:var(--text-bright);letter-spacing:0.08em;text-shadow:0 0 60px rgba(74,222,128,0.15),0 4px 20px rgba(0,0,0,0.9)}
+    .hero-title span{color:var(--green);text-shadow:0 0 30px rgba(74,222,128,0.4)}
+    .hero-sub{font-size:13px;letter-spacing:0.15em;color:var(--text-dim);text-transform:uppercase;margin-top:0.6rem}
+    .main{max-width:1050px;margin:0 auto;padding:3rem 1.5rem 6rem}
+    .section-divider{display:flex;align-items:center;gap:14px;margin:2.5rem 0 1.25rem}
+    .section-divider span{font-family:'Cinzel',serif;font-size:11px;letter-spacing:0.3em;text-transform:uppercase;color:var(--green);white-space:nowrap}
+    .section-divider::before,.section-divider::after{content:'';flex:1;height:1px;background:var(--border)}
+    .tech-table{width:100%;border-collapse:collapse;margin-bottom:2rem;animation:fadeUp 0.4s ease both}
+    .tech-table thead tr{background:var(--bg-card)}
+    .tech-table thead th{font-family:'Cinzel',serif;font-size:10px;letter-spacing:0.25em;text-transform:uppercase;color:var(--green-mid);padding:12px 16px;border:1px solid var(--border-bright);text-align:left}
+    .tech-table tbody tr{border:1px solid var(--border);transition:background 0.15s}
+    .tech-table tbody tr:hover{background:rgba(74,222,128,0.03)}
+    .tech-table tbody tr:nth-child(even){background:rgba(15,34,17,0.4)}
+    .tech-table tbody tr:nth-child(even):hover{background:rgba(74,222,128,0.05)}
+    .tech-table td{padding:14px 16px;border:1px solid var(--border);vertical-align:top;font-size:14px;line-height:1.65;color:var(--text)}
+    .td-name{font-family:'Cinzel',serif;font-size:13px;letter-spacing:0.1em;color:var(--green);font-weight:700;min-width:140px;white-space:nowrap}
+    .td-buttons{font-size:14px;font-weight:600;color:var(--text-bright);min-width:200px}
+    .btn-seq{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin-top:4px}
+    .btn-key{font-family:'Cinzel',serif;font-size:12px;background:var(--bg-card);border:1px solid var(--border-bright);border-radius:3px;padding:3px 9px;color:var(--green-mid);white-space:nowrap}
+    .btn-arrow{color:var(--text-dim);font-size:12px}
+    .td-notes{font-size:13px;line-height:1.7;color:var(--text);min-width:260px}
+    .td-notes p{margin-bottom:6px}
+    .td-notes p:last-child{margin-bottom:0}
+    .note-highlight{color:var(--green-mid);font-weight:600}
+    .note-warning{color:#E07070;font-weight:600}
+    .td-gif{min-width:120px;max-width:180px;text-align:center;vertical-align:middle}
+    .gif-wrap{border-radius:4px;overflow:hidden;border:1px solid var(--border);background:var(--bg-card)}
+    .gif-wrap img{width:100%;display:block}
+    .gif-placeholder{font-family:'Cinzel',serif;font-size:9px;letter-spacing:0.15em;color:var(--text-dim);text-transform:uppercase;padding:1.5rem 1rem;text-align:center}
+    .fund-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:14px;margin-bottom:2rem}
+    .fund-card{background:var(--bg-surface);border:1px solid var(--border);border-radius:4px;overflow:hidden;position:relative;transition:border-color 0.2s;animation:fadeUp 0.4s ease both}
+    .fund-card:hover{border-color:var(--border-bright)}
+    .fund-card::before{content:'';position:absolute;inset:0;border-radius:4px;border:1px solid transparent;background:linear-gradient(135deg,rgba(74,222,128,0.07),transparent 40%) border-box;-webkit-mask:linear-gradient(#fff 0 0) padding-box,linear-gradient(#fff 0 0);-webkit-mask-composite:destination-out;mask-composite:exclude;pointer-events:none}
+    .fund-inner{display:grid;grid-template-columns:1fr 130px;min-height:120px}
+    .fund-body-wrap{padding:1rem 1rem 1rem 1.1rem;border-right:1px solid var(--border)}
+    .fund-title{font-family:'Cinzel',serif;font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:var(--green);margin-bottom:8px}
+    .fund-body{font-size:13px;line-height:1.7;color:var(--text)}
+    .fund-body strong{color:var(--green-mid)}
+    .fund-list{padding-left:1rem;font-size:13px;line-height:1.75;color:var(--text);margin-top:6px}
+    .fund-list li{margin-bottom:3px}
+    .fund-media{display:flex;align-items:center;justify-content:center;background:var(--bg-card)}
+    .fund-media img{width:100%;height:100%;object-fit:cover;display:block}
+    .fund-gif-ph{font-family:'Cinzel',serif;font-size:9px;letter-spacing:0.15em;color:var(--text-dim);text-transform:uppercase;padding:1rem;text-align:center}
+    footer{border-top:1px solid var(--border);padding:2rem 1rem;text-align:center;font-size:11px;letter-spacing:0.1em;color:var(--text-dim)}
+    footer a{color:var(--green-dark);text-decoration:none;transition:color 0.2s}
+    footer a:hover{color:var(--green-mid)}
+    @keyframes fadeDown{from{opacity:0;transform:translateY(-12px)}to{opacity:1;transform:none}}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+    .ability-block{background:var(--bg-surface);border:1px solid var(--border);border-radius:4px;margin-bottom:14px;overflow:hidden;position:relative;animation:fadeUp 0.4s ease both}
+    .ability-block::before{content:'';position:absolute;inset:0;border-radius:4px;border:1px solid transparent;background:linear-gradient(135deg,rgba(74,222,128,0.06),transparent 40%) border-box;-webkit-mask:linear-gradient(#fff 0 0) padding-box,linear-gradient(#fff 0 0);-webkit-mask-composite:destination-out;mask-composite:exclude;pointer-events:none}
+    .ability-inner{display:grid;grid-template-columns:300px 1fr 1fr;gap:0}
+    @media(max-width:700px){.ability-inner{grid-template-columns:1fr}}
+    .ability-img{width:300px;aspect-ratio:4/3;overflow:hidden;flex-shrink:0}
+    .ability-img img{width:100%;height:100%;object-fit:cover;object-position:center;display:block}
+    @media(max-width:700px){.ability-img{width:100%;aspect-ratio:16/9}}
+    .ability-desc{padding:1.25rem 1.25rem 1.25rem 1.5rem;border-left:1px solid var(--border)}
+    .ability-use{padding:1.25rem 1.5rem;border-left:1px solid var(--border);background:rgba(74,222,128,0.03)}
+    @media(max-width:700px){.ability-desc,.ability-use{border-left:none;border-top:1px solid var(--border)}}
+    .ability-label{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+    .ability-key{font-family:'Cinzel',serif;font-size:10px;letter-spacing:0.15em;color:var(--text-dim);background:var(--bg-card);border:1px solid var(--border-bright);border-radius:3px;padding:2px 8px}
+    .ability-name{font-family:'Cinzel',serif;font-size:13px;letter-spacing:0.12em;color:var(--green)}
+    .ability-use-label{font-family:'Cinzel',serif;font-size:10px;letter-spacing:0.2em;color:var(--green-mid);text-transform:uppercase;margin-bottom:8px}
+    .ability-desc p,.ability-use p{font-size:14px;line-height:1.75;color:var(--text)}
+    .ability-use ol,.ability-use ul{padding-left:1.2rem;font-size:14px;line-height:1.8;color:var(--text)}
+    .ability-use li{margin-bottom:4px}
+    .spike-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-bottom:1.5rem}
+    .spike-card{background:var(--bg-card);border:1px solid var(--border);border-radius:4px;padding:1.25rem;position:relative;overflow:hidden;transition:border-color 0.2s}
+    .spike-card:hover{border-color:var(--border-bright)}
+    .spike-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--green-dark)}
+    .spike-number{font-family:'Cinzel',serif;font-size:28px;font-weight:900;color:var(--green);opacity:0.15;position:absolute;top:8px;right:14px}
+    .spike-lvl{font-family:'Cinzel',serif;font-size:10px;letter-spacing:0.2em;color:var(--green-mid);text-transform:uppercase;margin-bottom:6px}
+    .spike-title{font-size:14px;font-weight:600;color:var(--text-bright);margin-bottom:6px}
+    .spike-desc{font-size:13px;color:var(--text-dim);line-height:1.55}
+    .spell-block{background:var(--bg-surface);border:1px solid var(--border);border-radius:4px;padding:1.75rem 2rem;margin-bottom:14px;animation:fadeUp 0.4s ease both;position:relative}
+    .spell-max-order{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:1rem 0}
+    .spell-badge{font-family:'Cinzel',serif;font-size:11px;letter-spacing:0.12em;background:var(--bg-card);border:1px solid var(--border-bright);border-radius:3px;padding:4px 12px;color:var(--green-mid)}
+    .spell-arrow{color:var(--border-bright);font-size:14px}
+    .intro-block{background:var(--bg-surface);border:1px solid var(--border);border-radius:4px;padding:1.75rem 2rem;margin-bottom:1.5rem;position:relative;animation:fadeUp 0.4s ease both}
+    .intro-block::before{content:'';position:absolute;inset:0;border-radius:4px;border:1px solid transparent;background:linear-gradient(135deg,rgba(74,222,128,0.08),transparent 40%) border-box;-webkit-mask:linear-gradient(#fff 0 0) padding-box,linear-gradient(#fff 0 0);-webkit-mask-composite:destination-out;mask-composite:exclude;pointer-events:none}
+    .intro-block p{font-size:15px;line-height:1.8;color:var(--text)}
+    .intro-block strong{color:var(--green-mid);font-weight:600}
+    .intro-block a{color:var(--green);text-decoration:underline}
+    .panel-viewport{overflow:hidden;width:100%}
+    .panel-track{display:flex;width:200%;transition:transform 0.55s cubic-bezier(0.77,0,0.175,1)}
+    .panel-track.show-right{transform:translateX(-50%)}
+    .panel-page{width:50%;flex-shrink:0;min-width:0}
+    .page-toggle{position:fixed;bottom:2rem;right:2rem;z-index:200;display:flex;align-items:center;background:var(--bg-card);border:1px solid var(--border-bright);border-radius:50px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,0.6)}
+    .toggle-btn{font-family:'Cinzel',serif;font-size:11px;letter-spacing:0.15em;text-transform:uppercase;padding:10px 20px;border:none;background:transparent;color:var(--text-dim);cursor:pointer;transition:background 0.2s,color 0.2s;white-space:nowrap}
+    .toggle-btn.active{background:var(--green-dark);color:var(--text-bright)}
+    .toggle-btn:hover:not(.active){color:var(--green-mid)}
+    .toggle-sep{width:1px;background:var(--border-bright);height:20px;flex-shrink:0}
+    .ability-trigger{display:inline;background:rgba(74,222,128,0.1);border:1px solid var(--green-dark);border-radius:3px;padding:2px 8px;color:var(--green);cursor:pointer;font-weight:600;letter-spacing:0.04em;transition:background 0.2s,border-color 0.2s;user-select:none}
+    .ability-trigger:hover{background:rgba(74,222,128,0.18);border-color:var(--green-mid)}
+    .ability-dropdown{background:var(--bg-card);border:1px solid var(--border-bright);border-radius:4px;padding:1rem;animation:slideDown 0.3s ease}
+    .dropdown-header{font-family:'Cinzel',serif;font-size:10px;letter-spacing:0.2em;color:var(--green-mid);text-transform:uppercase;margin-bottom:0.75rem;font-weight:600}
+    .dropdown-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:0.75rem}
+    .dropdown-item{display:flex;align-items:center;justify-content:space-between;background:var(--bg-surface);border:1px solid var(--border);border-radius:3px;padding:0.5rem 0.75rem;font-size:13px;transition:background 0.15s,border-color 0.15s}
+    .dropdown-item:hover{background:rgba(74,222,128,0.08);border-color:var(--border-bright)}
+    .champ-name{color:var(--text-bright);font-weight:500}
+    .ability-name-small{font-family:'Cinzel',serif;font-size:9px;letter-spacing:0.1em;color:var(--green);background:var(--bg-card);padding:2px 6px;border-radius:2px}
+    @keyframes slideDown{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
+  </style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="index.html">Urgot Guide</a>
+  <ul class="nav-links">
+      <li><a href="mechanics.html">Mechanics</a></li>
+      <li><a href="matchup.html">Matchup</a></li>
+      <li><a href="synergies.html">Synergies</a></li>
+      <li><a href="build.html#build">Build Guide</a></li>
+      <li><a href="build.html#runes">Runes</a></li>
+      <li><a href="build.html#calculator">Calculator</a></li>
+      <li><a href="build.html#forge">Forge</a></li>
+    </ul>
+  <div class="nav-search">
+    <input type="text" id="nav-search-input" placeholder="Search champion..." oninput="navFilter()"/>
+    <span class="nav-search-icon">&#128269;</span>
+    <div class="nav-dropdown" id="nav-dropdown"><h4>Champions</h4><div id="nav-list"></div></div>
+  </div>
+</nav>
+
+<div class="page-toggle">
+  <button class="toggle-btn active" id="btn-mech" onclick="showPanel('mech')">Mechanics</button>
+  <div class="toggle-sep"></div>
+  <button class="toggle-btn" id="btn-tech" onclick="showPanel('tech')">Tech &amp; Combos</button>
+</div>
+
+<div class="panel-viewport">
+  <div class="panel-track" id="panel-track">
+
+    <!-- ══ PANEL GAUCHE : MECHANICS ══ -->
+    <div class="panel-page" id="panel-mech">
+      <section class="hero">
+        <div class="hero-bg"></div>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+          <p class="hero-eyebrow">Urgot Guide</p>
+          <h1 class="hero-title">Champion <span>Mechanics</span></h1>
+          <p class="hero-sub">Kit, power spikes &amp; spell maxing</p>
+        </div>
+      </section>
+      <div class="main">
+        <div class="intro-block">
+          <p>Urgot is the only ranged <strong>juggernaut</strong> in the game. He plays top and is a beast in both early and late game — huge damage output and a high health pool. On this page we go through the kit, how to play Urgot, some tricks and more.</p>
+          <p style="margin-top:10px">For more detail, visit the <a href="https://wiki.leagueoflegends.com/en-us/Urgot" target="_blank" rel="noopener">Urgot Wiki page ↗</a></p>
+        </div>
+
+        <div class="section-divider"><span>✦ The Kit</span></div>
+
+        <div class="ability-block" style="animation-delay:0.05s">
+          <div class="ability-inner">
+            <div class="ability-img"><img src="/Urgot-guide/gif/p.gif" alt="Urgot Passive"/></div>
+            <div class="ability-desc">
+              <div class="ability-label"><span class="ability-key">Passive</span><span class="ability-name">Echoing Flame</span></div>
+              <p>Each Urgot leg has a shotgun covering a 60° angle. Auto attacks cause the shotgun to shoot in a cone dealing AD damage scaling with Urgot's base level AD and enemy max HP. Cooldown from 30s early to 2.5s late, per leg.</p>
+            </div>
+            <div class="ability-use">
+              <div class="ability-use-label">How to use</div>
+              <p>Play around your legs and save them to poke your opponent. If enemies are CC'd, rotate around them to apply max damage. While farming, proc a leg that won't affect the wave and use that same leg to last hit minions.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="ability-block" style="animation-delay:0.08s">
+          <div class="ability-inner">
+            <div class="ability-img"><img src="/Urgot-guide/gif/q.gif" alt="Urgot Q"/></div>
+            <div class="ability-desc">
+              <div class="ability-label"><span class="ability-key">Q</span><span class="ability-name">Corrosive Charge</span></div>
+              <p>Urgot launches a missile which explodes after 0.3s and slows the target for 1.5s.</p>
+            </div>
+            <div class="ability-use">
+              <div class="ability-use-label">How to use</div>
+              <ol>
+                <li>Poke the opponent to lower their HP then all in. Q and proc PTA then disengage.</li>
+                <li>Slow the opponent to engage or disengage.</li>
+                <li>Farm from a safe distance.</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+
+        <div class="ability-block" style="animation-delay:0.11s">
+          <div class="ability-inner">
+            <div class="ability-img"><img src="/Urgot-guide/gif/w.gif" alt="Urgot W"/></div>
+            <div class="ability-desc">
+              <div class="ability-label"><span class="ability-key">W</span><span class="ability-name">Purge</span></div>
+              <p>Purge puts Urgot in a state where he can't auto but fires at the nearest target at 3 attacks per second. Other spells mark champions — Purge focuses them instead of nearest enemy. While in Purge, Urgot ignores minion collision and is slowed by 125 points. At max rank 0 mana cost and no CD.</p>
+            </div>
+            <div class="ability-use">
+              <div class="ability-use-label">How to use</div>
+              <p>Used to farm with high DPS or after marking a target to deal huge damage with PTA. Don't grid too much due to the slow — some champions will turn you (Lethal Tempo, Conqueror users).</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="ability-block" style="animation-delay:0.14s">
+          <div class="ability-inner">
+            <div class="ability-img"><img src="/Urgot-guide/gif/e.gif" alt="Urgot E"/></div>
+            <div class="ability-desc">
+              <div class="ability-label"><span class="ability-key">E</span><span class="ability-name">Disdain</span></div>
+              <p>Urgot shields himself and dashes forward. The first target hit is bumped and thrown behind Urgot then CC'd for 1s. For the next 1.75s Urgot can do nothing.</p>
+            </div>
+            <div class="ability-use">
+              <div class="ability-use-label">How to use</div>
+              <p>Key spell for killing your opponent. Learn the dash range and use Q to gap close before dashing. Use it level 1 to trade even if you miss — the shield is strong at level 1.</p>
+              <p style="margin-top:8px">If you hit your E you can buffer Q or R (even both) to assure they land.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="ability-block" style="animation-delay:0.17s">
+          <div class="ability-inner">
+            <div class="ability-img"><img src="/Urgot-guide/gif/r.gif" alt="Urgot R"/></div>
+            <div class="ability-desc">
+              <div class="ability-label"><span class="ability-key">R</span><span class="ability-name">Fear Beyond Death</span></div>
+              <p>Urgot fires a drill dealing Physical damage to the first target hit. Target is marked for 4 seconds, revealed and slowed 0–75% based on missing health. If target gets under 25% max HP, Urgot chains and drags them for 1.5s and executes them, fearing nearby enemies and slowing 75% for 1.5s.</p>
+            </div>
+            <div class="ability-use">
+              <div class="ability-use-label">How to use</div>
+              <p>Key spell in teamfight — the fear has huge impact. Try using E before R. If opponent is tanky, the 4s timer may be too short — hold R until you can kill them in that window.</p>
+              <p style="margin-top:1rem"><span class="ability-trigger" onclick="toggleAbilityDropdown(event)">Abilities that cancel the pull / execute ▼</span>
+              <div class="ability-dropdown" id="ability-dropdown" style="display:none;margin-top:0.75rem">
+                <div class="dropdown-header">Cancel the pull (R2)</div>
+                <div class="dropdown-list">
+                  <div class="dropdown-item"><span class="champ-name">Gangplank</span><span class="ability-name-small">W</span></div>
+                  <div class="dropdown-item"><span class="champ-name">Sion</span><span class="ability-name-small">R</span></div>
+                  <div class="dropdown-item"><span class="champ-name">Braum</span><span class="ability-name-small">E</span></div>
+                  <div class="dropdown-item"><span class="champ-name">Milio</span><span class="ability-name-small">R</span></div>
+                  <div class="dropdown-item"><span class="champ-name">Samira</span><span class="ability-name-small">W</span></div>
+                  <div class="dropdown-item"><span class="champ-name">Yasuo</span><span class="ability-name-small">W</span></div>
+                  <div class="dropdown-item"><span class="champ-name">Olaf</span><span class="ability-name-small">R</span></div>
+                  <div class="dropdown-item"><span class="champ-name">Zaahen</span><span class="ability-name-small">R</span></div>
+                  <div class="dropdown-item"><span class="champ-name">Rek'Sai</span><span class="ability-name-small">R</span></div>
+                  <div class="dropdown-item"><span class="champ-name">Pantheon</span><span class="ability-name-small">E</span></div>
+                  <div class="dropdown-item"><span class="champ-name">Master Yi</span><span class="ability-name-small">Q</span></div>
+                  <div class="dropdown-item"><span class="champ-name">Gwen</span><span class="ability-name-small">W</span></div>
+                  <div class="dropdown-item"><span class="champ-name">Fiora</span><span class="ability-name-small">W</span></div>
+                  <div class="dropdown-item"><span class="champ-name">Elise</span><span class="ability-name-small">E</span></div>
+                  <div class="dropdown-item"><span class="champ-name">Dr. Mundo</span><span class="ability-name-small">Passive</span></div>
+                  <div class="dropdown-item"><span class="champ-name">Aurora</span><span class="ability-name-small">R travel</span></div>
+                  <div class="dropdown-item"><span class="champ-name">Vladimir</span><span class="ability-name-small">W</span></div>
+                  <div class="dropdown-item"><span class="champ-name">Udyr</span><span class="ability-name-small">Empowered E</span></div>
+                </div>
+                <div style="margin-top:1rem;border-top:1px solid var(--border);padding-top:1rem">
+                  <div class="dropdown-header">Cancel only the execute</div>
+                  <div class="dropdown-list">
+                    <div class="dropdown-item"><span class="champ-name">Kayle</span><span class="ability-name-small">R</span></div>
+                    <div class="dropdown-item"><span class="champ-name">Tryndamere</span><span class="ability-name-small">R</span></div>
+                  </div>
+                </div>
+              </div></p>
+            </div>
+          </div>
+        </div>
+
+        <div class="section-divider" style="margin-top:3rem"><span>✦ Power Spikes</span></div>
+        <div class="spike-grid">
+          <div class="spike-card"><div class="spike-number">1</div><div class="spike-lvl">Level 9</div><div class="spike-title">W Toggle + Black Cleaver</div><div class="spike-desc">At level 9 you unlock the toggle of W and usually complete Black Cleaver. Your first and biggest power spike — you become extremely dangerous.</div></div>
+          <div class="spike-card"><div class="spike-number">2</div><div class="spike-lvl">After Level 9</div><div class="spike-title">Sterak's Gage</div><div class="spike-desc">Sterak makes you really tanky and allows you to pull R more consistently in close matchups or teamfights. Your defensive cornerstone.</div></div>
+          <div class="spike-card"><div class="spike-number">3</div><div class="spike-lvl">Level 13 / 16</div><div class="spike-title">Late Game Passive</div><div class="spike-desc">At level 13 your passive reaches its lower cooldown (2.5s per leg) and at level 16 it deals more damage than ever — 100% base AD + 6% target max HP.</div></div>
+        </div>
+
+        <div class="section-divider"><span>✦ Spell Maxing</span></div>
+        <div class="spell-block">
+          <p style="font-size:14px;color:var(--text);line-height:1.75;margin-bottom:1rem"><strong style="color:var(--green-mid)">Level 1</strong> — depends on opponent. High range like Teemo, Vayne or Jayce → start Q if they don't facecheck your bush. Otherwise start E.</p>
+          <p style="font-size:14px;color:var(--text);line-height:1.75;margin-bottom:1rem"><strong style="color:var(--green-mid)">Level 2</strong> — If you started Q always take E after. Else take Q or W depending on situation. If you need to push or can kill/dive with E Flash, or want to trade with a stable wave → take W. If target is low due to a hard trade level 1 → take Q to apply pressure.</p>
+          <p style="font-size:14px;color:var(--text);line-height:1.75;margin-bottom:1.5rem">Goal is to <strong style="color:var(--green-mid)">max W at level 9</strong>. Triple Tonic: 3 in Q, 5 in W, 1 in E, 1 in R. Else 2 in Q, 5 in W, 1 in E, 1 in R. Max Q after W. Max E last.</p>
+          <div style="font-family:'Cinzel',serif;font-size:9px;letter-spacing:0.2em;color:var(--text-dim);text-transform:uppercase;margin-bottom:8px">Standard max order</div>
+          <div class="spell-max-order">
+            <span class="spell-badge">E × 1</span><span class="spell-arrow">→</span>
+            <span class="spell-badge">Q or W × 1</span><span class="spell-arrow">→</span>
+            <span class="spell-badge">Other × 1</span><span class="spell-arrow">→</span>
+            <span class="spell-badge">Q × 1 (2 with tonic)</span><span class="spell-arrow">→</span>
+            <span class="spell-badge">W × 4</span><span class="spell-arrow">→</span>
+            <span class="spell-badge">Q × max</span><span class="spell-arrow">→</span>
+            <span class="spell-badge">E × max</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ PANEL DROIT : TECH & COMBOS ══ -->
+    <div class="panel-page" id="panel-tech">
+      <section class="hero">
+        <div class="hero-bg"></div>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+          <p class="hero-eyebrow">Urgot Guide</p>
+          <h1 class="hero-title">Tech <span>&amp;</span> Combos</h1>
+          <p class="hero-sub">Advanced mechanics, combos &amp; wave management</p>
+        </div>
+      </section>
+      <div class="main">
+
+        <div class="section-divider"><span>✦ Combos</span></div>
+        <table class="tech-table">
+          <thead><tr><th>Combo</th><th>Input</th><th>Notes</th><th>GIF</th></tr></thead>
+          <tbody>
+            <tr>
+              <td class="td-name">Short Trade</td>
+              <td class="td-buttons">
+                <div class="btn-seq"><span class="btn-key">Q</span><span class="btn-arrow">→</span><span class="btn-key">Auto + 2W</span><span class="btn-arrow">→</span><span class="btn-key">Auto</span><span class="btn-arrow">→</span><span class="btn-key">Disengage</span></div>
+                <div style="font-size:12px;color:var(--text-dim);margin-top:5px">proc PTA — turn off W → auto as they exit range</div>
+              </td>
+              <td class="td-notes">
+                <p>Urgot's bread and butter short trade. Lead and end with an auto for max DPS.</p>
+                <p>The number of W ticks depends on trade length. To disengage fast: Auto → 2W PTA → disengage.</p>
+              </td>
+              <td class="td-gif"><div class="gif-wrap"><div class="gif-placeholder">GIF</div></div></td>
+            </tr>
+            <tr>
+              <td class="td-name">Even Shorter Trade</td>
+              <td class="td-buttons"><div class="btn-seq"><span class="btn-key">Q</span><span class="btn-arrow">→</span><span class="btn-key">Auto with Leg up</span></div></td>
+              <td class="td-notes">
+                <p>Useful vs champs you can't stay in range of (e.g. Sett because he can E you).</p>
+                <p><span class="note-highlight">UNLESS VS SQUISHY RANGED, always combo Q + Auto + Leg.</span> Q'ing for Q damage alone will make you run OOM vs sustain champs.</p>
+              </td>
+              <td class="td-gif"><div class="gif-wrap"><div class="gif-placeholder">GIF</div></div></td>
+            </tr>
+            <tr>
+              <td class="td-name">E Trade</td>
+              <td class="td-buttons"><div class="btn-seq"><span class="btn-key">Q</span><span class="btn-arrow">→</span><span class="btn-key">E</span><span class="btn-arrow">→</span><span class="btn-key">W</span></div></td>
+              <td class="td-notes">
+                <p>Use Q slow to land E more reliably.</p>
+                <p><span class="note-highlight">Turn on W during the E animation — it hits the front leg during the flip.</span></p>
+              </td>
+              <td class="td-gif"><div class="gif-wrap"><div class="gif-placeholder">GIF</div></div></td>
+            </tr>
+            <tr>
+              <td class="td-name">Max DPS All In</td>
+              <td class="td-buttons">
+                <div class="btn-seq"><span class="btn-key">E + Flash</span><span class="btn-arrow">→</span><span class="btn-key">R</span><span class="btn-arrow">→</span><span class="btn-key">Q</span><span class="btn-arrow">→</span><span class="btn-key">Auto</span><span class="btn-arrow">→</span><span class="btn-key">W on</span></div>
+                <div style="font-size:12px;color:var(--text-dim);margin-top:5px">W on during E + Flash</div>
+              </td>
+              <td class="td-notes">
+                <p>Q before R if short flip and no Tenacity — otherwise R before Q in case they Flash.</p>
+                <p>Skip auto if they're low enough to die to R alone.</p>
+                <p><span class="note-highlight">Weaving in the auto really increases burst!</span></p>
+              </td>
+              <td class="td-gif"><div class="gif-wrap"><div class="gif-placeholder">GIF</div></div></td>
+            </tr>
+            <tr>
+              <td class="td-name">Faster Burst All In</td>
+              <td class="td-buttons"><div class="btn-seq"><span class="btn-key">E</span><span class="btn-arrow">→</span><span class="btn-key">W</span><span class="btn-arrow">→</span><span class="btn-key">Flash</span><span class="btn-arrow">→</span><span class="btn-key">Q</span><span class="btn-arrow">→</span><span class="btn-key">R</span></div></td>
+              <td class="td-notes">
+                <p>Can lead off with Q here too.</p>
+                <p>Turning W on during E animation procs the front leg for faster burst — but you lose the extra auto DPS.</p>
+              </td>
+              <td class="td-gif"><div class="gif-wrap"><div class="gif-placeholder">GIF</div></div></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="section-divider"><span>✦ Mechanics</span></div>
+        <table class="tech-table">
+          <thead><tr><th>Mechanic</th><th>How to do it</th><th>Notes</th><th>GIF</th></tr></thead>
+          <tbody>
+            <tr>
+              <td class="td-name">W Toggle</td>
+              <td class="td-buttons">
+                <div class="btn-seq"><span class="btn-key">3W ticks</span><span class="btn-arrow">→</span><span class="btn-key">W off</span><span class="btn-arrow">→</span><span class="btn-key">Auto</span></div>
+                <div class="btn-seq" style="margin-top:4px"><span class="btn-arrow">→</span><span class="btn-key">W on</span><span class="btn-arrow">→</span><span class="btn-key">3W ticks</span><span class="btn-arrow">→</span><span class="btn-key">repeat</span></div>
+              </td>
+              <td class="td-notes">
+                <p><span class="note-highlight">Mandatory mechanic to learn.</span> Unlocks properly at level 9 when W is fully maxed.</p>
+                <p>Increases DPS and tower-taking speed at level 9 by ~35%.</p>
+                <p>Practice on dummies or towers. <span class="note-highlight">Use the SOUND CUE to nail the timing.</span></p>
+              </td>
+              <td class="td-gif"><div class="gif-wrap"><div class="gif-placeholder">GIF</div></div></td>
+            </tr>
+            <tr>
+              <td class="td-name">Short vs Long E</td>
+              <td class="td-buttons">E distance matters<br/><span style="font-size:12px;color:var(--text-dim)">Point blank → halfway = "short"</span></td>
+              <td class="td-notes">
+                <p>A <span class="note-highlight">"short" E</span> gives you time to E → Q → R instantly.</p>
+                <p>A <span class="note-warning">"long" E</span>, especially vs Tenacity, leaves no time to Q — go E → R only, or they Flash/dash your R away.</p>
+              </td>
+              <td class="td-gif"><div class="gif-wrap"><div class="gif-placeholder">GIF</div></div></td>
+            </tr>
+            <tr>
+              <td class="td-name">E Buffer vs CC</td>
+              <td class="td-buttons">Cast E during the <span class="note-highlight">"leaning back"</span> animation while CC lands</td>
+              <td class="td-notes">
+                <p>The E buffer separates good Urgots from great ones.</p>
+                <p><span class="note-highlight">Urgot can only buffer CC during the "winding up" part of E cast.</span> Once dashing forward, CC cancels it.</p>
+                <p><span class="note-warning">Ambessa R, Skarner R and Bard R can never be E buffered.</span></p>
+              </td>
+              <td class="td-gif"><div class="gif-wrap"><div class="gif-placeholder">GIF</div></div></td>
+            </tr>
+            <tr>
+              <td class="td-name">Mana Bug<br/><span style="font-size:11px;color:var(--text-dim)">Free W cast</span></td>
+              <td class="td-buttons">
+                <div class="btn-seq"><span class="btn-key">Q → W</span></div>
+                <div class="btn-seq" style="margin-top:5px"><span class="btn-key">E → W</span></div>
+                <div class="btn-seq" style="margin-top:5px"><span class="btn-key">R → W</span><span style="font-size:12px;color:var(--text-dim)">(very fast)</span></div>
+              </td>
+              <td class="td-notes">
+                <p><span class="note-highlight">If you only have mana for Q or E but not W, this lets you cast W for free.</span></p>
+                <p>Very useful early after a kill when low on mana — shove the wave before it freezes.</p>
+              </td>
+              <td class="td-gif"><div class="gif-wrap"><div class="gif-placeholder">GIF</div></div></td>
+            </tr>
+            <tr>
+              <td class="td-name">Auto Flash<br/><span style="font-size:11px;color:var(--text-dim)">Redirect Passive Leg</span></td>
+              <td class="td-buttons">
+                <div class="btn-seq"><span class="btn-key">Auto</span><span class="btn-arrow">+</span><span class="btn-key">Flash</span><span style="font-size:12px;color:var(--text-dim)">toward a leg</span></div>
+              </td>
+              <td class="td-notes">
+                <p>Very useful for kills when the enemy is ready to react to standard Flash + Auto.</p>
+                <p>They won't expect passive leg damage from a side they think isn't facing them.</p>
+              </td>
+              <td class="td-gif"><div class="gif-wrap"><div class="gif-placeholder">GIF</div></div></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- ═══════════════ WAVE MANAGEMENT ═══════════════ -->
+        <div class="section-divider"><span>✦ Wave Management</span></div>
+
+        <div class="intro-block" style="margin-bottom:1.5rem">
+          <p>Urgot got one of the hardest wave management of all toplane. His <strong>Legs</strong> make it really hard to not wipe waves with two auto and here's how do get your wave in order</p>
+        </div>
+
+        <div class="fund-grid">
+          <div class="fund-card">
+            <div class="fund-inner">
+              <div class="fund-body-wrap">
+                <div class="fund-title">Freeze</div>
+                <div class="fund-body">Keep <strong>3-4 more minions</strong> than the enemy in front of your tower. The enemy has to walk into your range to farm.
+                  <ul class="fund-list">
+                    <li>After winning a trade, summon-down or kill the enemy</li>
+                    <li>Your passive legs can break the freeze — anticipate their direction</li>
+                    <li>Your Q range lets you CS safely while you zone</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="fund-media"><div class="fund-gif-ph">FREEZE</div></div>
+            </div>
+          </div>
+
+          <div class="fund-card">
+            <div class="fund-inner">
+              <div class="fund-body-wrap">
+                <div class="fund-title">Slow Push</div>
+                <div class="fund-body">Only kill the melees, let the casters pile up. The wave grows and crashes the enemy tower fast.
+                  <ul class="fund-list">
+                    <li>Ideal setup before a dive or a jungler roam</li>
+                    <li>Crash with W toggle → reset → come back with an item lead</li>
+                    <li>Your W clears cannons in 2-3 seconds</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="fund-media"><div class="fund-gif-ph">SLOW PUSH</div></div>
+            </div>
+          </div>
+
+          <div class="fund-card">
+            <div class="fund-inner">
+              <div class="fund-body-wrap">
+                <div class="fund-title">Fast Push</div>
+                <div class="fund-body">W toggle + passive legs = wave cleared in seconds. Punishes enemy TPs and generates item leads.
+                  <ul class="fund-list">
+                    <li>Crash then go back to base — return with an item lead</li>
+                    <li>Best against splitpushers — crash and regroup</li>
+                    <li>Freezing is often still more profitable if you're winning lane</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="fund-media"><div class="fund-gif-ph">FAST PUSH</div></div>
+            </div>
+          </div>
+
+          <div class="fund-card">
+            <div class="fund-inner">
+              <div class="fund-body-wrap">
+                <div class="fund-title">Level 1 — Going Behind</div>
+                <div class="fund-body">Hide in your bush and wait for the enemy to walk up so you can <strong>hit them from behind</strong> with your legs.
+                  <ul class="fund-list">
+                    <li>Facecheck on your bush = free kill at level 2</li>
+                    <li>Chunking 30-40% HP at level 1 makes the enemy play defensively the whole lane</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="fund-media"><div class="fund-gif-ph">LVL 1</div></div>
+            </div>
+          </div>
+
+          <div class="fund-card">
+            <div class="fund-inner">
+              <div class="fund-body-wrap">
+                <div class="fund-title">Crash + Dive Setup</div>
+                <div class="fund-body">Crash a big wave under the enemy tower — their tower aggroes the minions — you dive while that happens.
+                  <ul class="fund-list">
+                    <li>Slow push → crash → JGL arrives = dive almost guaranteed</li>
+                    <li>E Flash + R under tower = direct execute</li>
+                    <li>Your E shield absorbs tower shots during the dive</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="fund-media"><div class="fund-gif-ph">DIVE</div></div>
+            </div>
+          </div>
+
+          <div class="fund-card">
+            <div class="fund-inner">
+              <div class="fund-body-wrap">
+                <div class="fund-title">Passive Legs — Watch Out</div>
+                <div class="fund-body">Your cone shotguns hit minions too. While freezing, a misplaced leg pushes the wave and breaks everything.
+                  <ul class="fund-list">
+                    <li>Freezing: aim your legs toward the enemy minions</li>
+                    <li>Farming: proc legs on minions you're about to last-hit</li>
+                    <li>Trading: step back so your legs hit the enemy, not the wave</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="fund-media"><div class="fund-gif-ph">JAMBES</div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="spell-block" id="cs-calculator">
+          <div style="font-family:'Cinzel',serif;font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:var(--green);margin-bottom:1.25rem">Max Theoretical CS Calculator</div>
+          <p style="font-size:13px;color:var(--text-dim);line-height:1.6;margin-bottom:1.5rem">Find out how many minions you can afford to miss for a given CS/min goal at any point in the game.</p>
+
+          <div style="display:flex;align-items:center;gap:14px;margin-bottom:1.25rem">
+            <label style="font-size:13px;color:var(--text-dim);min-width:100px">Game time</label>
+            <input type="range" min="1" max="40" value="10" step="1" id="csc-minute" style="flex:1;accent-color:var(--green-mid)"/>
+            <span style="font-family:'Cinzel',serif;font-size:13px;color:var(--green-mid);min-width:48px;text-align:right" id="csc-minute-out">10:00</span>
+          </div>
+
+          <div style="display:flex;align-items:center;gap:14px;margin-bottom:1.25rem">
+            <label style="font-size:13px;color:var(--text-dim);min-width:100px">Lane</label>
+            <select id="csc-lane" style="flex:1;background:var(--bg-card);border:1px solid var(--border-bright);border-radius:3px;color:var(--text-bright);font-family:'Rajdhani',sans-serif;font-size:13px;padding:6px 10px">
+              <option value="side" selected>Top / Bot (32s travel)</option>
+              <option value="mid">Mid (22s travel)</option>
+            </select>
+          </div>
+
+          <div style="display:flex;align-items:center;gap:14px;margin-bottom:1.75rem">
+            <label style="font-size:13px;color:var(--text-dim);min-width:100px">Goal</label>
+            <input type="range" min="5" max="11" value="10" step="0.5" id="csc-cspm" style="flex:1;accent-color:var(--green-mid)"/>
+            <span style="font-family:'Cinzel',serif;font-size:13px;color:var(--green-mid);min-width:78px;text-align:right" id="csc-cspm-out">10 cs/min</span>
+          </div>
+
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
+            <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:4px;padding:0.9rem">
+              <div style="font-size:11px;color:var(--text-dim);margin-bottom:4px">Max theoretical CS</div>
+              <div style="font-family:'Cinzel',serif;font-size:22px;color:var(--text-bright)" id="csc-max-out">114</div>
+            </div>
+            <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:4px;padding:0.9rem">
+              <div style="font-size:11px;color:var(--text-dim);margin-bottom:4px">Goal CS</div>
+              <div style="font-family:'Cinzel',serif;font-size:22px;color:var(--text-bright)" id="csc-goal-out">100</div>
+            </div>
+            <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:4px;padding:0.9rem">
+              <div style="font-size:11px;color:var(--text-dim);margin-bottom:4px">Room for error</div>
+              <div style="font-family:'Cinzel',serif;font-size:22px;color:var(--green-mid)" id="csc-margin-out">14 minions</div>
+            </div>
+          </div>
+
+          <p style="font-size:11px;color:var(--text-dim);line-height:1.6;margin-top:1rem">Based on current spawn rules (first waves at 0:30, frequency steps at 14:00 and 30:00, siege minions at 1:30 then every 3/2/1 waves). Counts each minion from the moment it becomes reachable in lane, i.e. spawn time + travel time.</p>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<footer>
+  Not affiliated with Riot Games &nbsp;·&nbsp;
+  <a href="https://www.twitch.tv/quante" target="_blank" rel="noopener">Quante — Twitch ↗</a>
+  &nbsp;·&nbsp;
+  <a href="https://x.com/quantelol" target="_blank" rel="noopener">Quante — Twitter ↗</a>
+  &nbsp;·&nbsp;
+  <a href="feedback.html" style="color:var(--green-dark);text-decoration:none;transition:color 0.2s">Send Feedback ↗</a>
+</footer>
+
+<script>
+function toggleAbilityDropdown(e) {
+  e.stopPropagation();
+  var dropdown = document.getElementById('ability-dropdown');
+  var isOpen = dropdown.style.display === 'block';
+  dropdown.style.display = isOpen ? 'none' : 'block';
+  e.target.textContent = isOpen ? 'Abilities that cancel the pull / execute ▼' : 'Abilities that cancel the pull / execute ▲';
+}
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('.ability-use')) {
+    var d = document.getElementById('ability-dropdown');
+    if (d) d.style.display = 'none';
+  }
+});
+
+function showPanel(panel) {
+  var track = document.getElementById('panel-track');
+  var btnMech = document.getElementById('btn-mech');
+  var btnTech = document.getElementById('btn-tech');
+  if (panel === 'tech') {
+    track.classList.add('show-right');
+    btnMech.classList.remove('active'); btnTech.classList.add('active');
+    window.scrollTo({top:0, behavior:'smooth'});
+    history.replaceState(null, '', '#tech');
+  } else {
+    track.classList.remove('show-right');
+    btnTech.classList.remove('active'); btnMech.classList.add('active');
+    window.scrollTo({top:0, behavior:'smooth'});
+    history.replaceState(null, '', '#mechanics');
+  }
+}
+(function(){ if (window.location.hash === '#tech') showPanel('tech'); })();
+
+var champNames=['Aatrox','Akali','Ambessa','Anivia','Aurora','Camille','Cassiopeia',"Cho'Gath",'Darius','Dr. Mundo','Fiora','Gangplank','Garen','Gnar','Gragas','Gwen','Heimerdinger','Illaoi','Irelia','Jax','Jayce','Kayle','Kennen','Kled',"K'Sante",'Lee Sin','Malphite','Maokai','Master Yi','Mordekaiser','Nasus','Olaf','Ornn','Pantheon','Poppy','Quinn','Renekton','Riven','Rumble','Ryze','Sett','Shen','Singed','Sion','Swain','Sylas','Tahm Kench','Teemo','Trundle','Tryndamere','Udyr','Varus','Vayne','Vladimir','Volibear','Warwick','Yasuo','Yone','Yorick','Zaahen','Zac'];
+var SPLASH_KEYS={'Aatrox':'Aatrox_0','Akali':'Akali_0','Ambessa':'Ambessa_0','Anivia':'Anivia_0','Aurora':'Aurora_0','Camille':'Camille_0','Cassiopeia':'Cassiopeia_0',"Cho'Gath":'Chogath_0','Darius':'Darius_0','Dr. Mundo':'DrMundo_0','Fiora':'Fiora_0','Gangplank':'Gangplank_0','Garen':'Garen_0','Gnar':'Gnar_0','Gragas':'Gragas_0','Gwen':'Gwen_0','Heimerdinger':'Heimerdinger_0','Illaoi':'Illaoi_0','Irelia':'Irelia_0','Jax':'Jax_0','Jayce':'Jayce_0','Kayle':'Kayle_0','Kennen':'Kennen_0','Kled':'Kled_0',"K'Sante":'KSante_0','Lee Sin':'LeeSin_0','Malphite':'Malphite_0','Maokai':'Maokai_0','Master Yi':'MasterYi_0','Mordekaiser':'Mordekaiser_0','Nasus':'Nasus_0','Olaf':'Olaf_0','Ornn':'Ornn_0','Pantheon':'Pantheon_0','Poppy':'Poppy_0','Quinn':'Quinn_0','Renekton':'Renekton_0','Riven':'Riven_0','Rumble':'Rumble_0','Ryze':'Ryze_0','Sett':'Sett_0','Shen':'Shen_0','Singed':'Singed_0','Sion':'Sion_0','Swain':'Swain_0','Sylas':'Sylas_0','Tahm Kench':'TahmKench_0','Teemo':'Teemo_0','Trundle':'Trundle_0','Tryndamere':'Tryndamere_0','Udyr':'Udyr_0','Varus':'Varus_0','Vayne':'Vayne_0','Vladimir':'Vladimir_0','Volibear':'Volibear_0','Warwick':'Warwick_0','Yasuo':'Yasuo_0','Yone':'Yone_0','Yorick':'Yorick_0','Zaahen':'Zaahen_0','Zac':'Zac_0'};
+function slugify(n){return n.toLowerCase().replace(/ & /g,'-').replace(/[^\w\s-]/g,'').replace(/\s+/g,'-').normalize('NFD').replace(/[\u0300-\u036f]/g,'');}
+function getSplash(n){var k=SPLASH_KEYS[n];return 'https://ddragon.leagueoflegends.com/cdn/img/champion/splash/'+(k?k:n.replace(/[^a-zA-Z]/g,'')+'_0')+'.jpg';}
+function navFilter(){
+  var val=document.getElementById('nav-search-input').value;
+  var nl=document.getElementById('nav-list');
+  var nd=document.getElementById('nav-dropdown');
+  nl.innerHTML='';
+  if(val.length<1){nd.style.display='none';return;}
+  var f=champNames.filter(function(n){return n.toLowerCase().includes(val.toLowerCase());});
+  nd.style.display=f.length?'block':'none';
+  f.forEach(function(name){
+    var a=document.createElement('a');a.className='nav-dropdown-item';a.href='matchup/'+slugify(name)+'.html';
+    var img=document.createElement('img');img.src=getSplash(name);img.alt=name;img.onerror=function(){this.style.display='none';};
+    var span=document.createElement('span');span.textContent=name;
+    a.appendChild(img);a.appendChild(span);nl.appendChild(a);
+  });
+}
+document.addEventListener('click',function(e){if(!e.target.closest('.nav-search'))document.getElementById('nav-dropdown').style.display='none';});
+
+// ── CS MAX CALCULATOR ──────────────────────────────────────────────────
+(function() {
+  function buildWaves() {
+    var waves = [];
+    var t = 30;
+    while (t <= 13*60+30) { waves.push(t); t += 30; }
+    t = 14*60;
+    while (t <= 29*60+50) { waves.push(t); t += 25; }
+    t = 30*60+10;
+    var END = 60*60;
+    while (t <= END) { waves.push(t); t += 20; }
+    return waves;
+  }
+
+  var waves = buildWaves();
+  var IDX_3_TO_2 = 28;
+  var IDX_2_TO_1 = 54;
+
+  var siegeIndices = {};
+  (function() {
+    var i = 2;
+    while (i < IDX_3_TO_2) { siegeIndices[i] = true; i += 3; }
+    i = IDX_3_TO_2;
+    while (i < IDX_2_TO_1) { siegeIndices[i] = true; i += 2; }
+    i = IDX_2_TO_1;
+    while (i < waves.length) { siegeIndices[i] = true; i += 1; }
+  })();
+
+  function waveComposition(idx, timeS) {
+    var hasSiege = !!siegeIndices[idx];
+    var melee = 3, caster = 3, siege = hasSiege ? 1 : 0;
+    if (hasSiege && timeS >= 14*60) melee -= 1;
+    if (timeS >= 30*60) caster -= 1;
+    return melee + caster + siege;
+  }
+
+  function maxCsAt(timeS, lane) {
+    var delay = lane === 'mid' ? 22 : 32;
+    var total = 0;
+    for (var idx = 0; idx < waves.length; idx++) {
+      var wTime = waves[idx];
+      if (wTime + delay > timeS) break;
+      total += waveComposition(idx, wTime);
+    }
+    return total;
+  }
+
+  function mmss(totalSeconds) {
+    var m = Math.floor(totalSeconds / 60);
+    var s = totalSeconds % 60;
+    return m + ':' + (s < 10 ? '0' : '') + s;
+  }
+
+  function updateCsCalculator() {
+    var minuteEl = document.getElementById('csc-minute');
+    var laneEl = document.getElementById('csc-lane');
+    var cspmEl = document.getElementById('csc-cspm');
+    if (!minuteEl || !laneEl || !cspmEl) return;
+
+    var minute = parseInt(minuteEl.value, 10);
+    var lane = laneEl.value;
+    var cspm = parseFloat(cspmEl.value);
+
+    document.getElementById('csc-minute-out').textContent = mmss(minute * 60);
+    document.getElementById('csc-cspm-out').textContent = cspm + ' cs/min';
+
+    var maxCs = maxCsAt(minute * 60, lane);
+    document.getElementById('csc-max-out').textContent = maxCs;
+
+    var goal = Math.floor(cspm * minute);
+    document.getElementById('csc-goal-out').textContent = goal;
+
+    var margin = maxCs - goal;
+    var marginEl = document.getElementById('csc-margin-out');
+    if (margin >= 0) {
+      marginEl.textContent = margin + ' minion' + (margin === 1 ? '' : 's');
+      marginEl.style.color = 'var(--green-mid)';
+    } else {
+      marginEl.textContent = 'Out of reach';
+      marginEl.style.color = '#E07070';
+    }
+  }
+
+  var minuteSlider = document.getElementById('csc-minute');
+  var laneSelect = document.getElementById('csc-lane');
+  var cspmSlider = document.getElementById('csc-cspm');
+  if (minuteSlider && laneSelect && cspmSlider) {
+    minuteSlider.addEventListener('input', updateCsCalculator);
+    laneSelect.addEventListener('change', updateCsCalculator);
+    cspmSlider.addEventListener('input', updateCsCalculator);
+    updateCsCalculator();
+  }
+})();
+</script>
+</body>
+</html>

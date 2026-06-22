@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Lee Sin — Urgot Guide</title>
+  <title>Shaco — Urgot Guide</title>
   <link rel="icon" type="image/png" href="https://ddragon.leagueoflegends.com/cdn/14.24.1/img/champion/Urgot.png"/>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Rajdhani:wght@300;400;500;600&display=swap" rel="stylesheet"/>
   <style>
@@ -28,7 +28,7 @@
     .nav-dropdown-item:hover{background:var(--bg-surface);color:var(--green)}
     .nav-dropdown-item img{width:24px;height:24px;border-radius:3px;border:1px solid var(--border);object-fit:cover}
     .hero{position:relative;height:55vh;min-height:340px;display:flex;align-items:center;justify-content:center;overflow:hidden}
-    .hero-bg{position:absolute;inset:0;background:url('https://ddragon.leagueoflegends.com/cdn/img/champion/splash/LeeSin_0.jpg') 55% top/cover no-repeat;filter:brightness(0.35) saturate(0.7);animation:heroZoom 20s ease-in-out infinite alternate}
+    .hero-bg{position:absolute;inset:0;background:url('https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Shaco_0.jpg') 55% top/cover no-repeat;filter:brightness(0.35) saturate(0.7);animation:heroZoom 20s ease-in-out infinite alternate}
     .starter-block{margin-top:1rem;padding-top:1rem;border-top:1px solid var(--border)}
     .starter-label{font-family:'Cinzel',serif;font-size:9px;letter-spacing:0.2em;color:var(--text-dim);text-transform:uppercase;margin-bottom:8px}
     .starter-items{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
@@ -111,21 +111,21 @@
   </div>
 </nav>
 <section class="hero">
-  <div class="hero-bg" style="position:absolute;inset:0;background:url('https://ddragon.leagueoflegends.com/cdn/img/champion/splash/LeeSin_0.jpg') 55% top/cover no-repeat;filter:brightness(0.35) saturate(0.7);animation:heroZoom 20s ease-in-out infinite alternate"></div>
+  <div class="hero-bg" style="position:absolute;inset:0;background:url('https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Shaco_0.jpg') 55% top/cover no-repeat;filter:brightness(0.35) saturate(0.7);animation:heroZoom 20s ease-in-out infinite alternate"></div>
   <div class="hero-overlay"></div>
   <div class="hero-content">
-    <div class="hero-champ-icon"><img src="https://ddragon.leagueoflegends.com/cdn/14.24.1/img/champion/LeeSin.png" alt="Lee Sin"/></div>
-    <h1 class="hero-title">Lee Sin</h1>
-    <p class="hero-score">&#10022; Skill 4/10</p>
+    <div class="hero-champ-icon"><img src="https://ddragon.leagueoflegends.com/cdn/14.24.1/img/champion/Shaco.png" alt="Shaco"/></div>
+    <h1 class="hero-title">Shaco</h1>
+    <p class="hero-score">&#10022; Easy 2/10</p>
   </div>
 </section>
 <div class="page">
 
   <div class="ability-cd-block">
-    <div class="ability-cd-item"><strong>Q (Sonic Wave)</strong> — 10 / 9 / 8 / 7 / 6</div>
-    <div class="ability-cd-item"><strong>W (Dash)</strong> — 12s (don't E when he can W away)</div>
-    <div class="ability-cd-item"><strong>E (AoE Slam)</strong> — 8</div>
-    <div class="ability-cd-item"><strong>Ult</strong> — 110 / 85 / 60</div>
+    <div class="ability-cd-item"><strong>Q (Stealth)</strong> — 13 / 12.5 / 12 / 11.5 / 11</div>
+    <div class="ability-cd-item"><strong>W (Box)</strong> — 15</div>
+    <div class="ability-cd-item"><strong>E (Shiv)</strong> — 8</div>
+    <div class="ability-cd-item"><strong>Ult</strong> — 100 / 90 / 80</div>
   </div>
 
   <div class="section-block">
@@ -138,8 +138,8 @@
       <div class="summ-block">
         <h4>Summoners spells</h4>
         <div class="summ-row"><div class="summ-icons"><div class="summ-icon"><img src="https://ddragon.leagueoflegends.com/cdn/14.24.1/img/spell/SummonerFlash.png" alt="Flash"/></div><div class="summ-icon"><img src="https://ddragon.leagueoflegends.com/cdn/14.24.1/img/spell/SummonerDot.png" alt="Ignite"/></div></div></div>
-        <div class="summ-text"><p>Wincon is farming and outscaling at 9 while not taking too much AOE E damage.</p></div>
-        <div class="starter-block"><div class="starter-label">Good rush items</div><div class="starter-items"><div class="starter-item"><div class="starter-item-icon"><img src="https://ddragon.leagueoflegends.com/cdn/14.24.1/img/item/3158.png" alt="Ionian Boots"/></div><div><div class="starter-item-name">Ionian Boots</div></div></div></div></div>
+        <div class="summ-text"><p>AP Shaco can't do anything except try to cheese you. Don't get baited especially if it smells fishy, slow push/freeze waves and you'll go up 100CS and be infinitely more useful in 5v5/sidelane/1v1.</p></div>
+        <div class="starter-block"><div class="starter-label">Good rush items</div><div class="starter-items"><div class="starter-item"><div class="starter-item-icon"><img src="https://ddragon.leagueoflegends.com/cdn/14.24.1/img/item/3155.png" alt="Sweeper"/></div><div><div class="starter-item-name">Sweeper</div></div></div></div></div>
       </div>
     </div>
   </div>
@@ -152,15 +152,16 @@
       <button class="mode-btn" id="btn-detailed" onclick="setMode('detailed')">Detailed</button>
     </div>
     <div id="mode-simple"><div class="phase-grid">
-      <div class="phase-card"><div class="phase-badge">Early Game</div><div class="phase-title">Small auto trade only</div><div class="phase-body">Look to get behind him and fight level 1, but only a small Auto → E → Auto PTA trade. Don't extend for his Conq + 2nd Q rotation.</div></div>
-      <div class="phase-card"><div class="phase-badge">How to trade</div><div class="phase-title">Don't E if he has W up</div><div class="phase-body">Lee Sin top looks to waveclear/poke with E, outsustain with W. Doesn't really play for the 1v1. Look to Q→PTA/Leg combo whenever he walks up.<ul><li>Can look for E+Flash+R+Ignite all in at 6 if he's ~70%HP</li><li>Be careful of his E radius, he'll spam it on the wave — make sure it doesn't hit you too</li></ul></div></div>
-      <div class="phase-card"><div class="phase-badge">Tips</div><div class="phase-title">Weak pick nowadays</div><div class="phase-body">This pick isn't very common anymore, and it's rather weak. Hard to win lane as he's very slippery and has high sustain.<ul><li>You omega outscale him in the 1v1 and in teamfights</li></ul></div></div>
+      <div class="phase-card"><div class="phase-badge">Early Game</div><div class="phase-title">Punish in bushes early</div><div class="phase-body">Run to the bushes early so he can't setup, and then if you see him, just run him down.<ul><li>Most will start Q to escape level 1 — if he starts box, see where he puts it and fight while avoiding that spot</li></ul></div></div>
+      <div class="phase-card"><div class="phase-badge">How to trade</div><div class="phase-title">Just farm, deny clones</div><div class="phase-body">AP Shaco top is giga useless, it can ONLY bait you into fighting him when he has lots of boxes/ult.<ul><li>Don't use E unless he has no Q & R, he can easily dodge it</li><li>If he walks up to CS, look to Q→W PTA and trade</li></ul></div></div>
+      <div class="phase-card"><div class="phase-badge">Tips</div><div class="phase-title">Early sweeper is OP</div><div class="phase-body">You can 1shot the boxes with Q or auto/leg before they go invisible. Early sweeper around level 6 is really helpful.<ul><li>AP Shacos will send their ulti out of range, then Q into you as their ulti snaps back</li></ul></div></div>
     </div></div>
     <div id="mode-detailed" style="display:none">
-      <div class="paragraph"><p><strong>Early game:</strong> Look to get behind him and fight level 1, but only a small Auto → E → Auto PTA trade. Don't extend the trade for his Conq + 2nd Q rotation.</p></div>
-      <div class="paragraph"><p><strong>How to trade:</strong> Lee Sin top looks to waveclear/poke with E, and outsustain with W. Doesn't really play for the 1v1. Everytime he walks up look to Q → PTA/Leg combo. Can look for E + Flash + R + Ignite all in at 6 if he's ~70%HP — again, he has a lot of sustain with W and no mana costs, so don't force it unless he's taken a lot of damage. Be careful of his E radius, he will spam it on the wave, make sure it doesn't hit you as well. You cannot E him if he has W up + minions nearby to dash to. If he ever Q → Q2s you, you can E into him and chunk him hard. They usually won't do this though unless it's guaranteed lethal. You can buffer E into Lee Sin kick (R), the timing is a little tricky though. Pay attention on ganks/trades when they make it obvious they want to kick you. Especially if they Q onto you while getting ganked, be ready to E backwards if he tries to ward hop → R behind you.</p></div>
-      <div class="paragraph"><p><strong>What to watch out for:</strong> Be careful of Q → Q2 → Ward hop mid animation to bait out your E.</p></div>
-      <div class="paragraph"><p><strong>Tips:</strong> This pick isn't very common anymore, and it's rather weak. It's hard to win lane as he's very slippery and has high sustain, but you omega outscale him in the 1v1 and in teamfights. As long as you don't give him kills in lane, it's a useless pick.</p></div>
+      <div class="paragraph"><p><strong>Early game:</strong> Run to the bushes early so he can't setup, and then if you see him, just run him down. Most will start Q to escape level 1, if he starts box just see where he puts it and fight hard while avoiding that spot.</p></div>
+      <div class="paragraph"><p><strong>How to trade:</strong> This will probably be AP Shaco top, so the only thing you need to do is farm and not interact/let him turn you into a TikTok montage. AP Shaco top is giga useless, it can't farm/sidelane/engage/tank, it can ONLY bait you into fighting him when he has lots of boxes/ult. If you walk into his box setup, then you can die, especially if he has ulti. FOCUS ON FARMING! Play for slow pushes/freeze and just last hit. If you feel like he's baiting you, he probably is. Don't walk into the brushes/areas he's standing if he's clearly lower.</p></div>
+      <div class="paragraph"><p>If he ever walks up to CS, look to Q→W PTA and trade. Don't commit E normally as he can ulti/Q to dodge it. If he gets low enough (~50%), then you can E Flash R one shot before he can Q or R to get out of the stun, but you need to kill him in the stun or he'll escape. If he ever Q's into you and has no ulti (or you know which one is real), then you can look to E or E flash. It will be hard to kill Shaco as he's very slippery, but you should go up easily 50-100CS over the lane.</p></div>
+      <div class="paragraph"><p><strong>What to watch out for:</strong> If Shaco is clearly lower/weaker but trying to drag you to one part of the lane, it's clearly boxed up so don't run there and just push in the wave. You don't need to kill Shaco to win, you just need to not die. Be careful of his Ulti, it's really hard to kill it due to all your AOE and it really hurts if he's AP — just be patient, don't use your E or R until you can guarantee it kills the real one. Also turn off W if you think you're hitting the clone. AP Shacos will send their ulti out of range, then Q into you as their ulti snaps back to them (resulting in invisible shaco and clone). Be careful of instantly E'ing there around level 6 when you think he's doing these shenanigans.</p></div>
+      <div class="paragraph"><p><strong>Tips:</strong> You can 1shot the boxes with Q or auto/leg before they go invisible. Early sweeper around level 6 is really helpful, his boxes are his entire damage. Once you've seen the boxes, it usually is real after trading for a second. If you're facing away, his E/autos do more damage, so you can turn to face him as his E connects to reduce the dmg.</p></div>
     </div>
   </div>
 

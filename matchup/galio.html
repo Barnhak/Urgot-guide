@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Lee Sin — Urgot Guide</title>
+  <title>Galio — Urgot Guide</title>
   <link rel="icon" type="image/png" href="https://ddragon.leagueoflegends.com/cdn/14.24.1/img/champion/Urgot.png"/>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Rajdhani:wght@300;400;500;600&display=swap" rel="stylesheet"/>
   <style>
@@ -28,7 +28,7 @@
     .nav-dropdown-item:hover{background:var(--bg-surface);color:var(--green)}
     .nav-dropdown-item img{width:24px;height:24px;border-radius:3px;border:1px solid var(--border);object-fit:cover}
     .hero{position:relative;height:55vh;min-height:340px;display:flex;align-items:center;justify-content:center;overflow:hidden}
-    .hero-bg{position:absolute;inset:0;background:url('https://ddragon.leagueoflegends.com/cdn/img/champion/splash/LeeSin_0.jpg') 55% top/cover no-repeat;filter:brightness(0.35) saturate(0.7);animation:heroZoom 20s ease-in-out infinite alternate}
+    .hero-bg{position:absolute;inset:0;background:url('https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Galio_0.jpg') 55% top/cover no-repeat;filter:brightness(0.35) saturate(0.7);animation:heroZoom 20s ease-in-out infinite alternate}
     .starter-block{margin-top:1rem;padding-top:1rem;border-top:1px solid var(--border)}
     .starter-label{font-family:'Cinzel',serif;font-size:9px;letter-spacing:0.2em;color:var(--text-dim);text-transform:uppercase;margin-bottom:8px}
     .starter-items{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
@@ -111,21 +111,21 @@
   </div>
 </nav>
 <section class="hero">
-  <div class="hero-bg" style="position:absolute;inset:0;background:url('https://ddragon.leagueoflegends.com/cdn/img/champion/splash/LeeSin_0.jpg') 55% top/cover no-repeat;filter:brightness(0.35) saturate(0.7);animation:heroZoom 20s ease-in-out infinite alternate"></div>
+  <div class="hero-bg" style="position:absolute;inset:0;background:url('https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Galio_0.jpg') 55% top/cover no-repeat;filter:brightness(0.35) saturate(0.7);animation:heroZoom 20s ease-in-out infinite alternate"></div>
   <div class="hero-overlay"></div>
   <div class="hero-content">
-    <div class="hero-champ-icon"><img src="https://ddragon.leagueoflegends.com/cdn/14.24.1/img/champion/LeeSin.png" alt="Lee Sin"/></div>
-    <h1 class="hero-title">Lee Sin</h1>
-    <p class="hero-score">&#10022; Skill 4/10</p>
+    <div class="hero-champ-icon"><img src="https://ddragon.leagueoflegends.com/cdn/14.24.1/img/champion/Galio.png" alt="Galio"/></div>
+    <h1 class="hero-title">Galio</h1>
+    <p class="hero-score">&#10022; Easy 3/10</p>
   </div>
 </section>
 <div class="page">
 
   <div class="ability-cd-block">
-    <div class="ability-cd-item"><strong>Q (Sonic Wave)</strong> — 10 / 9 / 8 / 7 / 6</div>
-    <div class="ability-cd-item"><strong>W (Dash)</strong> — 12s (don't E when he can W away)</div>
-    <div class="ability-cd-item"><strong>E (AoE Slam)</strong> — 8</div>
-    <div class="ability-cd-item"><strong>Ult</strong> — 110 / 85 / 60</div>
+    <div class="ability-cd-item"><strong>Q</strong> — 11 / 10 / 9 / 8 / 7</div>
+    <div class="ability-cd-item"><strong>W</strong> — 18 / 17 / 16 / 15 / 14</div>
+    <div class="ability-cd-item"><strong>E</strong> — 11 / 10 / 9 / 8 / 7</div>
+    <div class="ability-cd-item"><strong>Ult</strong> — 180 / 160 / 140</div>
   </div>
 
   <div class="section-block">
@@ -138,8 +138,8 @@
       <div class="summ-block">
         <h4>Summoners spells</h4>
         <div class="summ-row"><div class="summ-icons"><div class="summ-icon"><img src="https://ddragon.leagueoflegends.com/cdn/14.24.1/img/spell/SummonerFlash.png" alt="Flash"/></div><div class="summ-icon"><img src="https://ddragon.leagueoflegends.com/cdn/14.24.1/img/spell/SummonerDot.png" alt="Ignite"/></div></div></div>
-        <div class="summ-text"><p>Wincon is farming and outscaling at 9 while not taking too much AOE E damage.</p></div>
-        <div class="starter-block"><div class="starter-label">Good rush items</div><div class="starter-items"><div class="starter-item"><div class="starter-item-icon"><img src="https://ddragon.leagueoflegends.com/cdn/14.24.1/img/item/3158.png" alt="Ionian Boots"/></div><div><div class="starter-item-name">Ionian Boots</div></div></div></div></div>
+        <div class="summ-text"><p>Wincon is E buffering his E/Taunt, and just outscaling at 9/BC. You beat him hard at every point and outscale.</p></div>
+        <div class="starter-block"><div class="starter-label">Good rush items</div><div class="starter-items"><div class="starter-item"><div class="starter-item-icon"><img src="https://ddragon.leagueoflegends.com/cdn/14.24.1/img/item/3047.png" alt="Plated Steelcaps"/></div><div><div class="starter-item-name">Plated Steelcaps</div></div></div></div></div>
       </div>
     </div>
   </div>
@@ -152,15 +152,15 @@
       <button class="mode-btn" id="btn-detailed" onclick="setMode('detailed')">Detailed</button>
     </div>
     <div id="mode-simple"><div class="phase-grid">
-      <div class="phase-card"><div class="phase-badge">Early Game</div><div class="phase-title">Small auto trade only</div><div class="phase-body">Look to get behind him and fight level 1, but only a small Auto → E → Auto PTA trade. Don't extend for his Conq + 2nd Q rotation.</div></div>
-      <div class="phase-card"><div class="phase-badge">How to trade</div><div class="phase-title">Don't E if he has W up</div><div class="phase-body">Lee Sin top looks to waveclear/poke with E, outsustain with W. Doesn't really play for the 1v1. Look to Q→PTA/Leg combo whenever he walks up.<ul><li>Can look for E+Flash+R+Ignite all in at 6 if he's ~70%HP</li><li>Be careful of his E radius, he'll spam it on the wave — make sure it doesn't hit you too</li></ul></div></div>
-      <div class="phase-card"><div class="phase-badge">Tips</div><div class="phase-title">Weak pick nowadays</div><div class="phase-body">This pick isn't very common anymore, and it's rather weak. Hard to win lane as he's very slippery and has high sustain.<ul><li>You omega outscale him in the 1v1 and in teamfights</li></ul></div></div>
+      <div class="phase-card"><div class="phase-badge">Early Game</div><div class="phase-title">Get behind, fight lvl1</div><div class="phase-body">Get behind him level 1 and fight, no matter what he skills he'll lose. Push him into river and deny EXP.</div></div>
+      <div class="phase-card"><div class="phase-badge">How to trade</div><div class="phase-title">E buffer everything</div><div class="phase-body">This lane is really easy, Galio doesn't have any trading pattern vs you. He can't ever E in as you can just E buffer it.<ul><li>If he's E'ing at you, just buffer your E and win the trade — it's a straight line so easy buffer</li><li>If he W's (taunt), buffer your E as soon as possible</li></ul></div></div>
+      <div class="phase-card"><div class="phase-badge">Tips</div><div class="phase-title">Slow push, outscale</div><div class="phase-body">Slow push waves, create huge CS leads, and just outscale him. He only farms with Q so don't line up with the minions.<ul><li>He's very weak 1v1 at all points vs you, highly unlikely he'll ever try to fight</li></ul></div></div>
     </div></div>
     <div id="mode-detailed" style="display:none">
-      <div class="paragraph"><p><strong>Early game:</strong> Look to get behind him and fight level 1, but only a small Auto → E → Auto PTA trade. Don't extend the trade for his Conq + 2nd Q rotation.</p></div>
-      <div class="paragraph"><p><strong>How to trade:</strong> Lee Sin top looks to waveclear/poke with E, and outsustain with W. Doesn't really play for the 1v1. Everytime he walks up look to Q → PTA/Leg combo. Can look for E + Flash + R + Ignite all in at 6 if he's ~70%HP — again, he has a lot of sustain with W and no mana costs, so don't force it unless he's taken a lot of damage. Be careful of his E radius, he will spam it on the wave, make sure it doesn't hit you as well. You cannot E him if he has W up + minions nearby to dash to. If he ever Q → Q2s you, you can E into him and chunk him hard. They usually won't do this though unless it's guaranteed lethal. You can buffer E into Lee Sin kick (R), the timing is a little tricky though. Pay attention on ganks/trades when they make it obvious they want to kick you. Especially if they Q onto you while getting ganked, be ready to E backwards if he tries to ward hop → R behind you.</p></div>
-      <div class="paragraph"><p><strong>What to watch out for:</strong> Be careful of Q → Q2 → Ward hop mid animation to bait out your E.</p></div>
-      <div class="paragraph"><p><strong>Tips:</strong> This pick isn't very common anymore, and it's rather weak. It's hard to win lane as he's very slippery and has high sustain, but you omega outscale him in the 1v1 and in teamfights. As long as you don't give him kills in lane, it's a useless pick.</p></div>
+      <div class="paragraph"><p><strong>Early game:</strong> Get behind him level 1 and fight, no matter what he skills he'll lose. Push him into river and deny EXP.</p></div>
+      <div class="paragraph"><p><strong>How to trade:</strong> This lane is really easy, Galio doesn't have any trading pattern vs you. If he walks up to auto for CS, you can look to E if you're close to him, otherwise just Q→Auto W PTA→disengage — he has no way to trade back so you can walk behind the wave and zone him off exp. He can't ever E in as you can just E buffer it. If he's E'ing at you, just buffer your E and win the trade. It's a straight line so easy buffer. If he W's (taunt), just buffer your E as soon as possible. If you hold E too long he may instacast taunt and then disengage. Don't stand on top of the minions so he can't Q to CS + trade. You can usually look to Q→E whenever you want, his E has a cast time and goes slightly backwards at the start of it so you almost always can catch him out.</p></div>
+      <div class="paragraph"><p><strong>What to watch out for:</strong> His ult and CC makes for great gank setup and roams, so be careful if enemy jungle is topside. Spam missing ping, especially near grub timers. His ult is really OP and he can get to fights instantly.</p></div>
+      <div class="paragraph"><p><strong>Tips:</strong> He's very weak 1v1 at all points vs you, highly unlikely he'll ever try to fight. He'll just waveclear and look to play fights with his CC/ult, so really focus on CS and try to grow a lead that way. Slow push waves and grow your lead. Merc Treads is really nice vs Galio, especially if they have 2-3+ AP, but the lane is so easy you don't need to rush it ever.</p></div>
     </div>
   </div>
 

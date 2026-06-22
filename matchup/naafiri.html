@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Lee Sin — Urgot Guide</title>
+  <title>Naafiri — Urgot Guide</title>
   <link rel="icon" type="image/png" href="https://ddragon.leagueoflegends.com/cdn/14.24.1/img/champion/Urgot.png"/>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Rajdhani:wght@300;400;500;600&display=swap" rel="stylesheet"/>
   <style>
@@ -28,7 +28,7 @@
     .nav-dropdown-item:hover{background:var(--bg-surface);color:var(--green)}
     .nav-dropdown-item img{width:24px;height:24px;border-radius:3px;border:1px solid var(--border);object-fit:cover}
     .hero{position:relative;height:55vh;min-height:340px;display:flex;align-items:center;justify-content:center;overflow:hidden}
-    .hero-bg{position:absolute;inset:0;background:url('https://ddragon.leagueoflegends.com/cdn/img/champion/splash/LeeSin_0.jpg') 55% top/cover no-repeat;filter:brightness(0.35) saturate(0.7);animation:heroZoom 20s ease-in-out infinite alternate}
+    .hero-bg{position:absolute;inset:0;background:url('https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Naafiri_0.jpg') 55% top/cover no-repeat;filter:brightness(0.35) saturate(0.7);animation:heroZoom 20s ease-in-out infinite alternate}
     .starter-block{margin-top:1rem;padding-top:1rem;border-top:1px solid var(--border)}
     .starter-label{font-family:'Cinzel',serif;font-size:9px;letter-spacing:0.2em;color:var(--text-dim);text-transform:uppercase;margin-bottom:8px}
     .starter-items{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
@@ -111,21 +111,21 @@
   </div>
 </nav>
 <section class="hero">
-  <div class="hero-bg" style="position:absolute;inset:0;background:url('https://ddragon.leagueoflegends.com/cdn/img/champion/splash/LeeSin_0.jpg') 55% top/cover no-repeat;filter:brightness(0.35) saturate(0.7);animation:heroZoom 20s ease-in-out infinite alternate"></div>
+  <div class="hero-bg" style="position:absolute;inset:0;background:url('https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Naafiri_0.jpg') 55% top/cover no-repeat;filter:brightness(0.35) saturate(0.7);animation:heroZoom 20s ease-in-out infinite alternate"></div>
   <div class="hero-overlay"></div>
   <div class="hero-content">
-    <div class="hero-champ-icon"><img src="https://ddragon.leagueoflegends.com/cdn/14.24.1/img/champion/LeeSin.png" alt="Lee Sin"/></div>
-    <h1 class="hero-title">Lee Sin</h1>
-    <p class="hero-score">&#10022; Skill 4/10</p>
+    <div class="hero-champ-icon"><img src="https://ddragon.leagueoflegends.com/cdn/14.24.1/img/champion/Naafiri.png" alt="Naafiri"/></div>
+    <h1 class="hero-title">Naafiri</h1>
+    <p class="hero-score">&#10022; Skill 5/10</p>
   </div>
 </section>
 <div class="page">
 
   <div class="ability-cd-block">
-    <div class="ability-cd-item"><strong>Q (Sonic Wave)</strong> — 10 / 9 / 8 / 7 / 6</div>
-    <div class="ability-cd-item"><strong>W (Dash)</strong> — 12s (don't E when he can W away)</div>
-    <div class="ability-cd-item"><strong>E (AoE Slam)</strong> — 8</div>
-    <div class="ability-cd-item"><strong>Ult</strong> — 110 / 85 / 60</div>
+    <div class="ability-cd-item"><strong>Q (Projectile)</strong> — 9 / 8.5 / 8 / 7.5 / 7</div>
+    <div class="ability-cd-item"><strong>W (Invulnerability)</strong> — 26 / 24 / 22 / 20 / 18</div>
+    <div class="ability-cd-item"><strong>E (Dash)</strong> — 11 / 10 / 9 / 8 / 7</div>
+    <div class="ability-cd-item"><strong>Ult</strong> — 110 / 95 / 80</div>
   </div>
 
   <div class="section-block">
@@ -138,8 +138,8 @@
       <div class="summ-block">
         <h4>Summoners spells</h4>
         <div class="summ-row"><div class="summ-icons"><div class="summ-icon"><img src="https://ddragon.leagueoflegends.com/cdn/14.24.1/img/spell/SummonerFlash.png" alt="Flash"/></div><div class="summ-icon"><img src="https://ddragon.leagueoflegends.com/cdn/14.24.1/img/spell/SummonerDot.png" alt="Ignite"/></div></div></div>
-        <div class="summ-text"><p>Wincon is farming and outscaling at 9 while not taking too much AOE E damage.</p></div>
-        <div class="starter-block"><div class="starter-label">Good rush items</div><div class="starter-items"><div class="starter-item"><div class="starter-item-icon"><img src="https://ddragon.leagueoflegends.com/cdn/14.24.1/img/item/3158.png" alt="Ionian Boots"/></div><div><div class="starter-item-name">Ionian Boots</div></div></div></div></div>
+        <div class="summ-text"><p>Since our Q outranges Naafiri, she has to use Q to CS and then we can look to push her off a couple creeps or trade with auto attacks.</p></div>
+        <div class="starter-block"><div class="starter-label">Good rush items</div><div class="starter-items"><div class="starter-item"><div class="starter-item-icon"><img src="https://ddragon.leagueoflegends.com/cdn/14.24.1/img/item/6701.png" alt="Opportunity"/></div><div><div class="starter-item-name">Opportunity</div></div></div></div></div>
       </div>
     </div>
   </div>
@@ -152,15 +152,18 @@
       <button class="mode-btn" id="btn-detailed" onclick="setMode('detailed')">Detailed</button>
     </div>
     <div id="mode-simple"><div class="phase-grid">
-      <div class="phase-card"><div class="phase-badge">Early Game</div><div class="phase-title">Small auto trade only</div><div class="phase-body">Look to get behind him and fight level 1, but only a small Auto → E → Auto PTA trade. Don't extend for his Conq + 2nd Q rotation.</div></div>
-      <div class="phase-card"><div class="phase-badge">How to trade</div><div class="phase-title">Don't E if he has W up</div><div class="phase-body">Lee Sin top looks to waveclear/poke with E, outsustain with W. Doesn't really play for the 1v1. Look to Q→PTA/Leg combo whenever he walks up.<ul><li>Can look for E+Flash+R+Ignite all in at 6 if he's ~70%HP</li><li>Be careful of his E radius, he'll spam it on the wave — make sure it doesn't hit you too</li></ul></div></div>
-      <div class="phase-card"><div class="phase-badge">Tips</div><div class="phase-title">Weak pick nowadays</div><div class="phase-body">This pick isn't very common anymore, and it's rather weak. Hard to win lane as he's very slippery and has high sustain.<ul><li>You omega outscale him in the 1v1 and in teamfights</li></ul></div></div>
+      <div class="phase-card"><div class="phase-badge">Early Game</div><div class="phase-title">Get behind her, trade lvl1</div><div class="phase-body">After level 2 and 3 she becomes much harder to force a fight with as she gets dash + invuln.<ul><li>If she throws Q as you approach, sidestep it before engaging</li></ul></div></div>
+      <div class="phase-card"><div class="phase-badge">How to trade</div><div class="phase-title">Play around Q + Comet CD</div><div class="phase-body">Never auto attack Naafiri if her Q is up — she dashes (E) or invulns (W) your E. Comet cooks her since she's melee.<ul><li>Never E if she has E or W up (almost always)</li><li>If poked to ~50% HP, look for E+Flash+R at level 6 with triple tonic</li></ul></div></div>
+      <div class="phase-card"><div class="phase-badge">Tips</div><div class="phase-title">Grow CS lead, outscale</div><div class="phase-body">Kills are hard, focus on slow pushing waves, Q'ing her if she walks up, and taking plates when she has to take a bad base.<ul><li>You turbo outscale in 1v1/5v5 so going even is winning</li></ul></div></div>
     </div></div>
     <div id="mode-detailed" style="display:none">
-      <div class="paragraph"><p><strong>Early game:</strong> Look to get behind him and fight level 1, but only a small Auto → E → Auto PTA trade. Don't extend the trade for his Conq + 2nd Q rotation.</p></div>
-      <div class="paragraph"><p><strong>How to trade:</strong> Lee Sin top looks to waveclear/poke with E, and outsustain with W. Doesn't really play for the 1v1. Everytime he walks up look to Q → PTA/Leg combo. Can look for E + Flash + R + Ignite all in at 6 if he's ~70%HP — again, he has a lot of sustain with W and no mana costs, so don't force it unless he's taken a lot of damage. Be careful of his E radius, he will spam it on the wave, make sure it doesn't hit you as well. You cannot E him if he has W up + minions nearby to dash to. If he ever Q → Q2s you, you can E into him and chunk him hard. They usually won't do this though unless it's guaranteed lethal. You can buffer E into Lee Sin kick (R), the timing is a little tricky though. Pay attention on ganks/trades when they make it obvious they want to kick you. Especially if they Q onto you while getting ganked, be ready to E backwards if he tries to ward hop → R behind you.</p></div>
-      <div class="paragraph"><p><strong>What to watch out for:</strong> Be careful of Q → Q2 → Ward hop mid animation to bait out your E.</p></div>
-      <div class="paragraph"><p><strong>Tips:</strong> This pick isn't very common anymore, and it's rather weak. It's hard to win lane as he's very slippery and has high sustain, but you omega outscale him in the 1v1 and in teamfights. As long as you don't give him kills in lane, it's a useless pick.</p></div>
+      <div class="paragraph"><p><strong>Early game:</strong> Look to get behind Naafiri and trade level 1, after level 2 and 3 she becomes much harder to force a fight with as she gets dash + invuln. However if she respects the cheese and throws Q at you as you approach (doesn't facecheck), try to sidestep a Q before engaging. If you can't dodge it, you can E thru the Q and just auto, try to push her off the first 3 exp/CS since this won't result in that good of a HP trade.</p></div>
+      <div class="paragraph"><p><strong>How to trade:</strong> After level 3, never try to walk up and auto attack Naafiri as her Q outranges you if it's up, and she can dash (E) or invuln (W) your E. Play around your Q + Comet cooldown — Comet cooks Naafiri since she's melee, she usually has to enter Q range to CS, and then dash away from your Q giving you windows to abuse her cooldowns.</p></div>
+      <div class="paragraph"><p>If she's poked down to ~50%HP, you can look for E + Flash + R with the +18AD triple tonic pot at level 6. Most Naafiris can't react with their W on in time for your E + Flash, but if you're in higher elo try to at least bait out the dash before doing this.</p></div>
+      <div class="paragraph"><p>With our Q comet playstyle, Naafiri will have to use Q to CS, giving you a small window where you can look to weave in autos. Of course if she ever wastes W & E and you somehow are in flip range, you can look to flip, but this basically can never happen in lane.</p></div>
+      <div class="paragraph"><p>Play patient with your Q poke, focus on growing a big CS lead since kills are hard, and hard outscale her in sidelane/5v5 later on.</p></div>
+      <div class="paragraph"><p><strong>What to watch out for:</strong> Never E if she has E or W up, her dash is a lower CD and faster cast time than our E. If you don't lock on to Naafiri with an ability, your W will hit her passive dogs instead (0 dmg to Naafiri), so be careful of this when trading — you need to lock on with Q to trade harder. Make sure you're max range Q'ing, if you Q too close to her she can dash over your Q and hit you with the E damage into a trade.</p></div>
+      <div class="paragraph"><p><strong>Tips:</strong> You can E Naafiri in her Ulti dash animation to knock it down. This lane is only hard if you try to punish beyond just Q poke. Focus on slow pushing waves, Q'ing her if she walks up, forcing her to CS with Q because of that (and growing a CS lead), and taking plates when she has to take a bad base. You turbo outscale in 1v1/5v5 so going even is winning.</p></div>
     </div>
   </div>
 
