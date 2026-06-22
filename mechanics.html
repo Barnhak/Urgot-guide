@@ -565,6 +565,48 @@
           </div>
         </div>
 
+        <div class="spell-block" id="cs-calculator">
+          <div style="font-family:'Cinzel',serif;font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:var(--green);margin-bottom:1.25rem">Max Theoretical CS Calculator</div>
+          <p style="font-size:13px;color:var(--text-dim);line-height:1.6;margin-bottom:1.5rem">Find out how many minions you can afford to miss for a given CS/min goal at any point in the game.</p>
+
+          <div style="display:flex;align-items:center;gap:14px;margin-bottom:1.25rem">
+            <label style="font-size:13px;color:var(--text-dim);min-width:100px">Game time</label>
+            <input type="range" min="1" max="40" value="10" step="1" id="csc-minute" style="flex:1;accent-color:var(--green-mid)"/>
+            <span style="font-family:'Cinzel',serif;font-size:13px;color:var(--green-mid);min-width:48px;text-align:right" id="csc-minute-out">10:00</span>
+          </div>
+
+          <div style="display:flex;align-items:center;gap:14px;margin-bottom:1.25rem">
+            <label style="font-size:13px;color:var(--text-dim);min-width:100px">Lane</label>
+            <select id="csc-lane" style="flex:1;background:var(--bg-card);border:1px solid var(--border-bright);border-radius:3px;color:var(--text-bright);font-family:'Rajdhani',sans-serif;font-size:13px;padding:6px 10px">
+              <option value="side" selected>Top / Bot (32s travel)</option>
+              <option value="mid">Mid (22s travel)</option>
+            </select>
+          </div>
+
+          <div style="display:flex;align-items:center;gap:14px;margin-bottom:1.75rem">
+            <label style="font-size:13px;color:var(--text-dim);min-width:100px">Goal</label>
+            <input type="range" min="5" max="11" value="10" step="0.5" id="csc-cspm" style="flex:1;accent-color:var(--green-mid)"/>
+            <span style="font-family:'Cinzel',serif;font-size:13px;color:var(--green-mid);min-width:78px;text-align:right" id="csc-cspm-out">10 cs/min</span>
+          </div>
+
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
+            <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:4px;padding:0.9rem">
+              <div style="font-size:11px;color:var(--text-dim);margin-bottom:4px">Max theoretical CS</div>
+              <div style="font-family:'Cinzel',serif;font-size:22px;color:var(--text-bright)" id="csc-max-out">114</div>
+            </div>
+            <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:4px;padding:0.9rem">
+              <div style="font-size:11px;color:var(--text-dim);margin-bottom:4px">Goal CS</div>
+              <div style="font-family:'Cinzel',serif;font-size:22px;color:var(--text-bright)" id="csc-goal-out">100</div>
+            </div>
+            <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:4px;padding:0.9rem">
+              <div style="font-size:11px;color:var(--text-dim);margin-bottom:4px">Room for error</div>
+              <div style="font-family:'Cinzel',serif;font-size:22px;color:var(--green-mid)" id="csc-margin-out">14 minions</div>
+            </div>
+          </div>
+
+          <p style="font-size:11px;color:var(--text-dim);line-height:1.6;margin-top:1rem">Based on current spawn rules (first waves at 0:30, frequency steps at 14:00 and 30:00, siege minions at 1:30 then every 3/2/1 waves). Counts each minion from the moment it becomes reachable in lane, i.e. spawn time + travel time.</p>
+        </div>
+
       </div>
     </div>
 
@@ -633,6 +675,100 @@ function navFilter(){
   });
 }
 document.addEventListener('click',function(e){if(!e.target.closest('.nav-search'))document.getElementById('nav-dropdown').style.display='none';});
+
+// ── CS MAX CALCULATOR ──────────────────────────────────────────────────
+(function() {
+  function buildWaves() {
+    var waves = [];
+    var t = 30;
+    while (t <= 13*60+30) { waves.push(t); t += 30; }
+    t = 14*60;
+    while (t <= 29*60+50) { waves.push(t); t += 25; }
+    t = 30*60+10;
+    var END = 60*60;
+    while (t <= END) { waves.push(t); t += 20; }
+    return waves;
+  }
+
+  var waves = buildWaves();
+  var IDX_3_TO_2 = 28;
+  var IDX_2_TO_1 = 54;
+
+  var siegeIndices = {};
+  (function() {
+    var i = 2;
+    while (i < IDX_3_TO_2) { siegeIndices[i] = true; i += 3; }
+    i = IDX_3_TO_2;
+    while (i < IDX_2_TO_1) { siegeIndices[i] = true; i += 2; }
+    i = IDX_2_TO_1;
+    while (i < waves.length) { siegeIndices[i] = true; i += 1; }
+  })();
+
+  function waveComposition(idx, timeS) {
+    var hasSiege = !!siegeIndices[idx];
+    var melee = 3, caster = 3, siege = hasSiege ? 1 : 0;
+    if (hasSiege && timeS >= 14*60) melee -= 1;
+    if (timeS >= 30*60) caster -= 1;
+    return melee + caster + siege;
+  }
+
+  function maxCsAt(timeS, lane) {
+    var delay = lane === 'mid' ? 22 : 32;
+    var total = 0;
+    for (var idx = 0; idx < waves.length; idx++) {
+      var wTime = waves[idx];
+      if (wTime + delay > timeS) break;
+      total += waveComposition(idx, wTime);
+    }
+    return total;
+  }
+
+  function mmss(totalSeconds) {
+    var m = Math.floor(totalSeconds / 60);
+    var s = totalSeconds % 60;
+    return m + ':' + (s < 10 ? '0' : '') + s;
+  }
+
+  function updateCsCalculator() {
+    var minuteEl = document.getElementById('csc-minute');
+    var laneEl = document.getElementById('csc-lane');
+    var cspmEl = document.getElementById('csc-cspm');
+    if (!minuteEl || !laneEl || !cspmEl) return;
+
+    var minute = parseInt(minuteEl.value, 10);
+    var lane = laneEl.value;
+    var cspm = parseFloat(cspmEl.value);
+
+    document.getElementById('csc-minute-out').textContent = mmss(minute * 60);
+    document.getElementById('csc-cspm-out').textContent = cspm + ' cs/min';
+
+    var maxCs = maxCsAt(minute * 60, lane);
+    document.getElementById('csc-max-out').textContent = maxCs;
+
+    var goal = Math.floor(cspm * minute);
+    document.getElementById('csc-goal-out').textContent = goal;
+
+    var margin = maxCs - goal;
+    var marginEl = document.getElementById('csc-margin-out');
+    if (margin >= 0) {
+      marginEl.textContent = margin + ' minion' + (margin === 1 ? '' : 's');
+      marginEl.style.color = 'var(--green-mid)';
+    } else {
+      marginEl.textContent = 'Out of reach';
+      marginEl.style.color = '#E07070';
+    }
+  }
+
+  var minuteSlider = document.getElementById('csc-minute');
+  var laneSelect = document.getElementById('csc-lane');
+  var cspmSlider = document.getElementById('csc-cspm');
+  if (minuteSlider && laneSelect && cspmSlider) {
+    minuteSlider.addEventListener('input', updateCsCalculator);
+    laneSelect.addEventListener('change', updateCsCalculator);
+    cspmSlider.addEventListener('input', updateCsCalculator);
+    updateCsCalculator();
+  }
+})();
 </script>
 </body>
 </html>
